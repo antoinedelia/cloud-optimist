@@ -2,6 +2,7 @@ baseURL = "https://cloud.antoinedelia.fr/"
 languageCode = "en-us"
 title = "The Cloud Optimist"
 theme = "paper"
+googleAnalytics = "G-NPENVXWP54"
 
 
 [params]

@@ -1,4 +1,6 @@
 baseURL = "https://cloud.antoinedelia.fr/"
+author = "Antoine Delia"
+paginate = 5
 languageCode = "en-us"
 title = "The Cloud Optimist"
 theme = "paper"
@@ -6,5 +8,31 @@ googleAnalytics = "G-NPENVXWP54"
 
 
 [params]
+  # color style
+  color = 'linen'  # linen, wheat, gray, light
+
+  # header social icons
+  github = 'antoinedelia'  # github.com/YOUR_GITHUB_ID
+  linkedin = 'antoinedelia'  # linkedin.com/in/YOUR_LINKEDIN_ID
+  rss = true  # show rss icon
+
+  # home page profile
+  avatar = 'https://gravatar.com/antoinedelia'
+  name = 'Antoine Delia'
+  bio = ''
+
+  # misc
   disableHLJS = true
-  github = 'antoinedelia'
+
+[menu]
+
+  [[menu.main]]
+    identifier = "about"
+    name = "About"
+    url = "/about/"
+    weight = 10
+  [[menu.main]]
+    identifier = "contact"
+    name = "Contact"
+    url = "/contact/"
+    weight = 10

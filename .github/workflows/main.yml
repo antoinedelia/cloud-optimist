@@ -72,8 +72,8 @@ jobs:
     - name: Build
       uses: actions/setup-node@v2
       if: steps.filter.outputs.web == 'true'
-    - run: sudo wget https://github.com/gohugoio/hugo/releases/download/v0.133.1/hugo_extended_0.133.1_linux-arm64.deb
-    - run: sudo dpkg --install ./hugo_extended_0.99.0_Linux-64bit.deb
+    - run: sudo wget https://github.com/gohugoio/hugo/releases/download/v0.133.1/hugo_extended_0.133.1_linux-arm64.deb -O hugo.deb
+    - run: sudo dpkg --install ./hugo.deb
     - run: hugo
 
     - name: Deploy to AWS

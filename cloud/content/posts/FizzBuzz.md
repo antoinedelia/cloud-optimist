@@ -1,10 +1,10 @@
 ---
 title: "FizzBuzz, the simplest, more efficient way to test a developer"
-date: 2022-05-16T22:49:13+02:00
+date: 2024-05-16T22:49:13+02:00
 draft: false
 ---
 
-When I got out of my engineering school, I passed a lot of interviews in the hope of getting a developer job. My experiences being limited to having done a few internships, I was fearing the part of the interview where I would have had to get up and resolve some complex algorithm exercice on a white board, or even just answer a few technical questions. I was wrong.
+When I got out of my engineering school, I passed a lot of interviews in the hope of getting a developer job. My experiences being limited to having done a few internships, I was fearing the part of the interview where I would have had to get up and resolve some complex algorithm exercise on a white board, or even just answer a few technical questions. I was wrong.
 
 **Not a single interview tested me on my development skills.**
 
@@ -20,11 +20,11 @@ That's when the <strong>FizzBuzz</strong> test comes into play.
 
 The idea behind FizzBuzz is straight-forward. You need to count out loud numbers starting at 1 until you reach 100. But, if the number is a multiple of 3, you have to say the word "Fizz" instead. In the same way, if the number is a multiple of 5, you have to say the word "Buzz". Now you might be thinking: "Then what am I supposed to do when it is a multiple of both 3 and 5?". Well, you would simply have to say "FizzBuzz". <em>Roll credits</em>.
 
-By reading this simple test, you might wonder why this should be used, as it appears that even an intern could solve it quite easily. Well, that's what I thought too, until I ran accros [Jeff Atwood's post on this subject](https://blog.codinghorror.com/why-cant-programmers-program/), stating that he was surprised how this problem actually gave a lot of troubles to candidates, even senior ones.
+By reading this simple test, you might wonder why this should be used, as it appears that even an intern could solve it quite easily. Well, that's what I thought too, until I ran across [Jeff Atwood's post on this subject](https://blog.codinghorror.com/why-cant-programmers-program/), stating that he was surprised how this problem actually gave a lot of troubles to candidates, even senior ones.
 
 <strong>So let's try to solve it together!</strong>
 
-<em>In most technical interviews and as such for this exercice, you are free to use any programming language you feel most confortable with, or even write using [pseudocode](https://en.wikipedia.org/wiki/Pseudocode). For this post, I'm gonna use Python.</em>
+<em>In most technical interviews and as such for this exercise, you are free to use any programming language you feel most comfortable with, or even write using [pseudocode](https://en.wikipedia.org/wiki/Pseudocode). For this post, I'm gonna use Python.</em>
 
 First things first, let's create a simple loop that prints all numbers from 1 to 100.
 
@@ -79,7 +79,7 @@ for i in range(1, 101):
     print(result or i)
 ```
 
-It's already much clearer! Not only did we shrink the number of lines by half, our `if` checks are now cristal clear and don't let any rooms for misinterpretation. Plus, we can easily change the value of any of the numbers if we need to without having to look for all its occurrences. Last but not least, if we ever need to add yet another condition for multiples of 7, we'll simply have to add two new lines without changing the rest of the code!
+It's already much clearer! Not only did we shrink the number of lines by half, our `if` checks are now crystal clear and don't let any rooms for misinterpretation. Plus, we can easily change the value of any of the numbers if we need to without having to look for all its occurrences. Last but not least, if we ever need to add yet another condition for multiples of 7, we'll simply have to add two new lines without changing the rest of the code!
 
 We can finally see how this simple FizzBuzz test is so interesting. We were able to test one's ability to use simple algorithmic principles, but also to check his way of thinking when being confronted to a problem, and if he is able to produce a code that takes care of its future.
 

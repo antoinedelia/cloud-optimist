@@ -1,6 +1,6 @@
 ---
 title: "Postman pre-request script, never worry about refreshing your access token"
-date: 2022-05-16T22:49:13+02:00
+date: 2023-05-16T22:49:13+02:00
 draft: false
 ---
 
@@ -54,7 +54,7 @@ pm.sendRequest({
             }
         ]
     }
-}, (err, res) =&gt; {
+}, (err, res) => {
     pm.collectionVariables.set("access_token", res.json().access_token)
 });
 ```

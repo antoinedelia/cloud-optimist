@@ -17,7 +17,7 @@ googleAnalytics = "G-NPENVXWP54"
   rss = true  # show rss icon
 
   # home page profile
-  avatar = 'https://gravatar.com/antoinedelia'
+  avatar = 'https://1.gravatar.com/avatar/2487c9ae39b4cb829897bafb10e91bb680e61a061ee37db8043f9ddf160a06a1?size=256'
   name = 'Antoine Delia'
   bio = ''
 

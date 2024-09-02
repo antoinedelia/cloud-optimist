@@ -2,9 +2,6 @@
 
 ![Screenshot of the blog](https://github.com/user-attachments/assets/a14e87b2-ad5b-469c-9b5d-7fa6915bd2d7)
 
-
-Welcome to The Cloud Optimist repository!
-
 This project is a personal blog focused on Cloud & DevOps topics.
 
 It features a static website built with [Hugo](https://gohugo.io/) (with the [Paper theme](https://github.com/nanxiaobei/hugo-paper)) and hosted on [AWS](https://aws.amazon.com/). The infrastructure is managed using [Terraform](https://www.terraform.io/), and all deployments are automated using [GitHub Actions](https://github.com/features/actions).

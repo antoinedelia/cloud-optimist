@@ -1,5 +1,8 @@
 # The Cloud Optimist
 
+![Screenshot of the blog](https://github.com/user-attachments/assets/a14e87b2-ad5b-469c-9b5d-7fa6915bd2d7)
+
+
 Welcome to The Cloud Optimist repository!
 
 This project is a personal blog focused on Cloud & DevOps topics.

@@ -48,3 +48,5 @@ So what I needed was essentially a way to focus on the content of the blog, and 
 But, as I'm an engineer, so in essence, a real bad designer, I wanted to avoid having to deal with CSS as much as possible. Again, I wanted to focus on the content, rather than the looks.
 
 # Automating, automating, automating
+
+Storing to GitHub and allow automatic deployment.

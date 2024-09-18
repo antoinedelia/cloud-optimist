@@ -31,12 +31,20 @@ Long story short, it was (and still is) amazing! Not only was it an amazing disc
 
 The more I learned about all these amazing AWS services, the more I thought: isn't there a way for me to leverage the Cloud to host my blog?
 
-# Discovering Hugo
-
 With that in mind, I started looking for options.
 
 I wanted to make a quick shift to AWS, so I was first considering services that would offer WordPress support. And while I found some, there were still some levels of complexity that I would sure I could get rid of.
 
 So I decided to think again. Maybe the issue was not about the hosting services. Maybe the issue was that I was using an inappropriate tool for my project. Maybe it was time to let go of WordPress.
+
+# Discovering Hugo
+
+Before searching for a new tool, I tried to think of what I needed.
+
+My blog was essentially a simple webpage, a static website with no fancy JavaScript or stuff like that. Plus, there was no backend to handle API calls for user authentication for example, so I could simply not use any database at all.
+
+So what I needed was essentially a way to focus on the content of the blog, and make sure I could attach to it a nice theme, and that was it!
+
+But, as I'm an engineer, so in essence, a real bad designer, I wanted to avoid having to deal with CSS as much as possible. Again, I wanted to focus on the content, rather than the looks.
 
 # Automating, automating, automating

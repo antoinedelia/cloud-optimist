@@ -23,10 +23,20 @@ Surely there was a better way to do this.
 
 # A new challenger appeared: AWS
 
-Some months passed with
+In parallel, I had an opportunity working for a company that focused on the Cloud, more specifically AWS.
+
+At the time, Cloud was brand new to me. But I was hearing more and more about it, and I wanted to check what was all the fuss around it. Would this be a true life-changer, as people would call it, or would it be yet again another buzz word, and become a dying trend?
+
+Long story short, it was (and still is) amazing! Not only was it an amazing discovery, I could simply not see a world without Cloud anymore.
+
+The more I learned about all these amazing AWS services, the more I thought: isn't there a way for me to leverage the Cloud to host my blog?
 
 # Discovering Hugo
 
-With that in mind, I start
+With that in mind, I started looking for options.
+
+I wanted to make a quick shift to AWS, so I was first considering services that would offer WordPress support. And while I found some, there were still some levels of complexity that I would sure I could get rid of.
+
+So I decided to think again. Maybe the issue was not about the hosting services. Maybe the issue was that I was using an inappropriate tool for my project. Maybe it was time to let go of WordPress.
 
 # Automating, automating, automating

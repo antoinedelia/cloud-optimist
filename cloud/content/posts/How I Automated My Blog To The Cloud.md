@@ -45,8 +45,34 @@ My blog was essentially a simple webpage, a static website with no fancy JavaScr
 
 So what I needed was essentially a way to focus on the content of the blog, and make sure I could attach to it a nice theme, and that was it!
 
-But, as I'm an engineer, so in essence, a real bad designer, I wanted to avoid having to deal with CSS as much as possible. Again, I wanted to focus on the content, rather than the looks.
+But, as I'm an engineer, so in essence, a real bad designer, I wanted to avoid having to deal with CSS as much as possible. Again, I wanted to focus on the content, rather than the looks. So I searched and searched for the perfect tool. And I didn't had to look too long to find it: Hugo.
 
-# Automating, automating, automating
+Upon arriving on its website, I was greeted by an intriging message message: `The world’s fastest framework for building websites`. Surely, I was curious, and dug into the documentation. And oh boy, was I not disappointed.
 
-Storing to GitHub and allow automatic deployment.
+This was exactly what I wanted. A framework where I had to write in markdown format, that would be converted to HTML for me. Plus, it came with a bunch of themes, so I didn't even had to bother about the design. I could just pick one that I liked, and move on.
+
+So, without losing any more time, I started to setup this new blog. I came across a handy script that converted my whole Wordpress database into compatible markdown syntax, and I was ready to go!
+
+# Terraform to the rescue
+
+TODO: talk about Terraform to setup S3 + CloudFront
+
+# Copy and paste my website? Ain't no way
+
+My website was now perfect. I could focus on its content, just like I wanted. But there was one last thing that I knew I could enhance: the deployment.
+
+You see, everytime I wanted to create a new post, I had to build my website, and drop the files into my S3 bucket, on my AWS account. For a lazy developer like myself, this was of course, a terrible waste of time and energy.
+
+So I dived into the magical world of CI/CD pipelines. And despite Jenkins best effort to get noticed, I quickly turned to what seemed the most logical at the time: GitHub Actions.
+
+GitHub Actions are basically CI/CD pipelines that you can define directly in your source code (assuming that you are using GitHub, of course). The main benefit is that you do not need any additional account, and the syntax is pretty straightforward.
+
+So, I setup the pipeline, and everything went green!
+
+# Wrapping up
+
+At the beginning, I had to maintain a WordPress blog, which was tedious because of versionning, maintainability and ease of deployment.
+
+Today, my blog is stored on GitHub, and on every single change of its content, everything is deployed automatically to AWS, for less than a dollar a month.
+
+After realizing the power of static websites, AWS and GitHub Actions, I migrated three other personal websites to this new workflow, and I am now never scared to make a change!

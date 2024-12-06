@@ -50,19 +50,47 @@ Mention that we wanted to have preferably one common pipeline, and something so 
 
 ## Formatting
 
-Talk about the use of black before
+The first stage should use a formatter to ensure every line of code in our codebase looks the same. This makes sure we are not ending up with different coding standards across our projects.
+
+As mentioned above, we used to use black before. But after testing the new cool kid in the block, we decided to switch to ruff, as it has the same benefits as black, but with a faster execution.
+
+Regarding the line length to use, this was a tricky decision, as there is no clear standard in the Python community. I already refused to use the PEP8 standard of 79 characters, as it could impact human readability. I ultimately ended up using 127 characters (this is what GitHub uses when you setup the "Python application" workflow in GitHub Actions, mentioning that the GitHub editor is 127 chars wide, so I'll trust them).
+
+We did not want to lower this number to ensure human readability. On the opposite, having a greater number would potentially lead to code smell.
+
+In any case, now, we had a fixed line length number we could all follow.
 
 ## Linting
 
+The next stage should use a linter to find potential issues with our code. This makes sure we avoid complexity in our code, as well as identifying code smells or security issues.
+
+In the past, I used flake8 a lot. But given that we were already using ruff, and as it can also act as a linter, it was a no-brainer to keep it for this task.
+
+There are many rules that ruff can apply. We decided to use some of them by default (F, E4, E7, E9, W, S, I, B, SIM, PGH004), while letting developers the choice to update the ones their project would follow.
+
 ## Unit tests
+
+Tests are a critical part of the development of any project. It ensures we ship quality code to production, while also being able to trust that our code would run just fine.
+
+We decided to use pytest to run these tests. The default code directory would be called `src`, and all tests should be in a `tests` folder, with files being prefixed by `test_`.
 
 ## Code Coverage
 
+Closed to the unit tests topic, code coverage ensures we are able to know how much of our code has been tested. This could quickly tell us if we sufficiently tested our code, as well as pointing out the remaining lines to cover.
+
+As we were using pytest, we decided to use pytest-cov to generate a coverage report, as it integrates nicely with pytest.
+
+And for the minimum coverage allowed, we started at 50%. We didn't wanted lower, to ensure a large portion of code would be tested, but not higher to make sure it wouldn't discourage developers to implement these tests.
+
 ## Organization Folders for Jenkins
+
+TBD
 
 ## GitHub Rulesets
 
-## Examples
+TBD
+
+## Examples and documentation
 
 Having clear examples so people can check how they can implement tests, run commands (ruff, pytest, ...)
 

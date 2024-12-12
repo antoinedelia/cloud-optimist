@@ -84,11 +84,27 @@ And for the minimum coverage allowed, we started at 50%. We didn't wanted lower,
 
 ## Organization Folders for Jenkins
 
-TBD
+We had our different stages ready. Now all we needed to do, was find a way to globally apply said pipeline to our Python repositories. So I tried looking for a way to easily do that in Jenkins.
+
+That's when I stumbled upon Organization Folders.
+
+They are pretty much created just for our use case: automatically scan an organization (as in, a GitHub organization), filter the repositories you want, and apply a Jenkins pipeline to them.
+
+In our example, we are able to look for all repositories with the "python" topic, and identify them as Python projects. They will then be automatically built. If a new repository is created with this topic, it will also get picked up by Jenkins.
+
+So, in less than 5 seconds, your project could be onboarded, without having to create it in Jenkins. All is done automatically so you can focus on your code.
 
 ## GitHub Rulesets
 
-TBD
+The last point I wanted to check, was the way to enforce the use of this pipeline. Because, even though you could setup a CI/CD pipeline for your project, and fail to pass its stages, nothing could forbid you to ignore these errors and push to your main branch.
+
+I noticed that in the repositories' settings, you could create some branch protection rules to avoid such bypass. But while it's nice for a single project, our goal is to be able to globally prevent bypassing the pipeline.
+
+That's where GitHub Rulesets come into play.
+
+They essentially act quite the same as branch protection rules, expect you define these rules at the organization level.
+
+This way, we were able to protect our main branches for all our repositories, and require them to successfully pass the CI/CD pipeline before they are able to merge.
 
 ## Examples and documentation
 
@@ -100,7 +116,7 @@ python topic on the repo + pyproject.toml
 
 # Some flaws
 
-We yet cannot enforce it to people.
+We yet cannot enforce it to people, as GitHub Rulesets cannot apply to topis, but only custom properties.
 People can cheat by updating the pyproject.toml
 
 # What's next?

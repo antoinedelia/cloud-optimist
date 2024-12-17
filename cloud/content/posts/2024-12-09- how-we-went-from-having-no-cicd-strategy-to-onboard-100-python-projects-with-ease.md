@@ -1,14 +1,14 @@
 ---
-title: "How we went from having no CI/CD strategy to onboard 100+ Python projects in the blink of an eye"
-date: 2024-12-09T12:00:00+02:00
-draft: true
+title: "How We Built a CI/CD Strategy That Onboards 100+ Python Projects in Under a Minute"
+date: 2025-01-20T11:11:00+02:00
+draft: false
 ---
 
 We all know CI/CD is important. In fact, it seems impossible to imagine a world where we would ship a project without checking the quality of its code, and having a detailed test suite. Moreover, to focus on the development, all of this would be dealt with in an automated fashion.
 
 Well, things are not always so easy.
 
-Today, I want to showcase of we went from having no CI/CD strategy, to onboard 100+ Python projects with ease.
+Today, I want to showcase of we went from having no CI/CD strategy, to onboard 100+ Python projects in under a minute.
 
 # The real world
 

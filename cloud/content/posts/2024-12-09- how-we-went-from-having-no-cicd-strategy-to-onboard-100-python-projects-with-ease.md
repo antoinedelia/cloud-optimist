@@ -94,37 +94,68 @@ In our example, we are able to look for all repositories with the "python" topic
 
 So, in less than 5 seconds, your project could be onboarded, without having to create it in Jenkins. All is done automatically so you can focus on your code.
 
-## GitHub Rulesets
-
-The last point I wanted to check, was the way to enforce the use of this pipeline. Because, even though you could setup a CI/CD pipeline for your project, and fail to pass its stages, nothing could forbid you to ignore these errors and push to your main branch.
-
-I noticed that in the repositories' settings, you could create some branch protection rules to avoid such bypass. But while it's nice for a single project, our goal is to be able to globally prevent bypassing the pipeline.
-
-That's where GitHub Rulesets come into play.
-
-They essentially act quite the same as branch protection rules, expect you define these rules at the organization level.
-
-This way, we were able to protect our main branches for all our repositories, and require them to successfully pass the CI/CD pipeline before they are able to merge.
-
 ## Examples and documentation
 
-Having clear examples so people can check how they can implement tests, run commands (ruff, pytest, ...)
+All of this was great, but I was fearing of one last obstacle. Indeed, what would happened once they would be able to use this CI/CD pipeline, only to discover that all the stages are failing, with no clear documentation on how to solve this? They would probably give up or try to fix it later, which would destroy the initial goal.
+
+So I knew that if I wanted to onboard people in this, we needed to deliver clear documentation with direct examples, so they would be able to understand why these errors might appear, and how to fix them.
+
+Especially on the unit tests stage, as I know this is always a daunting task to start with. So I prepared a project in advance with some unit tests that I knew they could have a look at to take some inspiration, or that directly covered some tricky parts (mocking boto3 API calls, etc.).
+
+The last step was to make a presentation on all of the above. This was key to give meaning to people, so they could really understand the point of doing all this, while making sure they had all the keys to be autonomous.
 
 # What we have today
 
-python topic on the repo + pyproject.toml
+From a developer's view, all he has to do to get his Python project onboarded, is to add the `python` topic in his repository, and ensures a `pyproject.toml` file is created at the root of the repository.
+
+These two requirements are here to tell Jenkins which project it should take into account. Moreover, the `pyproject.toml` file is mandatory for the ruff stages in the pipeline.
+
+All in all, we are now able to setup CI/CD pipelines in less than a minute, whether you have a new or existing project!
 
 # Some flaws
 
-We yet cannot enforce it to people, as GitHub Rulesets cannot apply to topis, but only custom properties.
-People can cheat by updating the pyproject.toml
+While this simplifies things a lot, there is still room for improvements.
+
+## The pipeline cannot be made mandatory
+
+For once, this CI/CD pipeline cannot be made mandatory, as developers would just have to remove the `python` topic to remove the pipeline altogether. And while this is fine at first, as we do not want to block developers in their work, at some point, the goal is still to make sure we are applying the same best practices in all Python projects.
+
+This might be resolved in the future by the use of GitHub Rulesets.
+
+They essentially act quite the same as branch protection rules, expect you define these rules at the organization level.
+
+This way, we could be able to protect our main branches for all our repositories that matches a specific custom properties, and require them to successfully pass the CI/CD pipeline before they are able to merge.
+
+## The pipeline's stages can be ignored
+
+The `pyproject.toml` is used to say to ruff which format it should apply, or which rules to follow for the linting part.
+
+And because we are currently using the `pyproject.toml` inside each repository, a developer could just update the rules on his own, bypassing all the guidelines we were trying to apply in the first place.
+
+Again, while we are allowing this for now to account for the number of fixes to resolve at first, in the end, we might want to prevent this from happening.
+
+We could either use a common and fixed `pyproject.toml` file, or add it in the GitHub's CODEOWNERS file to ensure it cannot be modified without strict approval.
 
 # What's next?
 
-Talk about SonarQube, mkdocs, uv...
-Talk about Terraform and other stuff
-Custom properties (only available in 3.15)
+With these in place, we can now think about the evolution of this pipeline.
+
+For example, our company has a SonarQube instance. We would be interested to add a stage that could scan the repository for code smells.
+
+We are also exploring the use of mkdocs, so that projects can share a common style for documentation.
+
+And one of my personal favorites, we might want to explore the use of `uv` to install requirements, as it is significantly faster than the old `pip` guy!
 
 # Conclusion
 
-TBD
+We were in a situation where most Python projects did not have a CI/CD pipeline, and the ones who had one were not always respecting the same guidelines.
+
+We identified common issues that could prevent people from setting up a CI/CD pipeline, and prepared a plan on what must be done to enhance that.
+
+We setup a global Python pipeline that would fit most use cases and prepared clear documentation for the developers.
+
+Finally, we now have 100+ Python projects with a CI/CD pipeline, and reduced the time to install it to less than a minute!
+
+What a long but satisfying journey!
+
+I hope this post proved the value of CI/CD, helped you understand what could prevent it from being applied, and gave you some ideas on how to implement a similar strategy in your organization!

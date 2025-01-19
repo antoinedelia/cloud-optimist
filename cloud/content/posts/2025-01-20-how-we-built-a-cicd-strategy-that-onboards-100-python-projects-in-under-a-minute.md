@@ -4,15 +4,15 @@ date: 2025-01-20T11:11:00+02:00
 draft: false
 ---
 
-We all know CI/CD is important. In fact, it seems impossible to imagine a world where we would ship a project without checking the quality of its code, and having a detailed test suite. Moreover, to focus on the development, all of this would be dealt with in an automated fashion.
+We all know CI/CD is important. In fact, it seems impossible to imagine a world where we would ship a project without checking the quality of its code, and having a detailed test suite. Moreover, to enable developers to focus on development, all of this should be automated.
 
 Well, things are not always so easy.
 
-Today, I want to showcase how we went from having no CI/CD strategy, to onboard 100+ Python projects in under a minute.
+Today, I’ll share how we transitioned from having no CI/CD strategy to onboarding 100+ Python projects in under a minute.
 
 # The Real World
 
-When I first came in my current company, I noticed we were working with a ton of Python projects. But when I tried to check for the CI/CD of these, well it was a bit of a mess. Some projects had CI/CD in place, but not too many. And the ones with one were not using the same rules to verify code compliance. It was clear that putting in place a CI/CD for any given project was treated as best effort. And, to be honest, I cannot blame this on anyone.
+When I joined my current company, I noticed we were managing a large number of Python projects. But when I tried to check for the CI/CD of these, well it was a bit of a mess. Some projects had CI/CD in place, but not too many. And the ones with one were not using the same rules to verify code compliance. It was clear that putting in place a CI/CD for any given project was treated as best effort. And, to be honest, I cannot blame this on anyone.
 
 Indeed, while CI/CD is widely recognized as a core component of any project, implementing it in the real world often proves challenging.
 
@@ -22,7 +22,7 @@ But I knew we could change that somehow. So before jumping into a strategy to pu
 
 The first thing that I realized, is that not all developers had the same level of access to our Jenkins instance. So while some were able to create new pipelines for their projects, some couldn't. In large organizations, it is not uncommon to have this kind of scenario.
 
-> **Lesson learned: lack of permissions should not be a drawback to use a CI/CD pipeline.**
+> **Lesson learned: a lack of permissions should not be a drawback to use a CI/CD pipeline.**
 
 ## Lack of Knowledge
 
@@ -52,7 +52,7 @@ Mention that we wanted to have preferably one common pipeline, and something so 
 
 The first stage should use a formatter to ensure every line of code in our codebase looks the same. This makes sure we are not ending up with different coding standards across our projects.
 
-As mentioned above, we used to use black before. But after hearing all the good news and testing the new cool kid in the block, we decided to switch to ruff, as it has the same benefits as black, but with a faster execution.
+Previously, we used black as our formatter. But after hearing all the good news and testing the new cool kid in the block, we decided to switch to ruff, as it has the same benefits as black, but with a faster execution.
 
 ## Linting
 
@@ -60,7 +60,7 @@ The next stage should use a linter to find potential issues with our code. This 
 
 In the past, I used flake8 a lot. But given that we were already using ruff, and as it can also act as a linter, it was a no-brainer to keep it for this task.
 
-There are many rules that ruff can apply. We decided to use some of them by default (F, E4, E7, E9, W, S, I, B, SIM, PGH004), while letting developers the choice to update the ones their project would follow.
+There are many rules that ruff can apply. We decided to use some of them by default, while letting developers the choice to update the ones their project would follow.
 
 ## Unit Tests
 
@@ -70,7 +70,7 @@ We decided to use pytest to run these tests. The default code directory would be
 
 ## Code Coverage
 
-Closed to the unit tests topic, code coverage ensures we are able to know how much of our code has been tested. This could quickly tell us if we sufficiently tested our code, as well as pointing out the remaining lines to cover.
+Closely related to unit tests, code coverage ensures we are able to know how much of our code has been tested. This could quickly tell us if we sufficiently tested our code, as well as pointing out the remaining lines to cover.
 
 As we were using pytest, we decided to use pytest-cov to generate a coverage report, as it integrates nicely with pytest.
 
@@ -82,7 +82,7 @@ We had our different stages ready. Now all we needed to do, was find a way to gl
 
 That's when I stumbled upon Organization Folders.
 
-They are pretty much created just for our use case: automatically scan an organization (as in, a GitHub organization), filter the repositories you want, and apply a Jenkins pipeline to them.
+Organization Folders are designed for scenarios like ours: automatically scan an organization (as in, a GitHub organization), filter the repositories you want, and apply a Jenkins pipeline to them.
 
 In our example, we are able to look for all repositories with the "python" topic, and identify them as Python projects. They will then be automatically built. If a new repository is created with this topic, it will also get picked up by Jenkins.
 
@@ -90,7 +90,7 @@ So, in less than 5 seconds, your project could be onboarded, without having to c
 
 ## Examples and Documentation
 
-All of this was great, but I was fearing of one last obstacle. Indeed, what would happened once they would be able to use this CI/CD pipeline, only to discover that all the stages are failing, with no clear documentation on how to solve this? They would probably give up or try to fix it later, which would destroy the initial goal.
+All of this was great, but I was fearing of one last obstacle. What would happen if developers adopted the CI/CD pipeline only to find stages failing, with no clear documentation to resolve issues? They would probably give up or try to fix it later, which would destroy the initial goal.
 
 So I knew that if I wanted to onboard people in this, we needed to deliver clear documentation with direct examples, so they would be able to understand why these errors might appear, and how to fix them.
 
@@ -110,9 +110,9 @@ All in all, we are now able to setup CI/CD pipelines in less than a minute, whet
 
 While this simplifies things a lot, there is still room for improvements.
 
-## The pipeline cannot be made mandatory
+## The pipeline cannot be enforced
 
-For once, this CI/CD pipeline cannot be made mandatory, as developers would just have to remove the `python` topic to remove the pipeline altogether. And while this is fine at first, as we do not want to block developers in their work, at some point, the goal is still to make sure we are applying the same best practices in all Python projects.
+Currently, this CI/CD pipeline cannot be enforced because developers can simply remove the `python` topic to bypass it. And while this is fine at first, as we do not want to block developers in their work, at some point, the goal is still to make sure we are applying the same best practices in all Python projects.
 
 This might be resolved in the future by the use of GitHub Rulesets.
 
@@ -144,6 +144,6 @@ And one of my personal favorites, we might want to explore the use of `uv` to in
 
 By tackling permissions, knowledge gaps, and inconsistent guidelines, we built a unified CI/CD strategy that now supports over 100 Python projects. It’s proof that with the right approach, automation is achievable for any organization
 
-What a long but satisfying journey!
+It’s been a long but rewarding journey!
 
 I hope this post proved the value of CI/CD, helped you understand what could prevent it from being applied, and gave you some ideas on how to implement a similar strategy in your organization!

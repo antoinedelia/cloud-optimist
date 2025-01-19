@@ -1,7 +1,14 @@
 ---
 title: "How We Built a CI/CD Strategy That Onboards 100+ Python Projects in Under a Minute"
-date: 2025-01-20T11:11:00+02:00
-draft: false
+author: Antoine Delia
+type: post
+date: 2025-01-19T18:45:00+02:00
+url: /2025/01/19/how-we-built-a-cicd-strategy-that-onboards-100-python-projects-in-under-a-minute/
+tags:
+    - Python
+    - CI/CD
+    - Jenkins
+categories: [ Python, CI/CD, Jenkins ]
 ---
 
 We all know CI/CD is important. In fact, it seems impossible to imagine a world where we would ship a project without checking the quality of its code, and having a detailed test suite. Moreover, to enable developers to focus on development, all of this should be automated.
@@ -76,6 +83,8 @@ As we were using pytest, we decided to use pytest-cov to generate a coverage rep
 
 We set the minimum coverage threshold at 50%. Anything lower would risk overlooking significant portions of code, while setting it higher might discourage developers from writing the necessary tests.
 
+![Detailed view of the code coverage step](/img/how-we-built-a-cicd-strategy-that-onboards-100-python-projects-in-under-a-minute/detailed-view-of-the-code-coverage-step.png)
+
 ## Organization Folders for Jenkins
 
 We had our different stages ready. Now all we needed to do, was find a way to globally apply said pipeline to our Python repositories. So I tried looking for a way to easily do that in Jenkins.
@@ -103,6 +112,12 @@ The last step was to make a presentation on all of the above. This was key to gi
 From a developer's view, all he has to do to get his Python project onboarded, is to add the `python` topic in his repository, and ensures a `pyproject.toml` file is created at the root of the repository.
 
 These two requirements are here to tell Jenkins which project it should take into account. Moreover, the `pyproject.toml` file is mandatory for the ruff stages in the pipeline.
+
+![Two simple steps to get onboarded with CI/CD pipelines](/img/how-we-built-a-cicd-strategy-that-onboards-100-python-projects-in-under-a-minute/two-simple-steps-to-get-onboarded-with-cicd-pipelines.png)
+
+With that done, his Python project will now check for formatting issues, linting errors, validation of unit tests, and code coverage.
+
+![Jenkins Python CI/CD pipeline](/img/how-we-built-a-cicd-strategy-that-onboards-100-python-projects-in-under-a-minute/jenkins-python-cicd-pipeline.png)
 
 All in all, we are now able to setup CI/CD pipelines in less than a minute, whether you have a new or existing project!
 
@@ -139,6 +154,10 @@ For example, our company has a SonarQube instance. We would be interested to add
 We are also exploring the use of mkdocs, so that projects can share a common style for documentation.
 
 And one of my personal favorites, we might want to explore the use of `uv` to install requirements, as it is significantly faster than the old `pip` guy!
+
+You might have also noticed that while I talked about CI/CD throughout this post, at no point do we have a step that, well, deploys anything (which basically leaves us with a CI pipeline). We are already thinking about a way to build and deploy Python packages to our Artifactory repository manager, which would finally make this a CI/CD pipeline!
+
+Finally, we only covered Python in this post, but the same logic could apply to other types of projects. To give you an example, we are also working on a CI/CD pipeline for Terraform.
 
 # Conclusion
 

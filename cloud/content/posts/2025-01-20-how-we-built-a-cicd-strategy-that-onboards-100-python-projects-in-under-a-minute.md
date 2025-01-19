@@ -8,6 +8,7 @@ tags:
     - CI/CD
     - Jenkins
 categories: [ Python, CI/CD, Jenkins ]
+draft: false
 ---
 
 We all know CI/CD is important. In fact, it seems impossible to imagine a world where we would ship a project without checking the quality of its code, and having a detailed test suite. Moreover, to enable developers to focus on development, all of this should be automated.

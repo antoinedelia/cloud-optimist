@@ -3,7 +3,6 @@ title: "How We Built a CI/CD Strategy That Onboards 100+ Python Projects in Unde
 author: Antoine Delia
 type: post
 date: 2025-01-19T18:45:00+02:00
-url: /2025/01/19/how-we-built-a-cicd-strategy-that-onboards-100-python-projects-in-under-a-minute/
 tags:
     - Python
     - CI/CD

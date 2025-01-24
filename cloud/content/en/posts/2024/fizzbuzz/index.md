@@ -6,6 +6,7 @@ author: Antoine Delia
 tags:
     - Python
 categories: [ Python ]
+image: fizzbuzz.jpeg
 ---
 
 When I got out of my engineering school, I passed a lot of interviews in the hope of getting a developer job. My experiences being limited to having done a few internships, I was fearing the part of the interview where I would have had to get up and resolve some complex algorithm exercise on a white board, or even just answer a few technical questions. I was wrong.

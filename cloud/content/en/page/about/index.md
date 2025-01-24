@@ -1,10 +1,14 @@
-+++
-title = "About"
-description = "The Cloud Optimist"
-date = "2024-09-02"
-aliases = ["about", "about-me", "contact"]
-author = "antoinedelia"
-+++
+---
+title: "About"
+date: 2022-03-06
+layout: "about"
+slug: "about"
+menu:
+    main:
+        weight: 2
+        params: 
+            icon: user
+---
 
 My name is Antoine Delia, and I love automating stuff!
 

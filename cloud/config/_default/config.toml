@@ -1,7 +1,7 @@
 # Change baseurl before deploy
-baseurl = "https://demo.stack.jimmycai.com"
-languageCode = "en-us"
-title = "Hugo Theme Stack Starter"
+baseurl = "https://cloud.antoinedelia.fr"
+languageCode = "fr-FR"
+title = "The Cloud Optimist"
 
 # Theme i18n support
 # Available values: en, fr, id, ja, ko, pt-br, zh-cn, zh-tw, es, de, nl, it, th, el, uk, ar
@@ -13,7 +13,7 @@ defaultContentLanguageInSubdir = true
 hasCJKLanguage = false
 
 # Change it to your Disqus shortname before using
-disqusShortname = "hugo-theme-stack"
+# disqusShortname = "hugo-theme-stack"
 
 [pagination]
 pagerSize = 5

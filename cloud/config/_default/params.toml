@@ -8,10 +8,6 @@ favicon = "/favicon.ico"
 since = 2022
 customText = ""
 
-[dateFormat]
-published = "02 Jan 2006"
-lastUpdated = "02 Jan 2006, 15:04 CET"
-
 [sidebar]
 emoji = "☁️"
 subtitle = "A blog about Cloud & DevOps topics."
@@ -22,7 +18,7 @@ local = true
 src = "img/avatar.png"
 
 [article]
-headingAnchor = false
+headingAnchor = true
 math = false
 readingTime = true
 
@@ -55,10 +51,6 @@ limit = 10
 [[widgets.page]]
 type = "toc"
 
-[opengraph.twitter]
-site = ""
-card = "summary_large_image"
-
 [defaultImage.opengraph]
 enabled = false
 local = false
@@ -76,7 +68,7 @@ enabled = true
 
 ## Comments
 [comments]
-enabled = true
+enabled = false
 provider = "disqus"
 
 [comments.disqusjs]

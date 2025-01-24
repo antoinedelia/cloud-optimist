@@ -18,7 +18,7 @@ links:
     website: https://blog.antoinedelia.fr
 menu:
     main:
-        weight: 4
+        weight: 5
         params:
             icon: link
 

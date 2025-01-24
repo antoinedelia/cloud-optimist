@@ -8,6 +8,7 @@ tags:
     - Jenkins
 categories: [ Python, CI/CD, Jenkins ]
 draft: false
+image: ci-cd-strategy.jpeg
 ---
 
 We all know CI/CD is important. In fact, it seems impossible to imagine a world where we would ship a project without checking the quality of its code, and having a detailed test suite. Moreover, to enable developers to focus on development, all of this should be automated.
@@ -38,7 +39,7 @@ When people had the ability to create a pipeline, some did not, as they simply d
 
 ## Lack of Time
 
-It takes effort to put in place a CI/CD at the beginning of a project, something that might be overlooked by managers that want to ship a product as fast as possible. Moreover, it is sometimes difficult to quantify the return on investment of putting in place a CI/CD pipeline. And if it is difficult to prove this can bring business value, it will not end up in the "we'll deal with this later" box. And we know all too well that the tasks that end up in this box will never see the light of day again.
+It takes effort to put in place a CI/CD at the beginning of a project, something that might be overlooked by managers that want to ship a product as fast as possible. Moreover, it is sometimes difficult to quantify the return on investment of putting in place a CI/CD pipeline. And if it is difficult to prove this can bring business value, it will end up in the "we'll deal with this later" box. And we know all too well that the tasks that end up in this box will never see the light of day again.
 
 > **Lesson learned: setting up a CI/CD pipeline for a new or existing project should be easy and straightforward.**
 
@@ -51,8 +52,6 @@ Finally, I had a look at the projects that _did_ have a CI/CD pipeline. They wer
 # The Global Vision
 
 After reviewing what could go wrong, it is now important to think of a solution that could address all of these, while following the company's best practices, and using the tools at our disposal.
-
-Mention that we wanted to have preferably one common pipeline, and something so easy to setup, people would just do it instantly.
 
 ## Formatting
 
@@ -88,7 +87,7 @@ We set the minimum coverage threshold at 50%. Anything lower would risk overlook
 
 We had our different stages ready. Now all we needed to do, was find a way to globally apply said pipeline to our Python repositories. So I tried looking for a way to easily do that in Jenkins.
 
-That's when I stumbled upon Organization Folders.
+That's when I stumbled upon [Organization Folders](https://www.jenkins.io/doc/book/using/best-practices/#use-organization-folders).
 
 Organization Folders are designed for scenarios like ours: automatically scan an organization (as in, a GitHub organization), filter the repositories you want, and apply a Jenkins pipeline to them.
 
@@ -128,7 +127,7 @@ While this simplifies things a lot, there is still room for improvements.
 
 Currently, this CI/CD pipeline cannot be enforced because developers can simply remove the `python` topic to bypass it. And while this is fine at first, as we do not want to block developers in their work, at some point, the goal is still to make sure we are applying the same best practices in all Python projects.
 
-This might be resolved in the future by the use of GitHub Rulesets.
+This might be resolved in the future by the use of [GitHub Rulesets](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets/about-rulesets).
 
 They essentially act quite the same as branch protection rules, expect you define these rules at the organization level.
 

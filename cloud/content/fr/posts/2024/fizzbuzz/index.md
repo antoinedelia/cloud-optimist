@@ -1,5 +1,5 @@
 ---
-title: "FizzBuzz, the simplest, more efficient way to test a developer"
+title: "FizzBuzz, la façon la plus simple et efficace de tester un développeur"
 date: 2024-05-16T22:49:13+02:00
 draft: false
 author: Antoine Delia

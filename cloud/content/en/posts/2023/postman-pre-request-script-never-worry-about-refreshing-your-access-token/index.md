@@ -7,6 +7,7 @@ tags:
     - API
     - OAuth
 categories: [ API, OAuth ]
+image: astronaut.jpeg
 ---
 
 One of the most common tasks when you work with APIs is trying to ping them to see if they work as intended (also known as: testing).

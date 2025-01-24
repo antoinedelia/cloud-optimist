@@ -1,5 +1,5 @@
 ---
-title: "Postman pre-request script, never worry about refreshing your access token"
+title: "Postman pre-request script, plus besoin de regénérer votre access token"
 date: 2023-05-16T22:49:13+02:00
 draft: false
 author: Antoine Delia
@@ -7,29 +7,30 @@ tags:
     - API
     - OAuth
 categories: [ API, OAuth ]
+image: astronaut.jpeg
 ---
 
-One of the most common tasks when you work with APIs is trying to ping them to see if they work as intended (also known as: testing).
+L'une des tâches les plus courantes lorsque vous travaillez avec des APIs est de les "pinger" pour vérifier si elles fonctionnent comme prévu (aussi connu sous le nom de : tests).
 
-One of the simplest, more useful tool on the market is [Postman](https://www.postman.com/), an API client that lets you make requests to any URL you like, using all the methods you could dream of. You can even specify some HTTP headers, which are useful if you must pass an access token in the request to authenticate your API call.
+Un des outils les plus simples et utiles sur le marché est [Postman](https://www.postman.com/), un client API qui vous permet de faire des requêtes à n'importe quelle URL, en utilisant toutes les méthodes que vous pouvez imaginer. Vous pouvez même spécifier des headers HTTP, ce qui est pratique si vous devez passer un token d'accès (access token) dans la requête pour authentifier votre appel API.
 
-And that's where I began encountering a problem. Not a problem, per se, but something even worse for a Cloud Engineer: <strong>repetition</strong>.
+Et c'est là que j'ai commencé à rencontrer un problème. Pas un véritable problème, mais quelque chose d'encore plus frustrant pour un ingénieur : <strong>la répétition</strong>.
 
-You see, in order to pass this access token to the request, you must first generate it (usually from another API call). The thing is, this access token is short-lived, and will expire after 1 hour of its generation.
+En fait, pour transmettre cet access token à la requête, vous devez d'abord le générer (généralement via un autre appel API). Le hic, c'est que cet access token est éphémère, et expire après une heure.
 
-So, what does that imply? Well, every hour, before making another request to your API, you will have to make a first request to get a brand new access token, copy the result, and paste it in the appropriate header of your initial request. In total, <strong>this will make you lost 10 seconds</strong>.
+Alors, qu'est-ce que cela implique ? Eh bien, chaque heure, avant de faire une nouvelle requête à votre API, vous devez d'abord faire une requête pour obtenir un nouveau token, copier le résultat, et le coller dans l'en-tête de la requête initiale. En tout, <strong>cela vous fera perdre 10 secondes</strong>.
 
-Ugh! Can you imagine? 10 seconds?! All the things that could be done if we managed to get this precious time back!
+Ouf ! Vous imaginez un peu ? 10 secondes ?! Tout ce que l'on pourrait accomplir si l'on arrivait à récupérer ce temps précieux !
 
 ![Is It Worth the Time? - by xkcd](https://imgs.xkcd.com/comics/is_it_worth_the_time.png "Is It Worth the Time?")
 
-But in a product like Postman, I knew this could be resolved somehow. And indeed, after literally one single web search, I stumbled across the perfect solution: [Pre-request script](https://learning.postman.com/docs/writing-scripts/pre-request-scripts/).
+Mais avec Postman, je savais que ce problème pouvait être résolu d'une manière ou d'une autre. Et en effet, après une simple recherche sur le web, je suis tombé sur la solution parfaite : [Pre-request script](https://learning.postman.com/docs/writing-scripts/pre-request-scripts/).
 
-The idea is pretty simple: <strong>execute a script before any request</strong>. That's it.
+L'idée est assez simple : <strong>exécuter un script avant chaque requête</strong>. Voilà.
 
-How is this going to help us, you ask? Well, we can now write a small piece of code, that will get a new access token and store it it the variables of the collection we're in. Then, our requests will always reference this variable to be sure they have an up-to-date token.
+Comment cela peut-il nous aider, demandez-vous ? Eh bien, nous pouvons maintenant écrire un petit morceau de code qui va récupérer un nouvel access token et le stocker dans les variables de la collection dans laquelle nous nous trouvons. Ensuite, nos requêtes feront toujours référence à cette variable pour s'assurer qu'elles disposent d'un token à jour.
 
-Let me show you an example I used in one of my projects where I needed to get an AWS Cognito access token before each request.
+Laissez-moi vous montrer un exemple que j'ai utilisé dans l'un de mes projets où j'avais besoin de récupérer un access token d'AWS Cognito avant chaque requête.
 
 ```javascript
 pm.sendRequest({
@@ -64,6 +65,6 @@ pm.sendRequest({
 });
 ```
 
-As you can see, this is pretty straightforward, and can probably be applied to any of your projects that require OAuth authentication.
+Comme vous pouvez le voir, c'est assez simple, et cela peut probablement être appliqué à n'importe quel projet nécessitant une authentification OAuth.
 
-I hope this has been helpful and don't forget: <strong>if you can save 10 seconds, do it!</strong>
+J'espère que cela vous a été utile et surtout n'oubliez pas : <strong>si vous pouvez économiser 10 secondes, faites-le !</strong>

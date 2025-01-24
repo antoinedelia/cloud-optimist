@@ -1,0 +1,32 @@
+# Configure main menu and social menu
+#[[main]]
+#identifier = "home"
+#name = "Home"
+#url = "/"
+#[main.params]
+#icon = "home"
+#newtab = true
+
+[[social]]
+identifier = "github"
+name = "GitHub"
+url = "https://github.com/antoinedelia/"
+
+[social.params]
+icon = "brand-github"
+
+[[social]]
+identifier = "linkedin"
+name = "LinkedIn"
+url = "https://linkedin.com/in/antoinedelia"
+
+[social.params]
+icon = "brand-linkedin"
+
+[[social]]
+identifier = "stackoverflow"
+name = "Stack Overflow"
+url = "https://stackoverflow.com/users/4141606/antoine-delia?tab=profile"
+
+[social.params]
+icon = "brand-stackoverflow"

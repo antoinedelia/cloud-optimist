@@ -1,0 +1,29 @@
+[fr]
+contentDir = "content/fr"
+disabled = false
+languageCode = "fr-FR"
+languageDirection = "ltr"
+languageName = "French"
+title = "The Cloud Optimist"
+weight = 1
+
+[fr.params]
+subtitle = "The Cloud Optimist"
+
+[fr.params.sidebar]
+subtitle = "Un blog autour des sujets Cloud & DevOps."
+
+[en]
+contentDir = "content/en"
+disabled = false
+languageCode = "en-US"
+languageDirection = "ltr"
+languageName = "English"
+title = "The Cloud Optimist"
+weight = 2
+
+[en.params]
+subtitle = "The Cloud Optimist"
+
+[en.params.sidebar]
+subtitle = "A blog about Cloud & DevOps topics."

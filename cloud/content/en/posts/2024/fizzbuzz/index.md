@@ -2,6 +2,10 @@
 title: "FizzBuzz, the simplest, more efficient way to test a developer"
 date: 2024-05-16T22:49:13+02:00
 draft: false
+author: Antoine Delia
+tags:
+    - Python
+categories: [ Python ]
 ---
 
 When I got out of my engineering school, I passed a lot of interviews in the hope of getting a developer job. My experiences being limited to having done a few internships, I was fearing the part of the interview where I would have had to get up and resolve some complex algorithm exercise on a white board, or even just answer a few technical questions. I was wrong.

@@ -41,11 +41,13 @@ Il y avait aussi une chose importante à garder en mémoire. Je suis un ingénie
 
 J'ai donc commencé mes recherches, dans l'espoir de trouver un outil qui répondrait à ces critères. Et il ne m'a pas fallu bien longtemps avant de tomber sur la perle rare : [Hugo](https://gohugo.io/).
 
-Upon arriving on its website, I was greeted by an intriging message message: `The world’s fastest framework for building websites`. Surely, I was curious, and dug into the documentation. And oh boy, was I not disappointed.
+À peine ai-je atteri sur le site d'Hugo que je fus accueilli oar cet intriguant message : `Le framework le plus rapide du monde pour générer des sites web`. On peut dire que cela à piquer ma curiosité, et je me pressa d'aller fouiller dans la documentation. Et je n'allais pas être déçu.
 
-This was exactly what I wanted. A framework where I had to write in markdown format, that would be converted to HTML for me. Plus, it came with a bunch of themes, so I didn't even had to bother about the design. I could just pick one that I liked, and move on.
+Hugo se charge de convertir des articles au format markdown (comme l'on trouve sur GitHub par exemple) vers le format HTML. Qui plus est, il existe une [miriade de thèmes](https://themes.gohugo.io/) mis à disposition, ce qui me laissait l'embarras du choix, sans avoir besoin de designer quoi que ce soit !
 
-So, without losing any more time, I started to setup this new blog. I came across a handy script that converted my whole Wordpress database into compatible markdown syntax, and I was ready to go!
+Sans perdre une seconde, je m'empressa de convertir mon blog WordPress vers un site Hugo (j'ai utilisé pour ça un super petit script intitulé [wordpress-to-hugo-exporter](https://github.com/SchumacherFM/wordpress-to-hugo-exporter) qui convertit une base de données WordPress en fichiers markdown).
+
+Mon site Hugo était désormais prêt ! Il fallait maintenant trouver un moyen de l'héberger quelque part.
 
 ## Un hébergeur à la hauteur : AWS
 
@@ -57,7 +59,15 @@ Pour vous la faire court, AWS était (et est toujours) absolument incroyable ! C
 
 Plus j'en apprenais sur AWS et la multitude de services qui le composait, plus je me disais : n'y a-t-il pas un moyen pour moi d'utiliser le Cloud pour mon blog ?
 
-Avec cette idée en tête, je commençais à me renseigner sur toutes les options qu'offrait AWS.
+Avec cette idée en tête, je commençais à me renseigner sur toutes les options qu'offrait AWS. Et compte tenu de ma récente découverte d'Hugo, mon site n'avait ni besoin de PHP, ni d'une base de données pour fonctionner. Il s'agissait maintenant d'un site statique qui, à première vue, pouvait très bien être déployé dans un bucket S3. 
+
+Et non seulement AWS offre une [documentation sur l'hébergement d'un site statique dans un bucket S3](https://docs.aws.amazon.com/AmazonS3/latest/userguide/WebsiteHosting.html), mais [le coût de stockage d'un site si léger ne représentait que quelques centimes](https://aws.amazon.com/s3/pricing/). 
+
+J'avais trouvé là une manière simple et peu coûteuse de déployer mon site.
+
+Le dernier point qui me chiffonait, est que pour mettre en place tout cela, je devais créer un bucket AWS S3, le configurer convenablement, rajouter le CDN AWS CloudFront, prendre en compte les certificats via AWS ACM, et finalement créer une entrée DNS dans AWS Route53. Tant d'actions qui, si réalisées manuellement, pouvait être difficiles à reproduire si jamais je venais à accidentellement supprimer mon compte AWS.
+
+Il me fallait donc maintenant un moyen simple et robuste de configurer cette infrastructure.
 
 ## Terraform à la rescousse
 

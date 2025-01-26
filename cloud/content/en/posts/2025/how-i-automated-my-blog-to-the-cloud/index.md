@@ -1,10 +1,19 @@
 ---
 title: "How I Automated My Blog To The Cloud"
-date: 2024-09-04T14:00:00+02:00
+date: 2025-02-04T14:00:00+02:00
+author: Antoine Delia
 draft: true
+tags:
+    - Terraform
+    - CI/CD
+    - GitHub Actions
+    - Hugo
+    - AWS
+categories: [ Terraform, CI/CD, GitHub Actions, Hugo, AWS ]
+image: automated-blog.jpeg
 ---
 
-# How it started
+# How it started and why it ended
 When I started blogging, I was still in engineering school. And the world of websites and blogs was still new to me. So when I wanted to create a personal blog, I turned to what I thought was the best solution at the time: WordPress.
 
 Like it or not, WordPress is quite easy to use for beginners, even more for me who was still discovering how to host a website at the time.
@@ -13,15 +22,15 @@ So, with a brand new OVH account, I was able to quickly setup my personal blog i
 
 And when the time came where I wanted to create a blog dedicated to professional topics, I naturally came back to my ol' friend WordPress.
 
-# Issues arised
-
 But after some months, the glory of WordPress started to fade into a darker view. Sure, it was convenient to add a new post by going through WordPress' UI, but maintaining the website was always boresome. Moreover, a WordPress installation requires using a database, which incured a higher bill at the end of each month.
 
 All of this for a blog that I knew did not receive many visits each day.
 
 Surely there was a better way to do this.
 
-# A new challenger appeared: AWS
+# The start of a new plan
+
+## A new challenger appeared: AWS
 
 In parallel, I had an opportunity working for a company that focused on the Cloud, more specifically AWS.
 
@@ -37,7 +46,7 @@ I wanted to make a quick shift to AWS, so I was first considering services that 
 
 So I decided to think again. Maybe the issue was not about the hosting services. Maybe the issue was that I was using an inappropriate tool for my project. Maybe it was time to let go of WordPress.
 
-# Discovering Hugo
+## Discovering Hugo
 
 Before searching for a new tool, I tried to think of what I needed.
 
@@ -53,11 +62,11 @@ This was exactly what I wanted. A framework where I had to write in markdown for
 
 So, without losing any more time, I started to setup this new blog. I came across a handy script that converted my whole Wordpress database into compatible markdown syntax, and I was ready to go!
 
-# Terraform to the rescue
+## Terraform to the rescue
 
 TODO: talk about Terraform to setup S3 + CloudFront
 
-# Copy and paste my website? Ain't no way
+## Copy and paste my website? Ain't no way
 
 My website was now perfect. I could focus on its content, just like I wanted. But there was one last thing that I knew I could enhance: the deployment.
 
@@ -68,6 +77,10 @@ So I dived into the magical world of CI/CD pipelines. And despite Jenkins best e
 GitHub Actions are basically CI/CD pipelines that you can define directly in your source code (assuming that you are using GitHub, of course). The main benefit is that you do not need any additional account, and the syntax is pretty straightforward.
 
 So, I setup the pipeline, and everything went green!
+
+# My current setup
+
+TODO: add code example
 
 # Wrapping up
 

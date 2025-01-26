@@ -80,7 +80,11 @@ So, I setup the pipeline, and everything went green!
 
 # My current setup
 
-TODO: add code example
+TODO: add code example + talk about the theme used + show how someone could do the same
+
+# Possible evolutions
+
+Hugo deploy or using GitHub Pages
 
 # Wrapping up
 

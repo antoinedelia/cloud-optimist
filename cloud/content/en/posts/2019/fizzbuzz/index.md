@@ -1,6 +1,6 @@
 ---
 title: "FizzBuzz, the simplest, more efficient way to test a developer"
-date: 2024-05-16T22:49:13+02:00
+date: 2019-05-27T13:35:55+02:00
 draft: false
 author: Antoine Delia
 tags:

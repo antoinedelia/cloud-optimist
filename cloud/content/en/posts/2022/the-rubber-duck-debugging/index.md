@@ -2,6 +2,8 @@
 title: "The Rubber Duck Debugging - why does it work?"
 date: 2022-05-16T22:49:13+02:00
 draft: false
+author: Antoine Delia
+image: duck.jpg
 ---
 
 <strong>Programming is a painful art.</strong> You are a real architect and you mission is to design, build, decorate and maintain an application, much like how you would do for a house.
@@ -12,7 +14,9 @@ This little difference is crucial, as you sometimes will encounter an issue that
 
 <strong>The first thing to do is of course to blame it on the computer.</strong> I mean, you know what you're doing, there is no way you wrote something the wrong way. It's probably this damn laptop which is making you look like a fool again. But the truth is hard to swallow.
 
-> The machine does exactly what you tell it to do. <cite>Bill Gates, probably</cite>
+> The machine does exactly what you tell it to do.
+>
+> -- <cite>Bill Gates, probably</cite>
 
 Like it or not, your computer is dumb. It will mindlessly retrieve the information you provided and execute them. <strong>And if it fails, it is, without a doubt, your fault.</strong> I know the pain, trust me. But don't worry too much, it happened to every one of us, and at the end of the day, everything will be fine.
 
@@ -34,8 +38,10 @@ And that's why the duck is so useful. Not only did you let your coworkers work i
 
 This effort to put words on the expected behavior and what you were able to achieve for now will highlight any potential mistakes you might have made during the development, things that can't be seen when you spent eight hours looking at your code non-stop.
 
-> In describing what the code is supposed to do and observing what it actually does, any incongruity between these two becomes apparent. <cite> [Stephen J. Baker](https://www.sjbaker.org/humor/cardboard_dog.html)</cite>
+> In describing what the code is supposed to do and observing what it actually does, any incongruity between these two becomes apparent.
+>
+> -- <cite> [Stephen J. Baker](https://www.sjbaker.org/humor/cardboard_dog.html)</cite>
 
 So next time you're stuck on something, don't bother your co-workers, save your internet data and simply ask the duck!
 
-<blockquote class="wp-block-quote">If you wish to learn more on this method, I strongly suggest having a look at the website behind this post's inspiration. <cite> [https://rubberduckdebugging.com/](https://rubberduckdebugging.com/)</cite></blockquote>
+> If you wish to learn more on this method, I strongly suggest having a look at the website behind this post's inspiration. <cite> [https://rubberduckdebugging.com/](https://rubberduckdebugging.com/)</cite>

@@ -17,7 +17,7 @@ image: automated-blog.jpeg
 
 Quand j'ai envisagé de créer un blog pour la première fois, j'étais encore étudiant dans mon école d'ingénieurs. Et le monde des sites internets et des blogs était encore quelque chose de nouveau pour moi. Et lorsque je me suis finalement lancé dans l'aventure du blogging, c'est tout naturellement que je me suis tourné vers ce qui semblait être la meilleure solution à l'époque : WordPress.
 
-Quoi que l'on en dise, WordPress est une solution relativement simple d'usage pour les débutants qui souhaitent créer leur premier site internet. Et ça tombe bien, car j'en faisais parti ! 
+Quoi que l'on en dise, **WordPress est une solution relativement simple d'usage** pour les débutants qui souhaitent créer leur premier site internet. Et ça tombe bien, car j'en faisais parti ! 
 
 Alors, armé d'un tout nouveau compte chez OVH, j'ai pû mettre en ligne mon [blog personnel](https://blog.antoinedelia.fr) en quelques cliques !
 
@@ -25,23 +25,27 @@ Et puis, quelques années plus tard, quand me vint l'idée de publier un blog d�
 
 Les mois passèrent, et l'idyle que je vivais avec WordPress commençait petit à petit à se ternir. Certes, rajouter des articles à travers l'UI de WordPress était pratique, mais pour ce qui était de gérer les backups, c'était une autre paire de manches. En plus, WordPress requiert une base de données pour fonctionner, ce qui rendait le tout très volumineux pour quelques articles, sans compter la facture qui venait avec.
 
+![Les galères avec WordPress](/img/how-i-automated-my-blog-to-the-cloud/struggling_blog.jpeg)
+
 Je me rendais alors compte que, pour un blog aussi simple, et avec si peu de visites, il y avait certainement un moyen d'améliorer les choses.
 
 # Le début d'un nouveau plan
 
-Je vais vous raconter ici le cheminement qui m'a amené au renouveau de mon blog sur lequel vous vous trouvez aujourd'hui. Si vous êtes seulement intéressé par les détails techniques, vous pouvez avancer à la prochain section. Sinon, bonne lecture !
+Je vais vous raconter ici le cheminement qui m'a amené au renouveau de mon blog sur lequel vous vous trouvez aujourd'hui. Si vous êtes seulement intéressé par les détails techniques, vous pouvez [avancer à la prochain section](#côté-technique--létat-actuel-des-choses). Sinon, bonne lecture !
 
 ## La découverte d'Hugo
 
 Avant de me mettre en quête d'un nouvel outil pour mon blog, j'ai d'abord réfléchi à ce dont j'avais réelement besoin.
 
-Mon blog était en fait assez rudimentaire : une page d'accueil qui listait les différents articles, pas de JavaScript tarabiscoté dans les parages, et aucun besoin d'un backend pour gérer une API. Au final, l'utilisation d'une base de données était-elle nécessaire ?
+Mon blog était en fait assez rudimentaire : une page d'accueil qui listait les différents articles, pas de JavaScript tarabiscoté dans les parages, et aucun besoin d'un backend pour gérer une API. Au final, **l'utilisation d'une base de données était-elle nécessaire ?**
 
 Il y avait aussi une chose importante à garder en mémoire. Je suis un ingénieur, ce qui fait de moi par définition, un bien piètre designer. Je voulais à tout prix éviter d'avoir à gérer le CSS de mon blog : je voualais me concenter sur le contenu, plutôt que sur le style.
 
 J'ai donc commencé mes recherches, dans l'espoir de trouver un outil qui répondrait à ces critères. Et il ne m'a pas fallu bien longtemps avant de tomber sur la perle rare : [Hugo](https://gohugo.io/).
 
-À peine eus-je atterri sur le site d'Hugo que je fus accueilli par cet intriguant message : `Le framework le plus rapide du monde pour générer des sites web`. On peut dire que cela a piqué ma curiosité, et je me pressa d'aller fouiller dans la documentation. Et je n'allais pas être déçu.
+![Hugo logo](/img/how-i-automated-my-blog-to-the-cloud/hugo.png)
+
+À peine eus-je atterri sur le site d'Hugo que je fus accueilli par cet intriguant message : **Le framework le plus rapide du monde pour générer des sites web**. On peut dire que cela a piqué ma curiosité, et je me pressa d'aller fouiller dans la documentation. Et je n'allais pas être déçu.
 
 Hugo se charge de convertir des articles au format markdown (comme l'on trouve sur les README de GitHub par exemple) vers le format HTML. Qui plus est, il existe une [miriade de thèmes](https://themes.gohugo.io/) mis à disposition, ce qui me laissait l'embarras du choix, sans avoir besoin de designer quoi que ce soit !
 
@@ -51,13 +55,15 @@ Mon site Hugo était désormais prêt ! Il fallait maintenant trouver un moyen d
 
 ## Un hébergeur à la hauteur : AWS
 
-En même temps que je me creusais la tête pour trouver une alternative pour mon blog, j'ai eu une opportunité professionnelle qui m'a amené à travailler dans une entreprise spécialisée dans le Cloud, et plus particulièrement AWS.
+En même temps que je me creusais la tête pour trouver une alternative pour mon blog, j'ai eu une opportunité professionnelle qui m'a amené à travailler dans une entreprise spécialisée dans le Cloud, et plus particulièrement [AWS](https://aws.amazon.com/).
+
+![AWS logo](/img/how-i-automated-my-blog-to-the-cloud/aws.png)
 
 À l'époque, le Cloud était tout nouveau pour moi. Mais j'en entendais tellement parler, que je voulais connaître la raison de cet engouement. Était-ce vraiment un "game-changer", comme certains le disaient, ou était-ce encore un de ces mots-clés techniques qui faisait le buzz ?
 
-Pour vous la faire courte, AWS était (et est toujours) absolument incroyable ! Ce n'était pas seulement la découverte d'un nouvel outil, il s'agissait là d'un changement de paradigme qui ne me ferait plus jamais aborder un problème de la même manière (si vous ne connaissez pas AWS et pensez que j'en fais trop, attendez de vous y mettre...).
+Pour vous la faire courte, **AWS était (et est toujours) absolument incroyable !** Ce n'était pas seulement la découverte d'un nouvel outil, il s'agissait là d'un changement de paradigme qui ne me ferait plus jamais aborder un problème de la même manière (si vous ne connaissez pas AWS et pensez que j'en fais trop, attendez de vous y mettre...).
 
-Plus j'en apprenais sur AWS et la multitude de services qui le composait, plus je me disais : n'y a-t-il pas un moyen pour moi d'utiliser le Cloud pour mon blog ?
+Plus j'en apprenais sur AWS et la multitude de services qui le composait, plus je me disais : **n'y a-t-il pas un moyen pour moi d'utiliser le Cloud pour mon blog ?**
 
 Avec cette idée en tête, je commençais à me renseigner sur toutes les options qu'offrait AWS. Et compte tenu de ma récente découverte d'Hugo, mon site n'avait ni besoin de PHP, ni d'une base de données pour fonctionner. Il s'agissait maintenant d'un site statique qui, à première vue, pouvait très bien être déployé dans un bucket S3. 
 
@@ -82,6 +88,8 @@ Imaginons par exemple que quelqu'un décide de changer la configuration d'un ser
 Tout cela aurait pû être évité si le service avait initialement été configuré avec un outil d'Infrastructure as Code. Si tel avait été le cas, un petit coup de déploiement automatique aurait fait l'affaire !
 
 Des outils d'IaC, il en existe un paquet. Mais comment ne pas parler du plus populaire, de celui qui a rendu cette pratique commune dans le milieu du Cloud : [Terraform](https://www.terraform.io/).
+
+![Terraform logo](/img/how-i-automated-my-blog-to-the-cloud/terraform.png)
 
 Terraform est donc un outil d'Infrastructure as Code avec une approche déclarative, ce qui signifie que c'est à vous de déclarer l'état dans lequel vous souhaitez déployer votre infrastructure. Pour cela, il faut utiliser un langage bien particulier : le hcl (pour HashiCorp Configuration Language). Voici par exemple la création d'un bucket S3 via Terraform.
 
@@ -108,11 +116,13 @@ Autant vous dire que cela ne me plaisait pas du tout, et je comptais bien y rem�
 
 ## Oubliez les copier-coller avec GitHub Actions
 
-Comme je le disais juste au-dessus, mon site était fin prêt. La dernière étape qui me manquait concernait le déploiement.
+Comme je le disais juste au-dessus, mon site était fin prêt. La dernière étape qui me manquait concernait **le déploiement**.
 
 Pour l'instant, quand je voulais créer un nouvel article, il me fallait build le site Hugo à la main, et déplacer les fichiers générés dans mon bucket S3. Quel terrible gâchis de temps et d'énergie !
 
-J'ai donc creusé le sujet des pipelines CI/CD afin de me rendre la vie plus simple (si le sujet vous intéresse, je vous conseille [mon article sur la mise en place d'une stratégie CI/CD](https://cloud.antoinedelia.fr/fr/posts/2025/how-we-built-a-cicd-strategy-that-onboards-100-python-projects-in-under-a-minute/)). Et bien que Jenkins essayait à tout prix de se distinguer, je suis parti sur ce qui semblait être le plus logique : [GitHub Actions](https://github.com/features/actions).
+J'ai donc creusé le sujet des pipelines CI/CD afin de me rendre la vie plus simple (si le sujet vous intéresse, je vous conseille [mon article sur la mise en place d'une stratégie CI/CD](/fr/posts/2025/how-we-built-a-cicd-strategy-that-onboards-100-python-projects-in-under-a-minute/)). Et bien que Jenkins essayait à tout prix de se distinguer, je suis parti sur ce qui semblait être le plus logique : [GitHub Actions](https://github.com/features/actions).
+
+![GitHub Actions logo](/img/how-i-automated-my-blog-to-the-cloud/github_actions.png)
 
 Les GitHub Actions sont en fait des pipelines CI/CD qui sont définies directement dans votre repository GitHub. Le gros avantage, est que vous n'avez pas besoin de créer un compte supplémentaire ou d'installer quoi que ce soit, tout est inclus ! En plus de ça, GitHub Actions utilise une syntaxe YAML très facile à comprendre (contrairement à Jenkins et son groovy des enfers !).
 
@@ -199,9 +209,9 @@ Voyons maintenant la suite :
 
 Cette première étape est cruciale si vous voulez accélérer vos temps de CI/CD ainsi qu'économiser de l'argent.
 
-Je me sers de l'actions [dorny/paths-filter](https://github.com/dorny/paths-filter) qui me permet de détecter quels fichiers ont été modifiés lors du dernier commit. Dans mon cas, je regarde en particulier les dossiers `cloud` et `terraform`. Ainsi, si je ne détecte pas de changements côté Terraform, aucun besoin de lancer l'étape qui va reconfigurer mon infrastructure. Idem, si le dossier `cloud` est intact, inutile de build et deploy le blog. Cela vous sauvera quelques centimes liés au coût de transfert de fichiers vers AWS (pas la peine de me remercier !).
+Je me sers de l'actions [dorny/paths-filter](https://github.com/dorny/paths-filter) qui me permet de **détecter quels fichiers ont été modifiés lors du dernier commit**. Dans mon cas, je regarde en particulier les dossiers `cloud` et `terraform`. Ainsi, si je ne détecte pas de changements côté Terraform, aucun besoin de lancer l'étape qui va reconfigurer mon infrastructure. Idem, si le dossier `cloud` est intact, inutile de build et deploy le blog. Cela vous sauvera quelques centimes liés au coût de transfert de fichiers vers AWS (pas la peine de me remercier !).
 
-La section suivante parle d'elle-même. Je viens récupérer le contenu de mon repository et m'assure de mettre à jour les submodules. Cette dernière étape me servait du temps où j'utilisais les submodules pour mes thèmes Hugo. J'utilise désormais les [Hugo Modules](https://gohugo.io/hugo-modules/use-modules/), et je pourrais donc zapper cette étape.
+La section suivante parle d'elle-même.
 
 ```yml
     # Checkout the repository to the GitHub Actions runner
@@ -212,6 +222,8 @@ La section suivante parle d'elle-même. Je viens récupérer le contenu de mon r
       working-directory: ./
       run: git submodule update --init --recursive
 ```
+
+Je viens récupérer le contenu de mon repository et m'assure de mettre à jour les submodules. Cette dernière étape me servait du temps où j'utilisais les submodules pour mes thèmes Hugo. J'utilise désormais les [Hugo Modules](https://gohugo.io/hugo-modules/use-modules/), et je pourrais donc zapper cette étape.
 
 ### Les étapes Terraform
 
@@ -244,7 +256,6 @@ Passons à la partie Terraform :
       run: terraform plan
 
       # On push to master, build or change infrastructure according to Terraform configuration files
-      # Note: It is recommended to set up a required "strict" status check in your repository for "Terraform Cloud". See the documentation on "strict" required status checks for more information: https://help.github.com/en/github/administering-a-repository/types-of-required-status-checks
     - name: Terraform Apply
       working-directory: ./terraform
       if: steps.filter.outputs.terraform == 'true' && github.ref == 'refs/heads/master' && github.event_name == 'push'
@@ -269,7 +280,7 @@ Reste une dernière étape, et pas des moindres : le `terraform apply -auto-appr
 github.ref == 'refs/heads/master' && github.event_name == 'push'
 ```
 
-Cela me garantit que cette étape ne sera uniquement lancée si l'action est un `push` sur la branch `master`. Ainsi, aucun risque de déploiement inopportun si je décide de travailler sur une autre branch ou sur une Pull Request. Ouf !
+Cela me garantit que **cette étape ne sera uniquement lancée si l'action est un `push` sur la branch `master`**. Ainsi, aucun risque de déploiement inopportun si je décide de travailler sur une autre branch ou sur une Pull Request. Ouf !
 
 ### Les étapes Hugo et AWS
 
@@ -314,9 +325,9 @@ Bien sûr, il vous faudra stocker vos credentials au niveau de votre repository 
 
 Concernant la partie Terraform, je vais essayer d'être bref, car il n'y a rien de bien compliqué.
 
-Une particularité dans mon cas, c'est que j'aime séparer mes fichiers `.tf` en fonction des services AWS utilisés, plutôt que d'avoir un unique fichier `main.tf` qui peut vite devenir difficile à lire. J'ai donc un fichier `s3.tf` pour les ressources liées au service S3, un `cloudfront.tf` pour tout ce qui est lié au service CloudFront, etc.
+Une particularité dans mon cas, c'est que **j'aime séparer mes fichiers `.tf` en fonction des services AWS utilisés**, plutôt que d'avoir un unique fichier `main.tf` qui peut vite devenir difficile à lire. J'ai donc un fichier `s3.tf` pour les ressources liées au service S3, un `cloudfront.tf` pour tout ce qui est lié au service CloudFront, etc.
 
-Un détail important, c'est qu'il est nécessaire de définir à minima la region `us-east-1`, car c'est dans cette region que vous devez créer vos certificats ACM. Pour le reste, toutes mes ressources sont créées dans la region `eu-west-1`. J'utilise pour cela les [alias Terraform](https://developer.hashicorp.com/terraform/language/providers/configuration#alias-multiple-provider-configurations). Voici un exemple :
+Un détail important, c'est qu'**il est nécessaire de définir à minima la region `us-east-1`**, car c'est dans cette region que vous devez créer vos certificats ACM. Pour le reste, toutes mes ressources sont créées dans la region `eu-west-1`. J'utilise pour cela les [alias Terraform](https://developer.hashicorp.com/terraform/language/providers/configuration#alias-multiple-provider-configurations). Voici un exemple :
 
 ```terraform
 # La configuration par défaut : les ressources qui commencent par `aws_` utiliseront ce provider
@@ -368,4 +379,6 @@ Quand je compare avec ce que j'avais à l'époque, je ne suis que trop heureux d
 
 Et vous aussi, vous avez maintenant toutes les informations pour créer un blog à vous, et déployer tout ça en un clin d'oeil !
 
-Happy blogging !
+*Happy blogging !*
+
+![Réussite de la migration de mon blog vers le Cloud](/img/how-i-automated-my-blog-to-the-cloud/happy_blog.jpeg)

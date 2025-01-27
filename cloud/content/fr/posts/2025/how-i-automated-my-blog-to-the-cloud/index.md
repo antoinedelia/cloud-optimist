@@ -345,20 +345,28 @@ resource "aws_acm_certificate" "cert" {
 
 ## La partie Hugo
 
-TODO
+Mon blog Hugo se base sur le theme [Stack](https://themes.gohugo.io/themes/hugo-theme-stack/). Il existe d'ailleurs un [template GitHub](https://github.com/CaiJimmy/hugo-theme-stack-starter) qui vous permet en un clic de récupérer le squelette du blog, et de l'adapter selon vos envies, ou de tout simplement vous concentrer directement sur vos articles.
 
-# Et demain ?
+Pas grande chose de plus à dire sur cette partie, si ce n'est que je vous encourage à voir le fonctionnement des [Hugo Modules](https://gohugo.io/hugo-modules/), qui vous évitera de gérer vos thèmes via un submodule (et qui vous simplifiera la vie lors de la mise à jour du thème).
 
-Hugo deploy or using GitHub Pages
+# Pistes d'améliorations
+
+Bien que je sois très satisfait du résultat final, j'ai noté quelques points qui pourraient être améliorés dans le futur.
+
+D'abord, j'ai vu qu' Hugo dispose d'une commande `deploy` qui est capable de déployer directement un blog sur un bucket S3. Parfait ! Je dois donc creuser le sujet de [Hugo Deploy](https://gohugo.io/hosting-and-deployment/hugo-deploy/).
+
+Enfin, même si l'hébergement dans AWS est peu coûteux (moins de 2$ par mois), il n'en est pas moins gratuit. Or, il serait tout à fait possible d'utiliser les [GitHub Pages](https://pages.github.com/) pour rendre ce blog accessible, et profiter de GitHub comme hébergement (là-dessus, je suis un peu moins emballé, car je ne pourrais plus me la péter avec mes jolis diagrammes AWS...).
 
 # Conclusion
 
 Et voilà, vous savez tout !
 
-Vous avez maintenant toutes les informations pour créer un blog à vous, et déployer tout ça en un clin d'oeil !
+De mes débuts avec WordPress, qui, bien que pratique, présentait des faiblesses du point de vue backup, maintenance et déploiement.
 
-At the beginning, I had to maintain a WordPress blog, which was tedious because of versionning, maintainability and ease of deployment.
+De mes recherches pour trouver une stack technique parfaite : AWS, Terraform, Hugo et GitHub Actions, tout ça pour permettre un déploiement rapide et à moins de deux dollars par mois !
 
-Today, my blog is stored on GitHub, and on every single change of its content, everything is deployed automatically to AWS, for less than a dollar a month.
+Quand je compare avec ce que j'avais à l'époque, je ne suis que trop heureux d'avoir sauté le pas !
 
-After realizing the power of static websites, AWS and GitHub Actions, I migrated three other personal websites to this new workflow, and I am now never scared to make a change!
+Et vous aussi, vous avez maintenant toutes les informations pour créer un blog à vous, et déployer tout ça en un clin d'oeil !
+
+Happy blogging !

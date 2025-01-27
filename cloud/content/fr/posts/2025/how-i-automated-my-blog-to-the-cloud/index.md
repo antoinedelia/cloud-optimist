@@ -85,7 +85,7 @@ Des outils d'IaC, il en existe un paquet. Mais comment ne pas parler du plus pop
 
 Terraform est donc un outil d'Infrastructure as Code avec une approche déclarative, ce qui signifie que c'est à vous de déclarer l'état dans lequel vous souhaitez déployer votre infrastructure. Pour cela, il faut utiliser un langage bien particulier : le hcl (pour HashiCorp Configuration Language). Voici par exemple la création d'un bucket S3 via Terraform.
 
-```tf
+```terraform
 resource "aws_s3_bucket" "example" {
   bucket = "my-tf-test-bucket"
 
@@ -319,7 +319,7 @@ Une particularité dans mon cas, c'est que j'aime séparer mes fichiers `.tf` en
 
 Un détail important, c'est qu'il est nécessaire de définir à minima la region `us-east-1`, car c'est dans cette region que vous devez créer vos certificats ACM. Pour le reste, toutes mes resources sont créées dans la region `eu-west-1`. J'utilise pour cela les [`alias` Terraform](https://developer.hashicorp.com/terraform/language/providers/configuration#alias-multiple-provider-configurations). Voici un exemple de comment procéder :
 
-```tf
+```terraform
 # La configuration par défaut : les ressources qui commencent par `aws_` utiliseront ce provider
 provider "aws" {
   region = "eu-west-1"

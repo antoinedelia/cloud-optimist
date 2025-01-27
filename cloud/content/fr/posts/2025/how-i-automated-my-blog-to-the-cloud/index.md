@@ -122,6 +122,132 @@ Toutes les steps de la pipeline sont au vert, mission accomplie !
 
 # L'état actuel des choses
 
+Mon blog est désormais automatisé et se déploie sur AWS automatiquement !
+
+Si vous voulez voir en détails, tout est publique sur mon repository GitHub : https://github.com/antoinedelia/cloud-optimist
+
+Mais laissez-moi détailler un peu tout ça.
+
+## Structure du projet
+
+La structure de mon projet est comme suit :
+
+```sh
+cloud-optimist/
+├── .github/
+│   └── workflows/
+│       └── main.yml  # GitHub Actions
+├── cloud/
+│   └── ...  # Mon blog Hugo
+├── terraform/
+│   └── ...  # La configuration Terraform
+└── README.md
+```
+
+Comme vous le voyez, je sépare ce projet en trois dossiers clés :
+- `.github` : contient le fichier `main.yml` qui définit les étapes CI/CD de la GitHub Actions
+- `cloud` : contient mon blog Hugo
+- `terraform` : contient toute l'infrastructure Terraform
+
+## La GitHub Actions
+
+Ma GitHub Actions est assez simple, et se décompose en plusieurs étapes. Regardons d'abord le haut du fichier.
+
+```yml
+name: 'Build and Deploy'
+
+on:
+  push:
+    branches:
+    - master
+  pull_request:
+
+jobs:
+  build-and-deploy:
+    name: 'Build & Deploy'
+    runs-on: ubuntu-latest
+    environment: production
+
+    # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: cloud
+```
+
+Ici, je dis à GitHub de lancer la pipeline uniquement sur la branch `master`, ou s'il s'agit d'une Pull Request. Je vous rassure, je ne déplois rien en production via une Pull Request. Vous verrez un peu plus bas, que cela me permet uniquement de build mon blog afin de tester que tout va bien, mais le déploiement ne sera effectué qu'une fois les changements mergés sur la branch `master`.
+
+J'indique également à GitHub d'utiliser `bash`, et de se baser par défaut dans le dossier `cloud`.
+
+Voyons maintenant la suite :
+
+```yml
+    steps:
+    - uses: actions/checkout@v3
+    - uses: dorny/paths-filter@v2
+      id: filter
+      with:
+        filters: |
+          web:
+            - 'cloud/**'
+          terraform:
+            - 'terraform/**'
+```
+
+Cette première étape est cruciale si vous voulez accélérer vos temps de CI/CD ainsi qu'économiser de l'argent.
+
+Je me sers de l'actions [`dorny/paths-filter`](https://github.com/dorny/paths-filter) qui me permet de détecter quels fichiers ont été modifiés lors du dernier commit. Dans mon cas, je regarde en particulier les dossiers `cloud` et `terraform`. Ainsi, si je ne détecte pas de changements côté Terraform, aucun besoin de lancer l'étape qui va reconfigurer mon infrastructure. Idem, si le dossier `cloud` est intact, inutile de build et deploy le blog. Cela vous sauvera quelques centimes liés au coût de transfert de fichiers vers AWS (pas la peine de me remercier !).
+
+La section suivante parle d'elle même. Je viens récupérer le contenu de mon repository et m'assure de mettre à jour les submodules. Cette dernière étape me servait du temps où j'utilisais les submodules pour mes thèmes Hugo. J'utilise désormais les [Hugo Modules](https://gohugo.io/hugo-modules/use-modules/), et je pourrais donc aujourd'hui zapper cette étape.
+
+```yml
+    # Checkout the repository to the GitHub Actions runner
+    - name: Checkout
+      uses: actions/checkout@v2
+      
+    - name: Update Git Submodules
+      working-directory: ./
+      run: git submodule update --init --recursive
+```
+
+Passons à la partie Terraform :
+
+```yml
+    # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
+    - name: Setup Terraform
+      if: steps.filter.outputs.terraform == 'true'
+      uses: hashicorp/setup-terraform@v1
+      with:
+        cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+
+    # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
+    - name: Terraform Init
+      if: steps.filter.outputs.terraform == 'true'
+      working-directory: ./terraform
+      run: terraform init
+
+    # Checks that all Terraform configuration files adhere to a canonical format
+    - name: Terraform Format
+      if: steps.filter.outputs.terraform == 'true'
+      working-directory: ./terraform
+      run: terraform fmt -check
+
+    # Generates an execution plan for Terraform
+    - name: Terraform Plan
+      if: steps.filter.outputs.terraform == 'true'
+      working-directory: ./terraform
+      run: terraform plan
+
+      # On push to master, build or change infrastructure according to Terraform configuration files
+      # Note: It is recommended to set up a required "strict" status check in your repository for "Terraform Cloud". See the documentation on "strict" required status checks for more information: https://help.github.com/en/github/administering-a-repository/types-of-required-status-checks
+    - name: Terraform Apply
+      working-directory: ./terraform
+      if: steps.filter.outputs.terraform == 'true' && github.ref == 'refs/heads/master' && github.event_name == 'push'
+      run: terraform apply -auto-approve
+```
+
+C'est déjà bien plus long !
+
 TODO: add code example + talk about the theme used + show how someone could do the same
 
 # Et demain ?

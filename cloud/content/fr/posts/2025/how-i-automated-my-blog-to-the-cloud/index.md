@@ -1,6 +1,6 @@
 ---
 title: "Comment j'ai automatisé la création de mon blog dans le Cloud"
-date: 2025-02-04T14:00:00+02:00
+date: 2025-01-27T13:30:00+02:00
 author: Antoine Delia
 draft: true
 tags:

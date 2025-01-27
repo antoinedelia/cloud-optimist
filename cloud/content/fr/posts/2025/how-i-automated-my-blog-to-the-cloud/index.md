@@ -71,7 +71,40 @@ Il me fallait donc maintenant un moyen simple et robuste de configurer cette inf
 
 ## Terraform à la rescousse
 
-TODO: talk about Terraform to setup S3 + CloudFront
+Quand vous commencez à apprendre le Cloud, vous allez généralement entendre parler d'Infrastructure as Code.
+
+Le principe est simple : décrire son infrastructure Cloud avec... du code ! (oui, comme son nom l'indique).
+
+L'avantage d'utiliser un outil d'IaC, c'est que vous allez pouvoir garder en mémoire les changements effectués sur votre infrastructure, et pouvoir ainsi avoir un historique de toutes les modifications effectuées (un peu comme vous pouvez le faire avec du code classique sur GitHub).
+
+Imaginons par exemple que quelqu'un décide de changer la configuration d'un service AWS. Cette personne se connecte sur la console AWS et effectue ces modifications. Mais après plusieurs essais infructueux, cette personne décide de laisser tomber pour le moment, et de revenir en arrière. Mais voilà, elle n'est plus vraiment sûr de la manière dont le service était configuré au départ ! Et à moins d'avoir pris note de l'état initial, cette personne n'a plus qu'à deviner à coups de plusieurs essais l'état dans lequel remettre ce service.
+
+Tout cela aurait pû être évité si le service avait initialement été configuré avec un outil d'Infrastructure as Code. Si tel avait été le cas, un petit coup de déploiement automatique aurait fait l'affaire !
+
+Des outils d'IaC, il en existe un paquet. Mais comment ne pas parler du plus populaire, de celui qui a rendu cette pratique commune dans le milieu du Cloud : [Terraform](https://www.terraform.io/).
+
+Terraform est donc un outil d'Infrastructure as Code avec une approche déclarative, ce qui signifie que c'est à vous de déclarer l'état dans lequel vous souhaitez déployer votre infrastructure. Pour cela, il faut utiliser un langage bien particulier : le hcl (pour HashiCorp Configuration Language). Voici par exemple la création d'un bucket S3 via Terraform.
+
+```tf
+resource "aws_s3_bucket" "example" {
+  bucket = "my-tf-test-bucket"
+
+  tags = {
+    Name        = "My bucket"
+    Environment = "Dev"
+  }
+}
+```
+
+Revenons maintenant à mon blog ! Terraform me semblait l'outil parfait pour configurer mon infrastructure qui accueillerait mon blog. Je n'avais plus qu'à passer par une étape d'architecture pour savoir de quels services AWS j'aurais besoin et comment les connecter entre eux, avant de mettre la main dans le code pour définir tout cela en langage Terraform.
+
+Voici d'ailleurs le diagramme d'architecture que j'ai initialement crée pour l'occasion.
+
+![Diagramme d'architecture de mon blog sur AWS, déployé par Terraform](/img/how-i-automated-my-blog-to-the-cloud/blog_architecture_diagram.png)
+
+Tout cela était parfait, mais je me rendis vite compte d'une chose. À chaque fois que j'allais rajouter un article, ou que je devais modifier mon infrastructure, il me fallait cloner le projet sur mon ordinateur, et effectuer tout un tas d'opérations manuelles.
+
+Autant vous dire que cela ne me plaisait pas du tout, et je comptais bien y remédier !
 
 ## Oubliez les copier-coller avec GitHub Actions
 

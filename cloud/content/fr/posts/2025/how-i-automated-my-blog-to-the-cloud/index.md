@@ -313,7 +313,35 @@ Bien sûr, il vous faudra stocker vos credentials au niveau de votre repository 
 
 ## La partie Terraform
 
-TODO
+Concernant la partie Terraform, je vais essayer d'être bref, car il n'y a rien de bien compliqué.
+
+Une particularité dans mon cas, c'est que j'aime séparer mes fichiers `.tf` en fonction des services AWS utilisés, plutôt que d'avoir un unique fichier `main.tf` qui peut vite devenir difficile à lire.
+
+Un détail important, c'est qu'il est nécessaire de définir à minima la region `us-east-1`, car c'est dans cette region que vous devez créer vos certificats ACM. Pour le reste, toutes mes resources sont créées dans la region `eu-west-1`. J'utilise pour cela les [`alias` Terraform](https://developer.hashicorp.com/terraform/language/providers/configuration#alias-multiple-provider-configurations). Voici un exemple de comment procéder :
+
+```tf
+# La configuration par défaut : les ressources qui commencent par `aws_` utiliseront ce provider
+provider "aws" {
+  region = "eu-west-1"
+}
+
+provider "aws" {
+  region = "us-east-1"
+  alias  = "us_east_1"
+}
+
+resource "aws_s3_bucket" "site" {
+  bucket        = var.bucket_name
+  force_destroy = true
+}
+
+resource "aws_acm_certificate" "cert" {
+  provider                  = aws.us_east_1  # Utilise le provider AWS dans us-east-1 via son alias
+  domain_name               = var.domain_name
+  subject_alternative_names = ["*.${var.domain_name}"]
+  validation_method         = "DNS"
+}
+```
 
 ## La partie Hugo
 

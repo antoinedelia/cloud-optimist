@@ -151,7 +151,11 @@ Comme vous le voyez, je sépare ce projet en trois dossiers clés :
 
 ## La GitHub Actions
 
-Ma GitHub Actions est assez simple, et se décompose en plusieurs étapes. Regardons d'abord le haut du fichier.
+Ma GitHub Actions est assez simple, et se décompose en plusieurs étapes.
+
+### Les étapes de préparation
+
+Regardons d'abord le haut du fichier.
 
 ```yml
 name: 'Build and Deploy'
@@ -210,6 +214,8 @@ La section suivante parle d'elle même. Je viens récupérer le contenu de mon r
       run: git submodule update --init --recursive
 ```
 
+### Les étapes Terraform
+
 Passons à la partie Terraform :
 
 ```yml
@@ -246,15 +252,82 @@ Passons à la partie Terraform :
       run: terraform apply -auto-approve
 ```
 
-C'est déjà bien plus long !
+C'est déjà bien plus long ! Analysons ça étape par étape.
 
-TODO: add code example + talk about the theme used + show how someone could do the same
+La première chose qui devrait attirer votre attention, c'est cette ligne :
+
+```yml
+if: steps.filter.outputs.terraform == 'true'
+```
+
+Vous vous rappelez, c'est ce qui permet de dire si des fichiers ont été modifiés dans le dossier `terraform`. Je vérifie donc ici si j'ai besoin de lancer ces étapes ou non.
+
+Ensuite, je lance quelques commandes basiques de Terraform : un `terraform init` pour initialiser mon projet, un `terraform fmt -check` pour m'assurer que mon code est tout joli, et enfin un `terraform plan` pour voir les changements à effectuer.
+
+Reste une dernière étape, et pas des moindres : le `terraform apply -auto-approve`, qui permettra de déployer les changements. Mais si vous êtes attentifs, vous remarquerez que j'ai rajouté deux conditions :
+
+```yml
+github.ref == 'refs/heads/master' && github.event_name == 'push'
+```
+
+Cela me garantit que cette étape ne sera uniquement lancé si l'action est un `push` sur la branch `master`. Ainsi, aucun risque de déploiement innoportun si je décide de travailler sur une autre branch ou sur une Pull Request. Ouf !
+
+### Les étapes Hugo et AWS
+
+Maintenant que mon infrastructure est au point, il est temps de publier mon blog !
+
+```yml
+    - name: Build
+      uses: actions/setup-node@v2
+      if: steps.filter.outputs.web == 'true'
+    - run: sudo wget https://github.com/gohugoio/hugo/releases/download/v0.142.0/hugo_extended_0.142.0_linux-amd64.deb -O hugo.deb
+    - run: sudo dpkg --install ./hugo.deb
+    - run: hugo
+
+    - name: Deploy to AWS
+      uses: jakejarvis/s3-sync-action@master
+      if: steps.filter.outputs.web == 'true' && github.ref == 'refs/heads/master' && github.event_name == 'push'
+      with:
+        args: --acl public-read --follow-symlinks --delete
+      env:
+        AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_REGION: 'eu-west-1'
+        SOURCE_DIR: 'cloud/public/'
+```
+
+Comme pour Terraform, nous vérifions si des modifications ont été effectuées au niveau du blog.
+
+```yml
+if: steps.filter.outputs.web == 'true'
+```
+
+Ensuite, je récupère une version extended d'Hugo directement depuis la release GitHub, ici la version v0.142.0. Je j'installe et build mon site en lançant la commande `hugo`.
+
+> Cette étape pourrait être simplifiée avec l'utilisation de l'actions [`peaceiris/actions-hugo`](https://github.com/peaceiris/actions-hugo)
+
+Enfin, j'utilise l'actions [`jakejarvis/s3-sync-action`](https://github.com/jakejarvis/s3-sync-action) (je me rends compte en écrivant cet article que cette actions a été archivé quelques jours plus tôt, aïe ! -- je rajouterai un edit plus tard pour parler d'une alternative) pour déplacer mon blog vers mon bucket S3.
+
+Bien sûr, il vous faudra stocker vos credentials au niveau de votre repository GitHub pour autoriser cette opération vers AWS, mais rien de bien sorcier !
+
+## La partie Terraform
+
+TODO
+
+## La partie Hugo
+
+TODO
 
 # Et demain ?
 
 Hugo deploy or using GitHub Pages
 
 # Conclusion
+
+Et voilà, vous savez tout !
+
+Vous avez maintenant toutes les informations pour créer un blog à vous, et déployer tout ça en un clin d'oeil !
 
 At the beginning, I had to maintain a WordPress blog, which was tedious because of versionning, maintainability and ease of deployment.
 

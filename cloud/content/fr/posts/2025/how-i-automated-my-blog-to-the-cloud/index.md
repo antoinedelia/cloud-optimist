@@ -21,7 +21,7 @@ Quoi que l'on en dise, WordPress est une solution relativement simple d'usage po
 
 Alors, armé d'un tout nouveau compte chez OVH, j'ai pû mettre en ligne mon [blog personnel](https://blog.antoinedelia.fr) en quelques cliques !
 
-Et puis, quelques années plus tard, quand me vint l'idée de publier un blog dédié à des sujets professionels, Là encore, j'ai fait appel à mon bon vieil ami WordPress.
+Et puis, quelques années plus tard, quand me vint l'idée de publier un blog dédié à des sujets professionels, là encore, j'ai fait appel à mon bon vieil ami WordPress.
 
 Les mois passèrent, et l'idyle que je vivais avec WordPress commençait petit à petit à se ternir. Certes, rajouter des articles à travers l'UI de WordPress était pratique, mais pour ce qui était de gérer les backups, c'était une autre paire de manches. En plus, WordPress requiert une base de données pour fonctionner, ce qui rendait le tout très volumineux pour quelques articles, sans compter la facture qui venait avec.
 
@@ -29,23 +29,23 @@ Je me rendais alors compte que, pour un blog aussi simple, et avec si peu de vis
 
 # Le début d'un nouveau plan
 
-Je vais vous raconter ici le cheminement qui m'a amené au renouveau de mon blog sur lequel vous vous trouvez aujourd'hui. Si vous êtes seulement intéressé par le résultat final, vous pouvez avancer à la prochain section. Sinon, bonne lecture !
+Je vais vous raconter ici le cheminement qui m'a amené au renouveau de mon blog sur lequel vous vous trouvez aujourd'hui. Si vous êtes seulement intéressé par les détails techniques, vous pouvez avancer à la prochain section. Sinon, bonne lecture !
 
 ## La découverte d'Hugo
 
 Avant de me mettre en quête d'un nouvel outil pour mon blog, j'ai d'abord réfléchi à ce dont j'avais réelement besoin.
 
-Mon blog était en fait assez rudimentaire : un page d'accueil qui listait les différents articles, pas de JavaScript tarabiscoté dans les parages, et aucun besoin d'un backend pour gérer une API. Au final, l'utilisation d'une base de données était-elle nécessaire ?
+Mon blog était en fait assez rudimentaire : une page d'accueil qui listait les différents articles, pas de JavaScript tarabiscoté dans les parages, et aucun besoin d'un backend pour gérer une API. Au final, l'utilisation d'une base de données était-elle nécessaire ?
 
 Il y avait aussi une chose importante à garder en mémoire. Je suis un ingénieur, ce qui fait de moi par définition, un bien piètre designer. Je voulais à tout prix éviter d'avoir à gérer le CSS de mon blog : je voualais me concenter sur le contenu, plutôt que sur le style.
 
 J'ai donc commencé mes recherches, dans l'espoir de trouver un outil qui répondrait à ces critères. Et il ne m'a pas fallu bien longtemps avant de tomber sur la perle rare : [Hugo](https://gohugo.io/).
 
-À peine ai-je atteri sur le site d'Hugo que je fus accueilli oar cet intriguant message : `Le framework le plus rapide du monde pour générer des sites web`. On peut dire que cela à piquer ma curiosité, et je me pressa d'aller fouiller dans la documentation. Et je n'allais pas être déçu.
+À peine eus-je atterri sur le site d'Hugo que je fus accueilli par cet intriguant message : `Le framework le plus rapide du monde pour générer des sites web`. On peut dire que cela a piqué ma curiosité, et je me pressa d'aller fouiller dans la documentation. Et je n'allais pas être déçu.
 
-Hugo se charge de convertir des articles au format markdown (comme l'on trouve sur GitHub par exemple) vers le format HTML. Qui plus est, il existe une [miriade de thèmes](https://themes.gohugo.io/) mis à disposition, ce qui me laissait l'embarras du choix, sans avoir besoin de designer quoi que ce soit !
+Hugo se charge de convertir des articles au format markdown (comme l'on trouve sur les README de GitHub par exemple) vers le format HTML. Qui plus est, il existe une [miriade de thèmes](https://themes.gohugo.io/) mis à disposition, ce qui me laissait l'embarras du choix, sans avoir besoin de designer quoi que ce soit !
 
-Sans perdre une seconde, je m'empressa de convertir mon blog WordPress vers un site Hugo (j'ai utilisé pour ça un super petit script intitulé [wordpress-to-hugo-exporter](https://github.com/SchumacherFM/wordpress-to-hugo-exporter) qui convertit une base de données WordPress en fichiers markdown).
+Sans perdre une seconde, je m'empressai de convertir mon blog WordPress vers un site Hugo (j'ai utilisé pour ça un super petit script intitulé [wordpress-to-hugo-exporter](https://github.com/SchumacherFM/wordpress-to-hugo-exporter) qui convertit une base de données WordPress en fichiers markdown avec l'arborescence requise pour Hugo).
 
 Mon site Hugo était désormais prêt ! Il fallait maintenant trouver un moyen de l'héberger quelque part.
 
@@ -55,7 +55,7 @@ En même temps que je me creusais la tête pour trouver une alternative pour mon
 
 À l'époque, le Cloud était tout nouveau pour moi. Mais j'en entendais tellement parler, que je voulais connaître la raison de cet engouement. Était-ce vraiment un "game-changer", comme certains le disaient, ou était-ce encore un de ces mots-clés techniques qui faisait le buzz ?
 
-Pour vous la faire court, AWS était (et est toujours) absolument incroyable ! Ce n'était pas seulement la découverte d'un nouvel outil, il s'agissait là un changement de paradigme qui ne me ferait plus jamais voir aborder un problème de la même manière (si vous ne connaissez pas AWS et pensez que j'en fais trop, attendez de vous y mettre...).
+Pour vous la faire courte, AWS était (et est toujours) absolument incroyable ! Ce n'était pas seulement la découverte d'un nouvel outil, il s'agissait là d'un changement de paradigme qui ne me ferait plus jamais aborder un problème de la même manière (si vous ne connaissez pas AWS et pensez que j'en fais trop, attendez de vous y mettre...).
 
 Plus j'en apprenais sur AWS et la multitude de services qui le composait, plus je me disais : n'y a-t-il pas un moyen pour moi d'utiliser le Cloud pour mon blog ?
 
@@ -63,15 +63,15 @@ Avec cette idée en tête, je commençais à me renseigner sur toutes les option
 
 Et non seulement AWS offre une [documentation sur l'hébergement d'un site statique dans un bucket S3](https://docs.aws.amazon.com/AmazonS3/latest/userguide/WebsiteHosting.html), mais [le coût de stockage d'un site si léger ne représentait que quelques centimes](https://aws.amazon.com/s3/pricing/). 
 
-J'avais trouvé là une manière simple et peu coûteuse de déployer mon site.
+J'avais trouvé là une manière simple et peu coûteuse d'héberger mon site.
 
-Le dernier point qui me chiffonait, est que pour mettre en place tout cela, je devais créer un bucket AWS S3, le configurer convenablement, rajouter le CDN AWS CloudFront, prendre en compte les certificats via AWS ACM, et finalement créer une entrée DNS dans AWS Route53. Tant d'actions qui, si réalisées manuellement, pouvait être difficiles à reproduire si jamais je venais à accidentellement supprimer mon compte AWS.
+Le dernier point qui me chiffonait, est que pour mettre en place tout cela, je devais créer un bucket AWS S3, le configurer convenablement, rajouter le CDN AWS CloudFront, prendre en compte les certificats via AWS ACM, et finalement créer une entrée DNS dans AWS Route53. Tant d'actions qui, si réalisées manuellement, pouvaient être difficiles à reproduire si jamais je venais à accidentellement supprimer mon compte AWS.
 
 Il me fallait donc maintenant un moyen simple et robuste de configurer cette infrastructure.
 
 ## Terraform à la rescousse
 
-Quand vous commencez à apprendre le Cloud, vous allez généralement entendre parler d'Infrastructure as Code.
+Quand vous commencez à apprendre le Cloud, vous allez généralement entendre parler d'[Infrastructure as Code](https://fr.wikipedia.org/wiki/Infrastructure_as_code).
 
 Le principe est simple : décrire son infrastructure Cloud avec... du code ! (oui, comme son nom l'indique).
 
@@ -110,21 +110,21 @@ Autant vous dire que cela ne me plaisait pas du tout, et je comptais bien y rem�
 
 Comme je le disais juste au-dessus, mon site était fin prêt. La dernière étape qui me manquait concernait le déploiement.
 
-Pour l'instant, quand je voulais créer un nouvel article, il me fallait build le site hugo à la main, et déplacer les fichiers générés dans mon bucket S3. Quel terrible gâchis de temps et d'énergie !
+Pour l'instant, quand je voulais créer un nouvel article, il me fallait build le site Hugo à la main, et déplacer les fichiers générés dans mon bucket S3. Quel terrible gâchis de temps et d'énergie !
 
-J'ai donc creuser le sujet des pipelines CI/CD afin de me rendre la vie plus simple (si le sujet vous intéresse, je vous conseille [mon article sur la mise en place d'une stratégie CI/CD](https://cloud.antoinedelia.fr/fr/posts/2025/how-we-built-a-cicd-strategy-that-onboards-100-python-projects-in-under-a-minute/)). Et bien que Jenkins essayait à tout prix de se distinguer, je suis parti sur ce qui semblait être le plus logique : [GitHub Actions](https://github.com/features/actions).
+J'ai donc creusé le sujet des pipelines CI/CD afin de me rendre la vie plus simple (si le sujet vous intéresse, je vous conseille [mon article sur la mise en place d'une stratégie CI/CD](https://cloud.antoinedelia.fr/fr/posts/2025/how-we-built-a-cicd-strategy-that-onboards-100-python-projects-in-under-a-minute/)). Et bien que Jenkins essayait à tout prix de se distinguer, je suis parti sur ce qui semblait être le plus logique : [GitHub Actions](https://github.com/features/actions).
 
-Les GitHub Actions sont en fait des pipelines CI/CD qui sont définies directement dans votre repository GitHub. Le gros avantage, est que vous n'avez pas besoin de créer un compte supplémentaire. En plus de ça, GitHub Actions utilise une syntaxe YAML très facile à comprendre (contrairement à Jenkins et son groovy des enfers !).
+Les GitHub Actions sont en fait des pipelines CI/CD qui sont définies directement dans votre repository GitHub. Le gros avantage, est que vous n'avez pas besoin de créer un compte supplémentaire ou d'installer quoi que ce soit, tout est inclus ! En plus de ça, GitHub Actions utilise une syntaxe YAML très facile à comprendre (contrairement à Jenkins et son groovy des enfers !).
 
 C'est donc assez facilement que j'ai pû créer une pipeline qui me reconfigure Terraform si mon infrastructure a été modifiée, et qui me build et deploy automatiquement mon blog sur mon bucket S3 en cas de modifications ou ajout d'un article.
 
 Toutes les steps de la pipeline sont au vert, mission accomplie !
 
-# L'état actuel des choses
+# Côté technique : L'état actuel des choses
 
 Mon blog est désormais automatisé et se déploie sur AWS automatiquement !
 
-Si vous voulez voir en détails, tout est publique sur mon repository GitHub : https://github.com/antoinedelia/cloud-optimist
+Si vous voulez plonger directement dedans, tout est publique sur mon repository GitHub : https://github.com/antoinedelia/cloud-optimist
 
 Mais laissez-moi détailler un peu tout ça.
 
@@ -202,7 +202,7 @@ Cette première étape est cruciale si vous voulez accélérer vos temps de CI/C
 
 Je me sers de l'actions [`dorny/paths-filter`](https://github.com/dorny/paths-filter) qui me permet de détecter quels fichiers ont été modifiés lors du dernier commit. Dans mon cas, je regarde en particulier les dossiers `cloud` et `terraform`. Ainsi, si je ne détecte pas de changements côté Terraform, aucun besoin de lancer l'étape qui va reconfigurer mon infrastructure. Idem, si le dossier `cloud` est intact, inutile de build et deploy le blog. Cela vous sauvera quelques centimes liés au coût de transfert de fichiers vers AWS (pas la peine de me remercier !).
 
-La section suivante parle d'elle même. Je viens récupérer le contenu de mon repository et m'assure de mettre à jour les submodules. Cette dernière étape me servait du temps où j'utilisais les submodules pour mes thèmes Hugo. J'utilise désormais les [Hugo Modules](https://gohugo.io/hugo-modules/use-modules/), et je pourrais donc aujourd'hui zapper cette étape.
+La section suivante parle d'elle-même. Je viens récupérer le contenu de mon repository et m'assure de mettre à jour les submodules. Cette dernière étape me servait du temps où j'utilisais les submodules pour mes thèmes Hugo. J'utilise désormais les [Hugo Modules](https://gohugo.io/hugo-modules/use-modules/), et je pourrais donc zapper cette étape.
 
 ```yml
     # Checkout the repository to the GitHub Actions runner
@@ -270,7 +270,7 @@ Reste une dernière étape, et pas des moindres : le `terraform apply -auto-appr
 github.ref == 'refs/heads/master' && github.event_name == 'push'
 ```
 
-Cela me garantit que cette étape ne sera uniquement lancé si l'action est un `push` sur la branch `master`. Ainsi, aucun risque de déploiement innoportun si je décide de travailler sur une autre branch ou sur une Pull Request. Ouf !
+Cela me garantit que cette étape ne sera uniquement lancée si l'action est un `push` sur la branch `master`. Ainsi, aucun risque de déploiement inopportun si je décide de travailler sur une autre branch ou sur une Pull Request. Ouf !
 
 ### Les étapes Hugo et AWS
 
@@ -303,11 +303,11 @@ Comme pour Terraform, nous vérifions si des modifications ont été effectuées
 if: steps.filter.outputs.web == 'true'
 ```
 
-Ensuite, je récupère une version extended d'Hugo directement depuis la release GitHub, ici la version v0.142.0. Je j'installe et build mon site en lançant la commande `hugo`.
+Ensuite, je récupère une version extended d'Hugo directement depuis la release GitHub, ici la version v0.142.0. Je l'installe et build mon site en lançant la commande `hugo`.
 
 > Cette étape pourrait être simplifiée avec l'utilisation de l'actions [`peaceiris/actions-hugo`](https://github.com/peaceiris/actions-hugo)
 
-Enfin, j'utilise l'actions [`jakejarvis/s3-sync-action`](https://github.com/jakejarvis/s3-sync-action) (je me rends compte en écrivant cet article que cette actions a été archivé quelques jours plus tôt, aïe ! -- je rajouterai un edit plus tard pour parler d'une alternative) pour déplacer mon blog vers mon bucket S3.
+Enfin, j'utilise l'actions [`jakejarvis/s3-sync-action`](https://github.com/jakejarvis/s3-sync-action) (je me rends compte en écrivant cet article que cette actions a été archivée quelques jours plus tôt, aïe ! -- je rajouterai un edit plus tard pour parler d'une alternative) pour déplacer mon blog vers mon bucket S3.
 
 Bien sûr, il vous faudra stocker vos credentials au niveau de votre repository GitHub pour autoriser cette opération vers AWS, mais rien de bien sorcier !
 
@@ -315,9 +315,9 @@ Bien sûr, il vous faudra stocker vos credentials au niveau de votre repository 
 
 Concernant la partie Terraform, je vais essayer d'être bref, car il n'y a rien de bien compliqué.
 
-Une particularité dans mon cas, c'est que j'aime séparer mes fichiers `.tf` en fonction des services AWS utilisés, plutôt que d'avoir un unique fichier `main.tf` qui peut vite devenir difficile à lire.
+Une particularité dans mon cas, c'est que j'aime séparer mes fichiers `.tf` en fonction des services AWS utilisés, plutôt que d'avoir un unique fichier `main.tf` qui peut vite devenir difficile à lire. J'ai donc un fichier `s3.tf` pour les ressources liées au service S3, un `cloudfront.tf` pour tout ce qui est lié au service CloudFront, etc.
 
-Un détail important, c'est qu'il est nécessaire de définir à minima la region `us-east-1`, car c'est dans cette region que vous devez créer vos certificats ACM. Pour le reste, toutes mes resources sont créées dans la region `eu-west-1`. J'utilise pour cela les [`alias` Terraform](https://developer.hashicorp.com/terraform/language/providers/configuration#alias-multiple-provider-configurations). Voici un exemple de comment procéder :
+Un détail important, c'est qu'il est nécessaire de définir à minima la region `us-east-1`, car c'est dans cette region que vous devez créer vos certificats ACM. Pour le reste, toutes mes ressources sont créées dans la region `eu-west-1`. J'utilise pour cela les [`alias` Terraform](https://developer.hashicorp.com/terraform/language/providers/configuration#alias-multiple-provider-configurations). Voici un exemple :
 
 ```terraform
 # La configuration par défaut : les ressources qui commencent par `aws_` utiliseront ce provider
@@ -347,13 +347,13 @@ resource "aws_acm_certificate" "cert" {
 
 Mon blog Hugo se base sur le theme [Stack](https://themes.gohugo.io/themes/hugo-theme-stack/). Il existe d'ailleurs un [template GitHub](https://github.com/CaiJimmy/hugo-theme-stack-starter) qui vous permet en un clic de récupérer le squelette du blog, et de l'adapter selon vos envies, ou de tout simplement vous concentrer directement sur vos articles.
 
-Pas grande chose de plus à dire sur cette partie, si ce n'est que je vous encourage à voir le fonctionnement des [Hugo Modules](https://gohugo.io/hugo-modules/), qui vous évitera de gérer vos thèmes via un submodule (et qui vous simplifiera la vie lors de la mise à jour du thème).
+Pas grande chose de plus à dire sur cette partie, si ce n'est que je vous encourage à voir le fonctionnement des [Hugo Modules](https://gohugo.io/hugo-modules/), ce qui vous évitera de gérer vos thèmes via un submodule (et qui vous simplifiera la vie lors de la mise à jour du thème).
 
 # Pistes d'améliorations
 
 Bien que je sois très satisfait du résultat final, j'ai noté quelques points qui pourraient être améliorés dans le futur.
 
-D'abord, j'ai vu qu' Hugo dispose d'une commande `deploy` qui est capable de déployer directement un blog sur un bucket S3. Parfait ! Je dois donc creuser le sujet de [Hugo Deploy](https://gohugo.io/hosting-and-deployment/hugo-deploy/).
+D'abord, j'ai vu qu'Hugo dispose d'une commande `deploy` qui est capable de déployer directement un blog sur un bucket S3. Parfait ! Je dois donc creuser le sujet de [Hugo Deploy](https://gohugo.io/hosting-and-deployment/hugo-deploy/).
 
 Enfin, même si l'hébergement dans AWS est peu coûteux (moins de 2$ par mois), il n'en est pas moins gratuit. Or, il serait tout à fait possible d'utiliser les [GitHub Pages](https://pages.github.com/) pour rendre ce blog accessible, et profiter de GitHub comme hébergement (là-dessus, je suis un peu moins emballé, car je ne pourrais plus me la péter avec mes jolis diagrammes AWS...).
 
@@ -363,7 +363,7 @@ Et voilà, vous savez tout !
 
 De mes débuts avec WordPress, qui, bien que pratique, présentait des faiblesses du point de vue backup, maintenance et déploiement.
 
-De mes recherches pour trouver une stack technique parfaite : AWS, Terraform, Hugo et GitHub Actions, tout ça pour permettre un déploiement rapide et à moins de deux dollars par mois !
+De mes recherches pour trouver une stack technique parfaite : AWS, Terraform, Hugo et GitHub Actions, tout ça pour permettre un déploiement rapide et à moindre coût !
 
 Quand je compare avec ce que j'avais à l'époque, je ne suis que trop heureux d'avoir sauté le pas !
 

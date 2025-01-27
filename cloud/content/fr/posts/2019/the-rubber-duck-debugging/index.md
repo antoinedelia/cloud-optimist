@@ -1,6 +1,6 @@
 ---
 title: "La Méthode du Canard en Plastique - pourquoi ça marche ?"
-date: 2022-05-16T22:49:13+02:00
+date: 2019-06-26T22:49:13+02:00
 draft: false
 author: Antoine Delia
 image: duck.jpg

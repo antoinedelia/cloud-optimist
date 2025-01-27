@@ -108,15 +108,17 @@ Autant vous dire que cela ne me plaisait pas du tout, et je comptais bien y rem�
 
 ## Oubliez les copier-coller avec GitHub Actions
 
-My website was now perfect. I could focus on its content, just like I wanted. But there was one last thing that I knew I could enhance: the deployment.
+Comme je le disais juste au-dessus, mon site était fin prêt. La dernière étape qui me manquait concernait le déploiement.
 
-You see, everytime I wanted to create a new post, I had to build my website, and drop the files into my S3 bucket, on my AWS account. For a lazy developer like myself, this was of course, a terrible waste of time and energy.
+Pour l'instant, quand je voulais créer un nouvel article, il me fallait build le site hugo à la main, et déplacer les fichiers générés dans mon bucket S3. Quel terrible gâchis de temps et d'énergie !
 
-So I dived into the magical world of CI/CD pipelines. And despite Jenkins best effort to get noticed, I quickly turned to what seemed the most logical at the time: GitHub Actions.
+J'ai donc creuser le sujet des pipelines CI/CD afin de me rendre la vie plus simple (si le sujet vous intéresse, je vous conseille [mon article sur la mise en place d'une stratégie CI/CD](https://cloud.antoinedelia.fr/fr/posts/2025/how-we-built-a-cicd-strategy-that-onboards-100-python-projects-in-under-a-minute/)). Et bien que Jenkins essayait à tout prix de se distinguer, je suis parti sur ce qui semblait être le plus logique : [GitHub Actions](https://github.com/features/actions).
 
-GitHub Actions are basically CI/CD pipelines that you can define directly in your source code (assuming that you are using GitHub, of course). The main benefit is that you do not need any additional account, and the syntax is pretty straightforward.
+Les GitHub Actions sont en fait des pipelines CI/CD qui sont définies directement dans votre repository GitHub. Le gros avantage, est que vous n'avez pas besoin de créer un compte supplémentaire. En plus de ça, GitHub Actions utilise une syntaxe YAML très facile à comprendre (contrairement à Jenkins et son groovy des enfers !).
 
-So, I setup the pipeline, and everything went green!
+C'est donc assez facilement que j'ai pû créer une pipeline qui me reconfigure Terraform si mon infrastructure a été modifiée, et qui me build et deploy automatiquement mon blog sur mon bucket S3 en cas de modifications ou ajout d'un article.
+
+Toutes les steps de la pipeline sont au vert, mission accomplie !
 
 # L'état actuel des choses
 

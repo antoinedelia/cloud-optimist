@@ -2,7 +2,7 @@
 title: "Comment j'ai automatisé la création de mon blog dans le Cloud"
 date: 2025-01-27T13:30:00+02:00
 author: Antoine Delia
-draft: true
+draft: false
 tags:
     - Terraform
     - CI/CD
@@ -172,7 +172,6 @@ jobs:
     runs-on: ubuntu-latest
     environment: production
 
-    # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
     defaults:
       run:
         shell: bash
@@ -200,7 +199,7 @@ Voyons maintenant la suite :
 
 Cette première étape est cruciale si vous voulez accélérer vos temps de CI/CD ainsi qu'économiser de l'argent.
 
-Je me sers de l'actions [`dorny/paths-filter`](https://github.com/dorny/paths-filter) qui me permet de détecter quels fichiers ont été modifiés lors du dernier commit. Dans mon cas, je regarde en particulier les dossiers `cloud` et `terraform`. Ainsi, si je ne détecte pas de changements côté Terraform, aucun besoin de lancer l'étape qui va reconfigurer mon infrastructure. Idem, si le dossier `cloud` est intact, inutile de build et deploy le blog. Cela vous sauvera quelques centimes liés au coût de transfert de fichiers vers AWS (pas la peine de me remercier !).
+Je me sers de l'actions [dorny/paths-filter](https://github.com/dorny/paths-filter) qui me permet de détecter quels fichiers ont été modifiés lors du dernier commit. Dans mon cas, je regarde en particulier les dossiers `cloud` et `terraform`. Ainsi, si je ne détecte pas de changements côté Terraform, aucun besoin de lancer l'étape qui va reconfigurer mon infrastructure. Idem, si le dossier `cloud` est intact, inutile de build et deploy le blog. Cela vous sauvera quelques centimes liés au coût de transfert de fichiers vers AWS (pas la peine de me remercier !).
 
 La section suivante parle d'elle-même. Je viens récupérer le contenu de mon repository et m'assure de mettre à jour les submodules. Cette dernière étape me servait du temps où j'utilisais les submodules pour mes thèmes Hugo. J'utilise désormais les [Hugo Modules](https://gohugo.io/hugo-modules/use-modules/), et je pourrais donc zapper cette étape.
 
@@ -305,9 +304,9 @@ if: steps.filter.outputs.web == 'true'
 
 Ensuite, je récupère une version extended d'Hugo directement depuis la release GitHub, ici la version v0.142.0. Je l'installe et build mon site en lançant la commande `hugo`.
 
-> Cette étape pourrait être simplifiée avec l'utilisation de l'actions [`peaceiris/actions-hugo`](https://github.com/peaceiris/actions-hugo)
+> Cette étape pourrait être simplifiée avec l'utilisation de l'actions [peaceiris/actions-hugo](https://github.com/peaceiris/actions-hugo)
 
-Enfin, j'utilise l'actions [`jakejarvis/s3-sync-action`](https://github.com/jakejarvis/s3-sync-action) (je me rends compte en écrivant cet article que cette actions a été archivée quelques jours plus tôt, aïe ! -- je rajouterai un edit plus tard pour parler d'une alternative) pour déplacer mon blog vers mon bucket S3.
+Enfin, j'utilise l'actions [jakejarvis/s3-sync-action](https://github.com/jakejarvis/s3-sync-action) (je me rends compte en écrivant cet article que cette actions a été archivée quelques jours plus tôt, aïe ! -- je rajouterai un edit plus tard pour parler d'une alternative) pour déplacer mon blog vers mon bucket S3.
 
 Bien sûr, il vous faudra stocker vos credentials au niveau de votre repository GitHub pour autoriser cette opération vers AWS, mais rien de bien sorcier !
 
@@ -317,7 +316,7 @@ Concernant la partie Terraform, je vais essayer d'être bref, car il n'y a rien 
 
 Une particularité dans mon cas, c'est que j'aime séparer mes fichiers `.tf` en fonction des services AWS utilisés, plutôt que d'avoir un unique fichier `main.tf` qui peut vite devenir difficile à lire. J'ai donc un fichier `s3.tf` pour les ressources liées au service S3, un `cloudfront.tf` pour tout ce qui est lié au service CloudFront, etc.
 
-Un détail important, c'est qu'il est nécessaire de définir à minima la region `us-east-1`, car c'est dans cette region que vous devez créer vos certificats ACM. Pour le reste, toutes mes ressources sont créées dans la region `eu-west-1`. J'utilise pour cela les [`alias` Terraform](https://developer.hashicorp.com/terraform/language/providers/configuration#alias-multiple-provider-configurations). Voici un exemple :
+Un détail important, c'est qu'il est nécessaire de définir à minima la region `us-east-1`, car c'est dans cette region que vous devez créer vos certificats ACM. Pour le reste, toutes mes ressources sont créées dans la region `eu-west-1`. J'utilise pour cela les [alias Terraform](https://developer.hashicorp.com/terraform/language/providers/configuration#alias-multiple-provider-configurations). Voici un exemple :
 
 ```terraform
 # La configuration par défaut : les ressources qui commencent par `aws_` utiliseront ce provider

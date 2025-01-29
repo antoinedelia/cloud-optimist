@@ -24,3 +24,9 @@ lineNoStart = 1
 lineNos = true
 lineNumbersInTable = true
 tabWidth = 4
+
+# This unfortunately shows strange code block, there might be a better way to change the style
+# style = "onedark"
+# # style = "github-dark"
+# codeFences = true
+# noClasses = true

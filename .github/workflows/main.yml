@@ -77,11 +77,15 @@ jobs:
         working-directory: cloud
 
     steps:
-    - name: Hugo Build
+    - name: Setup Hugo
+      uses: peaceiris/actions-hugo@v3
+      with:
+        hugo-version: '0.142.0'
+        extended: true
+
+    - name: Build
       uses: actions/setup-node@v4
       if: steps.filter.outputs.web == 'true'
-    - run: sudo wget https://github.com/gohugoio/hugo/releases/download/v0.142.0/hugo_extended_0.142.0_linux-amd64.deb -O hugo.deb
-    - run: sudo dpkg --install ./hugo.deb
     - run: hugo
 
     - name: Deploy to AWS

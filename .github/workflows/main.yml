@@ -4,16 +4,18 @@ on:
   push:
     branches:
     - master
+    paths: ['cloud/**', 'terraform/**']
   pull_request:
 
 jobs:
-  checkout:
-    name: '[GitHub] Checkout repository'
+  terraform:
+    name: '[Terraform] Plan & Apply'
     runs-on: ubuntu-latest
     environment: production
     defaults:
       run:
         shell: bash
+        working-directory: terraform
 
     steps:
     - uses: actions/checkout@v4
@@ -21,22 +23,9 @@ jobs:
       id: filter
       with:
         filters: |
-          web:
-            - 'cloud/**'
           terraform:
             - 'terraform/**'
-
-  terraform:
-    name: '[Terraform] Plan & Apply'
-    runs-on: ubuntu-latest
-    environment: production
-    needs: checkout
-    defaults:
-      run:
-        shell: bash
-        working-directory: terraform
-
-    steps:
+    
     # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
     - name: Setup Terraform
       if: steps.filter.outputs.terraform == 'true'
@@ -76,6 +65,14 @@ jobs:
         working-directory: cloud
 
     steps:
+    - uses: actions/checkout@v4
+    - uses: dorny/paths-filter@v3
+      id: filter
+      with:
+        filters: |
+          web:
+            - 'cloud/**'
+
     - name: Setup Hugo
       uses: peaceiris/actions-hugo@v3
       with:

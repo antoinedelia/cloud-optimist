@@ -84,9 +84,8 @@ jobs:
         extended: true
 
     - name: Build
-      uses: actions/setup-node@v4
       if: steps.filter.outputs.web == 'true'
-    - run: hugo
+      run: hugo
 
     - name: Deploy to AWS
       uses: jakejarvis/s3-sync-action@master

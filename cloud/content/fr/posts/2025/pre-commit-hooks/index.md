@@ -42,4 +42,92 @@ En creusant un petit peu, Bob se rend compte qu'il existe un framework pour mana
 
 ## Les pre-commit hooks en action
 
+### Installation et théorie
+
 Ni une ni deux, Bob lit la documentation (comme nous devrions tous le faire lorsque nous découvrons un nouvel outil), et décide de se lancer !
+
+La première chose à faire, eh bien, c'est de l'installer !
+
+```sh
+pip install pre-commit
+```
+
+Pour être sûr que tout s'est bien passé, un `pre-commit --version` ne mange pas de pain.
+
+Ensuite, il va falloir créer un fichier propre à pre-commit, pour lui indiquer quels hooks il doit utiliser. Bob crée donc le fichier `.pre-commit-config.yaml` à la racine de son projet.
+
+> [!NOTE]
+>
+> Ce fichier ne doit pas être ajouté à votre `.gitignore`. Au contraire, le rajouter dans votre projet permettra aux futurs développeurs d'en profiter !
+
+C'est maintenant que ça devient intéressant ! Bob va pouvoir, dans ce fichier, spécifié les hooks qui l'intéressent en suivant la structure suivante :
+
+```yaml
+repos:
+-   repo: L'URL du repo qui contient des pre-commit hooks
+    rev: La version à utiliser
+    hooks:
+    -   id: Une liste de hook
+-   repo: ...
+    rev: ...
+    hooks:
+    -   id: ...
+```
+
+Tout ça, c'est bien beau, mais comment savoir quels hooks sont disponibles ? Heureusement, une [liste non-exhaustive de repos](https://pre-commit.com/hooks.html) est présente sur le site du projet, et vous permettra de choisir parmi les dizaines de repos existants.
+
+Dans le cas de Bob, il voudrait rajouter dans son projet Python, un hook pour lui permettre de lancer `ruff format` et `ruff check` à chaque commit. Il aura donc le fichier `.pre-commit-config.yaml` suivant :
+
+```yaml
+repos:
+- repo: https://github.com/astral-sh/ruff-pre-commit
+  # Ruff version.
+  rev: v0.9.6
+  hooks:
+    # Run the linter.
+    - id: ruff
+    # Run the formatter.
+    - id: ruff-format
+```
+
+> [!NOTE]
+>
+> Je prends le cas de Python dans cet exemple, mais vous avez des hooks pour des projets utilisant des fichiers Terraform, shell, sql, et bien d'autres !
+
+Tout cela est bien beau, mais il ne se passe pour l'instant pas grand chose. En effet, après avoir listé ces hooks, il va falloir les installer.
+
+```sh
+pre-commit install
+```
+
+> [!NOTE]
+>
+> La best practice à retenir est de toujours lancer la commande `pre-commit install` après avoir cloné un nouveau repository
+
+Dès à présent, Bob peut lancer un nouveau commit, et `pre-commit` lancera automatiquement ces nouveaux hooks !
+
+### Mise en pratique
+
+> [!IMPORTANT]
+>
+> Cette section par du principe que Bob a un fichier `pyproject.toml` existant et configuré pour Ruff.
+
+Bob a maintenant ses pre-commit hooks installés dans son projet. Il décide alors de les mettre à l'épreuve. Il se focalise alors sur le bout de code suivant :
+
+```python
+TODO
+```
+
+Bob doit rajouter une fonction pour ne plus utiliser des valeurs hardcodées, mais les récupérer via un fichier texte. Ni une ni deux, Bob se retrousse les manches et modifie le code de la manière suivante :
+
+```python
+TODO
+```
+
+Tout semble bon pour Bob. Machinallement, il lance un `git add .` suivi d'un `git commit -m "done"` (oui, Bob n'est pas très fort pour les messages de commit), et s'attend à ce que son code puisse être push sur GitHub.
+
+Mais quelle surprise ! Bob se retrouve nez à nez avec un beau warning : "TODO".
+
+## Créer votre propre hook
+
+TODO

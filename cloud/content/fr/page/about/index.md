@@ -10,12 +10,24 @@ menu:
             icon: user
 ---
 
-Je m'appelle Antoine Delia, et j'adore automatiser des choses !
+Je m'appelle Antoine Delia et je suis Cloud & DevOps Engineer.
 
-J'ai commencé ma carrière en tant qu'ingénieur Full-Stack, ce qui m'a permis d'apprendre de nombreuses choses liées au développement de sites web.
+Sur ce blog, j'ai envie de parler de nombreux sujets liés au Cloud et à la culture DevOps. Ce sont des sujets qui me passionnent, et j'aime pouvoir transmettre mes connaissances avec une touche de légèreté, voire d'humour.
 
-Par la suite, je suis devenu Cloud Engineer, où j'ai découvert le merveilleux monde du Cloud, principalement AWS.
+J'espère que cela vous plaira !
 
-Aujourd'hui, je suis spécialiste en technologies d'automatisation, et j'aide à donner vie aux sujets de connectivité grâce à l'automatisation.
+---
 
-Sur ce blog, j'ai envie de parler de nombreux sujets liés au Cloud et à la culture DevOps. J'espère que cela vous plaira !
+Compétences :
+- Cloud (AWS)
+- Infrastructure as Code (Terraform / Serverless Framework / CloudFormation)
+- Scripting (Python, Bash)
+- CI/CD (GitHub Actions, Jenkins)
+
+Projets et réalisations :
+- The Cloud Optimist (le blog sur lequel vous vous trouvez) : blog Hugo déployé via GitHub Actions sur AWS, infra managée par Terraform
+- Introduction au Serverless : séminaire virtuel (https://www.youtube.com/watch?v=nCGTWbUsfN4)
+- 3 certifications AWS (Architect Associate / Developer Associate / Cloud Practitioner)
+- 1800+ points sur [StackOverflow](https://stackoverflow.com/users/4141606/antoine-delia?tab=profile)
+- Marathon de Toulouse 2024 couru en 04:33:08
+- TOEIC (965/990)

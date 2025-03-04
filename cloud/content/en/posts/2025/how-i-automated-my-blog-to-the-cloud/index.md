@@ -1,6 +1,6 @@
 ---
 title: "How I Automated My Blog To The Cloud"
-date: 2025-01-27T13:30:00+02:00
+date: 2025-03-04T07:30:00+01:00
 author: Antoine Delia
 draft: false
 tags:

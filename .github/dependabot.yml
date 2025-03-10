@@ -9,6 +9,10 @@ updates:
     directory: "terraform/" # Location of package manifests
     schedule:
       interval: "weekly"
+    groups:
+      terraform-updates:
+        patterns:
+          - "*"
   - package-ecosystem: "gomod" # See documentation for possible values
     directory: "cloud/" # Location of package manifests
     schedule:

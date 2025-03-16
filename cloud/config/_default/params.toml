@@ -65,3 +65,22 @@ enabled = true
 
 [imageProcessing.content]
 enabled = true
+
+## Comments
+[comments]
+enabled = true
+provider = "giscus"
+
+[comments.giscus]
+repo = "antoinedelia/cloud-optimist"
+repoID = "R_kgDOHWH-Zg"
+category = "Comments"
+categoryID = "DIC_kwDOHWH-Zs4CoHBh"
+mapping = "pathname"
+strict = 0
+reactionsEnabled = 1
+emitMetadata = 1
+inputPosition = "top"
+lightTheme = ""
+darkTheme = ""
+lang = "en"

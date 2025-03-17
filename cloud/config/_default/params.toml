@@ -81,7 +81,4 @@ strict = 0
 reactionsEnabled = 1
 emitMetadata = 1
 inputPosition = "top"
-lightTheme = ""
-darkTheme = ""
-# Commenting this will use the default language
-# lang = "en"
+lang = "en"

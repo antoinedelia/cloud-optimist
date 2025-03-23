@@ -65,6 +65,8 @@ Avez-vous repéré les facteurs clés ?
 Ne pas dire tu mais on quand il s'agit de la codebase
 Demander l'avis du dev, car des fois on croit savoir alors que non
 
+Enfin, je veux attirer votre attention sur le fait qu'à la fin, le reviewer à le dernier mot sur le code qui doit être livré. Ainsi, malgré toute la bienveillance du monde, si vous devez absolument changer un bout de code pour respecter les guidelines de votre entreprise, il vous faudra les appliquer, même si le développeur va à l'encontre de cette décision. À vous de communiquer sur ces contraintes efficacement afin de ne pas créer de frustration ou de suprises au dernier moment.
+
 À l'inverse, en tant que développeur, vous allez devoir mettre votre égo de côté, et admettre la possibilité que la première version de votre code n'était pas la meilleure qui soit. Et ce n'est pas grave. 
 
 ## Not a way to micro-manage, but to ensure four-eye review

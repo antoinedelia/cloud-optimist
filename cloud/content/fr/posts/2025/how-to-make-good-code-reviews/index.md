@@ -193,11 +193,26 @@ jobs:
             args: "check"
 ```
 
+## Keep it short! Otherwise review will not be done
+
+Quand on est reviewer, il y a une vision que l'on déteste avoir.
+
+![Trop de changements dans une Pull Request](/img/how-to-make-good-code-reviews/too-many-changes.png)
+
+> _Image honteusement dérobée : https://github.com/github/VisualStudio/issues/1301#issuecomment-342659205_
+
+En effet, faire une revue de code, ça prend du temps.
+
+Le reviewer doit se remettre dans le contexte du projet, comprendre quel est le but de la Pull Request, avant de finalement lire et comprendre le code soumis par le développeur. Tant d'étapes qui peuvent ralentir la mise en production d'une nouvelle feature.
+
+Ainsi, plus les changements sont courts et simples, plus il sera facile pour le reviewer de valider ces changements.
+
+Bien sûr, il y a des cas où cela n'est pas possible. Prenons un refactoring du code. Des fichiers vont surement être supprimés, déplacés, modifiés, etc. Et il ne sera alors pas possible de faire une revue simple. Dans ce cas-là, je conseille de créer une branche dédiée à ce refactoring, et de continuer à créer des Pull Requests simples vers cette nouvelle branche. Ainsi, le reviewer peut continuer d'approuver des changements réduits, tout en laissant le développeur avancer. Ce n'est qu'à la fin qu'il faudra passer en revue la branche de refactoring vers la branche principale. Mais si tout s'est bien passé, vous avez normalement déjà approuvé chaque changement, donc vous pourrez approuver sans peine la Pull Request finale !
+
 ## Use your tools to their full extent! (i.e: github suggestions)
 
 ## Anyone should be able to review, but you need codeowners
 
-## Keep it short! Otherwise review will not be done
 
 
 # Références

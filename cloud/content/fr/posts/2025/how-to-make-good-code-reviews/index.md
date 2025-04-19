@@ -67,21 +67,135 @@ Demander l'avis du dev, car des fois on croit savoir alors que non
 
 Enfin, je veux attirer votre attention sur le fait qu'à la fin, le reviewer à le dernier mot sur le code qui doit être livré. Ainsi, malgré toute la bienveillance du monde, si vous devez absolument changer un bout de code pour respecter les guidelines de votre entreprise, il vous faudra les appliquer, même si le développeur va à l'encontre de cette décision. À vous de communiquer sur ces contraintes efficacement afin de ne pas créer de frustration ou de suprises au dernier moment.
 
-À l'inverse, en tant que développeur, vous allez devoir mettre votre égo de côté, et admettre la possibilité que la première version de votre code n'était pas la meilleure qui soit. Et ce n'est pas grave. 
+À l'inverse, en tant que développeur, vous allez devoir mettre votre égo de côté, et admettre la possibilité que la première version de votre code n'était pas la meilleure qui soit. Et ce n'est pas grave. Il nous est tous déjà arrivé de passer beaucoup trop de temps sur un problème, jusqu'à ne plus être parfaitement lucide. Et dans ces moments-là, il n'est pas rare de faire des oublis, ou de s'emmêler les pinceaux. Profitez donc du fait que vous allez avoir un co-équipier qui sera là pour vous aider à terminer le boulot.
 
-## Not a way to micro-manage, but to ensure four-eye review
+On parle souvent du four-eye review. Mais n'oubliez pas que vous êtes dans la même équipe.
 
 ## Way to learn new things about your coding language/best practices
 
-## Anyone should be able to review, but you need codeowners
+Une chose dont on parle peu, c'est que les code reviews sont l'endroit parfait pour se former !
 
-## CI/CD for code linting/formatting should be in place, and be used as a third-party review
+En effet, avec nos habitudes, nous avons tendance à répéter ce que nous savons faire. Et c'est tout à fait normal ! Quand on maitrise quelque chose, on est à l'aise avec, et on est rapide. Pourquoi s'enbêter avec le reste ?
+
+Et c'est là que la force du reviewer va intervenir. Celui-ci, de par ses connaissances ou grâce au nombre de reviews qu'il aura faite, reconnaitra facilement s'il existe une meilleure façon de faire les choses.
+
+Prenons un exemple simple.
+
+```python
+i = 0
+for item in items:
+    print(i, item)
+    i += 1
+```
+
+Ici, le développeur souhaite itérer sur une liste d'`items`. En plus de cela, il aimerait pouvoir savoir où il en est dans sa boucle. Il ajoute donc une variable `i` qui gardera le compte.
+
+Alors, si vous étiez reviewer, que proposeriez-vous ? Si je vous demande ça, c'est parce que pendant longtemps, c'est typiquement le genre de code que je pouvais écrire. Et personne ne m'a jamais indiqué qu'il existait un moyen simple et natif de faire ça !
+
+```python
+for i, item in enumerate(items):
+    print(i, item)
+```
+
+Et oui, Python a tout prévu, et possède une fonction `enumerate` qui permet de résoudre le problème initial !
+
+C'est exactement ce que les Code Reviews peuvent vous apporter en tant que développeur : de nouvelles connaissances qui vous permettront d'être encore plus rapide et performant que vous ne l'êtes déjà, alors pourquoi s'en priver ?
 
 ## Comment the why, as you'll forget it in a month
 
-## Variable/class/function naming
+Vous avez peut-être déjà entendu le commentaire suivant : "ce code est nul, il n'est même pas commenté !". Ça vous dit quelque chose ?
+
+Pendant mes études, on nous rabachait que les commentaires dans le code était obligatoire, qu'il fallait tout commenter, au risque de ne plus rien comprendre !
+
+Aujourd'hui, je peux dire avec conviction que je suis à l'opposé de cette recommendation.
+
+Pourquoi ? Parce qu'à force de nous forcer à écrire des commentaires, voilà ce que l'on obtient :
+
+```python
+# On créer une variable vide
+cel = None
+# On récupère un input de l'utilisateur
+cel = input()
+# On multiplie par 9
+fahr = cel * 9
+# On divise par 5
+fahr = fahr / 5
+# On ajoute 32
+fahr = fahr + 32
+
+# Enfin, on affiche le résultat
+print(fahr - 2)
+```
+
+Wow, super. Une marre de commentaires qui ne servent à rien et qui polluent l'écran. Le code de base n'est déjà pas clair, mais les commentaires n'y apportent rien : vous pourriez les enlever qu'on comprendrait encore le code.
+
+En effet, les commentaires ne sont pas là poue explique ce que vous faites, mais _pourquoi_ vous le faites.
+
+Reprenons l'exemple plus haut et améliorons-le avec des noms de variables qui font sens.
+
+```python
+def celsius_to_fahrenheit(celsius: int) -> int:
+    return (celsius * 9 / 5) + 32
+
+temperature_in_celsius = input()
+temperature_in_fahrenheit = celsius_to_fahrenheit(temperature_in_celsius)
+
+print(temperature_in_fahrenheit - 2)
+```
+
+C'est déjà plus clair n'est-ce pas ? Pas besoin de commentaires pour comprendre ce qui se passe ici.
+
+> D'accord, mais que vient faire ce `- 2` dans le résultat final ?
+
+Ah ! En voilà une bonne question ! Effectivement, pourquoi faisons-nous ceci ? Il doit y avoir une raison, mais laquelle ? C'est là qu'un commentaire bien senti pourra faire la différence !
+
+```python
+def celsius_to_fahrenheit(celsius: int) -> int:
+    return (celsius * 9 / 5) + 32
+
+temperature_in_celsius = input()
+temperature_in_fahrenheit = celsius_to_fahrenheit(temperature_in_celsius)
+
+# On enlève 2 degrés, car un ventilateur est braqué sur nous,
+# donc la température ressentie est un peu plus basse
+print(temperature_in_fahrenheit - 2)
+```
+
+Bon, je ne vous cache pas que c'est un exemple un peu tiré par les cheveux... Mais au moins, on comprend d'où sort cette soustraction ! Et quand vous, ou quelqu'un d'autre, relira ce code dans 2 ans, il saura que cette soustraction est nécessaire. Ainsi, aucun risque de penser que c'est une coquille et de la supprimer, ce qui pourrait au final casser votre logique !
+
+Et je vous assure que des cas comme ça, où l'on se demande plus tard : "Bon sang, mais pourquoi ce développeur a fait ça ???", il y en a un paquet !
+
+Pensez donc à la pauvra âme qui devra passer après vous sur votre code, et préparez le terrain au mieux ! Elle vous en remerciera.
+
+## CI/CD for code linting/formatting should be in place, and be used as a third-party review
+
+Il n'y a rien de plus pénible lorsqu'on review un code, et que les seules remarques se situent au niveau de la "propreté" du code. Un saut de ligne en trop, un espace qui manque, des single-quotes ('') au lieu de double-quotes (""), des petits détails qui ne changent rien au code, mais qui vont vous énerver, vous et le développeur à qui vous allez remonter le souci.
+
+C'est pourquoi, il est crucial de pouvoir se débarasser de ce fardeau au plus tôt. Et quoi de mieux qu'une bonne pipeline CI/CD pour faire le job à votre place ! Et avec tous les outils que l'on a aujourd'hui, plus d'excuses pour ne pas avoir ça en place.
+
+Allez, je suis sympa, je vous offre une GitHub Actions toute simple pour commencer à vous y mettre.
+
+```yaml
+name: Ruff
+on: [ push, pull_request ]
+jobs:
+  ruff:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/ruff-action@v3
+        with:
+            args: "format --check --diff"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/ruff-action@v3
+        with:
+            args: "check"
+```
 
 ## Use your tools to their full extent! (i.e: github suggestions)
+
+## Anyone should be able to review, but you need codeowners
 
 ## Keep it short! Otherwise review will not be done
 

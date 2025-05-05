@@ -230,3 +230,5 @@ Même si l'impact financier sera probablement faible pour beaucoup, c'est une ex
 N'attendez pas le mois d'août ! Utilisez la requête Logs Insights fournie pour avoir une estimation de l'impact dès maintenant. Cela vous permettra d'identifier les fonctions à optimiser en priorité et d'éviter toute mauvaise surprise sur votre facture AWS.
 
 Alors, prêts à jeter un œil à vos logs et à optimiser vos phases `INIT` ? Happy optimizing !
+
+[Source](https://aws.amazon.com/blogs/compute/aws-lambda-standardizes-billing-for-init-phase/)

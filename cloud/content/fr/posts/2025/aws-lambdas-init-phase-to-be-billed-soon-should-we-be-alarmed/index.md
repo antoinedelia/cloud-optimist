@@ -8,16 +8,16 @@ tags:
 categories: [ AWS ]
 image: lambda-init-billing.jpeg
 ---
-Si comme moi vous utilisez AWS Lambda pour héberger une partie de vos applications ou de vos APIs, vous savez à quel point ce service peut être pratique et économique. On configure notre fonction, on pousse notre code, et hop, ça tourne sans qu'on ait à se soucier des serveurs ! Mais attention, une petite ligne sur votre facture AWS pourrait bientôt changer, et il vaut mieux être au courant.
+# Introduction
+Ah, les Lambdas. Probablement le service AWS que j'affectionne le plus ! En moins de temps qu'il ne faut pour le dire, elles permettent de créer un petit script ou carrément un backend API hosté dans le Cloud, et tout cela à moindre coût avec le "pay as you go". Mais cela serait-il trop beau pour être vrai ?
 
-AWS a annoncé une modification dans la manière dont la phase d'initialisation (la fameuse phase `INIT`) des fonctions Lambda est facturée. **À partir du 1er août 2025**, cette phase sera systématiquement incluse dans le calcul de la durée facturée, et ce, pour *toutes* les configurations de fonctions Lambda.
+Il y a quelques jours, AWS a annoncé une modification dans la manière dont la phase d'initialisation (la fameuse phase `INIT`) des fonctions Lambda est facturée. **À partir du 1er août 2025**, cette phase sera systématiquement incluse dans le calcul de la durée facturée, et ce, pour *toutes* les Lambdas.
 
-Jusqu'à présent, si vous utilisiez des fonctions "on-demand" packagées en ZIP avec des runtimes managés par AWS (comme Python, Node.js, etc.), la durée de cette phase `INIT` n'était pas facturée. C'était un petit "cadeau" qui va donc disparaître. Ce changement vise à standardiser la facturation, car les fonctions utilisant des runtimes custom, la Concurrence Provisionnée (Provisioned Concurrency) ou des images conteneur (OCI) voyaient déjà cette phase `INIT` facturée.
+Si vous n'étiez pas au courant, sachez que jusqu'à présent, si vous utilisiez des fonctions Lambdas avec des runtimes managés par AWS (comme Python, Node.js, etc.), la durée de cette phase `INIT` n'était pas facturée. C'était un petit "cadeau" de la part d'AWS (plutôt sympa de leur part). Mais toutes les bonnes choses ont une fin, et il faudra maintenant payer ce temps d'initialisation de nos Lambdas.
 
-AWS précise que pour la plupart des utilisateurs, l'impact sur la facture globale sera minime, car la phase `INIT` ne se produit que lors des "démarrages à froid" (cold starts), qui représentent généralement une petite fraction des invocations totales. Mais comme on dit, "mieux vaut prévenir que guérir" ! Dans cet article, on va décortiquer ce changement, voir comment vérifier l'impact sur vos propres fonctions et explorer des pistes pour optimiser tout ça.
+Alors, cela va t'il rendre l'usage des Lambdas trop cher ? Et comment faire en sorte de réduire au maximum cette partie d'initialisation ? Je vous propose aujourd'hui de répondre à toutes ces questions !
 
-
-### **Comprendre le Cycle de Vie d'une Fonction Lambda**
+## Comprendre le Cycle de Vie d'une Fonction Lambda
 
 Avant de plonger dans la facturation, rappelons rapidement comment vit une fonction Lambda. Son cycle de vie se compose de trois phases principales :
 

@@ -19,36 +19,34 @@ Alors, cela va t'il rendre l'usage des Lambdas trop cher ? Et comment faire en s
 
 ## Comprendre le Cycle de Vie d'une Fonction Lambda
 
-Avant de plonger dans la facturation, rappelons rapidement comment vit une fonction Lambda. Son cycle de vie se compose de trois phases principales :
+Avant de plonger dans la facturation, c'est l'occasion de se rappeler du [cycle de vie d'une Lambda](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtime-environment.html).
 
+> [!NOTE]
+>
+> Pour simplifier la lecture, je ne rentrerai pas dans les détails des [Lambda Extensions](https://docs.aws.amazon.com/lambda/latest/dg/lambda-extensions.html) et de [Lambda SnapStart](https://docs.aws.amazon.com/lambda/latest/dg/snapstart.html).
 
+Cela se compose de trois phases principales :
+1. **INIT :** C'est l'étape du "démarrage à froid" ou cold start. Quand une nouvelle instance de votre fonction doit être créée pour répondre à une requête, Lambda prépare le terrain. Cette phase dure au maximum 10 secondes.
+2. **INVOKE :** C'est là que votre code (le handler de votre fonction) est exécuté pour traiter la requête.
+3. **SHUTDOWN :** Quand l'environnement d'exécution n'est plus utilisé pendant un certain temps, la Lambda se "shutdown" pour libérer les ressources. Si une nouvelle requête arrive, la Lambda devra de nouveau passer par la phase d'INIT.
 
-1. **INIT (Initialisation) :** C'est l'étape du "démarrage à froid". Quand une nouvelle instance (un nouvel environnement d'exécution) de votre fonction doit être créée pour répondre à une requête, Lambda prépare le terrain. Cette phase dure au maximum 10 secondes.
-2. **INVOKE (Invocation) :** C'est là que votre code métier (le handler de votre fonction) est exécuté pour traiter la requête.
-3. **SHUTDOWN (Arrêt) :** Quand l'environnement d'exécution n'est plus utilisé pendant un certain temps, Lambda peut le terminer pour libérer les ressources.
-
-Pendant la phase `INIT`, Lambda fait plusieurs choses :
-
-
-
-* Récupère votre code (depuis S3 pour un ZIP, ou ECR pour une image conteneur).
+Pendant la phase `INIT`, [notre Lambda fait plusieurs choses](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtime-environment.html#runtimes-lifecycle-ib) :
+* Récupère notre code (depuis S3 pour un ZIP, ou ECR pour une image Docker).
 * Configure l'environnement avec la mémoire allouée, le runtime choisi, etc.
-* Initialise les extensions éventuelles (`Extension INIT`).
 * Démarre le runtime (`Runtime INIT`).
-* Exécute le code statique de votre fonction (en dehors du handler, par exemple l'initialisation de variables globales ou de clients SDK) (`Function INIT`).
-* Lance les "runtime hooks" avant checkpoint (si vous utilisez Lambda SnapStart).
+* Exécute le code statique de votre fonction (tout ce qui est en dehors du handler, par exemple l'initialisation de variables globales ou de `boto3`) (`Function INIT`).
 
-Un point clé : la phase `INIT` ne se produit que lors d'un démarrage *à froid*. Si une requête arrive alors qu'un environnement d'exécution est déjà "chaud" (prêt et réutilisé), cette phase est sautée, et on passe directement à l'`INVOKE`. C'est ce qu'on appelle un "démarrage à chaud" (warm start), qui est bien plus rapide.
+Le point clé à retenir de tout cela, c'est que la phase `INIT` ne se produit que lors d'un démarrage *à froid* (ce fameux cold start). Si une requête arrive alors qu'un environnement d'exécution est déjà "chaud" (prêt et réutilisé), cette phase est sautée, et on passe directement à l'`INVOKE`. C'est ce qu'on appelle un "démarrage à chaud" (warm start), qui est bien plus rapide.
 
+> [!NOTE]
+>
+> AWS ne communique pas sur son calcul pour passer une Lambda "warm" à "cold".
 
-### **Le Changement de Facturation en Détail**
+# Le Changement de Facturation en Détail
 
-Actuellement, la facturation Lambda repose sur deux éléments :
-
-
-
+Actuellement, [la facturation des Lambdas](https://aws.amazon.com/lambda/pricing/) repose sur deux éléments :
 * Le nombre de requêtes.
-* La durée d'exécution de votre code, arrondie à la milliseconde supérieure. Le coût de cette durée dépend de la mémoire allouée à la fonction.
+* La durée d'exécution de votre code, arrondie à la milliseconde supérieure (le coût de cette durée dépend de la mémoire allouée à la fonction).
 
 Jusqu'au 1er août 2025, pour les fonctions on-demand en ZIP avec runtime managé, la durée de la phase `INIT` n'était pas comptée dans la "Durée Facturée" (`Billed Duration`). On pouvait le voir dans les logs CloudWatch :
 

@@ -17,12 +17,10 @@ Si vous n'étiez pas au courant, sachez que jusqu'à présent, si vous utilisiez
 
 Alors, cela va t'il rendre l'usage des Lambdas trop cher ? Et comment faire en sorte de réduire au maximum cette partie d'initialisation ? Je vous propose aujourd'hui de répondre à toutes ces questions !
 
-## Comprendre le Cycle de Vie d'une Fonction Lambda
+# Comprendre le cycle de vie d'une Lambda
 
 Avant de plonger dans la facturation, c'est l'occasion de se rappeler du [cycle de vie d'une Lambda](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtime-environment.html).
 
-> [!NOTE]
->
 > Pour simplifier la lecture, je ne rentrerai pas dans les détails des [Lambda Extensions](https://docs.aws.amazon.com/lambda/latest/dg/lambda-extensions.html) et de [Lambda SnapStart](https://docs.aws.amazon.com/lambda/latest/dg/snapstart.html).
 
 Cela se compose de trois phases principales :
@@ -38,11 +36,9 @@ Pendant la phase `INIT`, [notre Lambda fait plusieurs choses](https://docs.aws.a
 
 Le point clé à retenir de tout cela, c'est que la phase `INIT` ne se produit que lors d'un démarrage *à froid* (ce fameux cold start). Si une requête arrive alors qu'un environnement d'exécution est déjà "chaud" (prêt et réutilisé), cette phase est sautée, et on passe directement à l'`INVOKE`. C'est ce qu'on appelle un "démarrage à chaud" (warm start), qui est bien plus rapide.
 
-> [!NOTE]
->
 > AWS ne communique pas sur son calcul pour passer une Lambda "warm" à "cold".
 
-# Le Changement de Facturation en Détail
+# Le changement de facturation en détail
 
 Actuellement, [la facturation des Lambdas](https://aws.amazon.com/lambda/pricing/) repose sur deux éléments :
 * Le nombre de requêtes.
@@ -51,24 +47,30 @@ Actuellement, [la facturation des Lambdas](https://aws.amazon.com/lambda/pricing
 Jusqu'au 1er août 2025, pour ces fonctions en ZIP avec runtime managé, la durée de la phase `INIT` n'était pas comptée dans la "Durée Facturée" (`Billed Duration`). On pouvait le voir dans les logs CloudWatch :
 
 ```
-# Avant le 1er août 2025 (notez que la Billed Duration est l'arrondie au supérieur de la Duration, sans tenir compte de la Init Duration)
+# Avant le 1er août 2025
+# Notez que la Billed Duration est l'arrondie au supérieur
+# de la Duration sans tenir compte de la Init Duration
 REPORT RequestId: xxxxx   Duration: 250.06 ms   Billed Duration: 251 ms   Init Duration: 100.77 ms
 
-# Après le 1er août 2025 (la Billed Duration est maintenant l'arrondie au supérieur de la Duration + la Init Duration)
+# Après le 1er août 2025
+# La Billed Duration est maintenant l'arrondie au supérieur
+# de la Duration + la Init Duration
 REPORT RequestId: xxxxx   Duration: 250.06 ms   Billed Duration: 351 ms   Init Duration: 100.77 ms
 ```
 
-# Quel Impact Concret sur la Facture ?
+Comme vous pouvez le voir, AWS prendra maintenant en compte votre Init Duration en plus de la Duration pour réaliser son calcul de la Billed Duration.
 
-Prenons un exemple pour y voir plus clair. Imaginons une fonction Lambda en Python (runtime managé, package ZIP) configurée avec 1024 Mo de mémoire, déployée dans la région `eu-west-1` (Irlande).
+# Quel impact sur la facture ?
 
-Supposons :
-* Elle reçoit 10 millions d'invocations par mois.
-* Le taux de démarrage à froid est de 1% (ce qui est assez typique selon AWS), soit 100 000 démarrages à froid par mois.
+Alors tout ça, c'est bien beau, mais allons-nous tous finir ruiner par ce changement ?
+
+Prenons un exemple pour y voir plus clair. Imaginons une Lambda en Python configurée avec 1024 Mo de mémoire, déployée dans la région `eu-west-1` (Irlande).
+
+Supposons les points suivants :
+* La Lambda reçoit 10 millions d'invocations par mois.
+* Le taux de cold start est de 1% ([moyenne fournie par AWS](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtime-environment.html#cold-start-latency)), soit 100'000 démarrages à froid par mois.
 * La durée moyenne de l'invocation (`Duration`) est de 250 ms.
-* La durée moyenne de l'initialisation (`Init Duration`) est de 100 ms (lors des démarrages à froid).
-
-Utilisons les tarifs de `eu-west-1` (peuvent varier légèrement) :
+* La durée moyenne de l'initialisation (`Init Duration`) est de 100 ms.
 * Coût par requête : $0.20 par million de requêtes.
 * Coût de la durée (x86) : $0.0000166667 par Go-seconde.
 
@@ -103,7 +105,7 @@ Utilisons les tarifs de `eu-west-1` (peuvent varier légèrement) :
 Il est donc judicieux de vérifier vos propres chiffres !
 
 
-# Comment Surveiller Votre Phase INIT et Estimer l'Impact ?
+# Comment surveiller votre phase INIT et estimer l'impact ?
 
 Heureusement, AWS nous donne les outils pour ça :
 
@@ -113,11 +115,8 @@ Heureusement, AWS nous donne les outils pour ça :
 
 ```
 filter @type = "REPORT" and @billedDuration &lt; (@duration + @initDuration)
-
 | stats sum((@memorySize/1000000/1024) * (@billedDuration/1000)) as BilledGBs,
-
 sum((@memorySize/1000000/1024) * ((ceil(@duration + @initDuration) - @billedDuration)/1000)) as UnbilledInitGBs,
-
 (UnbilledInitGBs / (UnbilledInitGBs + BilledGBs)) * 100 as RatioPercent
 ```
 
@@ -129,7 +128,7 @@ Cette requête vous donnera trois informations clés pour les groupes de logs s�
 En utilisant ces outils, vous pouvez identifier les fonctions qui ont les plus longues durées d'`INIT` et évaluer l'impact financier réel du changement pour votre compte.
 
 
-# Comprendre et Optimiser la Phase INIT
+# Comprendre et optimiser la phase INIT
 
 Maintenant qu'on sait que cette phase `INIT` va nous coûter quelques centimes (ou plus !), comment peut-on la maîtriser, voire la réduire ?
 
@@ -150,7 +149,7 @@ Qu'est-ce qui influence la durée de la phase `INIT` ?
 
 Voici quelques stratégies d'optimisation :
 
-## Optimiser la Taille du Package
+## Optimiser la taille du package
 
 C'est souvent le levier le plus simple. Réduisez la taille de votre code :
 * N'incluez que les dépendances strictement nécessaires.
@@ -160,10 +159,9 @@ C'est souvent le levier le plus simple. Réduisez la taille de votre code :
 Moins de code à télécharger = phase `INIT` plus courte = moins de coût et démarrage à froid plus rapide.
 
 
-## Utiliser Stratégiquement la Phase INIT
+## Utiliser stratégiquement la phase INIT
 
 Profitez de cette phase pour pré-calculer ou télécharger des données statiques qui serviront à toutes les invocations suivantes. Par exemple, charger une table de lookup depuis S3 ou DynamoDB une seule fois pendant l'`INIT` plutôt qu'à chaque invocation dans le handler.
-
 
 ## Lambda SnapStart
 
@@ -179,7 +177,6 @@ Si votre application a un trafic prévisible ou si la latence des démarrages à
 Avantage : les requêtes arrivant sur ces instances provisionnées ne subissent *jamais* de démarrage à froid. La phase `INIT` est faite en amont, avant même la première requête. C'est idéal pour les applications sensibles à la latence.
 
 Inconvénient : vous payez pour la durée pendant laquelle ces environnements sont provisionnés, *qu'ils reçoivent des requêtes ou non*. La phase `INIT` est d'ailleurs facturée lors de la pré-initialisation. D'un point de vue coût, la PC est généralement plus intéressante que le mode "on-demand" uniquement si votre fonction a un taux d'utilisation soutenu (AWS mentionne une rentabilité souvent meilleure au-dessus de 60% d'utilisation de la capacité provisionnée).
-
 
 # Conclusion
 

@@ -105,6 +105,9 @@ Il est donc judicieux de vérifier avec vos propres chiffres !
 
 Je vous mets ci-dessous un petit script qui vous permettra de rapidement tester cela de votre côté.
 
+<details>
+  <summary>Script Python</summary>
+
 ```python
 def calculate_lambda_costs(
     total_invocations_per_month: int,
@@ -190,7 +193,10 @@ if __name__ == "__main__":
         print("\nError: Please enter valid numbers.")
     except Exception as e:
         print(f"\nAn unexpected error occurred: {e}")
+
 ```
+
+</details>
 
 # Comment surveiller votre phase INIT et estimer l'impact ?
 
@@ -216,9 +222,9 @@ Plus qu'à lancer cette requête sur vos Lambdas (en utilisant le prefix `/aws/l
 Cette requête vous donne ainsi trois informations clés :
 * `BilledGBs` : Le total de Go-secondes actuellement facturé.
 * `UnbilledInitGBs` : Le total de Go-secondes consommés pendant la phase `INIT` qui n'étaient *pas* facturés auparavant.
-* `Ratio` : Le pourcentage que représentent ces Go-secondes `INIT` non facturés par rapport au total des Go-secondes consommés. Cela vous donne une idée directe de l'augmentation potentielle en pourcentage de votre coût de durée Lambda.
+* `Ratio` : Le pourcentage que représentent ces Go-secondes `INIT` non facturés par rapport au total des Go-secondes consommés.
 
-Dans notre exemple, c'est une **augmentation de 14%** de notre facture qui nous attend ! Selon votre facture actuelle, cela pourrait être non négligeable.
+Dans notre exemple, la part du coût de l'`INI` représente **14%** de notre future facture ! Selon votre facture actuelle, cela pourrait être non négligeable.
 
 # Comprendre et optimiser sa Lambda
 

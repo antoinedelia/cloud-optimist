@@ -124,6 +124,8 @@
 &lt;/ul&gt;
 &lt;p&gt;Il est donc judicieux de vérifier avec vos propres chiffres !&lt;/p&gt;
 &lt;p&gt;Je vous mets ci-dessous un petit script qui vous permettra de rapidement tester cela de votre côté.&lt;/p&gt;
+&lt;details&gt;
+  &lt;summary&gt;Script Python&lt;/summary&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
@@ -298,7 +300,8 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;nb&#34;&gt;print&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;sa&#34;&gt;f&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\n&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;An unexpected error occurred: &lt;/span&gt;&lt;span class=&#34;si&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;e&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h1 id=&#34;comment-surveiller-votre-phase-init-et-estimer-limpact-&#34;&gt;&lt;a href=&#34;#comment-surveiller-votre-phase-init-et-estimer-limpact-&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Comment surveiller votre phase INIT et estimer l&amp;rsquo;impact ?
+&lt;/div&gt;&lt;/details&gt;
+&lt;h1 id=&#34;comment-surveiller-votre-phase-init-et-estimer-limpact-&#34;&gt;&lt;a href=&#34;#comment-surveiller-votre-phase-init-et-estimer-limpact-&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Comment surveiller votre phase INIT et estimer l&amp;rsquo;impact ?
 &lt;/h1&gt;&lt;p&gt;Un script, c&amp;rsquo;est bien, mais si vous avez un paquet de Lambdas à checker, vous risquez de vous épuiser à la tâche.&lt;/p&gt;
 &lt;p&gt;Heureusement, AWS nous donne quelques outils pour vérifier ça efficacement. En effet, comme vu plus haut, chaque Lambda va faire un &lt;code&gt;REPORT&lt;/code&gt; de son &lt;code&gt;Init Duration&lt;/code&gt;. Il nous est donc facile d&amp;rsquo;aggréger tout cela dans &lt;strong&gt;CloudWatch Logs Insights&lt;/strong&gt;. Et cerise sur le gâteau, AWS nous offre même la requête qui va bien.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
@@ -339,9 +342,9 @@
 &lt;ul&gt;
 &lt;li&gt;&lt;code&gt;BilledGBs&lt;/code&gt; : Le total de Go-secondes actuellement facturé.&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;UnbilledInitGBs&lt;/code&gt; : Le total de Go-secondes consommés pendant la phase &lt;code&gt;INIT&lt;/code&gt; qui n&amp;rsquo;étaient &lt;em&gt;pas&lt;/em&gt; facturés auparavant.&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;Ratio&lt;/code&gt; : Le pourcentage que représentent ces Go-secondes &lt;code&gt;INIT&lt;/code&gt; non facturés par rapport au total des Go-secondes consommés. Cela vous donne une idée directe de l&amp;rsquo;augmentation potentielle en pourcentage de votre coût de durée Lambda.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Ratio&lt;/code&gt; : Le pourcentage que représentent ces Go-secondes &lt;code&gt;INIT&lt;/code&gt; non facturés par rapport au total des Go-secondes consommés.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;Dans notre exemple, c&amp;rsquo;est une &lt;strong&gt;augmentation de 14%&lt;/strong&gt; de notre facture qui nous attend ! Selon votre facture actuelle, cela pourrait être non négligeable.&lt;/p&gt;
+&lt;p&gt;Dans notre exemple, la part du coût de l&amp;rsquo;&lt;code&gt;INI&lt;/code&gt; représente &lt;strong&gt;14%&lt;/strong&gt; de notre future facture ! Selon votre facture actuelle, cela pourrait être non négligeable.&lt;/p&gt;
 &lt;h1 id=&#34;comprendre-et-optimiser-sa-lambda&#34;&gt;&lt;a href=&#34;#comprendre-et-optimiser-sa-lambda&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Comprendre et optimiser sa Lambda
 &lt;/h1&gt;&lt;p&gt;Bon, vous savez que vous allez devoir sortir la carte bleue. Mais n&amp;rsquo;y a-t-il pas un levier d&amp;rsquo;action pour diminuer cette augmentation dans votre facture ?&lt;/p&gt;
 &lt;p&gt;Je vous donne ici quelques conseils pour utiliser cette phase INIT au mieux et ainsi réduire vos futurs coûts.&lt;/p&gt;

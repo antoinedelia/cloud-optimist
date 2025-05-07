@@ -535,6 +535,8 @@
 </ul>
 <p>Il est donc judicieux de vérifier avec vos propres chiffres !</p>
 <p>Je vous mets ci-dessous un petit script qui vous permettra de rapidement tester cela de votre côté.</p>
+<details>
+  <summary>Script Python</summary>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
@@ -709,7 +711,8 @@
 </span></span><span class="line"><span class="cl">        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;</span><span class="se">\n</span><span class="s2">An unexpected error occurred: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h1 id="comment-surveiller-votre-phase-init-et-estimer-limpact-"><a href="#comment-surveiller-votre-phase-init-et-estimer-limpact-" class="header-anchor"></a>Comment surveiller votre phase INIT et estimer l&rsquo;impact ?
+</div></details>
+<h1 id="comment-surveiller-votre-phase-init-et-estimer-limpact-"><a href="#comment-surveiller-votre-phase-init-et-estimer-limpact-" class="header-anchor"></a>Comment surveiller votre phase INIT et estimer l&rsquo;impact ?
 </h1><p>Un script, c&rsquo;est bien, mais si vous avez un paquet de Lambdas à checker, vous risquez de vous épuiser à la tâche.</p>
 <p>Heureusement, AWS nous donne quelques outils pour vérifier ça efficacement. En effet, comme vu plus haut, chaque Lambda va faire un <code>REPORT</code> de son <code>Init Duration</code>. Il nous est donc facile d&rsquo;aggréger tout cela dans <strong>CloudWatch Logs Insights</strong>. Et cerise sur le gâteau, AWS nous offre même la requête qui va bien.</p>
 <div class="highlight"><div class="chroma">
@@ -750,9 +753,9 @@
 <ul>
 <li><code>BilledGBs</code> : Le total de Go-secondes actuellement facturé.</li>
 <li><code>UnbilledInitGBs</code> : Le total de Go-secondes consommés pendant la phase <code>INIT</code> qui n&rsquo;étaient <em>pas</em> facturés auparavant.</li>
-<li><code>Ratio</code> : Le pourcentage que représentent ces Go-secondes <code>INIT</code> non facturés par rapport au total des Go-secondes consommés. Cela vous donne une idée directe de l&rsquo;augmentation potentielle en pourcentage de votre coût de durée Lambda.</li>
+<li><code>Ratio</code> : Le pourcentage que représentent ces Go-secondes <code>INIT</code> non facturés par rapport au total des Go-secondes consommés.</li>
 </ul>
-<p>Dans notre exemple, c&rsquo;est une <strong>augmentation de 14%</strong> de notre facture qui nous attend ! Selon votre facture actuelle, cela pourrait être non négligeable.</p>
+<p>Dans notre exemple, la part du coût de l&rsquo;<code>INI</code> représente <strong>14%</strong> de notre future facture ! Selon votre facture actuelle, cela pourrait être non négligeable.</p>
 <h1 id="comprendre-et-optimiser-sa-lambda"><a href="#comprendre-et-optimiser-sa-lambda" class="header-anchor"></a>Comprendre et optimiser sa Lambda
 </h1><p>Bon, vous savez que vous allez devoir sortir la carte bleue. Mais n&rsquo;y a-t-il pas un levier d&rsquo;action pour diminuer cette augmentation dans votre facture ?</p>
 <p>Je vous donne ici quelques conseils pour utiliser cette phase INIT au mieux et ainsi réduire vos futurs coûts.</p>

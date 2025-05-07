@@ -2,6 +2,58 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://antoinedelia.github.io/cloud-optimist/pr-57/fr/categories/aws/</loc>
+    <lastmod>2025-05-20T07:30:00+01:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en-US"
+                href="https://antoinedelia.github.io/cloud-optimist/pr-57/en/categories/aws/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="fr-FR"
+                href="https://antoinedelia.github.io/cloud-optimist/pr-57/fr/categories/aws/"
+                />
+  </url><url>
+    <loc>https://antoinedelia.github.io/cloud-optimist/pr-57/fr/tags/aws/</loc>
+    <lastmod>2025-05-20T07:30:00+01:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en-US"
+                href="https://antoinedelia.github.io/cloud-optimist/pr-57/en/tags/aws/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="fr-FR"
+                href="https://antoinedelia.github.io/cloud-optimist/pr-57/fr/tags/aws/"
+                />
+  </url><url>
+    <loc>https://antoinedelia.github.io/cloud-optimist/pr-57/fr/categories/</loc>
+    <lastmod>2025-05-20T07:30:00+01:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en-US"
+                href="https://antoinedelia.github.io/cloud-optimist/pr-57/en/categories/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="fr-FR"
+                href="https://antoinedelia.github.io/cloud-optimist/pr-57/fr/categories/"
+                />
+  </url><url>
+    <loc>https://antoinedelia.github.io/cloud-optimist/pr-57/fr/posts/2025/aws-lambdas-init-phase-to-be-billed-soon-should-we-be-alarmed/</loc>
+    <lastmod>2025-05-20T07:30:00+01:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en-US"
+                href="https://antoinedelia.github.io/cloud-optimist/pr-57/en/posts/2025/aws-lambdas-init-phase-to-be-billed-soon-should-we-be-alarmed/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="fr-FR"
+                href="https://antoinedelia.github.io/cloud-optimist/pr-57/fr/posts/2025/aws-lambdas-init-phase-to-be-billed-soon-should-we-be-alarmed/"
+                />
+  </url><url>
     <loc>https://antoinedelia.github.io/cloud-optimist/pr-57/fr/posts/</loc>
     <lastmod>2025-05-20T07:30:00+01:00</lastmod>
     <xhtml:link
@@ -15,6 +67,19 @@
                 href="https://antoinedelia.github.io/cloud-optimist/pr-57/fr/posts/"
                 />
   </url><url>
+    <loc>https://antoinedelia.github.io/cloud-optimist/pr-57/fr/tags/</loc>
+    <lastmod>2025-05-20T07:30:00+01:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en-US"
+                href="https://antoinedelia.github.io/cloud-optimist/pr-57/en/tags/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="fr-FR"
+                href="https://antoinedelia.github.io/cloud-optimist/pr-57/fr/tags/"
+                />
+  </url><url>
     <loc>https://antoinedelia.github.io/cloud-optimist/pr-57/fr/</loc>
     <lastmod>2025-05-20T07:30:00+01:00</lastmod>
     <xhtml:link
@@ -26,45 +91,6 @@
                 rel="alternate"
                 hreflang="fr-FR"
                 href="https://antoinedelia.github.io/cloud-optimist/pr-57/fr/"
-                />
-  </url><url>
-    <loc>https://antoinedelia.github.io/cloud-optimist/pr-57/fr/categories/aws/</loc>
-    <lastmod>2025-03-04T07:30:00+01:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="en-US"
-                href="https://antoinedelia.github.io/cloud-optimist/pr-57/en/categories/aws/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="fr-FR"
-                href="https://antoinedelia.github.io/cloud-optimist/pr-57/fr/categories/aws/"
-                />
-  </url><url>
-    <loc>https://antoinedelia.github.io/cloud-optimist/pr-57/fr/tags/aws/</loc>
-    <lastmod>2025-03-04T07:30:00+01:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="en-US"
-                href="https://antoinedelia.github.io/cloud-optimist/pr-57/en/tags/aws/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="fr-FR"
-                href="https://antoinedelia.github.io/cloud-optimist/pr-57/fr/tags/aws/"
-                />
-  </url><url>
-    <loc>https://antoinedelia.github.io/cloud-optimist/pr-57/fr/categories/</loc>
-    <lastmod>2025-03-04T07:30:00+01:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="en-US"
-                href="https://antoinedelia.github.io/cloud-optimist/pr-57/en/categories/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="fr-FR"
-                href="https://antoinedelia.github.io/cloud-optimist/pr-57/fr/categories/"
                 />
   </url><url>
     <loc>https://antoinedelia.github.io/cloud-optimist/pr-57/fr/categories/ci/cd/</loc>
@@ -156,19 +182,6 @@
                 rel="alternate"
                 hreflang="fr-FR"
                 href="https://antoinedelia.github.io/cloud-optimist/pr-57/fr/tags/hugo/"
-                />
-  </url><url>
-    <loc>https://antoinedelia.github.io/cloud-optimist/pr-57/fr/tags/</loc>
-    <lastmod>2025-03-04T07:30:00+01:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="en-US"
-                href="https://antoinedelia.github.io/cloud-optimist/pr-57/en/tags/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="fr-FR"
-                href="https://antoinedelia.github.io/cloud-optimist/pr-57/fr/tags/"
                 />
   </url><url>
     <loc>https://antoinedelia.github.io/cloud-optimist/pr-57/fr/categories/terraform/</loc>

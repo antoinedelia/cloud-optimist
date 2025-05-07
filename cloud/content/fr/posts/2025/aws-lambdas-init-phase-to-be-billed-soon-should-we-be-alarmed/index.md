@@ -257,7 +257,6 @@ J'imagine qu'à la lecture de cette fonctionnalité, vous vous dites "mais enfin
 
 Résultat : les démarrages à froid suivants sont beaucoup plus rapides, et la durée facturée de la phase `INIT` est considérablement réduite (voire éliminée pour ces démarrages suivants). C'est particulièrement efficace si votre phase `INIT` est longue à cause du chargement de frameworks lourds (comme Spring Boot en Java) ou de beaucoup de dépendances. Attention, votre code doit être compatible avec la restauration depuis un snapshot (quelques limitations existent, notamment sur l'unicité ou le caractère aléatoire lors de l'initialisation).
 
-
 ## Concurrence Provisionnée (Provisioned Concurrency - PC)
 
 Si votre application a un trafic prévisible ou si la latence des démarrages à froid est inacceptable, vous pouvez utiliser la Concurrence Provisionnée. Vous demandez à Lambda de garder un certain nombre d'environnements d'exécution pré-initialisés (chauds) en permanence.

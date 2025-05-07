@@ -262,13 +262,11 @@ Inconvénient : vous payez pour la durée pendant laquelle ces environnements so
 
 # Conclusion
 
-Le changement de facturation de la phase `INIT` de Lambda qui arrive le **1er août 2025** est avant tout une standardisation. Pour la majorité des fonctions (on-demand, ZIP, runtimes managés), cela signifie que la durée de cette phase sera désormais ajoutée à la durée facturée lors des démarrages à froid.
+Le changement de facturation de la phase `INIT` de Lambda qui arrive le **1er août 2025** est avant tout une standardisation. Pour la majorité des fonctions, cela signifie que la durée de cette phase sera désormais ajoutée à la durée facturée lors des cold start.
 
-Même si l'impact financier sera probablement faible pour beaucoup, c'est une excellente occasion de :
+Même si l'impact financier sera probablement faible pour vous, c'est une excellente occasion de :
 1. **Comprendre** le cycle de vie de vos fonctions Lambda et ce qui se passe pendant l'initialisation.
 2. **Mesurer** la durée de la phase `INIT` de vos fonctions critiques grâce aux outils CloudWatch.
 3. **Optimiser** cette phase si nécessaire, en réduisant la taille de vos packages, en utilisant SnapStart, ou en envisageant la Concurrence Provisionnée pour les cas d'usage appropriés.
 
-N'attendez pas le mois d'août ! Utilisez la requête Logs Insights fournie pour avoir une estimation de l'impact dès maintenant. Cela vous permettra d'identifier les fonctions à optimiser en priorité et d'éviter toute mauvaise surprise sur votre facture AWS.
-
-Alors, prêts à jeter un œil à vos logs et à optimiser vos phases `INIT` ? Happy optimizing !
+Alors, n'attendez pas le mois d'août ! Familiarisez-vous avec CloudWatch Logs Insights dès maintenant. Cela vous permettra d'identifier les Lambdas à optimiser en priorité et d'éviter toute mauvaise surprise sur votre facture AWS.

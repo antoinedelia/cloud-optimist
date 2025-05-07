@@ -103,6 +103,95 @@ Supposons les points suivants :
 
 Il est donc judicieux de vérifier avec vos propres chiffres !
 
+Je vous mets ci-dessous un petit script qui vous permettra de rapidement tester cela de votre côté.
+
+```python
+def calculate_lambda_costs(
+    total_invocations_per_month: int,
+    cold_start_rate: float,
+    average_invocation_duration_sec: float,
+    average_init_duration_sec: float,
+    allocated_memory_gb: float,
+    cost_per_million_requests: float = 0.20,
+    cost_per_gb_second: float = 0.0000166667,
+):
+    num_cold_starts = total_invocations_per_month * cold_start_rate
+    num_warm_starts = total_invocations_per_month - num_cold_starts
+
+    request_cost = (total_invocations_per_month / 1_000_000) * cost_per_million_requests
+
+    # Duration cost BEFORE
+    billed_duration_warm_starts_sec_before = num_warm_starts * average_invocation_duration_sec
+    billed_duration_cold_starts_sec_before = num_cold_starts * average_invocation_duration_sec
+
+    total_billed_duration_sec_before = billed_duration_warm_starts_sec_before + billed_duration_cold_starts_sec_before
+    total_gb_seconds_before = total_billed_duration_sec_before * allocated_memory_gb / 1.024
+    duration_cost_before = total_gb_seconds_before * cost_per_gb_second
+
+    total_monthly_cost_before = request_cost + duration_cost_before
+
+    # Duration cost AFTER
+    billed_duration_warm_starts_sec_after = num_warm_starts * average_invocation_duration_sec
+    billed_duration_cold_starts_sec_after = num_cold_starts * (average_invocation_duration_sec + average_init_duration_sec)
+
+    total_billed_duration_sec_after = billed_duration_warm_starts_sec_after + billed_duration_cold_starts_sec_after
+    total_gb_seconds_after = total_billed_duration_sec_after * allocated_memory_gb / 1.024
+    duration_cost_after = total_gb_seconds_after * cost_per_gb_second
+
+    total_monthly_cost_after = request_cost + duration_cost_after
+
+    return total_monthly_cost_before, total_monthly_cost_after
+
+
+def display_results(cost_before, cost_after):
+    cost_difference = cost_after - cost_before
+    print(f"\nMonthly cost increase: ${cost_difference:.2f}")
+    if cost_difference > 0:
+        percentage_increase = (cost_difference / cost_before) * 100 if cost_before > 0 else float("inf")
+        print(f"Percentage increase: {percentage_increase:.2f}%")
+
+
+if __name__ == "__main__":
+    print("AWS Lambda Cost Calculator (before/after Init Duration pricing change)")
+    print("Please enter the values for your scenario or press Enter to use default values.\n")
+    default_invocations = 10_000_000
+    default_cold_start_rate = 0.01  # 1%
+    default_invocation_duration = 3.0  # seconds
+    default_init_duration = 1.0  # seconds
+    default_memory_gb = 1.024  # 1024 MB (1.024 GB)
+
+    try:
+        invocations_str = input(f"Total invocations per month (default: {default_invocations:,}): ")
+        total_invocations_input = int(invocations_str) if invocations_str else default_invocations
+
+        cold_start_rate_str = input(f"Cold start rate (e.g., 0.01 for 1%, default: {default_cold_start_rate}): ")
+        cold_start_rate_input = float(cold_start_rate_str) if cold_start_rate_str else default_cold_start_rate
+
+        invocation_duration_str = input(f"Average invocation duration in seconds (default: {default_invocation_duration}): ")
+        invocation_duration_input = float(invocation_duration_str) if invocation_duration_str else default_invocation_duration
+
+        init_duration_str = input(f"Average initialization duration in seconds (default: {default_init_duration}): ")
+        init_duration_input = float(init_duration_str) if init_duration_str else default_init_duration
+
+        memory_gb_str = input(f"Memory allocated to Lambda in GB (e.g., 0.512 for 512MB, default: {default_memory_gb}): ")
+        memory_gb_input = float(memory_gb_str) if memory_gb_str else default_memory_gb
+
+        cost_before, cost_after = calculate_lambda_costs(
+            total_invocations_per_month=total_invocations_input,
+            cold_start_rate=cold_start_rate_input,
+            average_invocation_duration_sec=invocation_duration_input,
+            average_init_duration_sec=init_duration_input,
+            allocated_memory_gb=memory_gb_input,
+        )
+
+        display_results(cost_before, cost_after)
+
+    except ValueError:
+        print("\nError: Please enter valid numbers.")
+    except Exception as e:
+        print(f"\nAn unexpected error occurred: {e}")
+```
+
 # Comment surveiller votre phase INIT et estimer l'impact ?
 
 Heureusement, AWS nous donne les outils pour ça :

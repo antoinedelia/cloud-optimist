@@ -220,44 +220,34 @@ Cette requête vous donne ainsi trois informations clés :
 
 Dans notre exemple, c'est une **augmentation de 14%** de notre facture qui nous attend ! Selon votre facture actuelle, cela pourrait être non négligeable.
 
-# Comprendre et optimiser la phase INIT
+# Comprendre et optimiser sa Lambda
 
-Bon, vous savez que vous allez devoir sortir la carte bleue. Mais n'y a-t-il pas un levier d'action pour diminuer cette augmentation ?
+Bon, vous savez que vous allez devoir sortir la carte bleue. Mais n'y a-t-il pas un levier d'action pour diminuer cette augmentation dans votre facture ?
 
-Rappelons que le code dans la phase `INIT` (le code global, hors du handler) n'est exécuté *que* pendant les démarrages à froid. C'est donc l'endroit idéal pour faire des opérations d'initialisation coûteuses qui pourront être réutilisées par les invocations suivantes (démarrages à chaud) :
-
-* Importer des librairies ou dépendances lourdes.
-* Établir des connexions à d'autres services AWS (S3, DynamoDB, etc.) via les SDKs.
-* Créer des pools de connexions à des bases de données.
-* Récupérer des paramètres ou des secrets depuis Systems Manager Parameter Store ou Secrets Manager.
-
-Mettre ce code dans la phase `INIT` plutôt que dans le handler réduit la latence des invocations "à chaud", car le travail est déjà fait. Mais attention, cela augmente la durée de la phase `INIT` (et donc potentiellement son coût depuis le 1er août 2025). Il faut trouver le bon équilibre.
-
-Qu'est-ce qui influence la durée de la phase `INIT` ?
-
-1. **La taille de votre package de déploiement :** Plus votre ZIP ou image conteneur est gros (beaucoup de dépendances, de librairies, de layers...), plus le temps de téléchargement initial sera long.
-2. **La quantité de code d'initialisation :** Le travail que vous faites réellement dans la partie globale de votre code.
-3. **La performance des services externes :** Le temps nécessaire pour établir des connexions, par exemple.
-
-Voici quelques stratégies d'optimisation :
-
-## Optimiser la taille du package
-
-C'est souvent le levier le plus simple. Réduisez la taille de votre code :
-* N'incluez que les dépendances strictement nécessaires.
-* Utilisez des outils comme `esbuild` (pour JavaScript/TypeScript) ou des techniques de "tree shaking" pour minifier et ne garder que le code utile.
-* Pour le SDK AWS en JavaScript, privilégiez la v3 qui permet d'importer uniquement les clients des services dont vous avez besoin. (Pour en savoir plus, AWS a un article :[ Reduce Lambda cold start times: migrate to AWS SDK for JavaScript v3](https://aws.amazon.com/blogs/compute/reduce-lambda-cold-start-times-migrate-to-aws-sdk-for-javascript-v3/)).
-
-Moins de code à télécharger = phase `INIT` plus courte = moins de coût et démarrage à froid plus rapide.
-
+Je vous donne ici quelques conseils pour utiliser cette phase INIT au mieux et ainsi réduire vos futurs coûts.
 
 ## Utiliser stratégiquement la phase INIT
 
-Profitez de cette phase pour pré-calculer ou télécharger des données statiques qui serviront à toutes les invocations suivantes. Par exemple, charger une table de lookup depuis S3 ou DynamoDB une seule fois pendant l'`INIT` plutôt qu'à chaque invocation dans le handler.
+Votre premier réflexe serait peut-être de vous dire qu'il faudrait enlever tout ce code `INIT` (celui hors du handler) pour le mettre dans votre handler. Comme ça, plus de facturation de l'`INIT` ! Mais non seulement vous ne feriez que déplacer le problème (car l'exécution de ce code vous sera tout de même facturé), cela sera encore pire, car maintenant, mêmes vos executions de Lambda "warm start" devront traiter ce code !
+
+Car oui, rappelons que le code dans la phase `INIT` est exécuté *uniquement* pendant les "cold start". C'est donc l'endroit idéal pour faire des opérations d'initialisation coûteuses qui pourront être réutilisées par les invocations suivantes ("warm start"). Cela est même [recommandé par AWS](https://docs.aws.amazon.com/lambda/latest/dg/best-practices.html#function-code). Ainsi, cette phase d'`INIT` est parfaite pour :
+
+* Importer des librairies ou dépendances lourdes.
+* Établir des connexions à d'autres services AWS (S3, DynamoDB, etc.) via les SDKs (`boto3` pour Python).
+* Créer des pools de connexions à des bases de données.
+* Récupérer des paramètres ou des secrets depuis Systems Manager Parameter Store ou Secrets Manager.
+
+Maximisez cette phase d'inititalisation pour réduire ainsi le temps d'exécutions des Lambdas qui elles tourneront en "warm start".
+
+## Optimiser la taille du package
+
+C'est souvent le levier le plus simple, car parfois, on importe un peu tout et n'importe quoi dans notre Lambda. Alors, soyez sûr de n'inclure que des dépendances strictement nécessaires. Veillez également à exclure tout ce qui est lié à votre environnement de développement (je ne vous dis pas le nombre de fois que j'ai trouvé un dossier `node_modules` ou `tests` dans des Lambdas...). Enfin, n'hésitez pas à consulter les articles d'AWS, car [certains taclent directement le sujet des cold start](https://aws.amazon.com/blogs/developer/reduce-lambda-cold-start-times-migrate-to-aws-sdk-for-javascript-v3/).
 
 ## Lambda SnapStart
 
-Disponible pour les runtimes **Java, .NET et Python**, SnapStart est une fonctionnalité très intéressante pour combattre les démarrages à froid. Quand vous l'activez, Lambda prend un "snapshot" (un instantané) de l'environnement d'exécution initialisé *après* la première phase `INIT`. Pour les démarrages à froid suivants, Lambda restaure ce snapshot au lieu de refaire toute la phase `INIT`.
+Disponible pour les runtimes **Java, .NET et Python**, [SnapStart](https://docs.aws.amazon.com/lambda/latest/dg/snapstart.html) est une fonctionnalité très intéressante pour combattre les "cold start". Quand vous l'activez, Lambda prend un "snapshot" de l'environnement d'exécution initialisé *après* la première phase `INIT`. Pour les "cold start" suivants, la Lambda va restaurer ce snapshot au lieu de refaire toute la phase d'`INIT`, ce qui vous fera gagner pas mal de temps.
+
+J'imagine qu'à la lecture de cette fonctionnalité, vous vous dites "mais enfin c'est super, je vais activer cette feature sur toutes mes Lambdas !".
 
 Résultat : les démarrages à froid suivants sont beaucoup plus rapides, et la durée facturée de la phase `INIT` est considérablement réduite (voire éliminée pour ces démarrages suivants). C'est particulièrement efficace si votre phase `INIT` est longue à cause du chargement de frameworks lourds (comme Spring Boot en Java) ou de beaucoup de dépendances. Attention, votre code doit être compatible avec la restauration depuis un snapshot (quelques limitations existent, notamment sur l'unicité ou le caractère aléatoire lors de l'initialisation).
 

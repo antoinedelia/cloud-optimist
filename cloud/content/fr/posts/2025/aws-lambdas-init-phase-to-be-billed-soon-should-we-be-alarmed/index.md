@@ -69,41 +69,39 @@ Prenons un exemple pour y voir plus clair. Imaginons une Lambda en Python config
 Supposons les points suivants :
 * La Lambda reçoit 10 millions d'invocations par mois.
 * Le taux de cold start est de 1% ([moyenne fournie par AWS](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtime-environment.html#cold-start-latency)), soit 100'000 démarrages à froid par mois.
-* La durée moyenne de l'invocation (`Duration`) est de 250 ms.
-* La durée moyenne de l'initialisation (`Init Duration`) est de 100 ms.
+* La durée moyenne de l'invocation (`Duration`) est de 3 secondes.
+* La durée moyenne de l'initialisation (`Init Duration`) est de 1 seconde.
 * Coût par requête : $0.20 par million de requêtes.
-* Coût de la durée (x86) : $0.0000166667 par Go-seconde.
+* Coût de la durée (x86) : $0.0000166667 par GB-seconde.
 
 **Calcul du coût AVANT le 1er août 2025 :**
 
 1. **Coût des requêtes :** 10 millions req * ($0.20 / 1 million req) = **$2.00**
 2. **Coût de la durée :**
-    * Invocations "à chaud" (9.9 millions) : Durée facturée = 250 ms.
-    * Invocations "à froid" (100 000) : Durée facturée = 250 ms (INIT non facturée).
-    * Durée facturée totale (secondes) : (9 900 000 * 0.250 s) + (100 000 * 0.250 s) = 2 475 000 s + 25 000 s = 2 500 000 s.
-    * Go-secondes totaux : 2 500 000 s * (1024 Mo / 1024 Mo) = 2 500 000 Go-s.
-    * Coût Durée : 2 500 000 Go-s * $0.0000166667/Go-s = **$41.67**
-3. **Coût total mensuel (Avant) :** $2.00 + $41.67 = **$43.67**
+    * Invocations "à chaud" (9.9 millions) : Durée facturée = 3 secondes.
+    * Invocations "à froid" (100 000) : Durée facturée = 3 secondes (INIT non facturée).
+    * Durée facturée totale (secondes) : (9'900'000 * 3 s) + (100'000 * 3 s) = 29'700'000 secondes + 300'000 secondes = 30'000'000 secondes.
+    * Go-secondes totaux : 30'000'000 secondes * (1024 Mo / 1024 Mo) = 30'000'000 Go-s.
+    * Coût Durée : 30'000'000 Go-s * $0.0000166667/Go-s = **$500.00**
+3. **Coût total mensuel (Avant) :** $2.00 + $500.00 = **$502.00**
 
 **Calcul du coût APRÈS le 1er août 2025 :**
 
 1. **Coût des requêtes :** **$2.00** (inchangé)
 2. **Coût de la durée :**
-    * Invocations "à chaud" (9.9 millions) : Durée facturée = 250 ms.
-    * Invocations "à froid" (100 000) : Durée facturée = 250 ms (`Duration`) + 100 ms (`Init Duration`) = 350 ms.
-    * Durée facturée totale (secondes) : (9 900 000 * 0.250 s) + (100 000 * 0.350 s) = 2 475 000 s + 35 000 s = 2 510 000 s.
-    * Go-secondes totaux : 2 510 000 s * (1024 Mo / 1024 Mo) = 2 510 000 Go-s.
-    * Coût Durée : 2 510 000 Go-s * $0.0000166667/Go-s = **$41.83**
-3. **Coût total mensuel (Après) :** $2.00 + $41.83 = **$43.83**
+    * Invocations "à chaud" (9.9 millions) : Durée facturée = 3 secondes.
+    * Invocations "à froid" (100 000) : Durée facturée = 3 secondes (`Duration`) + 1 seconde (`Init Duration`) = 4 secondes.
+    * Durée facturée totale (secondes) : (9'900'000 * 3 s) + (100'000 * 4 s) = 29'700'000 secondes + 400'000 secondes = 30'100'000 secondes.
+    * Go-secondes totaux : 30'100'000 secondes * (1024 Mo / 1024 Mo) = 30'100'000 Go-s.
+    * Coût Durée : 30'100'000 Go-s * $0.0000166667/Go-s = **$501.67**
+3. **Coût total mensuel (Après) :** $2.00 + $501.67 = **$503.67**
 
-**Conclusion de l'exemple :** Dans ce scénario précis, l'augmentation est de **$0.16 par mois**. C'est effectivement minime et confirme la communication d'AWS. Cependant, l'impact *réel* dépendra fortement de :
+**Conclusion :** Dans ce scénario précis, l'augmentation est seulement de **$1.67 par mois**. C'est effectivement minime, et cela confirme la communication d'AWS. Mais faites quand même attention, car l'impact *réel* dépendra fortement de :
+* La mémoire allouée à vos Lambdas (plus de mémoire = coût par ms plus élevé).
+* La durée réelle de votre phase `INIT`.
+* Votre taux de cold start (peut être plus élevé si votre trafic est irrégulier).
 
-* La mémoire allouée à vos fonctions (plus de mémoire = coût par ms plus élevé).
-* La durée réelle de votre phase `INIT` (peut être bien supérieure à 100 ms si vous chargez beaucoup de dépendances).
-* Votre taux de démarrage à froid (peut être plus élevé si le trafic est très irrégulier).
-
-Il est donc judicieux de vérifier vos propres chiffres !
-
+Il est donc judicieux de vérifier avec vos propres chiffres !
 
 # Comment surveiller votre phase INIT et estimer l'impact ?
 

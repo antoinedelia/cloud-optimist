@@ -21,7 +21,7 @@ jobs:
           extended: true
 
       - name: Build site with drafts
-        run: 
+        run: |
           cd cloud
           hugo --buildDrafts --baseURL "https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/pr-${{ github.event.number }}/"
 

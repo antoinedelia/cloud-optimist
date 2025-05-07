@@ -21,13 +21,15 @@ jobs:
           extended: true
 
       - name: Build site with drafts
-        run: hugo --buildDrafts --baseURL "https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/pr-${{ github.event.number }}/"
+        run: 
+          cd cloud
+          hugo --buildDrafts --baseURL "https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/pr-${{ github.event.number }}/"
 
       - name: Deploy to GitHub Pages branch for PR
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./public
+          publish_dir: ./cloud/public
           publish_branch: gh-pages
           destination_dir: pr-${{ github.event.number }}
 

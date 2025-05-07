@@ -196,26 +196,33 @@ if __name__ == "__main__":
 
 Un script, c'est bien, mais si vous avez un paquet de Lambdas à checker, vous risquez de vous épuiser à la tâche.
 
-Heureusement, AWS nous donne quelques outils pour vérifier ça efficacement. En effet, comme vu plus haut, chaque Lambda va faire un `REPORT` de son `Init Duration`. Il nous est donc facile d'aggréger tout cela dans **CloudWatch Logs Insights**.
+Heureusement, AWS nous donne quelques outils pour vérifier ça efficacement. En effet, comme vu plus haut, chaque Lambda va faire un `REPORT` de son `Init Duration`. Il nous est donc facile d'aggréger tout cela dans **CloudWatch Logs Insights**. Et cerise sur le gâteau, AWS nous offre même la requête qui va bien.
 
 ```
-filter @type = "REPORT" and @billedDuration &lt; (@duration + @initDuration)
-| stats sum((@memorySize/1000000/1024) * (@billedDuration/1000)) as BilledGBs,
-sum((@memorySize/1000000/1024) * ((ceil(@duration + @initDuration) - @billedDuration)/1000)) as UnbilledInitGBs,
-(UnbilledInitGBs / (UnbilledInitGBs + BilledGBs)) * 100 as RatioPercent
+filter @type = "REPORT" and @billedDuration < (@duration + @initDuration) 
+| stats sum((@memorySize/1000000/1024) * (@billedDuration/1000)) as BilledGBs, 
+sum((@memorySize/1000000/1024) * ((ceil(@duration + @initDuration) - @billedDuration)/1000)) as UnbilledInitGBs, 
+(UnbilledInitGBs/ (UnbilledInitGBs+BilledGBs)) as Ratio
 ```
 
-Cette requête vous donnera trois informations clés pour les groupes de logs sélectionnés :
+> Gardez en mémoire que CloudWatch Logs Insights vous est facturé $0.005 par GB de data scanné ([source](https://aws.amazon.com/cloudwatch/pricing/))
+
+Plus qu'à lancer cette requête sur vos Lambdas (en utilisant le prefix `/aws/lambda`), et vous obtiendrez le résultat suivant :
+
+| BilledGBs | UnbilledInitGBs | Ratio  |
+|-----------|-----------------|--------|
+| 512.8007  | 86.6699         | 0.1446 |
+
+Cette requête vous donne ainsi trois informations clés :
 * `BilledGBs` : Le total de Go-secondes actuellement facturé.
-* `UnbilledInitGBs` : Le total de Go-secondes consommés pendant la phase `INIT` qui n'étaient *pas* facturés auparavant (pour les fonctions concernées par le changement).
-* `RatioPercent` : Le pourcentage que représentent ces Go-secondes `INIT` non facturés par rapport au total des Go-secondes consommés. Cela vous donne une idée directe de l'augmentation potentielle en pourcentage de votre coût de durée Lambda.
+* `UnbilledInitGBs` : Le total de Go-secondes consommés pendant la phase `INIT` qui n'étaient *pas* facturés auparavant.
+* `Ratio` : Le pourcentage que représentent ces Go-secondes `INIT` non facturés par rapport au total des Go-secondes consommés. Cela vous donne une idée directe de l'augmentation potentielle en pourcentage de votre coût de durée Lambda.
 
-En utilisant ces outils, vous pouvez identifier les fonctions qui ont les plus longues durées d'`INIT` et évaluer l'impact financier réel du changement pour votre compte.
-
+Dans notre exemple, c'est une **augmentation de 14%** de notre facture qui nous attend ! Selon votre facture actuelle, cela pourrait être non négligeable.
 
 # Comprendre et optimiser la phase INIT
 
-Maintenant qu'on sait que cette phase `INIT` va nous coûter quelques centimes (ou plus !), comment peut-on la maîtriser, voire la réduire ?
+Bon, vous savez que vous allez devoir sortir la carte bleue. Mais n'y a-t-il pas un levier d'action pour diminuer cette augmentation ?
 
 Rappelons que le code dans la phase `INIT` (le code global, hors du handler) n'est exécuté *que* pendant les démarrages à froid. C'est donc l'endroit idéal pour faire des opérations d'initialisation coûteuses qui pourront être réutilisées par les invocations suivantes (démarrages à chaud) :
 

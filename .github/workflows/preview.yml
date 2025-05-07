@@ -39,7 +39,7 @@ jobs:
         run: sleep 10
 
       - name: Add or Update PR Comment with Preview URL
-        uses: marocchino/sticky-pull-request-comment@v3
+        uses: marocchino/sticky-pull-request-comment@v2
         with:
           header: preview-url-comment
           message: |

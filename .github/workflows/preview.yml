@@ -1,0 +1,54 @@
+name: Hugo Preview Deploy
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, closed]
+
+jobs:
+  build-and-deploy:
+    if: github.event.pull_request.state != 'closed'
+    runs-on: ubuntu-latest
+    name: Build and deploy Hugo preview
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Hugo
+        uses: peaceiris/actions-hugo@v3
+        with:
+          hugo-version: 'latest'
+          extended: true
+
+      - name: Build site with drafts
+        run: hugo --buildDrafts --baseURL "https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/pr-${{ github.event.number }}/"
+
+      - name: Deploy to GitHub Pages branch for PR
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public
+          publish_branch: gh-pages
+          destination_dir: pr-${{ github.event.number }}
+
+  delete-preview:
+    if: github.event.action == 'closed'
+    runs-on: ubuntu-latest
+    name: Delete preview site
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Clone gh-pages branch
+        run: |
+          git clone --single-branch --branch gh-pages "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}" gh-pages
+          cd gh-pages
+          git rm -r pr-${{ github.event.number }} || echo "Nothing to delete"
+          git commit -m "Delete preview for PR #${{ github.event.number }}" || echo "Nothing to commit"
+          git push || echo "Nothing to push"

@@ -194,11 +194,9 @@ if __name__ == "__main__":
 
 # Comment surveiller votre phase INIT et estimer l'impact ?
 
-Heureusement, AWS nous donne les outils pour ça :
+Un script, c'est bien, mais si vous avez un paquet de Lambdas à checker, vous risquez de vous épuiser à la tâche.
 
-1. **CloudWatch Metrics :** Vous pouvez suivre la métrique `initDuration` pour chacune de vos fonctions Lambda.
-2. **CloudWatch Logs :** Chaque ligne `REPORT` dans les logs de votre fonction inclut la valeur `Init Duration: xxx ms` lorsque la phase INIT a eu lieu (démarrage à froid).
-3. **CloudWatch Logs Insights :** Pour une analyse plus globale, vous pouvez utiliser cette requête Logs Insights. Elle vous aidera à estimer la part de la durée `INIT` qui n'était pas facturée jusqu'à présent pour les fonctions concernées :
+Heureusement, AWS nous donne quelques outils pour vérifier ça efficacement. En effet, comme vu plus haut, chaque Lambda va faire un `REPORT` de son `Init Duration`. Il nous est donc facile d'aggréger tout cela dans **CloudWatch Logs Insights**.
 
 ```
 filter @type = "REPORT" and @billedDuration &lt; (@duration + @initDuration)

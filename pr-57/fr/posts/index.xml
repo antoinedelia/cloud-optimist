@@ -6,13 +6,13 @@
         <description>Recent content in Posts on The Cloud Optimist</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>fr-FR</language>
-        <lastBuildDate>Tue, 20 May 2025 07:30:00 +0100</lastBuildDate><atom:link href="https://antoinedelia.github.io/cloud-optimist/pr-57/fr/posts/index.xml" rel="self" type="application/rss+xml" /><item>
-        <title>La Phase d&#39;INIT des Lambdas AWS Bientôt Facturée - Faut-il s&#39;alarmer ?</title>
+        <lastBuildDate>Tue, 13 May 2025 07:30:00 +0100</lastBuildDate><atom:link href="https://antoinedelia.github.io/cloud-optimist/pr-57/fr/posts/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>AWS Lambda : La phase d&#39;INIT devient payante - faut-il s&#39;alarmer ?</title>
         <link>https://antoinedelia.github.io/cloud-optimist/pr-57/fr/posts/2025/aws-lambdas-init-phase-to-be-billed-soon-should-we-be-alarmed/</link>
-        <pubDate>Tue, 20 May 2025 07:30:00 +0100</pubDate>
+        <pubDate>Tue, 13 May 2025 07:30:00 +0100</pubDate>
         
         <guid>https://antoinedelia.github.io/cloud-optimist/pr-57/fr/posts/2025/aws-lambdas-init-phase-to-be-billed-soon-should-we-be-alarmed/</guid>
-        <description>&lt;img src="https://antoinedelia.github.io/cloud-optimist/pr-57/fr/posts/2025/aws-lambdas-init-phase-to-be-billed-soon-should-we-be-alarmed/lambda-init-billing.jpeg" alt="Featured image of post La Phase d&#39;INIT des Lambdas AWS Bientôt Facturée - Faut-il s&#39;alarmer ?" /&gt;&lt;h1 id=&#34;introduction&#34;&gt;&lt;a href=&#34;#introduction&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Introduction
+        <description>&lt;img src="https://antoinedelia.github.io/cloud-optimist/pr-57/fr/posts/2025/aws-lambdas-init-phase-to-be-billed-soon-should-we-be-alarmed/lambda-init-billing.jpeg" alt="Featured image of post AWS Lambda : La phase d&#39;INIT devient payante - faut-il s&#39;alarmer ?" /&gt;&lt;h1 id=&#34;introduction&#34;&gt;&lt;a href=&#34;#introduction&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Introduction
 &lt;/h1&gt;&lt;p&gt;Ah, les Lambdas. Probablement le service AWS que j&amp;rsquo;affectionne le plus ! En moins de temps qu&amp;rsquo;il ne faut pour le dire, elles permettent de créer un petit script ou carrément un backend API hosté dans le Cloud, et tout cela à moindre coût avec le &amp;ldquo;pay as you go&amp;rdquo;. Mais cela serait-il trop beau pour être vrai ?&lt;/p&gt;
 &lt;p&gt;Il y a quelques jours, &lt;a class=&#34;link&#34; href=&#34;https://aws.amazon.com/blogs/compute/aws-lambda-standardizes-billing-for-init-phase&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;AWS a annoncé une modification dans la manière dont la phase d&amp;rsquo;initialisation des Lambdas est facturée&lt;/a&gt;. &lt;strong&gt;À partir du 1er août 2025&lt;/strong&gt;, cette phase sera systématiquement incluse dans le calcul de la durée facturée, et ce, pour &lt;em&gt;toutes&lt;/em&gt; les Lambdas.&lt;/p&gt;

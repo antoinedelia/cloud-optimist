@@ -3,7 +3,7 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://antoinedelia.github.io/cloud-optimist/pr-57/fr/categories/aws/</loc>
-    <lastmod>2025-05-20T07:30:00+01:00</lastmod>
+    <lastmod>2025-05-13T07:30:00+01:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en-US"
@@ -16,7 +16,7 @@
                 />
   </url><url>
     <loc>https://antoinedelia.github.io/cloud-optimist/pr-57/fr/tags/aws/</loc>
-    <lastmod>2025-05-20T07:30:00+01:00</lastmod>
+    <lastmod>2025-05-13T07:30:00+01:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en-US"
@@ -28,21 +28,8 @@
                 href="https://antoinedelia.github.io/cloud-optimist/pr-57/fr/tags/aws/"
                 />
   </url><url>
-    <loc>https://antoinedelia.github.io/cloud-optimist/pr-57/fr/categories/</loc>
-    <lastmod>2025-05-20T07:30:00+01:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="en-US"
-                href="https://antoinedelia.github.io/cloud-optimist/pr-57/en/categories/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="fr-FR"
-                href="https://antoinedelia.github.io/cloud-optimist/pr-57/fr/categories/"
-                />
-  </url><url>
     <loc>https://antoinedelia.github.io/cloud-optimist/pr-57/fr/posts/2025/aws-lambdas-init-phase-to-be-billed-soon-should-we-be-alarmed/</loc>
-    <lastmod>2025-05-20T07:30:00+01:00</lastmod>
+    <lastmod>2025-05-13T07:30:00+01:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en-US"
@@ -54,8 +41,21 @@
                 href="https://antoinedelia.github.io/cloud-optimist/pr-57/fr/posts/2025/aws-lambdas-init-phase-to-be-billed-soon-should-we-be-alarmed/"
                 />
   </url><url>
+    <loc>https://antoinedelia.github.io/cloud-optimist/pr-57/fr/categories/</loc>
+    <lastmod>2025-05-13T07:30:00+01:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en-US"
+                href="https://antoinedelia.github.io/cloud-optimist/pr-57/en/categories/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="fr-FR"
+                href="https://antoinedelia.github.io/cloud-optimist/pr-57/fr/categories/"
+                />
+  </url><url>
     <loc>https://antoinedelia.github.io/cloud-optimist/pr-57/fr/posts/</loc>
-    <lastmod>2025-05-20T07:30:00+01:00</lastmod>
+    <lastmod>2025-05-13T07:30:00+01:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en-US"
@@ -68,7 +68,7 @@
                 />
   </url><url>
     <loc>https://antoinedelia.github.io/cloud-optimist/pr-57/fr/tags/</loc>
-    <lastmod>2025-05-20T07:30:00+01:00</lastmod>
+    <lastmod>2025-05-13T07:30:00+01:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en-US"
@@ -81,7 +81,7 @@
                 />
   </url><url>
     <loc>https://antoinedelia.github.io/cloud-optimist/pr-57/fr/</loc>
-    <lastmod>2025-05-20T07:30:00+01:00</lastmod>
+    <lastmod>2025-05-13T07:30:00+01:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en-US"

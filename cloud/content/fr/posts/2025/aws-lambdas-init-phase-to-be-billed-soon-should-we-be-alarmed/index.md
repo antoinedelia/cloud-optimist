@@ -224,7 +224,7 @@ Cette requête vous donne ainsi trois informations clés :
 * `UnbilledInitGBs` : Le total de Go-secondes consommés pendant la phase `INIT` qui n'étaient *pas* facturés auparavant.
 * `Ratio` : Le pourcentage que représentent ces Go-secondes `INIT` non facturés par rapport au total des Go-secondes consommés.
 
-Dans notre exemple, la part du coût de l'`INI` représente **14%** de notre future facture ! Selon votre facture actuelle, cela pourrait être non négligeable.
+Dans notre exemple, la part du coût de l'`INIT` représente **14%** de notre future facture ! Selon votre facture actuelle, cela pourrait être non négligeable.
 
 # Comprendre et optimiser sa Lambda
 
@@ -253,25 +253,28 @@ C'est souvent le levier le plus simple, car parfois, on importe un peu tout et n
 
 Disponible pour les runtimes **Java, .NET et Python**, [SnapStart](https://docs.aws.amazon.com/lambda/latest/dg/snapstart.html) est une fonctionnalité très intéressante pour combattre les "cold start". Quand vous l'activez, Lambda prend un "snapshot" de l'environnement d'exécution initialisé *après* la première phase `INIT`. Pour les "cold start" suivants, la Lambda va restaurer ce snapshot au lieu de refaire toute la phase d'`INIT`, ce qui vous fera gagner pas mal de temps.
 
-J'imagine qu'à la lecture de cette fonctionnalité, vous vous dites "mais enfin c'est super, je vais activer cette feature sur toutes mes Lambdas !".
+J'imagine qu'à la lecture de cette fonctionnalité, vous vous dites "mais enfin c'est super, je vais activer cette feature sur toutes mes Lambdas !". Sauf qu'il y a quelques subtilités à connaître.
 
-Résultat : les démarrages à froid suivants sont beaucoup plus rapides, et la durée facturée de la phase `INIT` est considérablement réduite (voire éliminée pour ces démarrages suivants). C'est particulièrement efficace si votre phase `INIT` est longue à cause du chargement de frameworks lourds (comme Spring Boot en Java) ou de beaucoup de dépendances. Attention, votre code doit être compatible avec la restauration depuis un snapshot (quelques limitations existent, notamment sur l'unicité ou le caractère aléatoire lors de l'initialisation).
+Premièrement, SnapStart n'est pour l'instant [compatible qu'avec des versions bien précises de certains langages](https://docs.aws.amazon.com/lambda/latest/dg/snapstart.html#snapstart-runtimes) (Python 3.12 minimum, NodeJS pas supporté, ...). Idem pour les régions, [seulement 9 d'entre elles supportent cette feature](https://docs.aws.amazon.com/lambda/latest/dg/snapstart.html#snapstart-supported-regions) pour Python et .NET. Enfin, [cette feature n'est pas gratuite](https://aws.amazon.com/lambda/pricing/#SnapStart_Pricing). Vérifiez bien le coût que cela pourrait engendrer si vous souhaitez l'activer sur vos Lambdas.
+ialisation).
 
-## Concurrence Provisionnée (Provisioned Concurrency - PC)
+## Provisioned Concurrency
 
-Si votre application a un trafic prévisible ou si la latence des démarrages à froid est inacceptable, vous pouvez utiliser la Concurrence Provisionnée. Vous demandez à Lambda de garder un certain nombre d'environnements d'exécution pré-initialisés (chauds) en permanence.
+Si votre application a un trafic prévisible ou si la latence des cold start n'est pas envisageable, vous pouvez utiliser ce qu'on appelle la "[Provisioned Concurrency](https://docs.aws.amazon.com/lambda/latest/dg/provisioned-concurrency.html)". Vous demandez à votre Lambda de garder un certain nombre d'environnements d'exécution pré-initialisés (chauds) en permanence.
 
-Avantage : les requêtes arrivant sur ces instances provisionnées ne subissent *jamais* de démarrage à froid. La phase `INIT` est faite en amont, avant même la première requête. C'est idéal pour les applications sensibles à la latence.
+Avantage : les requêtes arrivant sur ces instances provisionnées ne subissent *jamais* de cold start. La phase `INIT` est faite en amont, avant même la première requête.
 
-Inconvénient : vous payez pour la durée pendant laquelle ces environnements sont provisionnés, *qu'ils reçoivent des requêtes ou non*. La phase `INIT` est d'ailleurs facturée lors de la pré-initialisation. D'un point de vue coût, la PC est généralement plus intéressante que le mode "on-demand" uniquement si votre fonction a un taux d'utilisation soutenu (AWS mentionne une rentabilité souvent meilleure au-dessus de 60% d'utilisation de la capacité provisionnée).
+Inconvénient : vous payez pour la durée pendant laquelle ces environnements sont provisionnés, *qu'ils reçoivent des requêtes ou non*. La phase `INIT` est d'ailleurs facturée lors de la pré-initialisation.
+
+Là aussi, à vous de voir si cela vaut le coup d'activer cela sur certaines de vos Lambdas clées !
 
 # Conclusion
 
-Le changement de facturation de la phase `INIT` de Lambda qui arrive le **1er août 2025** est avant tout une standardisation. Pour la majorité des fonctions, cela signifie que la durée de cette phase sera désormais ajoutée à la durée facturée lors des cold start.
+Le changement de facturation de la phase `INIT` de Lambda qui arrive le **1er août 2025** est avant tout une standardisation. Pour la majorité des Lambdas, cela signifie que la durée de cette phase sera désormais ajoutée à la durée facturée lors des cold start.
 
 Même si l'impact financier sera probablement faible pour vous, c'est une excellente occasion de :
-1. **Comprendre** le cycle de vie de vos fonctions Lambda et ce qui se passe pendant l'initialisation.
+1. **Comprendre** le cycle de vie de vos Lambdas et ce qui se passe pendant l'initialisation.
 2. **Mesurer** la durée de la phase `INIT` de vos fonctions critiques grâce aux outils CloudWatch.
-3. **Optimiser** cette phase si nécessaire, en réduisant la taille de vos packages, en utilisant SnapStart, ou en envisageant la Concurrence Provisionnée pour les cas d'usage appropriés.
+3. **Optimiser** cette phase si nécessaire, en réduisant la taille de vos packages, en utilisant SnapStart, ou en envisageant la Provisioned Concurrency pour des cas spécifiques.
 
 Alors, n'attendez pas le mois d'août ! Familiarisez-vous avec CloudWatch Logs Insights dès maintenant. Cela vous permettra d'identifier les Lambdas à optimiser en priorité et d'éviter toute mauvaise surprise sur votre facture AWS.

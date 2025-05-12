@@ -428,7 +428,7 @@
 <p>Il y a quelques jours, <a class="link" href="https://aws.amazon.com/blogs/compute/aws-lambda-standardizes-billing-for-init-phase"  target="_blank" rel="noopener"
     >AWS a annoncé une modification dans la manière dont la phase d&rsquo;initialisation des Lambdas est facturée</a>. <strong>À partir du 1er août 2025</strong>, cette phase sera systématiquement incluse dans le calcul de la durée facturée, et ce, pour <em>toutes</em> les Lambdas.</p>
 <p>Si vous n&rsquo;étiez pas au courant, sachez que jusqu&rsquo;à présent, si vous utilisiez des fonctions Lambdas avec un code packagé en ZIP avec des runtimes managés par AWS (comme Python, Node.js, etc.), la durée de cette phase <code>INIT</code> n&rsquo;était pas facturée. C&rsquo;était un petit &ldquo;cadeau&rdquo; de la part d&rsquo;AWS (plutôt sympa de leur part). Mais toutes les bonnes choses ont une fin, et il faudra maintenant payer ce temps d&rsquo;initialisation de nos Lambdas.</p>
-<p>Alors, cela va t&rsquo;il rendre l&rsquo;usage des Lambdas trop cher ? Et comment faire en sorte de réduire au maximum cette partie d&rsquo;initialisation ? Je vous propose aujourd&rsquo;hui de répondre à toutes ces questions !</p>
+<p>Alors, cela va-t-il rendre l&rsquo;usage des Lambdas trop cher ? Et comment faire en sorte de réduire au maximum cette partie d&rsquo;initialisation ? Je vous propose aujourd&rsquo;hui de répondre à toutes ces questions !</p>
 <h1 id="comprendre-le-cycle-de-vie-dune-lambda"><a href="#comprendre-le-cycle-de-vie-dune-lambda" class="header-anchor"></a>Comprendre le cycle de vie d&rsquo;une Lambda
 </h1><p>Avant de plonger dans la facturation, c&rsquo;est l&rsquo;occasion de se rappeler du <a class="link" href="https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtime-environment.html"  target="_blank" rel="noopener"
     >cycle de vie d&rsquo;une Lambda</a>.</p>
@@ -443,9 +443,9 @@
 <li><strong>SHUTDOWN :</strong> Quand l&rsquo;environnement d&rsquo;exécution n&rsquo;est plus utilisé pendant un certain temps, la Lambda se &ldquo;shutdown&rdquo; pour libérer les ressources. Si une nouvelle requête arrive, la Lambda devra de nouveau passer par la phase d&rsquo;INIT.</li>
 </ol>
 <p>Pendant la phase <code>INIT</code>, <a class="link" href="https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtime-environment.html#runtimes-lifecycle-ib"  target="_blank" rel="noopener"
-    >notre Lambda fait plusieurs choses</a> :</p>
+    >votre Lambda fait plusieurs choses</a> :</p>
 <ul>
-<li>Récupère notre code (depuis S3 pour un ZIP, ou ECR pour une image Docker).</li>
+<li>Récupère votre code (depuis S3 pour un ZIP, ou ECR pour une image Docker).</li>
 <li>Configure l&rsquo;environnement avec la mémoire allouée, le runtime choisi, etc.</li>
 <li>Démarre le runtime (<code>Runtime INIT</code>).</li>
 <li>Exécute le code statique de votre fonction (tout ce qui est en dehors du handler, par exemple l&rsquo;initialisation de variables globales ou de <code>boto3</code>) (<code>Function INIT</code>).</li>

@@ -309,7 +309,7 @@
         <li><a href="#utiliser-stratégiquement-la-phase-init">Utiliser stratégiquement la phase INIT</a></li>
         <li><a href="#optimiser-la-taille-du-package">Optimiser la taille du package</a></li>
         <li><a href="#lambda-snapstart">Lambda SnapStart</a></li>
-        <li><a href="#concurrence-provisionnée-provisioned-concurrency---pc">Concurrence Provisionnée (Provisioned Concurrency - PC)</a></li>
+        <li><a href="#provisioned-concurrency">Provisioned Concurrency</a></li>
       </ol>
     </li>
     <li><a href="#conclusion">Conclusion</a></li>
@@ -389,7 +389,7 @@
 
 
                 <time class="article-time--reading">
-                    13 minutes de lecture
+                    12 minutes de lecture
                 </time>
             </div>
         
@@ -755,7 +755,7 @@
 <li><code>UnbilledInitGBs</code> : Le total de Go-secondes consommés pendant la phase <code>INIT</code> qui n&rsquo;étaient <em>pas</em> facturés auparavant.</li>
 <li><code>Ratio</code> : Le pourcentage que représentent ces Go-secondes <code>INIT</code> non facturés par rapport au total des Go-secondes consommés.</li>
 </ul>
-<p>Dans notre exemple, la part du coût de l&rsquo;<code>INI</code> représente <strong>14%</strong> de notre future facture ! Selon votre facture actuelle, cela pourrait être non négligeable.</p>
+<p>Dans notre exemple, la part du coût de l&rsquo;<code>INIT</code> représente <strong>14%</strong> de notre future facture ! Selon votre facture actuelle, cela pourrait être non négligeable.</p>
 <h1 id="comprendre-et-optimiser-sa-lambda"><a href="#comprendre-et-optimiser-sa-lambda" class="header-anchor"></a>Comprendre et optimiser sa Lambda
 </h1><p>Bon, vous savez que vous allez devoir sortir la carte bleue. Mais n&rsquo;y a-t-il pas un levier d&rsquo;action pour diminuer cette augmentation dans votre facture ?</p>
 <p>Je vous donne ici quelques conseils pour utiliser cette phase INIT au mieux et ainsi réduire vos futurs coûts.</p>
@@ -776,19 +776,25 @@
 <h2 id="lambda-snapstart"><a href="#lambda-snapstart" class="header-anchor"></a>Lambda SnapStart
 </h2><p>Disponible pour les runtimes <strong>Java, .NET et Python</strong>, <a class="link" href="https://docs.aws.amazon.com/lambda/latest/dg/snapstart.html"  target="_blank" rel="noopener"
     >SnapStart</a> est une fonctionnalité très intéressante pour combattre les &ldquo;cold start&rdquo;. Quand vous l&rsquo;activez, Lambda prend un &ldquo;snapshot&rdquo; de l&rsquo;environnement d&rsquo;exécution initialisé <em>après</em> la première phase <code>INIT</code>. Pour les &ldquo;cold start&rdquo; suivants, la Lambda va restaurer ce snapshot au lieu de refaire toute la phase d&rsquo;<code>INIT</code>, ce qui vous fera gagner pas mal de temps.</p>
-<p>J&rsquo;imagine qu&rsquo;à la lecture de cette fonctionnalité, vous vous dites &ldquo;mais enfin c&rsquo;est super, je vais activer cette feature sur toutes mes Lambdas !&rdquo;.</p>
-<p>Résultat : les démarrages à froid suivants sont beaucoup plus rapides, et la durée facturée de la phase <code>INIT</code> est considérablement réduite (voire éliminée pour ces démarrages suivants). C&rsquo;est particulièrement efficace si votre phase <code>INIT</code> est longue à cause du chargement de frameworks lourds (comme Spring Boot en Java) ou de beaucoup de dépendances. Attention, votre code doit être compatible avec la restauration depuis un snapshot (quelques limitations existent, notamment sur l&rsquo;unicité ou le caractère aléatoire lors de l&rsquo;initialisation).</p>
-<h2 id="concurrence-provisionnée-provisioned-concurrency---pc"><a href="#concurrence-provisionn%c3%a9e-provisioned-concurrency---pc" class="header-anchor"></a>Concurrence Provisionnée (Provisioned Concurrency - PC)
-</h2><p>Si votre application a un trafic prévisible ou si la latence des démarrages à froid est inacceptable, vous pouvez utiliser la Concurrence Provisionnée. Vous demandez à Lambda de garder un certain nombre d&rsquo;environnements d&rsquo;exécution pré-initialisés (chauds) en permanence.</p>
-<p>Avantage : les requêtes arrivant sur ces instances provisionnées ne subissent <em>jamais</em> de démarrage à froid. La phase <code>INIT</code> est faite en amont, avant même la première requête. C&rsquo;est idéal pour les applications sensibles à la latence.</p>
-<p>Inconvénient : vous payez pour la durée pendant laquelle ces environnements sont provisionnés, <em>qu&rsquo;ils reçoivent des requêtes ou non</em>. La phase <code>INIT</code> est d&rsquo;ailleurs facturée lors de la pré-initialisation. D&rsquo;un point de vue coût, la PC est généralement plus intéressante que le mode &ldquo;on-demand&rdquo; uniquement si votre fonction a un taux d&rsquo;utilisation soutenu (AWS mentionne une rentabilité souvent meilleure au-dessus de 60% d&rsquo;utilisation de la capacité provisionnée).</p>
+<p>J&rsquo;imagine qu&rsquo;à la lecture de cette fonctionnalité, vous vous dites &ldquo;mais enfin c&rsquo;est super, je vais activer cette feature sur toutes mes Lambdas !&rdquo;. Sauf qu&rsquo;il y a quelques subtilités à connaître.</p>
+<p>Premièrement, SnapStart n&rsquo;est pour l&rsquo;instant <a class="link" href="https://docs.aws.amazon.com/lambda/latest/dg/snapstart.html#snapstart-runtimes"  target="_blank" rel="noopener"
+    >compatible qu&rsquo;avec des versions bien précises de certains langages</a> (Python 3.12 minimum, NodeJS pas supporté, &hellip;). Idem pour les régions, <a class="link" href="https://docs.aws.amazon.com/lambda/latest/dg/snapstart.html#snapstart-supported-regions"  target="_blank" rel="noopener"
+    >seulement 9 d&rsquo;entre elles supportent cette feature</a> pour Python et .NET. Enfin, <a class="link" href="https://aws.amazon.com/lambda/pricing/#SnapStart_Pricing"  target="_blank" rel="noopener"
+    >cette feature n&rsquo;est pas gratuite</a>. Vérifiez bien le coût que cela pourrait engendrer si vous souhaitez l&rsquo;activer sur vos Lambdas.
+ialisation).</p>
+<h2 id="provisioned-concurrency"><a href="#provisioned-concurrency" class="header-anchor"></a>Provisioned Concurrency
+</h2><p>Si votre application a un trafic prévisible ou si la latence des cold start n&rsquo;est pas envisageable, vous pouvez utiliser ce qu&rsquo;on appelle la &ldquo;<a class="link" href="https://docs.aws.amazon.com/lambda/latest/dg/provisioned-concurrency.html"  target="_blank" rel="noopener"
+    >Provisioned Concurrency</a>&rdquo;. Vous demandez à votre Lambda de garder un certain nombre d&rsquo;environnements d&rsquo;exécution pré-initialisés (chauds) en permanence.</p>
+<p>Avantage : les requêtes arrivant sur ces instances provisionnées ne subissent <em>jamais</em> de cold start. La phase <code>INIT</code> est faite en amont, avant même la première requête.</p>
+<p>Inconvénient : vous payez pour la durée pendant laquelle ces environnements sont provisionnés, <em>qu&rsquo;ils reçoivent des requêtes ou non</em>. La phase <code>INIT</code> est d&rsquo;ailleurs facturée lors de la pré-initialisation.</p>
+<p>Là aussi, à vous de voir si cela vaut le coup d&rsquo;activer cela sur certaines de vos Lambdas clées !</p>
 <h1 id="conclusion"><a href="#conclusion" class="header-anchor"></a>Conclusion
-</h1><p>Le changement de facturation de la phase <code>INIT</code> de Lambda qui arrive le <strong>1er août 2025</strong> est avant tout une standardisation. Pour la majorité des fonctions, cela signifie que la durée de cette phase sera désormais ajoutée à la durée facturée lors des cold start.</p>
+</h1><p>Le changement de facturation de la phase <code>INIT</code> de Lambda qui arrive le <strong>1er août 2025</strong> est avant tout une standardisation. Pour la majorité des Lambdas, cela signifie que la durée de cette phase sera désormais ajoutée à la durée facturée lors des cold start.</p>
 <p>Même si l&rsquo;impact financier sera probablement faible pour vous, c&rsquo;est une excellente occasion de :</p>
 <ol>
-<li><strong>Comprendre</strong> le cycle de vie de vos fonctions Lambda et ce qui se passe pendant l&rsquo;initialisation.</li>
+<li><strong>Comprendre</strong> le cycle de vie de vos Lambdas et ce qui se passe pendant l&rsquo;initialisation.</li>
 <li><strong>Mesurer</strong> la durée de la phase <code>INIT</code> de vos fonctions critiques grâce aux outils CloudWatch.</li>
-<li><strong>Optimiser</strong> cette phase si nécessaire, en réduisant la taille de vos packages, en utilisant SnapStart, ou en envisageant la Concurrence Provisionnée pour les cas d&rsquo;usage appropriés.</li>
+<li><strong>Optimiser</strong> cette phase si nécessaire, en réduisant la taille de vos packages, en utilisant SnapStart, ou en envisageant la Provisioned Concurrency pour des cas spécifiques.</li>
 </ol>
 <p>Alors, n&rsquo;attendez pas le mois d&rsquo;août ! Familiarisez-vous avec CloudWatch Logs Insights dès maintenant. Cela vous permettra d&rsquo;identifier les Lambdas à optimiser en priorité et d&rsquo;éviter toute mauvaise surprise sur votre facture AWS.</p>
 

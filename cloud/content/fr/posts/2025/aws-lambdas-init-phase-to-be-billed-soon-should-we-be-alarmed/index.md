@@ -15,7 +15,7 @@ Il y a quelques jours, [AWS a annoncé une modification dans la manière dont la
 
 Si vous n'étiez pas au courant, sachez que jusqu'à présent, si vous utilisiez des fonctions Lambdas avec un code packagé en ZIP avec des runtimes managés par AWS (comme Python, Node.js, etc.), la durée de cette phase `INIT` n'était pas facturée. C'était un petit "cadeau" de la part d'AWS (plutôt sympa de leur part). Mais toutes les bonnes choses ont une fin, et il faudra maintenant payer ce temps d'initialisation de nos Lambdas.
 
-Alors, cela va t'il rendre l'usage des Lambdas trop cher ? Et comment faire en sorte de réduire au maximum cette partie d'initialisation ? Je vous propose aujourd'hui de répondre à toutes ces questions !
+Alors, cela va-t-il rendre l'usage des Lambdas trop cher ? Et comment faire en sorte de réduire au maximum cette partie d'initialisation ? Je vous propose aujourd'hui de répondre à toutes ces questions !
 
 # Comprendre le cycle de vie d'une Lambda
 
@@ -28,8 +28,8 @@ Cela se compose de trois phases principales :
 2. **INVOKE :** C'est là que votre code (le handler de votre fonction) est exécuté pour traiter la requête.
 3. **SHUTDOWN :** Quand l'environnement d'exécution n'est plus utilisé pendant un certain temps, la Lambda se "shutdown" pour libérer les ressources. Si une nouvelle requête arrive, la Lambda devra de nouveau passer par la phase d'INIT.
 
-Pendant la phase `INIT`, [notre Lambda fait plusieurs choses](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtime-environment.html#runtimes-lifecycle-ib) :
-* Récupère notre code (depuis S3 pour un ZIP, ou ECR pour une image Docker).
+Pendant la phase `INIT`, [votre Lambda fait plusieurs choses](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtime-environment.html#runtimes-lifecycle-ib) :
+* Récupère votre code (depuis S3 pour un ZIP, ou ECR pour une image Docker).
 * Configure l'environnement avec la mémoire allouée, le runtime choisi, etc.
 * Démarre le runtime (`Runtime INIT`).
 * Exécute le code statique de votre fonction (tout ce qui est en dehors du handler, par exemple l'initialisation de variables globales ou de `boto3`) (`Function INIT`).

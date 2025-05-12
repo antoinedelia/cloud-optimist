@@ -6,13 +6,13 @@
         <description>Recent content on The Cloud Optimist</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>en-US</language>
-        <lastBuildDate>Tue, 20 May 2025 07:30:00 +0100</lastBuildDate><atom:link href="https://antoinedelia.github.io/cloud-optimist/pr-57/en/index.xml" rel="self" type="application/rss+xml" /><item>
-        <title>AWS Lambdas INIT Phase To Be Billed Soon - Should We Be Alarmed?</title>
+        <lastBuildDate>Tue, 13 May 2025 07:30:00 +0100</lastBuildDate><atom:link href="https://antoinedelia.github.io/cloud-optimist/pr-57/en/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>AWS Lambda: INIT Phase To Be Billed Soon - Should We Be Alarmed?</title>
         <link>https://antoinedelia.github.io/cloud-optimist/pr-57/en/posts/2025/aws-lambdas-init-phase-to-be-billed-soon-should-we-be-alarmed/</link>
-        <pubDate>Tue, 20 May 2025 07:30:00 +0100</pubDate>
+        <pubDate>Tue, 13 May 2025 07:30:00 +0100</pubDate>
         
         <guid>https://antoinedelia.github.io/cloud-optimist/pr-57/en/posts/2025/aws-lambdas-init-phase-to-be-billed-soon-should-we-be-alarmed/</guid>
-        <description>&lt;img src="https://antoinedelia.github.io/cloud-optimist/pr-57/fr/posts/2025/aws-lambdas-init-phase-to-be-billed-soon-should-we-be-alarmed/lambda-init-billing.jpeg" alt="Featured image of post AWS Lambdas INIT Phase To Be Billed Soon - Should We Be Alarmed?" /&gt;&lt;h1 id=&#34;introduction&#34;&gt;&lt;a href=&#34;#introduction&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Introduction
+        <description>&lt;img src="https://antoinedelia.github.io/cloud-optimist/pr-57/fr/posts/2025/aws-lambdas-init-phase-to-be-billed-soon-should-we-be-alarmed/lambda-init-billing.jpeg" alt="Featured image of post AWS Lambda: INIT Phase To Be Billed Soon - Should We Be Alarmed?" /&gt;&lt;h1 id=&#34;introduction&#34;&gt;&lt;a href=&#34;#introduction&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Introduction
 &lt;/h1&gt;&lt;p&gt;Ah, Lambdas. Probably my favorite AWS service! Almost instantly, they allow you to create a small script or even a fully hosted API backend in the Cloud, all at a low cost thanks to the &amp;ldquo;pay-as-you-go&amp;rdquo; model. But is it too good to be true?&lt;/p&gt;
 &lt;p&gt;A few days ago, &lt;a class=&#34;link&#34; href=&#34;https://aws.amazon.com/blogs/compute/aws-lambda-standardizes-billing-for-init-phase&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;AWS announced a change in how the Lambda initialization phase is billed&lt;/a&gt;. &lt;strong&gt;Starting August 1, 2025&lt;/strong&gt;, this phase will systematically be included in the billed duration calculation, for &lt;em&gt;all&lt;/em&gt; Lambdas.&lt;/p&gt;

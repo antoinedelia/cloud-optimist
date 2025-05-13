@@ -442,6 +442,16 @@
 <li><strong>INVOKE :</strong> C&rsquo;est là que votre code (le handler de votre fonction) est exécuté pour traiter la requête.</li>
 <li><strong>SHUTDOWN :</strong> Quand l&rsquo;environnement d&rsquo;exécution n&rsquo;est plus utilisé pendant un certain temps, la Lambda se &ldquo;shutdown&rdquo; pour libérer les ressources. Si une nouvelle requête arrive, la Lambda devra de nouveau passer par la phase d&rsquo;INIT.</li>
 </ol>
+<p><img src="/img/aws-lambdas-init-phase-to-be-billed-soon-should-we-be-alarmed/lambda_lifecycle.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="Lambda Lifecycle"
+	
+	
+></p>
 <p>Pendant la phase <code>INIT</code>, <a class="link" href="https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtime-environment.html#runtimes-lifecycle-ib"  target="_blank" rel="noopener"
     >votre Lambda fait plusieurs choses</a> :</p>
 <ul>

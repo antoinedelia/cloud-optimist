@@ -23,7 +23,7 @@ jobs:
       - name: Build site with drafts
         run: |
           cd cloud
-          hugo --buildDrafts --baseURL "https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/pr-${{ github.event.number }}/"
+          hugo --buildDrafts --buildFuture --baseURL "https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/pr-${{ github.event.number }}/"
 
       - name: Deploy to GitHub Pages branch for PR
         uses: peaceiris/actions-gh-pages@v4
@@ -33,13 +33,17 @@ jobs:
           publish_branch: gh-pages
           destination_dir: pr-${{ github.event.number }}
 
-      - name: Comment preview URL on PR
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          gh pr comment ${{ github.event.pull_request.number }} \
-            --repo ${{ github.repository }} \
-            --body "🚀 Hugo preview is ready: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/pr-${{ github.event.number }}/"
+      - name: Wait for GitHub Pages to be deployed
+        run: sleep 10
+
+      - name: Add or Update PR Comment with Preview URL
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: preview-url-comment
+          message: |
+            🚀 Hugo preview is ready: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/pr-${{ github.event.number }}/
+
+            Don't forget to clear your cache 🧹
 
   delete-preview:
     if: github.event.action == 'closed'

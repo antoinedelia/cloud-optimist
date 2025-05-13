@@ -1,6 +1,6 @@
 ---
 title: "AWS Lambda: INIT Phase To Be Billed Soon - Should We Be Alarmed?"
-date: 2025-05-13T07:30:00+01:00
+date: 2025-05-13T07:30:00+02:00
 author: Antoine Delia
 draft: false
 tags:

@@ -74,6 +74,9 @@ Supposons les points suivants :
 * Coût par requête : $0.20 par million de requêtes.
 * Coût de la durée (x86) : $0.0000166667 par GB-seconde.
 
+<details>
+  <summary>Détails des calculs</summary>
+    
 **Calcul du coût AVANT le 1er août 2025 :**
 
 1. **Coût des requêtes :** 10 millions req * ($0.20 / 1 million req) = **$2.00**
@@ -96,7 +99,9 @@ Supposons les points suivants :
     * Coût Durée : 30'100'000 Go-s * $0.0000166667/Go-s = **$501.67**
 3. **Coût total mensuel (Après) :** $2.00 + $501.67 = **$503.67**
 
-**Conclusion :** Dans ce scénario précis, l'augmentation est seulement de **$1.67 par mois**. C'est effectivement minime, et cela confirme la communication d'AWS. Mais faites quand même attention, car l'impact *réel* dépendra fortement de :
+</details>
+
+Dans ce scénario précis, l'augmentation est seulement de **$1.67 par mois**. C'est effectivement minime, et cela confirme la communication d'AWS. Mais faites quand même attention, car l'impact *réel* dépendra fortement de :
 * La mémoire allouée à vos Lambdas (plus de mémoire = coût par ms plus élevé).
 * La durée réelle de votre phase `INIT`.
 * Votre taux de cold start (peut être plus élevé si votre trafic est irrégulier).

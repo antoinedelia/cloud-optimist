@@ -29,6 +29,8 @@ It consists of three main phases:
 2.  **INVOKE:** This is where your code (the function handler) is executed to process the request.
 3.  **SHUTDOWN:** When the execution environment hasn't been used for a certain period, the Lambda shuts down to free up resources. If a new request arrives, the Lambda will have to go through the INIT phase again.
 
+![Lambda Lifecycle](/img/aws-lambdas-init-phase-to-be-billed-soon-should-we-be-alarmed/lambda_lifecycle.png)
+
 During the `INIT` phase, [your Lambda performs several actions](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtime-environment.html#runtimes-lifecycle-ib):
 * Retrieves your code (from S3 for a ZIP, or ECR for a Docker image).
 * Configures the environment with the allocated memory, chosen runtime, etc.

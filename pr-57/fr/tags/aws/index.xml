@@ -88,6 +88,8 @@
 &lt;li&gt;Coût par requête : $0.20 par million de requêtes.&lt;/li&gt;
 &lt;li&gt;Coût de la durée (x86) : $0.0000166667 par GB-seconde.&lt;/li&gt;
 &lt;/ul&gt;
+&lt;details&gt;
+  &lt;summary&gt;Détails des calculs&lt;/summary&gt;
 &lt;p&gt;&lt;strong&gt;Calcul du coût AVANT le 1er août 2025 :&lt;/strong&gt;&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;&lt;strong&gt;Coût des requêtes :&lt;/strong&gt; 10 millions req * ($0.20 / 1 million req) = &lt;strong&gt;$2.00&lt;/strong&gt;&lt;/li&gt;
@@ -116,7 +118,8 @@
 &lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;Coût total mensuel (Après) :&lt;/strong&gt; $2.00 + $501.67 = &lt;strong&gt;$503.67&lt;/strong&gt;&lt;/li&gt;
 &lt;/ol&gt;
-&lt;p&gt;&lt;strong&gt;Conclusion :&lt;/strong&gt; Dans ce scénario précis, l&amp;rsquo;augmentation est seulement de &lt;strong&gt;$1.67 par mois&lt;/strong&gt;. C&amp;rsquo;est effectivement minime, et cela confirme la communication d&amp;rsquo;AWS. Mais faites quand même attention, car l&amp;rsquo;impact &lt;em&gt;réel&lt;/em&gt; dépendra fortement de :&lt;/p&gt;
+&lt;/details&gt;
+&lt;p&gt;Dans ce scénario précis, l&amp;rsquo;augmentation est seulement de &lt;strong&gt;$1.67 par mois&lt;/strong&gt;. C&amp;rsquo;est effectivement minime, et cela confirme la communication d&amp;rsquo;AWS. Mais faites quand même attention, car l&amp;rsquo;impact &lt;em&gt;réel&lt;/em&gt; dépendra fortement de :&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;La mémoire allouée à vos Lambdas (plus de mémoire = coût par ms plus élevé).&lt;/li&gt;
 &lt;li&gt;La durée réelle de votre phase &lt;code&gt;INIT&lt;/code&gt;.&lt;/li&gt;

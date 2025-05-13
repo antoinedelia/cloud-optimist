@@ -88,6 +88,8 @@
 &lt;li&gt;Cost per request: $0.20 per million requests.&lt;/li&gt;
 &lt;li&gt;Duration cost (x86): $0.0000166667 per GB-second.&lt;/li&gt;
 &lt;/ul&gt;
+&lt;details&gt;
+  &lt;summary&gt;Details of the calculation&lt;/summary&gt;
 &lt;p&gt;&lt;strong&gt;Cost Calculation BEFORE August 1, 2025:&lt;/strong&gt;&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;&lt;strong&gt;Request Cost:&lt;/strong&gt; 10 million req * ($0.20 / 1 million req) = &lt;strong&gt;$2.00&lt;/strong&gt;&lt;/li&gt;
@@ -116,7 +118,8 @@
 &lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;Total Monthly Cost (After):&lt;/strong&gt; $2.00 + $501.67 = &lt;strong&gt;$503.67&lt;/strong&gt;&lt;/li&gt;
 &lt;/ol&gt;
-&lt;p&gt;&lt;strong&gt;Conclusion:&lt;/strong&gt; In this specific scenario, the increase is only &lt;strong&gt;$1.67 per month&lt;/strong&gt;. This is indeed minimal and confirms AWS&amp;rsquo;s communication. But be careful, as the &lt;em&gt;actual&lt;/em&gt; impact will strongly depend on:&lt;/p&gt;
+&lt;/details&gt;
+&lt;p&gt;In this specific scenario, the increase is only &lt;strong&gt;$1.67 per month&lt;/strong&gt;. This is indeed minimal and confirms AWS&amp;rsquo;s communication. But be careful, as the &lt;em&gt;actual&lt;/em&gt; impact will strongly depend on:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;The memory allocated to your Lambdas (more memory = higher cost per ms).&lt;/li&gt;
 &lt;li&gt;The actual duration of your &lt;code&gt;INIT&lt;/code&gt; phase.&lt;/li&gt;

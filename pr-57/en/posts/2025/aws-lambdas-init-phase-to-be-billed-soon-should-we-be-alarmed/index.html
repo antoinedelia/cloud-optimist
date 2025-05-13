@@ -499,6 +499,8 @@
 <li>Cost per request: $0.20 per million requests.</li>
 <li>Duration cost (x86): $0.0000166667 per GB-second.</li>
 </ul>
+<details>
+  <summary>Details of the calculation</summary>
 <p><strong>Cost Calculation BEFORE August 1, 2025:</strong></p>
 <ol>
 <li><strong>Request Cost:</strong> 10 million req * ($0.20 / 1 million req) = <strong>$2.00</strong></li>
@@ -527,7 +529,8 @@
 </li>
 <li><strong>Total Monthly Cost (After):</strong> $2.00 + $501.67 = <strong>$503.67</strong></li>
 </ol>
-<p><strong>Conclusion:</strong> In this specific scenario, the increase is only <strong>$1.67 per month</strong>. This is indeed minimal and confirms AWS&rsquo;s communication. But be careful, as the <em>actual</em> impact will strongly depend on:</p>
+</details>
+<p>In this specific scenario, the increase is only <strong>$1.67 per month</strong>. This is indeed minimal and confirms AWS&rsquo;s communication. But be careful, as the <em>actual</em> impact will strongly depend on:</p>
 <ul>
 <li>The memory allocated to your Lambdas (more memory = higher cost per ms).</li>
 <li>The actual duration of your <code>INIT</code> phase.</li>

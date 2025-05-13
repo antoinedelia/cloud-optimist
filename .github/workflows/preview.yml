@@ -34,7 +34,11 @@ jobs:
           destination_dir: pr-${{ github.event.number }}
 
       - name: Wait for GitHub Pages to be deployed
-        run: sleep 10
+        run: sleep 20
+
+      - name: Get current timestamp
+        id: timestamp
+        run: echo "TIMESTAMP=$(date -u +'%Y-%m-%d %H:%M:%S UTC')" >> $GITHUB_ENV
 
       - name: Add or Update PR Comment with Preview URL
         uses: marocchino/sticky-pull-request-comment@v2
@@ -42,6 +46,8 @@ jobs:
           header: preview-url-comment
           message: |
             🚀 Hugo preview is ready: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/pr-${{ github.event.number }}/
+
+            *Last updated: ${{ env.TIMESTAMP }}*
 
             Don't forget to clear your cache 🧹
 

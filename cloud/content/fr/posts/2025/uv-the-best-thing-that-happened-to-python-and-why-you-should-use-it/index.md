@@ -11,28 +11,69 @@ image: uv.jpeg
 
 # Introduction
 
-Dans le monde merveilleux (et parfois un peu chaotique) de l'outillage Python, on est constamment à la recherche de l'outil qui va nous simplifier la vie, nous faire gagner du temps, et si possible, nous redonner le sourire face à des `pip install` interminables. Si vous avez déjà entendu parler de `ruff` (le linter/formateur ultra-rapide qui a conquis le cœur de nombreux développeurs Python, dont le mien !), alors préparez-vous à rencontrer son petit frère tout aussi impressionnant : `uv`.
+Python est sûrement mon langage de programmation préféré. Sa simplicité permet en un rien de temps de développer des scripts, des backends, voire même des sites internets, sans pour autant se faire des noeuds au cerveau.
 
-Créé par la même équipe talentueuse chez Astral, `uv` est présenté comme un installateur et résolveur de paquets Python "extrêmement rapide". Et croyez-moi, le terme "extrêmement" n'est pas galvaudé ! Depuis que je l'ai intégré dans mes projets et même dans nos guidelines d'entreprise, je ne peux plus m'en passer.
+Mais il y a toujours eu une chose qui me déplaisait chez Python : ses outils de packaging. Pendant longtemps, je me suis tenu à l'écart de tous ces outils comme `Poetry`, car bien franchement, je n'y comprenais rien !
+
+Et puis, j'ai fait une découverte qui, non seulement m'a montré que packager son code Python est un tâche toute simple, mais qui en plus a complètement changé toutes mes habitudes.
+
+Je veux parler de `uv`.
+
+Créé par la même équipe talentueuse de chez Astral (qui nous avait déjà régalé avec leur outil `ruff`), `uv` est présenté comme un installateur et résolveur de paquets Python "extrêmement rapide". Cet outil est ce qu'on pourrait appeller un "game-changer" : une fois que vous y avez goûté, impossible de revenir en arrière !
 
 Alors, qu'est-ce que `uv` a de si spécial ? Pourquoi cet engouement ? C'est ce que nous allons décortiquer ensemble. Accrochez-vous, vous pourriez bien avoir un nouveau coup de foudre !
 
-_(Petite note : Ce guide se base sur mon expérience avec `uv` et les exemples ont été testés avec la version 0.6.16. Selon votre configuration, notamment sous Windows ou derrière certains proxys d'entreprise, vous pourriez avoir besoin d'ajouter l'option `--native-tls` à certaines commandes `uv` si vous rencontrez des soucis de connexion SSL.)_
-
+> Ce guide se base sur mon expérience avec `uv` et les exemples ont été testés avec la version 0.7.3. Selon votre configuration, notamment derrière certains proxys d'entreprise, vous pourriez avoir besoin d'ajouter l'option `--native-tls` à certaines commandes `uv` si vous rencontrez des soucis de connexion SSL.)
 
 # `uv`, c'est quoi au juste ?
 
-En quelques mots, `uv` est un outil en ligne de commande qui ambitionne de remplacer `pip`, `pip-tools`, `venv`, et même une partie de `virtualenv` et `pipx`, tout en étant beaucoup, _beaucoup_ plus rapide. Il est écrit en Rust, ce qui explique en grande partie ses performances fulgurantes.
+En quelques mots, `uv` est un outil en ligne de commande qui ambitionne de remplacer `pip`, `pip-tools`, `venv`, et même une partie de `virtualenv` et `pipx`, tout en étant beaucoup, _beaucoup_ plus rapide. Oui, rien que ça !
 
-Son objectif principal est de gérer l'installation et la résolution des dépendances de vos projets Python, mais il fait bien plus que ça, comme nous allons le voir.
+Comme nombre de nouveaux outils à la mode, il est écrit en Rust. Pardon, je devrais dire, il est écrit en ✨ _Rust_ ✨. Ce qui explique en grande partie ses performances fulgurantes.
 
+## Préambule
 
-### Installation : Mettre le pied à l'étrier
+Avant de nous lancer tête la première dans `uv` et son fonctionnement, il est important de connaître quelques informations importantes.
 
-L'installation de `uv` est un jeu d'enfant. Vous avez plusieurs options, choisissez celle qui vous convient le mieux (la documentation officielle est [ici](https://docs.astral.sh/uv/getting-started/installation/) si besoin) :
+### Requirements
+
+`uv` base toute sa configuration sur votre fichier `pyproject.toml`. Si vous aviez l'habitude d'utiliser un `requirements.txt` par exemple, sachez que `uv` ne se basera pas dessus.
+
+Comme je suis sympa, je vous mets ici un gist d'un template de `pyproject.toml` que j'utilise à chaque fois pour démarrer un nouveau projet Python.
+
+### Virtual environment
+
+Comme moi, vous aviez peut-être l'habitude d'utiliser la commande `source .venv/bin/activate` pour activer votre environnement virtuel. Avec `uv`, c'est un peu différent. Votre `.venv` sera toujours crée, mais le but de `uv` est de toujours l'utiliser pour lancer ses commandes Python. Je m'explique.
+
+Là où à l'époque vous aurieuz dû faire ce genre de commandes pour lancer votre script.
 
 ```sh
-# Sur macOS et Linux
+python -m venv .venv
+source .venv/bin/activate
+pip install requests
+python main.py
+```
+
+Désormais, `uv` enlève la gestion de l'environnement virtuel de votre travail. Ainsi, les commandes ci-dessus seront remplacées par celles-ci.
+
+```sh
+uv add requests
+uv run main.py
+```
+
+Lorsque vous ajoutez un nouveau paquet à votre projet (avec la commande `uv add`), `uv` se charge automatiquement de créer un environment virtuel s'il n'existe pas déjà.
+Ensuite, en lançant votre script via `uv run`, il se mettra automatiquement dans votre environnement virtuel.
+
+---
+
+Bon, je crois que vous en savez assez pour commencer votre initiation. Allons-y !
+
+## Installation
+
+L'installation de `uv` est un jeu d'enfant. Vous avez plusieurs options, choisissez celle qui vous convient le mieux (n'hésitez pas à consulter la [documentation officielle sur son instalation](https://docs.astral.sh/uv/getting-started/installation/) si besoin) :
+
+```sh
+# Sur macOS et Linux - je vous recommande d'utiliser cela si possible
 curl -LsSf https://astral.sh/uv/install.sh | sh
 
 # Sur Windows (avec PowerShell)
@@ -40,12 +81,6 @@ powershell -c "irm https://astral.sh/uv/install.ps1 | iex"
 
 # Avec pip (si vous avez déjà un environnement Python)
 pip install uv
-
-# Avec pipx (recommandé si vous utilisez pipx)
-pipx install uv
-
-# Avec Homebrew (pour les utilisateurs macOS)
-brew install uv
 ```
 
 Une fois installé, vous pouvez le mettre à jour très simplement :
@@ -56,50 +91,37 @@ uv self update
 
 Et voilà, `uv` est prêt à l'emploi !
 
+## Gérer les versions de Python avec `uv` ? Oui, c'est possible !
 
-### Gérer les versions de Python avec `uv` ? Oui, c'est possible !
-
-Une des fonctionnalités sympathiques de `uv` est sa capacité à installer des versions spécifiques de Python. Plus besoin de jongler avec `pyenv` ou d'autres outils si vos besoins sont simples.
+Une des fonctionnalités sympathiques de `uv` est sa capacité à installer des versions spécifiques de Python. Plus besoin de passer par le site officiel Python, de jongler avec `pyenv` ou d'autres outils.
 
 Pour installer la dernière version stable de Python :
 
-```
+```sh
 uv python install
 ```
 
 Besoin d'une version particulière ? Pas de problème :
 
-```
+```sh
 # Installer Python 3.9
 uv python install 3.9
 ```
 
 Vous pouvez ensuite utiliser cette version pour exécuter un script :
 
-```
+```sh
 uv run --python 3.9 python mon_script.py
 ```
 
-Ou même pour créer un environnement virtuel basé sur cette version :
-
-```
-# Crée un venv avec Python 3.9, sans chercher de projet pyproject.toml
-uv run --no-project --python 3.9 uv venv
-source .venv/bin/activate # Ou .venv\Scripts\activate sous Windows
-
-# Et hop, vous êtes sous Python 3.9 dans ce venv !
-python -V
-# Output: Python 3.9.x (la version exacte installée par uv)
-```
-
-Attention cependant : Les versions de Python installées par `uv` ne sont pas disponibles "globalement" sur votre système via la simple commande `python`. Pour les utiliser, il faut passer par `uv run --python <version>` ou les activer dans un environnement virtuel créé avec cette version spécifique.
+> Les versions de Python installées par `uv` ne sont pas disponibles "globalement" sur votre système via la simple commande `python`. Pour les utiliser, il faut passer par `uv run --python <version>` ou les activer dans un environnement virtuel créé avec cette version spécifique. 
 
 
-### Environnements Virtuels : La Simplicité Retrouvée
+## Environnements Virtuels : La Simplicité Retrouvée
 
 Fini les `python -m venv .venv` un peu verbeux. Avec `uv`, c'est direct :
 
-```
+```sh
 uv venv
 ```
 
@@ -262,12 +284,6 @@ Avec le temps, `uv` (comme `pip`) accumule un cache de paquets téléchargés. P
 uv cache clean
 ```
 
-
-### Démarrage Rapide de Projets avec Cookiecutter et `uv`
-
-Si vous êtes adepte de `cookiecutter` pour générer des squelettes de projets, sachez que `uv` s'y intègre parfaitement. Vous pouvez créer des templates Cookiecutter qui incluent déjà un `pyproject.toml` configuré pour `uv` et même un `uv.lock` initial si vous le souhaitez. Cela permet de démarrer de nouveaux projets encore plus vite, avec toutes les bonnes pratiques `uv` déjà en place. Pensez à un template qui inclut `ruff`, `pytest`, et `uv` dans ses `[tool.uv.dev-dependencies]` !
-
-
 ### Pourquoi je suis Conquis et Pourquoi Vous Devriez l'Essayer
 
 Vous l'aurez compris, `uv` n'est pas juste "un autre gestionnaire de paquets". C'est une véritable bouffée d'air frais.
@@ -293,3 +309,10 @@ Alors, si vous cherchez à moderniser votre outillage Python et à gagner en pro
 - [uv tricks (bitecode.dev)](https://www.bitecode.dev/p/uv-tricks)
 
 
+# Bonus : `uv` cheatsheet
+
+Je vous mets ici une liste de commandes `uv` ultra pratiques. Une sorte de cheatsheet si vous préférez. N'hésitez pas à revenir la consulter au besoin !
+
+```sh
+uv self update
+```

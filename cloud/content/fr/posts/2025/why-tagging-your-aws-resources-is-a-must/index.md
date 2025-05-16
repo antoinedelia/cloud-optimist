@@ -1,5 +1,5 @@
 ---
-title: "Pourquoi tagger vos ressources AWS est indispensable ?"
+title: "Pourquoi taguer vos ressources AWS est indispensable ?"
 date: 2025-05-24T07:30:00+02:00
 author: Antoine Delia
 draft: true
@@ -19,18 +19,27 @@ Dans cet article, j'aimerai vous montrer qu'une bonne stratégie de tags est cru
 
 A vos marques. Prêt ? Taguez !
 
-# Pourquoi les Tags Sont Vos Meilleurs Amis sur AWS ?
+# Pourquoi les tags sont-ils utiles ?
 
-Imaginez des étiquettes sur des boîtes de déménagement. Sans elles, impossible de savoir ce qu'il y a dedans ou à quelle pièce elles appartiennent. Les tags sur AWS, c'est pareil ! Un tag est une simple paire clé-valeur que vous assignez à vos ressources (instances EC2, buckets S3, bases de données RDS, etc.).
+Imaginez des étiquettes sur des boîtes de déménagement. Sans elles, impossible de savoir ce qu'il y a dedans ou à quelle pièce elles appartiennent. Les tags sur AWS, c'est pareil ! Un tag est une information (sous la forme clé-valeur) que vous assignez à vos ressources (instances EC2, buckets S3, bases de données RDS, etc.).
 
 Une bonne stratégie de tagging vous permet notamment de :
 
-1. Identifier les Ressources Orphelines : C'est le grand classique. Une ressource sans tag Project ou Owner ? Il y a de fortes chances qu'elle ait été oubliée et qu'elle consomme des ressources (et donc de l'argent) pour rien. Lister les ressources non taguées (ou mal taguées) est une première étape essentielle pour faire le ménage.
+1. Identifier des ressources orpheline : C'est le grand classique. Une ressource sans tag `Project` ou `Owner` ? Il y a de fortes chances qu'elle ait été oubliée et qu'elle consomme des ressources (et donc de l'argent) pour rien. Lister les ressources non taguées (ou mal taguées) est une première étape essentielle pour faire le ménage.
 2. Ventiler les Coûts : En taguant vos ressources avec un identifiant de projet, de centre de coût, ou d'équipe, vous pouvez ensuite utiliser AWS Cost Explorer pour filtrer vos dépenses et comprendre précisément quels projets consomment le plus. Indispensable pour la refacturation interne ou simplement pour optimiser votre budget.
-3. Automatiser des Actions : Les tags peuvent servir de déclencheurs pour des scripts d'automatisation (par exemple, sauvegarder toutes les instances avec le tag Backup=Daily).
+3. Automatiser des Actions : Les tags peuvent servir de déclencheurs pour des scripts d'automatisation (par exemple, sauvegarder toutes les instances avec le tag `Backup=Daily`).
 4. Gérer les Accès et la Sécurité : Les politiques IAM peuvent utiliser les tags pour accorder des permissions granulaires.
 
 Bref, taguer, c'est la base d'une bonne gouvernance Cloud.
+
+# Quels tags utiliser ?
+
+On peut fort heureusement associés plusieurs tags à une même ressource. Mais cela pose la question : combien de tags sont nécessaires ?
+
+Cela va dépendre de votre entreprise et de chaque projet, mais globalement, il y a des tags qui ne font pas de mal, peu importe votre situation :
+* **Project** : d
+* **Environment** : r
+* **Owner** : test
 
 # Retrouver ses Petits : Les Outils à Votre Service
 Maintenant que l'on est convaincu de l'utilité des tags, comment fait-on pour lister nos ressources en fonction de ces précieuses étiquettes ?

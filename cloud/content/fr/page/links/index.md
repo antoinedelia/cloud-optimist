@@ -28,5 +28,5 @@ menu:
 comments: false
 readingTime: false
 license:
-    license.enabled: false
+    enabled: false
 ---

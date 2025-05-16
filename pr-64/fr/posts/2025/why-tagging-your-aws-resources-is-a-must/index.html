@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="fr-FR" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="Introduction Plus on déploie de services sur AWS, plus on commence à s&rsquo;y perdre. Au début, on connaît par coeur tous les services qu&rsquo;on utilise, le nombre de Lambdas ou d&rsquo;EC2 qui sont lancées. Mais petit à petit, il est facile de ne plus savoir où donner de la tête, surtout lorsque différents projets s&rsquo;accumulent. Retrouver rapidement quelles ressources appartiennent à quel projet, ou identifier celles qui n&rsquo;ont pas été correctement nettoyées après un PoC, tout cela peut vite devenir un casse-tête. Et c&rsquo;est sans parler de la vision des coûts !\n">
+<title>Pourquoi tagger vos ressources AWS est indispensable ?</title>
+
+<link rel='canonical' href='https://antoinedelia.github.io/cloud-optimist/pr-64/fr/posts/2025/why-tagging-your-aws-resources-is-a-must/'>
+
+<link rel="stylesheet" href="/cloud-optimist/pr-64/scss/style.min.663803bebe609202d5b39d848f2d7c2dc8b598a2d879efa079fa88893d29c49c.css"><meta property='og:title' content="Pourquoi tagger vos ressources AWS est indispensable ?">
+<meta property='og:description' content="Introduction Plus on déploie de services sur AWS, plus on commence à s&rsquo;y perdre. Au début, on connaît par coeur tous les services qu&rsquo;on utilise, le nombre de Lambdas ou d&rsquo;EC2 qui sont lancées. Mais petit à petit, il est facile de ne plus savoir où donner de la tête, surtout lorsque différents projets s&rsquo;accumulent. Retrouver rapidement quelles ressources appartiennent à quel projet, ou identifier celles qui n&rsquo;ont pas été correctement nettoyées après un PoC, tout cela peut vite devenir un casse-tête. Et c&rsquo;est sans parler de la vision des coûts !\n">
+<meta property='og:url' content='https://antoinedelia.github.io/cloud-optimist/pr-64/fr/posts/2025/why-tagging-your-aws-resources-is-a-must/'>
+<meta property='og:site_name' content='The Cloud Optimist'>
+<meta property='og:type' content='article'><meta property='article:section' content='Posts' /><meta property='article:tag' content='AWS' /><meta property='article:published_time' content='2025-05-24T07:30:00&#43;02:00'/><meta property='article:modified_time' content='2025-05-24T07:30:00&#43;02:00'/><meta property='og:image' content='https://antoinedelia.github.io/cloud-optimist/pr-64/fr/posts/2025/why-tagging-your-aws-resources-is-a-must/aws_tagging.jpeg' />
+<meta name="twitter:title" content="Pourquoi tagger vos ressources AWS est indispensable ?">
+<meta name="twitter:description" content="Introduction Plus on déploie de services sur AWS, plus on commence à s&rsquo;y perdre. Au début, on connaît par coeur tous les services qu&rsquo;on utilise, le nombre de Lambdas ou d&rsquo;EC2 qui sont lancées. Mais petit à petit, il est facile de ne plus savoir où donner de la tête, surtout lorsque différents projets s&rsquo;accumulent. Retrouver rapidement quelles ressources appartiennent à quel projet, ou identifier celles qui n&rsquo;ont pas été correctement nettoyées après un PoC, tout cela peut vite devenir un casse-tête. Et c&rsquo;est sans parler de la vision des coûts !\n"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://antoinedelia.github.io/cloud-optimist/pr-64/fr/posts/2025/why-tagging-your-aws-resources-is-a-must/aws_tagging.jpeg' />
+    <link rel="shortcut icon" href="/favicon.ico" />
+
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Afficher le menu">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/cloud-optimist/pr-64/fr/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/cloud-optimist/pr-64/img/avatar_hu_bf2a480adb63282c.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">☁️</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/cloud-optimist/pr-64/fr">The Cloud Optimist</a></h1>
+            <h2 class="site-description">Un blog autour des sujets Cloud &amp; DevOps.</h2>
+        </div>
+    </header><ol class="menu-social">
+            
+                <li>
+                    <a 
+                        href='https://github.com/antoinedelia/'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://linkedin.com/in/antoinedelia'
+                        target="_blank"
+                        title="LinkedIn"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-brand-linkedin"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M8 11v5" /><path d="M8 8v.01" /><path d="M12 16v-5" /><path d="M16 16v-3a2 2 0 1 0 -4 0" /><path d="M3 7a4 4 0 0 1 4 -4h10a4 4 0 0 1 4 4v10a4 4 0 0 1 -4 4h-10a4 4 0 0 1 -4 -4z" /></svg>
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://stackoverflow.com/users/4141606/antoine-delia?tab=profile'
+                        target="_blank"
+                        title="Stack Overflow"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-brand-stackoverflow"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 17v1a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-1" /><path d="M8 16h8" /><path d="M8.322 12.582l7.956 .836" /><path d="M8.787 9.168l7.826 1.664" /><path d="M10.096 5.764l7.608 2.472" /></svg>
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/cloud-optimist/pr-64/fr' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>Accueil</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/cloud-optimist/pr-64/fr/about/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>À Propos</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/cloud-optimist/pr-64/fr/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>Archives</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/cloud-optimist/pr-64/fr/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>Recherche</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/cloud-optimist/pr-64/fr/liens/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>Liens</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+                    
+                        <li id="i18n-switch">  
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                            <select name="language" title="language" onchange="window.location.href = this.selectedOptions[0].value">
+                                
+                                    <option value="https://antoinedelia.github.io/cloud-optimist/pr-64/fr/" selected>French</option>
+                                
+                                    <option value="https://antoinedelia.github.io/cloud-optimist/pr-64/en/" >English</option>
+                                
+                            </select>
+                        </li>
+                    
+                
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>Mode sombre</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">Table des matières</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#introduction">Introduction</a></li>
+    <li><a href="#pourquoi-les-tags-sont-vos-meilleurs-amis-sur-aws-">Pourquoi les Tags Sont Vos Meilleurs Amis sur AWS ?</a></li>
+    <li><a href="#retrouver-ses-petits--les-outils-à-votre-service">Retrouver ses Petits : Les Outils à Votre Service</a>
+      <ol>
+        <li><a href="#aws-resource-explorer--lexploration-visuelle">AWS Resource Explorer : L&rsquo;Exploration Visuelle</a></li>
+        <li><a href="#aws-cli--la-puissance-de-la-ligne-de-commande">AWS CLI : La Puissance de la Ligne de Commande</a></li>
+      </ol>
+    </li>
+    <li><a href="#conclusion">Conclusion</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/cloud-optimist/pr-64/fr/posts/2025/why-tagging-your-aws-resources-is-a-must/">
+                <img src="/cloud-optimist/pr-64/fr/posts/2025/why-tagging-your-aws-resources-is-a-must/aws_tagging_hu_c1526ca394e4880c.jpeg"
+                        srcset="/cloud-optimist/pr-64/fr/posts/2025/why-tagging-your-aws-resources-is-a-must/aws_tagging_hu_c1526ca394e4880c.jpeg 800w, /cloud-optimist/pr-64/fr/posts/2025/why-tagging-your-aws-resources-is-a-must/aws_tagging_hu_43be0f353fc18831.jpeg 1600w"
+                        width="800" 
+                        height="450" 
+                        loading="lazy"
+                        alt="Featured image of post Pourquoi tagger vos ressources AWS est indispensable ?" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/cloud-optimist/pr-64/fr/categories/aws/" >
+                AWS
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/cloud-optimist/pr-64/fr/posts/2025/why-tagging-your-aws-resources-is-a-must/">Pourquoi tagger vos ressources AWS est indispensable ?</a>
+        </h2>
+    
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">24 mai 2025</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    5 minutes de lecture
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <h1 id="introduction"><a href="#introduction" class="header-anchor"></a>Introduction
+</h1><p>Plus on déploie de services sur AWS, plus on commence à s&rsquo;y perdre. Au début, on connaît par coeur tous les services qu&rsquo;on utilise, le nombre de Lambdas ou d&rsquo;EC2 qui sont lancées. Mais petit à petit, il est facile de ne plus savoir où donner de la tête, surtout lorsque différents projets s&rsquo;accumulent. Retrouver rapidement quelles ressources appartiennent à quel projet, ou identifier celles qui n&rsquo;ont pas été correctement nettoyées après un PoC, tout cela peut vite devenir un casse-tête. Et c&rsquo;est sans parler de la vision des coûts !</p>
+<p>Heureusement, il existe une pratique simple mais incroyablement puissante : le tagging.</p>
+<p>Dans cet article, j&rsquo;aimerai vous montrer qu&rsquo;une bonne stratégie de tags est cruciale. Nous aurons également l&rsquo;occasion de découvrir un service AWS fait pour ça : AWS Resource Explorer.</p>
+<p>A vos marques. Prêt ? Taguez !</p>
+<h1 id="pourquoi-les-tags-sont-vos-meilleurs-amis-sur-aws-"><a href="#pourquoi-les-tags-sont-vos-meilleurs-amis-sur-aws-" class="header-anchor"></a>Pourquoi les Tags Sont Vos Meilleurs Amis sur AWS ?
+</h1><p>Imaginez des étiquettes sur des boîtes de déménagement. Sans elles, impossible de savoir ce qu&rsquo;il y a dedans ou à quelle pièce elles appartiennent. Les tags sur AWS, c&rsquo;est pareil ! Un tag est une simple paire clé-valeur que vous assignez à vos ressources (instances EC2, buckets S3, bases de données RDS, etc.).</p>
+<p>Une bonne stratégie de tagging vous permet notamment de :</p>
+<ol>
+<li>Identifier les Ressources Orphelines : C&rsquo;est le grand classique. Une ressource sans tag Project ou Owner ? Il y a de fortes chances qu&rsquo;elle ait été oubliée et qu&rsquo;elle consomme des ressources (et donc de l&rsquo;argent) pour rien. Lister les ressources non taguées (ou mal taguées) est une première étape essentielle pour faire le ménage.</li>
+<li>Ventiler les Coûts : En taguant vos ressources avec un identifiant de projet, de centre de coût, ou d&rsquo;équipe, vous pouvez ensuite utiliser AWS Cost Explorer pour filtrer vos dépenses et comprendre précisément quels projets consomment le plus. Indispensable pour la refacturation interne ou simplement pour optimiser votre budget.</li>
+<li>Automatiser des Actions : Les tags peuvent servir de déclencheurs pour des scripts d&rsquo;automatisation (par exemple, sauvegarder toutes les instances avec le tag Backup=Daily).</li>
+<li>Gérer les Accès et la Sécurité : Les politiques IAM peuvent utiliser les tags pour accorder des permissions granulaires.</li>
+</ol>
+<p>Bref, taguer, c&rsquo;est la base d&rsquo;une bonne gouvernance Cloud.</p>
+<h1 id="retrouver-ses-petits--les-outils-à-votre-service"><a href="#retrouver-ses-petits--les-outils-%c3%a0-votre-service" class="header-anchor"></a>Retrouver ses Petits : Les Outils à Votre Service
+</h1><p>Maintenant que l&rsquo;on est convaincu de l&rsquo;utilité des tags, comment fait-on pour lister nos ressources en fonction de ces précieuses étiquettes ?</p>
+<h2 id="aws-resource-explorer--lexploration-visuelle"><a href="#aws-resource-explorer--lexploration-visuelle" class="header-anchor"></a>AWS Resource Explorer : L&rsquo;Exploration Visuelle
+</h2><p>Si vous n&rsquo;êtes pas encore familier avec AWS Resource Explorer, c&rsquo;est le moment de le découvrir ! Ce service, relativement récent, vous permet de rechercher et de découvrir vos ressources AWS à travers toutes les régions de votre compte, en utilisant une interface simple, un peu comme un moteur de recherche.</p>
+<p>L&rsquo;avantage principal de Resource Explorer est sa capacité à vous donner une vue unifiée. Plus besoin de sauter de région en région. Vous activez l&rsquo;indexation, et ensuite, vous pouvez rechercher vos ressources par nom, ID, et bien sûr&hellip; par tag !</p>
+<p>C&rsquo;est un excellent outil pour :</p>
+<ul>
+<li>Avoir une vue d&rsquo;ensemble rapide.</li>
+<li>Explorer visuellement les ressources associées à un tag spécifique.</li>
+<li>Identifier rapidement des ressources sans avoir à scripter.</li>
+</ul>
+<p>Pour l&rsquo;utiliser, activez-le dans les régions souhaitées (ou toutes), laissez-le indexer vos ressources, puis utilisez la barre de recherche avec une syntaxe comme tag:Project=MonSuperProjet ou tag:Environment=Production.</p>
+<h2 id="aws-cli--la-puissance-de-la-ligne-de-commande"><a href="#aws-cli--la-puissance-de-la-ligne-de-commande" class="header-anchor"></a>AWS CLI : La Puissance de la Ligne de Commande
+</h2><p>Pour ceux qui, comme moi, aiment avoir la main via la ligne de commande, ou qui ont besoin d&rsquo;automatiser ces recherches, l&rsquo;AWS CLI reste une alliée de choix. Plus précisément, c&rsquo;est le service resourcegroupstaggingapi qui va nous intéresser.</p>
+<p>La commande clé est get-resources. Voici un exemple typique pour lister les ARN (Amazon Resource Names) de toutes les ressources ayant le tag Project avec la valeur mon-projet :</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">aws resourcegroupstaggingapi get-resources <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --tag-filters <span class="s2">&#34;Key=Project,Values=mon-projet&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    <span class="p">|</span> jq <span class="s2">&#34;[.ResourceTagMappingList[].ResourceARN]&#34;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Décortiquons un peu :</p>
+<ul>
+<li><code>aws resourcegroupstaggingapi get-resources</code> : C&rsquo;est l&rsquo;appel à l&rsquo;API.</li>
+<li><code>--tag-filters &quot;Key=Project,Values=mon-projet&quot;</code> : C&rsquo;est ici qu&rsquo;on spécifie notre filtre. On cherche le tag Project qui a la valeur mon-projet. Vous pouvez ajouter plusieurs filtres.</li>
+<li><code>| jq &quot;[.ResourceTagMappingList[].ResourceARN]&quot;</code> : jq est un outil formidable pour manipuler du JSON en ligne de commande. Ici, on l&rsquo;utilise pour extraire proprement la liste des ARN des ressources trouvées.</li>
+</ul>
+<p>Cette commande est extrêmement puissante car vous pouvez l&rsquo;intégrer dans des scripts pour :</p>
+<ul>
+<li>Générer des rapports réguliers sur les ressources par projet.</li>
+<li>Détecter automatiquement les ressources qui ne respectent pas votre politique de tagging.</li>
+<li>Combiner avec d&rsquo;autres commandes AWS CLI pour effectuer des actions sur les ressources listées.</li>
+</ul>
+<p>Par exemple, pour trouver les ressources non taguées avec une clé Project spécifique, c&rsquo;est un peu plus indirect, mais vous pourriez lister toutes les ressources puis filtrer celles qui n&rsquo;ont pas ce tag, ou utiliser Resource Explorer avec une requête négative si supportée pour ce cas. Souvent, on se concentre sur les ressources qui ont certains tags pour vérifier la conformité ou l&rsquo;inventaire. Pour les &ldquo;orphelines&rdquo;, une approche peut être de lister toutes les ressources d&rsquo;un type (ex: toutes les EC2) et de vérifier manuellement ou par script celles qui manquent des tags essentiels.</p>
+<h1 id="conclusion"><a href="#conclusion" class="header-anchor"></a>Conclusion
+</h1><p>Vous l&rsquo;aurez compris, une stratégie de tagging rigoureuse n&rsquo;est pas une option, c&rsquo;est une nécessité pour opérer sereinement sur AWS. Que vous préfériez la convivialité d&rsquo;AWS Resource Explorer pour une exploration rapide ou la flexibilité de l&rsquo;AWS CLI pour des analyses plus poussées et de l&rsquo;automatisation, AWS vous donne les moyens de tirer parti de vos tags.</p>
+<p>Alors, un petit conseil : si ce n&rsquo;est pas déjà fait, définissez une politique de tagging claire dans votre organisation, appliquez-la, et utilisez ces outils pour vérifier régulièrement que tout est en ordre. Votre DSI (et votre portefeuille) vous remercieront !</p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/cloud-optimist/pr-64/fr/tags/aws/">AWS</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">Contenus liés</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/cloud-optimist/pr-64/fr/posts/2025/aws-lambdas-init-phase-to-be-billed-soon-should-we-be-alarmed/">
+        
+        
+            <div class="article-image">
+                <img src="/cloud-optimist/pr-64/fr/posts/2025/aws-lambdas-init-phase-to-be-billed-soon-should-we-be-alarmed/lambda-init-billing.e675f044c97588eddb26ba9b0e9398d0_hu_bf7c4666c0f5eba.jpeg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post AWS Lambda : La phase d&#39;INIT devient payante - faut-il s&#39;alarmer ?"
+                        
+                        data-hash="md5-5nXwRMl1iO3bJrqbDpOY0A==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">AWS Lambda : La phase d&#39;INIT devient payante - faut-il s&#39;alarmer ?</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/cloud-optimist/pr-64/fr/posts/2025/how-i-automated-my-blog-to-the-cloud/">
+        
+        
+            <div class="article-image">
+                <img src="/cloud-optimist/pr-64/fr/posts/2025/how-i-automated-my-blog-to-the-cloud/automated-blog.f8912fd4b1ac173a63449d8e8f990bda_hu_64c667224eaab470.jpeg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post Comment j&#39;ai automatisé la création de mon blog dans le Cloud"
+                        
+                        data-hash="md5-&#43;JEv1LGsFzpjRJ2Oj5kL2g==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Comment j&#39;ai automatisé la création de mon blog dans le Cloud</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <script
+    src="https://giscus.app/client.js"
+    data-repo="antoinedelia/cloud-optimist"
+    data-repo-id="R_kgDOHWH-Zg"
+    data-category="Comments"
+    data-category-id="DIC_kwDOHWH-Zs4CoHBh"
+    data-mapping="pathname"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="1"
+    data-input-position="top"
+    data-theme="light"
+    data-lang="fr"
+    data-loading=""
+    crossorigin="anonymous"
+    async
+></script>
+<script>
+    function setGiscusTheme(theme) {
+        let giscus = document.querySelector("iframe.giscus-frame");
+        if (giscus) {
+            giscus.contentWindow.postMessage(
+                {
+                    giscus: {
+                        setConfig: {
+                            theme: theme,
+                        },
+                    },
+                },
+                "https://giscus.app"
+            );
+        }
+    }
+
+    (function () {
+        addEventListener("message", (e) => {
+            if (event.origin !== "https://giscus.app") return;
+            handler();
+        });
+        window.addEventListener("onColorSchemeChange", handler);
+
+        function handler() {
+            if (document.documentElement.dataset.scheme === "light") {
+                setGiscusTheme('light');
+            } else {
+                setGiscusTheme('dark_dimmed');
+            }
+        }
+    })();
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2022 - 
+        
+        2025 The Cloud Optimist
+    </section>
+    
+    <section class="powerby">
+        Généré avec <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Thème <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.29.0">Stack</a></b> conçu par <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/cloud-optimist/pr-64/ts/main.1e9a3bafd846ced4c345d084b355fb8c7bae75701c338f8a1f8a82c780137826.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

@@ -2,8 +2,9 @@
 title: Liens
 links:
   - title: Travaillons ensemble !
+    description: J'accompagne les startups et PME dans l'optimisation de leur infrastructure Cloud et la mise en place de pratiques DevOps.
     website: https://www.malt.fr/profile/antoinedelia
-    image: https://play-lh.googleusercontent.com/1r1DdWXDT9K7D2yBwPkVyXQFEjLL0cMrR6SxBvcNXXwpi8aZN0ZKS61CVdtvK6pmpg
+    image: https://www.svgrepo.com/show/349444/malt.svg
   - title: GitHub
     description: Jetez un coup d'oeil à mon profil GitHub.
     website: https://github.com/antoinedelia
@@ -27,6 +28,5 @@ menu:
 
 comments: false
 readingTime: false
-license:
-    enabled: false
+license: false
 ---

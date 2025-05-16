@@ -7,26 +7,34 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>fr-FR</language>
         <lastBuildDate>Sat, 24 May 2025 07:30:00 +0200</lastBuildDate><atom:link href="https://antoinedelia.github.io/cloud-optimist/pr-64/fr/categories/aws/index.xml" rel="self" type="application/rss+xml" /><item>
-        <title>Pourquoi tagger vos ressources AWS est indispensable ?</title>
+        <title>Pourquoi taguer vos ressources AWS est indispensable ?</title>
         <link>https://antoinedelia.github.io/cloud-optimist/pr-64/fr/posts/2025/why-tagging-your-aws-resources-is-a-must/</link>
         <pubDate>Sat, 24 May 2025 07:30:00 +0200</pubDate>
         
         <guid>https://antoinedelia.github.io/cloud-optimist/pr-64/fr/posts/2025/why-tagging-your-aws-resources-is-a-must/</guid>
-        <description>&lt;img src="https://antoinedelia.github.io/cloud-optimist/pr-64/fr/posts/2025/why-tagging-your-aws-resources-is-a-must/aws_tagging.jpeg" alt="Featured image of post Pourquoi tagger vos ressources AWS est indispensable ?" /&gt;&lt;h1 id=&#34;introduction&#34;&gt;&lt;a href=&#34;#introduction&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Introduction
+        <description>&lt;img src="https://antoinedelia.github.io/cloud-optimist/pr-64/fr/posts/2025/why-tagging-your-aws-resources-is-a-must/aws_tagging.jpeg" alt="Featured image of post Pourquoi taguer vos ressources AWS est indispensable ?" /&gt;&lt;h1 id=&#34;introduction&#34;&gt;&lt;a href=&#34;#introduction&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Introduction
 &lt;/h1&gt;&lt;p&gt;Plus on déploie de services sur AWS, plus on commence à s&amp;rsquo;y perdre. Au début, on connaît par coeur tous les services qu&amp;rsquo;on utilise, le nombre de Lambdas ou d&amp;rsquo;EC2 qui sont lancées. Mais petit à petit, il est facile de ne plus savoir où donner de la tête, surtout lorsque différents projets s&amp;rsquo;accumulent. Retrouver rapidement quelles ressources appartiennent à quel projet, ou identifier celles qui n&amp;rsquo;ont pas été correctement nettoyées après un PoC, tout cela peut vite devenir un casse-tête. Et c&amp;rsquo;est sans parler de la vision des coûts !&lt;/p&gt;
 &lt;p&gt;Heureusement, il existe une pratique simple mais incroyablement puissante : le tagging.&lt;/p&gt;
 &lt;p&gt;Dans cet article, j&amp;rsquo;aimerai vous montrer qu&amp;rsquo;une bonne stratégie de tags est cruciale. Nous aurons également l&amp;rsquo;occasion de découvrir un service AWS fait pour ça : AWS Resource Explorer.&lt;/p&gt;
 &lt;p&gt;A vos marques. Prêt ? Taguez !&lt;/p&gt;
-&lt;h1 id=&#34;pourquoi-les-tags-sont-vos-meilleurs-amis-sur-aws-&#34;&gt;&lt;a href=&#34;#pourquoi-les-tags-sont-vos-meilleurs-amis-sur-aws-&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Pourquoi les Tags Sont Vos Meilleurs Amis sur AWS ?
-&lt;/h1&gt;&lt;p&gt;Imaginez des étiquettes sur des boîtes de déménagement. Sans elles, impossible de savoir ce qu&amp;rsquo;il y a dedans ou à quelle pièce elles appartiennent. Les tags sur AWS, c&amp;rsquo;est pareil ! Un tag est une simple paire clé-valeur que vous assignez à vos ressources (instances EC2, buckets S3, bases de données RDS, etc.).&lt;/p&gt;
+&lt;h1 id=&#34;pourquoi-les-tags-sont-ils-utiles-&#34;&gt;&lt;a href=&#34;#pourquoi-les-tags-sont-ils-utiles-&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Pourquoi les tags sont-ils utiles ?
+&lt;/h1&gt;&lt;p&gt;Imaginez des étiquettes sur des boîtes de déménagement. Sans elles, impossible de savoir ce qu&amp;rsquo;il y a dedans ou à quelle pièce elles appartiennent. Les tags sur AWS, c&amp;rsquo;est pareil ! Un tag est une information (sous la forme clé-valeur) que vous assignez à vos ressources (instances EC2, buckets S3, bases de données RDS, etc.).&lt;/p&gt;
 &lt;p&gt;Une bonne stratégie de tagging vous permet notamment de :&lt;/p&gt;
 &lt;ol&gt;
-&lt;li&gt;Identifier les Ressources Orphelines : C&amp;rsquo;est le grand classique. Une ressource sans tag Project ou Owner ? Il y a de fortes chances qu&amp;rsquo;elle ait été oubliée et qu&amp;rsquo;elle consomme des ressources (et donc de l&amp;rsquo;argent) pour rien. Lister les ressources non taguées (ou mal taguées) est une première étape essentielle pour faire le ménage.&lt;/li&gt;
+&lt;li&gt;Identifier des ressources orpheline : C&amp;rsquo;est le grand classique. Une ressource sans tag &lt;code&gt;Project&lt;/code&gt; ou &lt;code&gt;Owner&lt;/code&gt; ? Il y a de fortes chances qu&amp;rsquo;elle ait été oubliée et qu&amp;rsquo;elle consomme des ressources (et donc de l&amp;rsquo;argent) pour rien. Lister les ressources non taguées (ou mal taguées) est une première étape essentielle pour faire le ménage.&lt;/li&gt;
 &lt;li&gt;Ventiler les Coûts : En taguant vos ressources avec un identifiant de projet, de centre de coût, ou d&amp;rsquo;équipe, vous pouvez ensuite utiliser AWS Cost Explorer pour filtrer vos dépenses et comprendre précisément quels projets consomment le plus. Indispensable pour la refacturation interne ou simplement pour optimiser votre budget.&lt;/li&gt;
-&lt;li&gt;Automatiser des Actions : Les tags peuvent servir de déclencheurs pour des scripts d&amp;rsquo;automatisation (par exemple, sauvegarder toutes les instances avec le tag Backup=Daily).&lt;/li&gt;
+&lt;li&gt;Automatiser des Actions : Les tags peuvent servir de déclencheurs pour des scripts d&amp;rsquo;automatisation (par exemple, sauvegarder toutes les instances avec le tag &lt;code&gt;Backup=Daily&lt;/code&gt;).&lt;/li&gt;
 &lt;li&gt;Gérer les Accès et la Sécurité : Les politiques IAM peuvent utiliser les tags pour accorder des permissions granulaires.&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;Bref, taguer, c&amp;rsquo;est la base d&amp;rsquo;une bonne gouvernance Cloud.&lt;/p&gt;
+&lt;h1 id=&#34;quels-tags-utiliser-&#34;&gt;&lt;a href=&#34;#quels-tags-utiliser-&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Quels tags utiliser ?
+&lt;/h1&gt;&lt;p&gt;On peut fort heureusement associés plusieurs tags à une même ressource. Mais cela pose la question : combien de tags sont nécessaires ?&lt;/p&gt;
+&lt;p&gt;Cela va dépendre de votre entreprise et de chaque projet, mais globalement, il y a des tags qui ne font pas de mal, peu importe votre situation :&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Project&lt;/strong&gt; : d&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Environment&lt;/strong&gt; : r&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Owner&lt;/strong&gt; : test&lt;/li&gt;
+&lt;/ul&gt;
 &lt;h1 id=&#34;retrouver-ses-petits--les-outils-à-votre-service&#34;&gt;&lt;a href=&#34;#retrouver-ses-petits--les-outils-%c3%a0-votre-service&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Retrouver ses Petits : Les Outils à Votre Service
 &lt;/h1&gt;&lt;p&gt;Maintenant que l&amp;rsquo;on est convaincu de l&amp;rsquo;utilité des tags, comment fait-on pour lister nos ressources en fonction de ces précieuses étiquettes ?&lt;/p&gt;
 &lt;h2 id=&#34;aws-resource-explorer--lexploration-visuelle&#34;&gt;&lt;a href=&#34;#aws-resource-explorer--lexploration-visuelle&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;AWS Resource Explorer : L&amp;rsquo;Exploration Visuelle

@@ -11,9 +11,13 @@ image: aws_tagging.jpeg
 
 # Introduction
 
-Plus on déploie de services sur AWS, plus notre console peut ressembler à une jungle luxuriante mais un peu... désordonnée. Retrouver rapidement quelles ressources appartiennent à quel projet, ou identifier celles qui n'ont pas été correctement nettoyées après un PoC, peut vite devenir un casse-tête. Et ne parlons même pas de la ventilation des coûts ! Heureusement, il existe une pratique simple mais incroyablement puissante : le tagging (ou étiquetage, si on veut franciser).
+Plus on déploie de services sur AWS, plus on commence à s'y perdre. Au début, on connaît par coeur tous les services qu'on utilise, le nombre de Lambdas ou d'EC2 qui sont lancées. Mais petit à petit, il est facile de ne plus savoir où donner de la tête, surtout lorsque différents projets s'accumulent. Retrouver rapidement quelles ressources appartiennent à quel projet, ou identifier celles qui n'ont pas été correctement nettoyées après un PoC, tout cela peut vite devenir un casse-tête. Et c'est sans parler de la vision des coûts !
 
-Dans cet article, on va voir pourquoi une bonne stratégie de tags est cruciale et comment deux outils AWS peuvent vous aider à y voir plus clair : AWS Resource Explorer et la bonne vieille AWS CLI.
+Heureusement, il existe une pratique simple mais incroyablement puissante : le tagging.
+
+Dans cet article, j'aimerai vous montrer qu'une bonne stratégie de tags est cruciale. Nous aurons également l'occasion de découvrir un service AWS fait pour ça : AWS Resource Explorer.
+
+A vos marques. Prêt ? Taguez !
 
 # Pourquoi les Tags Sont Vos Meilleurs Amis sur AWS ?
 

@@ -1,6 +1,9 @@
 ---
 title: Liens
 links:
+  - title: Travaillons ensemble !
+    website: https://www.malt.fr/profile/antoinedelia
+    image: https://play-lh.googleusercontent.com/1r1DdWXDT9K7D2yBwPkVyXQFEjLL0cMrR6SxBvcNXXwpi8aZN0ZKS61CVdtvK6pmpg
   - title: GitHub
     description: Jetez un coup d'oeil à mon profil GitHub.
     website: https://github.com/antoinedelia
@@ -23,4 +26,7 @@ menu:
             icon: link
 
 comments: false
+readingTime: false
+license:
+    license.enabled: false
 ---

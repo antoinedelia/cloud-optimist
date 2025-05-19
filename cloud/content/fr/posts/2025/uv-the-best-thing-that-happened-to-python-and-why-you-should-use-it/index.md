@@ -42,7 +42,7 @@ Avant de nous lancer tête la première dans `uv` et son fonctionnement, il est 
 Comme je suis sympa, je vous mets ici un gist d'un template de `pyproject.toml` que j'utilise à chaque fois pour démarrer un nouveau projet Python.
 
 <details>
-    <summary>`pyproject.toml`</summary>
+    <summary>pyproject.toml</summary>
 
 ```toml
 [project]

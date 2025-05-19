@@ -332,16 +332,20 @@
       <ol>
         <li><a href="#démarrer-un-nouveau-projet">Démarrer un nouveau projet</a>
           <ol>
-            <li><a href="#gérer-les-dépendances-avec-pyprojecttoml">Gérer les dépendances avec <code>pyproject.toml</code></a></li>
+            <li><a href="#gérer-les-dépendances-avec-pyprojecttoml">Gérer les dépendances avec <code>pyproject.toml</code></a>
+              <ol>
+                <li><a href="#utiliser-un-index-privé">Utiliser un index privé</a></li>
+              </ol>
+            </li>
           </ol>
         </li>
         <li><a href="#migrer-un-projet-existant-vers-uv">Migrer un projet existant vers <code>uv</code></a></li>
         <li><a href="#rejoindre-un-projet-qui-utilise-déjà-uv">Rejoindre un projet qui utilise déjà <code>uv</code></a></li>
       </ol>
     </li>
-    <li><a href="#construire-et-publier-votre-paquet">Construire et Publier votre paquet</a></li>
-    <li><a href="#un-coup-de-propre--nettoyer-le-cache">Un Coup de Propre : Nettoyer le Cache</a></li>
-    <li><a href="#pourquoi-je-suis-conquis-et-pourquoi-vous-devriez-lessayer">Pourquoi je suis Conquis et Pourquoi Vous Devriez l&rsquo;Essayer</a></li>
+    <li><a href="#build-et-publier-votre-paquet">Build et publier votre paquet</a></li>
+    <li><a href="#nettoyer-votre-cache">Nettoyer votre cache</a></li>
+    <li><a href="#pourquoi-je-suis-conquis-et-pourquoi-vous-devriez-lessayer">Pourquoi je suis conquis et pourquoi vous devriez l&rsquo;essayer</a></li>
     <li><a href="#références">Références</a></li>
     <li><a href="#bonus--uv-cheatsheet">Bonus : <code>uv</code> cheatsheet</a></li>
   </ol>
@@ -420,7 +424,7 @@
 
 
                 <time class="article-time--reading">
-                    9 minutes de lecture
+                    10 minutes de lecture
                 </time>
             </div>
         
@@ -560,7 +564,7 @@ Ensuite, en lançant votre script via <code>uv run</code>, il se mettra automati
 </span></span></code></pre></td></tr></table>
 </div>
 </div><blockquote>
-<p>Les versions de Python installées par <code>uv</code> ne sont pas disponibles &ldquo;globalement&rdquo; sur votre système via la simple commande <code>python</code>. Pour les utiliser, il faut passer par <code>uv run --python &lt;version&gt;</code> ou les activer dans un environnement virtuel créé avec cette version spécifique.</p></blockquote>
+<p>Comme je vous l&rsquo;expliquait un peu plus haut, les versions de Python installées par <code>uv</code> ne sont pas disponibles &ldquo;globalement&rdquo; sur votre système via la simple commande <code>python</code>. Pour les utiliser, il faut passer par <code>uv run --python &lt;version&gt;</code> ou les activer dans un environnement virtuel créé avec cette version spécifique.</p></blockquote>
 <h2 id="uvx--exécuter-des-outils-à-la-volée"><a href="#uvx--ex%c3%a9cuter-des-outils-%c3%a0-la-vol%c3%a9e" class="header-anchor"></a><code>uvx</code> : Exécuter des outils à la volée
 </h2><p>Vous connaissez peut-être <code>pipx run</code> ou encore <code>npx</code> dans le monde JavaScript ? <code>uvx</code> est l&rsquo;équivalent proposé par <code>uv</code>. Il permet d&rsquo;exécuter une commande CLI Python (comme <code>ruff</code>, <code>black</code>, <code>ipython</code>, etc.) dans un environnement temporaire avec les dépendances spécifiées, sans polluer votre projet ou votre système.</p>
 <p>Par exemple, pour lancer une version spécifique de <code>ruff</code> :</p>
@@ -592,20 +596,14 @@ Ensuite, en lançant votre script via <code>uv run</code>, il se mettra automati
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">uv init
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">uv init
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>Cette commande va créer quelques fichiers pour vous :</p>
 <ul>
-<li>
-<p><code>.python-version</code> : Spécifie la version de Python à utiliser pour ce projet (par exemple, <code>3.11</code>).</p>
-</li>
-<li>
-<p><code>main.py</code> : Un fichier Python d&rsquo;exemple.</p>
-</li>
-<li>
-<p><code>pyproject.toml</code> : Le fichier central pour la configuration de votre projet, y compris ses dépendances. C&rsquo;est le standard moderne en Python.</p>
-</li>
+<li><code>.python-version</code> : Spécifie la version de Python à utiliser pour ce projet (par exemple, <code>3.11</code>).</li>
+<li><code>main.py</code> : Un fichier Python d&rsquo;exemple.</li>
+<li><code>pyproject.toml</code> : Le fichier central pour la configuration de votre projet, y compris ses dépendances. C&rsquo;est le standard moderne en Python.</li>
 </ul>
 <h3 id="gérer-les-dépendances-avec-pyprojecttoml"><a href="#g%c3%a9rer-les-d%c3%a9pendances-avec-pyprojecttoml" class="header-anchor"></a>Gérer les dépendances avec <code>pyproject.toml</code>
 </h3><p>Avec <code>uv</code>, le <code>pyproject.toml</code> devient votre source de vérité pour les dépendances.</p>
@@ -613,11 +611,9 @@ Ensuite, en lançant votre script via <code>uv run</code>, il se mettra automati
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">uv add requests
-</span></span><span class="line"><span class="cl">uv add &#34;fastapi[all]&#34; # Avec des extras
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">uv add requests
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>Pour ajouter une dépendance de développement (uniquement pour le dev, comme <code>ruff</code> ou <code>pytest</code>) :</p>
@@ -627,11 +623,11 @@ Ensuite, en lançant votre script via <code>uv run</code>, il se mettra automati
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">uv add ruff --dev
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">uv add ruff --dev
 </span></span><span class="line"><span class="cl">uv add pytest --dev
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>Très important : La première fois que vous ajoutez une dépendance, <code>uv</code> va générer un fichier <code>uv.lock</code>. Ce fichier contient les versions exactes de toutes vos dépendances (directes et indirectes) qui ont été résolues. Ce fichier <code>uv.lock</code> est crucial et DOIT être commité dans votre dépôt Git. Il garantit des installations reproductibles pour tous les collaborateurs et en CI/CD.</p>
+</div><p>Très important : La première fois que vous ajoutez une dépendance, <code>uv</code> va générer un fichier <code>uv.lock</code>. Ce fichier contient les versions exactes de toutes vos dépendances (directes et indirectes) qui ont été résolues. Ce fichier <code>uv.lock</code> est crucial et DOIT être commité dans votre repository GitHub. Il garantit que les versions de vos paquets soient les mêmes pour tout le monde, selon votre environnement de travail.</p>
 <p>Une fois vos dépendances (notamment de dev) ajoutées, vous pouvez les utiliser avec <code>uv run</code> :</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -660,20 +656,47 @@ Ensuite, en lançant votre script via <code>uv run</code>, il se mettra automati
 </span></span><span class="line"><span class="cl">uv remove ruff --group dev
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p><em>Petite parenthèse sur les index de paquets :</em> Par défaut, <code>uv</code> utilise PyPI. Si vous travaillez dans un environnement d&rsquo;entreprise avec un Artifactory ou un autre index privé, vous pouvez configurer <code>uv</code> pour l&rsquo;utiliser via le fichier <code>pyproject.toml</code>. Consultez la <a class="link" href="https://docs.astral.sh/uv/configuration/indexes/"  target="_blank" rel="noopener"
-    >documentation <code>uv</code> sur les index</a> pour les détails. C&rsquo;est très flexible !</p>
+</div><h4 id="utiliser-un-index-privé"><a href="#utiliser-un-index-priv%c3%a9" class="header-anchor"></a>Utiliser un index privé
+</h4><p>Par défaut, <code>uv</code> utilise PyPI. Si vous travaillez dans un environnement d&rsquo;entreprise (avec un Artifactory ou un autre index privé), vous pouvez configurer <code>uv</code> pour l&rsquo;utiliser via le fichier <code>pyproject.toml</code>.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="p">[[</span><span class="nx">tool</span><span class="p">.</span><span class="nx">uv</span><span class="p">.</span><span class="nx">index</span><span class="p">]]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">name</span> <span class="p">=</span> <span class="s2">&#34;&lt;votre-index&gt;&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">url</span> <span class="p">=</span> <span class="s2">&#34;https://mon-artifactory.corp/api/pypi/mon-repo-virtual&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">publish-url</span> <span class="p">=</span> <span class="s2">&#34;https://mon-artifactory.corp/api/pypi/mon-repo-local&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">default</span> <span class="p">=</span> <span class="kc">true</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Ensuite, vous pouvez par exemple exporter des variables d&rsquo;environnement pour vous authentifier.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="c1"># Les variables d&#39;environnement doivent respecter le format suivant : UV_INDEX_{name}_USERNAME</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># où {name} est le nom de l&#39;index que vous avez défini dans votre fichier pyproject.toml</span>
+</span></span><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">UV_INDEX_VOTRE_INDEX_USERNAME</span><span class="o">=</span><span class="s2">&#34;delia, antoine&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">UV_INDEX_VOTRE_INDEX_PASSWORD</span><span class="o">=</span><span class="s2">&#34;cmVmdG**************************FJUjNw&#34;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>N&rsquo;hésitez pas à consulter la <a class="link" href="https://docs.astral.sh/uv/configuration/indexes/"  target="_blank" rel="noopener"
+    >documentation <code>uv</code> sur les index</a> pour plus de détails.</p>
 <h2 id="migrer-un-projet-existant-vers-uv"><a href="#migrer-un-projet-existant-vers-uv" class="header-anchor"></a>Migrer un projet existant vers <code>uv</code>
 </h2><p>Vous avez un projet avec un bon vieux <code>requirements.txt</code> ? La migration est assez simple :</p>
 <ol>
-<li>
-<p>Si vous n&rsquo;avez pas de <code>pyproject.toml</code>, créez-en un. Vous pouvez lancer <code>uv init</code> dans le répertoire de votre projet existant ; il détectera la présence d&rsquo;un projet et vous aidera.</p>
-</li>
-<li>
-<p>Pour chaque paquet dans votre <code>requirements.txt</code> (et <code>requirements-dev.txt</code> si vous en avez un), ajoutez-le avec <code>uv add &lt;nom_du_paquet&gt;</code> ou <code>uv add &lt;nom_du_paquet&gt; --dev</code>. <code>uv</code> se chargera de résoudre les versions et de mettre à jour <code>pyproject.toml</code> et <code>uv.lock</code>.</p>
-</li>
-<li>
-<p>Une fois toutes les dépendances migrées, vous pouvez supprimer vos anciens fichiers <code>requirements.txt</code>.</p>
-</li>
+<li>Si vous n&rsquo;avez pas de <code>pyproject.toml</code>, créez-en un. Vous pouvez lancer <code>uv init</code> dans le répertoire de votre projet existant ; il détectera la présence d&rsquo;un projet et vous aidera.</li>
+<li>Pour chaque paquet dans votre <code>requirements.txt</code> (et <code>requirements-dev.txt</code> si vous en avez un), ajoutez-le avec <code>uv add &lt;nom_du_paquet&gt;</code> ou <code>uv add &lt;nom_du_paquet&gt; --dev</code>. <code>uv</code> se chargera de résoudre les versions et de mettre à jour <code>pyproject.toml</code> et <code>uv.lock</code>.</li>
+<li>Une fois toutes les dépendances migrées, vous pouvez supprimer vos anciens fichiers <code>requirements.txt</code>.</li>
 </ol>
 <p>Et voilà, votre projet est propulsé par <code>uv</code> !</p>
 <h2 id="rejoindre-un-projet-qui-utilise-déjà-uv"><a href="#rejoindre-un-projet-qui-utilise-d%c3%a9j%c3%a0-uv" class="header-anchor"></a>Rejoindre un projet qui utilise déjà <code>uv</code>
@@ -683,11 +706,11 @@ Ensuite, en lançant votre script via <code>uv run</code>, il se mettra automati
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">uv sync
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">uv sync
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>Cette commande magique va lire le fichier <code>uv.lock</code> et installer <em>exactement</em> les mêmes versions de tous les paquets qui y sont listées. Fini les &ldquo;ça marche sur ma machine&rdquo; à cause de versions de dépendances différentes !</p>
-<h1 id="construire-et-publier-votre-paquet"><a href="#construire-et-publier-votre-paquet" class="header-anchor"></a>Construire et Publier votre paquet
+<h1 id="build-et-publier-votre-paquet"><a href="#build-et-publier-votre-paquet" class="header-anchor"></a>Build et publier votre paquet
 </h1><p><code>uv</code> ne s&rsquo;arrête pas là et propose aussi des commandes pour le build et la publication :</p>
 <p>Pour construire votre paquet (wheel et sdist) :</p>
 <div class="highlight"><div class="chroma">
@@ -707,7 +730,7 @@ Ensuite, en lançant votre script via <code>uv run</code>, il se mettra automati
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">uv publish
-</span></span><span class="line"><span class="cl"># Pour un index privé, vous pourriez avoir besoin de spécifier l&#39;URL
+</span></span><span class="line"><span class="cl"># Pour un index privé, vous pourriez avoir besoin de spécifier l&#39;URL (sauf si déjà spécifiée dans votre pyproject.toml)
 </span></span><span class="line"><span class="cl"># uv publish --repository-url https://mon-artifactory.corp/api/pypi/mon-repo-local
 </span></span></code></pre></td></tr></table>
 </div>
@@ -722,7 +745,7 @@ Ensuite, en lançant votre script via <code>uv run</code>, il se mettra automati
 </span></span><span class="line"><span class="cl">uv run --with &lt;MON_PAQUET&gt;-&lt;VERSION&gt;.whl --no-project --python -c &#34;import &lt;MON_PAQUET&gt;&#34;
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h1 id="un-coup-de-propre--nettoyer-le-cache"><a href="#un-coup-de-propre--nettoyer-le-cache" class="header-anchor"></a>Un Coup de Propre : Nettoyer le Cache
+</div><h1 id="nettoyer-votre-cache"><a href="#nettoyer-votre-cache" class="header-anchor"></a>Nettoyer votre cache
 </h1><p>Avec le temps, <code>uv</code> (comme <code>pip</code>) accumule un cache de paquets téléchargés. Pour le nettoyer :</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -732,21 +755,13 @@ Ensuite, en lançant votre script via <code>uv run</code>, il se mettra automati
 <pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">uv cache clean
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h1 id="pourquoi-je-suis-conquis-et-pourquoi-vous-devriez-lessayer"><a href="#pourquoi-je-suis-conquis-et-pourquoi-vous-devriez-lessayer" class="header-anchor"></a>Pourquoi je suis Conquis et Pourquoi Vous Devriez l&rsquo;Essayer
+</div><h1 id="pourquoi-je-suis-conquis-et-pourquoi-vous-devriez-lessayer"><a href="#pourquoi-je-suis-conquis-et-pourquoi-vous-devriez-lessayer" class="header-anchor"></a>Pourquoi je suis conquis et pourquoi vous devriez l&rsquo;essayer
 </h1><p>Vous l&rsquo;aurez compris, <code>uv</code> n&rsquo;est pas juste &ldquo;un autre gestionnaire de paquets&rdquo;. C&rsquo;est une véritable bouffée d&rsquo;air frais.</p>
 <ul>
-<li>
-<p>La Vitesse : C&rsquo;est le premier argument qui frappe. Les installations, les résolutions, tout est incroyablement plus rapide que <code>pip</code>. Sur de gros projets, le gain de temps est phénoménal.</p>
-</li>
-<li>
-<p>L&rsquo;Unification : <code>uv</code> regroupe des fonctionnalités qui nécessitaient auparavant plusieurs outils (<code>pip</code>, <code>venv</code>, <code>pip-tools</code>, voire <code>pyenv</code> pour des besoins basiques). Avoir une seule interface cohérente simplifie grandement le workflow.</p>
-</li>
-<li>
-<p>La Modernité : Il embrasse pleinement <code>pyproject.toml</code> et les standards modernes de packaging Python.</p>
-</li>
-<li>
-<p>La Fiabilité : Le système de lockfile (<code>uv.lock</code>) assure des builds reproductibles, un point essentiel pour le travail en équipe et l&rsquo;intégration continue.</p>
-</li>
+<li>La Vitesse : C&rsquo;est le premier argument qui frappe. Les installations, les résolutions, tout est incroyablement plus rapide que <code>pip</code>. Sur de gros projets, le gain de temps est phénoménal.</li>
+<li>L&rsquo;Unification : <code>uv</code> regroupe des fonctionnalités qui nécessitaient auparavant plusieurs outils (<code>pip</code>, <code>venv</code>, <code>pip-tools</code>, voire <code>pyenv</code> pour des besoins basiques). Avoir une seule interface cohérente simplifie grandement le workflow.</li>
+<li>La Modernité : Il embrasse pleinement <code>pyproject.toml</code> et les standards modernes de packaging Python.</li>
+<li>La Fiabilité : Le système de lockfile (<code>uv.lock</code>) assure des builds reproductibles, un point essentiel pour le travail en équipe et l&rsquo;intégration continue.</li>
 </ul>
 <p>Depuis que j&rsquo;utilise <code>uv</code>, mes interactions avec la gestion des dépendances Python sont devenues plus rapides, plus simples et plus agréables. C&rsquo;est le genre d&rsquo;outil qui, une fois adopté, vous fait vous demander comment vous faisiez avant.</p>
 <p>Alors, si vous cherchez à moderniser votre outillage Python et à gagner en productivité (et en sérénité !), je ne peux que vous encourager à donner sa chance à <code>uv</code>. L&rsquo;essayer, c&rsquo;est très souvent l&rsquo;adopter !</p>

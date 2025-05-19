@@ -64,6 +64,17 @@ uv run main.py
 Lorsque vous ajoutez un nouveau paquet à votre projet (avec la commande `uv add`), `uv` se charge automatiquement de créer un environment virtuel s'il n'existe pas déjà.
 Ensuite, en lançant votre script via `uv run`, il se mettra automatiquement dans votre environnement virtuel.
 
+### Installation de Python
+
+Vous utilisiez peut-être `pyenv` pour installer vos différentes versions de Python. Avec `uv`, tout cela est de l'histoire ancienne !
+
+Lorsque vous souhaitez lancer un projet avec une version de Python bien spécifique, vous avez plusieurs moyen de faire :
+* Utiliser le fichier `.python-version`
+* Créer un environnement virtuel : `uv venv --python 3.11.6`
+* Lancer une version de Python spécifique : `uvx python@3.12`
+
+Ce que vous devez retenir, c'est que `uv` ne s'appuie pas sur une version globale de Python installée, mais essaiera toujours d'utiliser la version spécifique à votre projet.
+
 ---
 
 Bon, je crois que vous en savez assez pour commencer votre initiation. Allons-y !
@@ -116,38 +127,9 @@ uv run --python 3.9 python mon_script.py
 
 > Les versions de Python installées par `uv` ne sont pas disponibles "globalement" sur votre système via la simple commande `python`. Pour les utiliser, il faut passer par `uv run --python <version>` ou les activer dans un environnement virtuel créé avec cette version spécifique. 
 
+## `uvx` : Exécuter des outils à la volée
 
-## Environnements Virtuels : La Simplicité Retrouvée
-
-Fini les `python -m venv .venv` un peu verbeux. Avec `uv`, c'est direct :
-
-```sh
-uv venv
-```
-
-Cette commande crée un environnement virtuel nommé `.venv` dans votre répertoire courant. Pour l'activer :
-
-```
-# Sur macOS et Linux
-source .venv/bin/activate
-
-# Sur Windows
-.venv\Scripts\activate
-```
-
-Une fois l'environnement activé, vous pouvez installer des paquets comme vous le feriez avec `pip`, mais en utilisant la commande `uv pip` (et en profitant de la vitesse `uv` !) :
-
-```
-uv pip install flask                 # Installer Flask
-uv pip install -r requirements.txt   # Installer depuis un requirements.txt
-uv pip install -e .                  # Installer le projet courant en mode éditable
-uv pip install "flask[dotenv]"       # Installer Flask avec l'extra "dotenv"
-```
-
-
-### `uvx` : Exécuter des outils à la volée
-
-Vous connaissez `pipx run` ou `npx` dans le monde JavaScript ? `uvx` est l'équivalent proposé par `uv`. Il permet d'exécuter une commande CLI Python (comme `ruff`, `black`, `ipython`, etc.) dans un environnement temporaire avec les dépendances spécifiées, sans polluer votre projet ou votre système.
+Vous connaissez peut-être `pipx run` ou encore `npx` dans le monde JavaScript ? `uvx` est l'équivalent proposé par `uv`. Il permet d'exécuter une commande CLI Python (comme `ruff`, `black`, `ipython`, etc.) dans un environnement temporaire avec les dépendances spécifiées, sans polluer votre projet ou votre système.
 
 Par exemple, pour lancer une version spécifique de `ruff` :
 
@@ -163,13 +145,13 @@ uvx --with requests -p 3.13 ipython
 
 Extrêmement pratique pour des one-shots ou pour tester des outils !
 
+# La gestion des projets avec `uv`
 
-### `uv` au Cœur de Vos Projets : Le Workflow Moderne
+Bon, toutes ces commandes, c'est très sympa, mais j'imagine que vous vous demandez comment intégrer `uv` dans un nouveau projet, ou dans un projet existant.
 
-C'est ici que `uv` brille vraiment et modernise la gestion de projet Python.
+Laissez-moi donc vous montrer toute la puissance de `uv` pour créer et gérer un projet Python.
 
-
-#### Démarrer un nouveau projet
+## Démarrer un nouveau projet
 
 Pour initialiser un nouveau projet avec `uv` :
 
@@ -186,7 +168,7 @@ Cette commande va créer quelques fichiers pour vous :
 - `pyproject.toml` : Le fichier central pour la configuration de votre projet, y compris ses dépendances. C'est le standard moderne en Python.
 
 
-#### Gérer les dépendances avec `pyproject.toml`
+### Gérer les dépendances avec `pyproject.toml`
 
 Avec `uv`, le `pyproject.toml` devient votre source de vérité pour les dépendances.
 
@@ -226,7 +208,7 @@ uv remove ruff --group dev
 _Petite parenthèse sur les index de paquets :_ Par défaut, `uv` utilise PyPI. Si vous travaillez dans un environnement d'entreprise avec un Artifactory ou un autre index privé, vous pouvez configurer `uv` pour l'utiliser via le fichier `pyproject.toml`. Consultez la [documentation `uv` sur les index](https://docs.astral.sh/uv/configuration/indexes/) pour les détails. C'est très flexible !
 
 
-#### Migrer un projet existant vers `uv`
+## Migrer un projet existant vers `uv`
 
 Vous avez un projet avec un bon vieux `requirements.txt` ? La migration est assez simple :
 
@@ -239,7 +221,7 @@ Vous avez un projet avec un bon vieux `requirements.txt` ? La migration est asse
 Et voilà, votre projet est propulsé par `uv` !
 
 
-#### Rejoindre un projet qui utilise déjà `uv`
+## Rejoindre un projet qui utilise déjà `uv`
 
 Si vous clonez un projet qui est déjà géré par `uv` (il aura un `pyproject.toml` et un `uv.lock`), la mise en place est d'une simplicité enfantine. Après avoir activé votre environnement virtuel (`uv venv` puis `source .venv/bin/activate`) :
 
@@ -250,7 +232,7 @@ uv sync
 Cette commande magique va lire le fichier `uv.lock` et installer _exactement_ les mêmes versions de tous les paquets qui y sont listées. Fini les "ça marche sur ma machine" à cause de versions de dépendances différentes !
 
 
-### Construire et Publier votre paquet
+# Construire et Publier votre paquet
 
 `uv` ne s'arrête pas là et propose aussi des commandes pour le build et la publication :
 
@@ -276,7 +258,7 @@ uv run --with <MON_PAQUET>-<VERSION>.whl --no-project --python -c "import <MON_P
 ```
 
 
-### Un Coup de Propre : Nettoyer le Cache
+# Un Coup de Propre : Nettoyer le Cache
 
 Avec le temps, `uv` (comme `pip`) accumule un cache de paquets téléchargés. Pour le nettoyer :
 
@@ -284,7 +266,7 @@ Avec le temps, `uv` (comme `pip`) accumule un cache de paquets téléchargés. P
 uv cache clean
 ```
 
-### Pourquoi je suis Conquis et Pourquoi Vous Devriez l'Essayer
+# Pourquoi je suis Conquis et Pourquoi Vous Devriez l'Essayer
 
 Vous l'aurez compris, `uv` n'est pas juste "un autre gestionnaire de paquets". C'est une véritable bouffée d'air frais.
 
@@ -301,7 +283,7 @@ Depuis que j'utilise `uv`, mes interactions avec la gestion des dépendances Pyt
 Alors, si vous cherchez à moderniser votre outillage Python et à gagner en productivité (et en sérénité !), je ne peux que vous encourager à donner sa chance à `uv`. L'essayer, c'est très souvent l'adopter !
 
 
-### Pour Aller Plus Loin (Références)
+# Références
 
 - Documentation officielle `uv` : [https://docs.astral.sh/uv](https://docs.astral.sh/uv)
 - Repo GitHub `uv` : [https://github.com/astral-sh/uv](https://github.com/astral-sh/uv)

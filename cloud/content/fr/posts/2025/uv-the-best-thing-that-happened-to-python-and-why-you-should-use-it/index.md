@@ -6,7 +6,7 @@ draft: true
 tags:
     - Python
 categories: [ Python ]
-image: uv.jpeg
+image: uv.jpg
 ---
 
 # Introduction

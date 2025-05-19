@@ -43,6 +43,7 @@ Comme je suis sympa, je vous mets ici un gist d'un template de `pyproject.toml` 
 
 <details>
     <summary>`pyproject.toml`</summary>
+
 ```toml
 [project]
 name = "project-name"
@@ -134,6 +135,7 @@ pythonpath = [ # what to add to the python path
     "."
 ]
 ```
+
 </details>
 
 ### Virtual environment

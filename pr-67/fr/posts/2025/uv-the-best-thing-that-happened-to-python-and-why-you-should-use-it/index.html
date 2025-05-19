@@ -323,29 +323,21 @@
             <li><a href="#installation-de-python">Installation de Python</a></li>
           </ol>
         </li>
-        <li><a href="#installation">Installation</a></li>
-        <li><a href="#gérer-les-versions-de-python-avec-uv--oui-cest-possible-">Gérer les versions de Python avec <code>uv</code> ? Oui, c&rsquo;est possible !</a></li>
-        <li><a href="#uvx--exécuter-des-outils-à-la-volée"><code>uvx</code> : Exécuter des outils à la volée</a></li>
       </ol>
     </li>
+    <li><a href="#installation">Installation</a></li>
+    <li><a href="#gérer-les-versions-de-python-avec-uv">Gérer les versions de Python avec <code>uv</code></a></li>
+    <li><a href="#uvx-pour-exécuter-des-packages-à-la-volée"><code>uvx</code> pour exécuter des packages à la volée</a></li>
     <li><a href="#la-gestion-des-projets-avec-uv">La gestion des projets avec <code>uv</code></a>
       <ol>
-        <li><a href="#démarrer-un-nouveau-projet">Démarrer un nouveau projet</a>
-          <ol>
-            <li><a href="#gérer-les-dépendances-avec-pyprojecttoml">Gérer les dépendances avec <code>pyproject.toml</code></a>
-              <ol>
-                <li><a href="#utiliser-un-index-privé">Utiliser un index privé</a></li>
-              </ol>
-            </li>
-          </ol>
-        </li>
+        <li><a href="#démarrer-un-nouveau-projet">Démarrer un nouveau projet</a></li>
         <li><a href="#migrer-un-projet-existant-vers-uv">Migrer un projet existant vers <code>uv</code></a></li>
         <li><a href="#rejoindre-un-projet-qui-utilise-déjà-uv">Rejoindre un projet qui utilise déjà <code>uv</code></a></li>
       </ol>
     </li>
-    <li><a href="#build-et-publier-votre-paquet">Build et publier votre paquet</a></li>
+    <li><a href="#build-et-publier-votre-projet">Build et publier votre projet</a></li>
     <li><a href="#nettoyer-votre-cache">Nettoyer votre cache</a></li>
-    <li><a href="#pourquoi-je-suis-conquis-et-pourquoi-vous-devriez-lessayer">Pourquoi je suis conquis et pourquoi vous devriez l&rsquo;essayer</a></li>
+    <li><a href="#conclusion">Conclusion</a></li>
     <li><a href="#références">Références</a></li>
     <li><a href="#bonus--uv-cheatsheet">Bonus : <code>uv</code> cheatsheet</a></li>
   </ol>
@@ -684,8 +676,8 @@ Ensuite, en lançant votre script via <code>uv run</code>, il se mettra automati
 <p>Ce que vous devez retenir, c&rsquo;est que <code>uv</code> ne s&rsquo;appuie pas sur une version globale de Python installée, mais essaiera toujours d&rsquo;utiliser la version spécifique à votre projet.</p>
 <hr>
 <p>Bon, je crois que vous en savez assez pour commencer votre initiation. Allons-y !</p>
-<h2 id="installation"><a href="#installation" class="header-anchor"></a>Installation
-</h2><p>L&rsquo;installation de <code>uv</code> est un jeu d&rsquo;enfant. Vous avez plusieurs options, choisissez celle qui vous convient le mieux (n&rsquo;hésitez pas à consulter la <a class="link" href="https://docs.astral.sh/uv/getting-started/installation/"  target="_blank" rel="noopener"
+<h1 id="installation"><a href="#installation" class="header-anchor"></a>Installation
+</h1><p>L&rsquo;installation de <code>uv</code> est un jeu d&rsquo;enfant. Vous avez plusieurs options, choisissez celle qui vous convient le mieux (n&rsquo;hésitez pas à consulter la <a class="link" href="https://docs.astral.sh/uv/getting-started/installation/"  target="_blank" rel="noopener"
     >documentation officielle sur son instalation</a> si besoin) :</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -719,8 +711,8 @@ Ensuite, en lançant votre script via <code>uv run</code>, il se mettra automati
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>Et voilà, <code>uv</code> est prêt à l&rsquo;emploi !</p>
-<h2 id="gérer-les-versions-de-python-avec-uv--oui-cest-possible-"><a href="#g%c3%a9rer-les-versions-de-python-avec-uv--oui-cest-possible-" class="header-anchor"></a>Gérer les versions de Python avec <code>uv</code> ? Oui, c&rsquo;est possible !
-</h2><p>Une des fonctionnalités sympathiques de <code>uv</code> est sa capacité à installer des versions spécifiques de Python. Plus besoin de passer par le site officiel Python, de jongler avec <code>pyenv</code> ou d&rsquo;autres outils.</p>
+<h1 id="gérer-les-versions-de-python-avec-uv"><a href="#g%c3%a9rer-les-versions-de-python-avec-uv" class="header-anchor"></a>Gérer les versions de Python avec <code>uv</code>
+</h1><p>Une des fonctionnalités sympathiques de <code>uv</code> est sa capacité à installer des versions spécifiques de Python. Plus besoin de passer par le site officiel Python, de jongler avec <code>pyenv</code> ou d&rsquo;autres outils.</p>
 <p>Pour installer la dernière version stable de Python :</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -752,8 +744,8 @@ Ensuite, en lançant votre script via <code>uv run</code>, il se mettra automati
 </div>
 </div><blockquote>
 <p>Comme je vous l&rsquo;expliquait un peu plus haut, les versions de Python installées par <code>uv</code> ne sont pas disponibles &ldquo;globalement&rdquo; sur votre système via la simple commande <code>python</code>. Pour les utiliser, il faut passer par <code>uv run --python &lt;version&gt;</code> ou les activer dans un environnement virtuel créé avec cette version spécifique.</p></blockquote>
-<h2 id="uvx--exécuter-des-outils-à-la-volée"><a href="#uvx--ex%c3%a9cuter-des-outils-%c3%a0-la-vol%c3%a9e" class="header-anchor"></a><code>uvx</code> : Exécuter des outils à la volée
-</h2><p>Vous connaissez peut-être <code>pipx run</code> ou encore <code>npx</code> dans le monde JavaScript ? <code>uvx</code> est l&rsquo;équivalent proposé par <code>uv</code>. Il permet d&rsquo;exécuter une commande CLI Python (comme <code>ruff</code>, <code>black</code>, <code>ipython</code>, etc.) dans un environnement temporaire avec les dépendances spécifiées, sans polluer votre projet ou votre système.</p>
+<h1 id="uvx-pour-exécuter-des-packages-à-la-volée"><a href="#uvx-pour-ex%c3%a9cuter-des-packages-%c3%a0-la-vol%c3%a9e" class="header-anchor"></a><code>uvx</code> pour exécuter des packages à la volée
+</h1><p>Vous connaissez peut-être <code>pipx run</code> ou encore <code>npx</code> dans le monde JavaScript ? <code>uvx</code> (le shortcut de <code>uv tool run</code>) est l&rsquo;équivalent proposé par <code>uv</code>. Il permet d&rsquo;exécuter une commande CLI Python (comme <code>ruff</code>, <code>black</code>, <code>ipython</code>, etc.) dans un environnement temporaire avec les dépendances spécifiées, sans polluer votre projet ou votre système.</p>
 <p>Par exemple, pour lancer une version spécifique de <code>ruff</code> :</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -792,8 +784,8 @@ Ensuite, en lançant votre script via <code>uv run</code>, il se mettra automati
 <li><code>main.py</code> : Un fichier Python d&rsquo;exemple.</li>
 <li><code>pyproject.toml</code> : Le fichier central pour la configuration de votre projet, y compris ses dépendances. C&rsquo;est le standard moderne en Python.</li>
 </ul>
-<h3 id="gérer-les-dépendances-avec-pyprojecttoml"><a href="#g%c3%a9rer-les-d%c3%a9pendances-avec-pyprojecttoml" class="header-anchor"></a>Gérer les dépendances avec <code>pyproject.toml</code>
-</h3><p>Avec <code>uv</code>, le <code>pyproject.toml</code> devient votre source de vérité pour les dépendances.</p>
+<p>Maintenant, voyons comment gérer nos dépendances.</p>
+<p>Avec <code>uv</code>, le <code>pyproject.toml</code> devient votre source de vérité pour les dépendances.</p>
 <p>Pour ajouter une nouvelle dépendance à votre projet :</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -843,8 +835,8 @@ Ensuite, en lançant votre script via <code>uv run</code>, il se mettra automati
 </span></span><span class="line"><span class="cl">uv remove ruff --group dev
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h4 id="utiliser-un-index-privé"><a href="#utiliser-un-index-priv%c3%a9" class="header-anchor"></a>Utiliser un index privé
-</h4><p>Par défaut, <code>uv</code> utilise PyPI. Si vous travaillez dans un environnement d&rsquo;entreprise (avec un Artifactory ou un autre index privé), vous pouvez configurer <code>uv</code> pour l&rsquo;utiliser via le fichier <code>pyproject.toml</code>.</p>
+</div><p>Dans le cas où vous utiliseriez <code>uv</code> en entreprise avec un index privé, vous pouvez aussi configurer cela !</p>
+<p>Par défaut, <code>uv</code> utilise PyPI. Si vous travaillez dans un environnement d&rsquo;entreprise (avec un Artifactory ou un autre index privé), vous pouvez configurer <code>uv</code> pour l&rsquo;utiliser via le fichier <code>pyproject.toml</code>.</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -897,7 +889,7 @@ Ensuite, en lançant votre script via <code>uv run</code>, il se mettra automati
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>Cette commande magique va lire le fichier <code>uv.lock</code> et installer <em>exactement</em> les mêmes versions de tous les paquets qui y sont listées. Fini les &ldquo;ça marche sur ma machine&rdquo; à cause de versions de dépendances différentes !</p>
-<h1 id="build-et-publier-votre-paquet"><a href="#build-et-publier-votre-paquet" class="header-anchor"></a>Build et publier votre paquet
+<h1 id="build-et-publier-votre-projet"><a href="#build-et-publier-votre-projet" class="header-anchor"></a>Build et publier votre projet
 </h1><p><code>uv</code> ne s&rsquo;arrête pas là et propose aussi des commandes pour le build et la publication :</p>
 <p>Pour construire votre paquet (wheel et sdist) :</p>
 <div class="highlight"><div class="chroma">
@@ -942,7 +934,7 @@ Ensuite, en lançant votre script via <code>uv run</code>, il se mettra automati
 <pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">uv cache clean
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h1 id="pourquoi-je-suis-conquis-et-pourquoi-vous-devriez-lessayer"><a href="#pourquoi-je-suis-conquis-et-pourquoi-vous-devriez-lessayer" class="header-anchor"></a>Pourquoi je suis conquis et pourquoi vous devriez l&rsquo;essayer
+</div><h1 id="conclusion"><a href="#conclusion" class="header-anchor"></a>Conclusion
 </h1><p>Vous l&rsquo;aurez compris, <code>uv</code> n&rsquo;est pas juste &ldquo;un autre gestionnaire de paquets&rdquo;. C&rsquo;est une véritable bouffée d&rsquo;air frais.</p>
 <ul>
 <li>La Vitesse : C&rsquo;est le premier argument qui frappe. Les installations, les résolutions, tout est incroyablement plus rapide que <code>pip</code>. Sur de gros projets, le gain de temps est phénoménal.</li>

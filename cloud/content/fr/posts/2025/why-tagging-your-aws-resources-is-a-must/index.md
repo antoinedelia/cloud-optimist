@@ -30,16 +30,31 @@ Une bonne stratégie de tagging vous permet notamment de :
 3. Automatiser des Actions : Les tags peuvent servir de déclencheurs pour des scripts d'automatisation (par exemple, sauvegarder toutes les instances avec le tag `Backup=Daily`).
 4. Gérer les Accès et la Sécurité : Les politiques IAM peuvent utiliser les tags pour accorder des permissions granulaires.
 
-Bref, taguer, c'est la base d'une bonne gouvernance Cloud.
+Bref, taguer, c'est la base d'une bonne gouvernance Cloud. Pour plus de détails, je vous invite à consulter le [guide de tagging proposé par AWS](https://aws.amazon.com/solutions/guidance/tagging-on-aws/).
 
 # Quels tags utiliser ?
 
-On peut fort heureusement associés plusieurs tags à une même ressource. Mais cela pose la question : combien de tags sont nécessaires ?
+On peut fort heureusement associer plusieurs tags à une même ressource. Mais cela pose la question : combien de tags sont nécessaires ?
 
 Cela va dépendre de votre entreprise et de chaque projet, mais globalement, il y a des tags qui ne font pas de mal, peu importe votre situation :
-* **Project** : d
-* **Environment** : r
-* **Owner** : test
+* **Project** : Le nom du projet lié à la ressource. Générallement, le nom du repository GitHub fait l'affaire
+* **Environment** : L'environnement désiré (dev, val, prod, ...). Même si vous avez des comptes AWS cloisonnés, cela vous permettra d'identifier si une ressource s'est perdue durant un déploiement
+* **Owner** : L'owner de la ressource. Cela pourrait être une personne, mais plus idéallement une équipe (frontend, backend, security, ...)
+
+Selon votre usage, vous aurez sûrement d'autres idées de tags, mais avec ceux ci-dessus, ce sera déjà un bon début !
+
+# Suivre les coûts grâce aux tags
+
+L'un des avantages les plus concrets du tagging est la visibilité qu'il apporte sur vos dépenses. AWS Cost Explorer est l'outil de prédilection pour cela.
+
+Une fois vos ressources correctement taguées (par exemple, avec le tag `Project` ou `CostCenter`), vous devez activer ces tags pour l'allocation des coûts dans la console de gestion de la facturation AWS (Billing and Cost Management Dashboard -> Cost Allocation Tags). Attention, il peut y avoir un délai avant que les tags activés n'apparaissent dans Cost Explorer.
+
+Une fois activés, vous pouvez :
+* Filtrer les rapports par tag : Dans Cost Explorer, vous pouvez filtrer vos coûts par la valeur d'un tag spécifique. Par exemple, afficher uniquement les coûts liés au `Project=MonSuperProjetCRM`.
+* Grouper les coûts par tag : Vous pouvez également choisir de grouper vos dépenses par clé de tag. Cela vous donnera une vue d'ensemble de la répartition des coûts entre les différents projets, environnements, etc.
+* Créer des budgets basés sur les tags : Avec AWS Budgets, vous pouvez définir des seuils d'alerte pour les coûts associés à des tags spécifiques, vous aidant à éviter les mauvaises surprises.
+
+Cette capacité à disséquer votre facture AWS par tags transforme la gestion des coûts d'une corvée obscure en un exercice transparent et contrôlable. C'est un must pour toute organisation soucieuse de son budget Cloud.
 
 # Retrouver ses Petits : Les Outils à Votre Service
 Maintenant que l'on est convaincu de l'utilité des tags, comment fait-on pour lister nos ressources en fonction de ces précieuses étiquettes ?
@@ -79,6 +94,18 @@ Cette commande est extrêmement puissante car vous pouvez l'intégrer dans des s
 * Combiner avec d'autres commandes AWS CLI pour effectuer des actions sur les ressources listées.
 
 Par exemple, pour trouver les ressources non taguées avec une clé Project spécifique, c'est un peu plus indirect, mais vous pourriez lister toutes les ressources puis filtrer celles qui n'ont pas ce tag, ou utiliser Resource Explorer avec une requête négative si supportée pour ce cas. Souvent, on se concentre sur les ressources qui ont certains tags pour vérifier la conformité ou l'inventaire. Pour les "orphelines", une approche peut être de lister toutes les ressources d'un type (ex: toutes les EC2) et de vérifier manuellement ou par script celles qui manquent des tags essentiels.
+
+# Automatiser le Nettoyage : Une Lambda à la Rescousse (Avec Prudence !)
+
+Identifier les ressources non taguées, c'est bien. Les nettoyer automatiquement, c'est encore mieux... mais cela demande une extrême prudence ! Une suppression ou un arrêt automatisé mal configuré peut avoir des conséquences désastreuses.
+
+Cela dit, pour des actions moins destructrices (comme stopper des instances EC2 de développement non taguées après une certaine période, ou simplement notifier une équipe), une fonction Lambda peut être très utile.
+
+L'idée serait d'avoir une Lambda, déclenchée régulièrement (par exemple, via Amazon EventBridge Scheduler), qui utilise l'API `resourcegroupstaggingapi` pour lister les ressources. Elle vérifierait ensuite l'absence de tags critiques (comme `Project` ou `Owner`). Si une ressource est jugée "orpheline" selon vos critères :
+* Pour commencer (et pour la sécurité) : Logguez simplement l'information dans CloudWatch Logs ou envoyez une notification (SNS, Slack via un webhook, etc.).
+* Avec plus de confiance (et de tests !) : Vous pourriez envisager des actions comme stopper une instance EC2 (si vous êtes sûr qu'elle n'est pas critique et qu'elle correspond à des critères précis, par exemple, un tag `Environment=dev` manquant le tag `Project`). La suppression automatique est rarement recommandée sans de multiples garde-fous et validations humaines.
+
+Je vous fournirai un exemple de script Python pour une telle Lambda dans un instant. Rappelez-vous que ce script sera un point de départ et devra être adapté et testé minutieusement dans un environnement de non-production avant toute utilisation sur des ressources réelles.
 
 # Conclusion
 

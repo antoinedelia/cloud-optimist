@@ -17,7 +17,7 @@ Mais il y a toujours eu une chose qui me déplaisait chez Python : ses outils de
 
 Et puis, j'ai fait une découverte qui, non seulement m'a montré que packager son code Python est un tâche toute simple, mais qui en plus a complètement changé toutes mes habitudes.
 
-Je veux parler de `uv`.
+Je veux parler de [`uv`](https://docs.astral.sh/uv).
 
 Créé par la même équipe talentueuse de chez Astral (qui nous avait déjà régalé avec leur outil `ruff`), `uv` est présenté comme un installateur et résolveur de paquets Python "extrêmement rapide". Cet outil est ce qu'on pourrait appeller un "game-changer" : une fois que vous y avez goûté, impossible de revenir en arrière !
 
@@ -35,7 +35,7 @@ Comme nombre de nouveaux outils à la mode, il est écrit en Rust. Pardon, je de
 
 Avant de nous lancer tête la première dans `uv` et son fonctionnement, il est important de connaître quelques informations importantes.
 
-### Requirements
+### Gestion des dépendances
 
 `uv` base toute sa configuration sur votre fichier `pyproject.toml`. Si vous aviez l'habitude d'utiliser un `requirements.txt` par exemple, sachez que `uv` ne se basera pas dessus.
 
@@ -138,7 +138,7 @@ pythonpath = [ # what to add to the python path
 
 </details>
 
-### Virtual environment
+### Environnement virtuel
 
 Comme moi, vous aviez peut-être l'habitude d'utiliser la commande `source .venv/bin/activate` pour activer votre environnement virtuel. Avec `uv`, c'est un peu différent. Votre `.venv` sera toujours crée, mais le but de `uv` est de toujours l'utiliser pour lancer ses commandes Python. Je m'explique.
 
@@ -279,18 +279,18 @@ uv add ruff --dev
 uv add pytest --dev
 ```
 
-Très important : La première fois que vous ajoutez une dépendance, `uv` va générer un fichier `uv.lock`. Ce fichier contient les versions exactes de toutes vos dépendances (directes et indirectes) qui ont été résolues. Ce fichier `uv.lock` est crucial et DOIT être commité dans votre repository GitHub. Il garantit que les versions de vos paquets soient les mêmes pour tout le monde, selon votre environnement de travail.
+> ⚠️ Très important : La première fois que vous ajoutez une dépendance, `uv` va générer un fichier `uv.lock`. Ce fichier contient les versions exactes de toutes vos dépendances (directes et indirectes) qui ont été résolues. Ce fichier `uv.lock` est crucial et DOIT être commité dans votre repository GitHub. Il garantit que les versions de vos paquets soient les mêmes pour tout le monde, selon votre environnement de travail.
 
 Une fois vos dépendances (notamment de dev) ajoutées, vous pouvez les utiliser avec `uv run` :
 
-```
+```sh
 uv run ruff format .
 uv run pytest
 ```
 
 Pour supprimer un paquet :
 
-```
+```sh
 # Pour une dépendance normale
 uv remove requests
 
@@ -325,66 +325,71 @@ N'hésitez pas à consulter la [documentation `uv` sur les index](https://docs.a
 
 Vous avez un projet avec un bon vieux `requirements.txt` ? La migration est assez simple :
 
-1. Si vous n'avez pas de `pyproject.toml`, créez-en un. Vous pouvez lancer `uv init` dans le répertoire de votre projet existant ; il détectera la présence d'un projet et vous aidera.
-2. Pour chaque paquet dans votre `requirements.txt` (et `requirements-dev.txt` si vous en avez un), ajoutez-le avec `uv add <nom_du_paquet>` ou `uv add <nom_du_paquet> --dev`. `uv` se chargera de résoudre les versions et de mettre à jour `pyproject.toml` et `uv.lock`.
+1. Si vous n'avez pas de `pyproject.toml`, créez-en un (n'hésitez pas à utiliser celui fourni plus haut).
+2. Pour chaque dépendance dans votre `requirements.txt` (et `requirements-dev.txt` si vous en avez un), ajoutez-le avec `uv add <nom_du_paquet>` ou `uv add <nom_du_paquet> --dev`. `uv` se chargera de résoudre les versions et de mettre à jour `pyproject.toml` et le `uv.lock`.
 3. Une fois toutes les dépendances migrées, vous pouvez supprimer vos anciens fichiers `requirements.txt`.
+
+> Si vous utilisiez d'autres outils comme `Poetry`, il existe des outils de migration (comme par exemple : `uvx migrate-to-uv`).
 
 Et voilà, votre projet est propulsé par `uv` !
 
 ## Rejoindre un projet qui utilise déjà `uv`
 
-Si vous clonez un projet qui est déjà géré par `uv` (il aura un `pyproject.toml` et un `uv.lock`), la mise en place est d'une simplicité enfantine. Après avoir activé votre environnement virtuel (`uv venv` puis `source .venv/bin/activate`) :
+Si vous clonez un projet qui est déjà géré par `uv` (il devrait donc y avoir un `pyproject.toml` et un `uv.lock`), la mise en place est d'une simplicité enfantine. Vous n'avez qu'à lancer :
 
 ```sh
 uv sync
 ```
 
-Cette commande magique va lire le fichier `uv.lock` et installer _exactement_ les mêmes versions de tous les paquets qui y sont listées. Fini les "ça marche sur ma machine" à cause de versions de dépendances différentes !
+Cette commande magique va lire le fichier `uv.lock` et installer _exactement_ les mêmes versions de tous les paquets qui y sont listées. C'est pas beau tout ça ?
 
 # Build et publier votre projet
 
 `uv` ne s'arrête pas là et propose aussi des commandes pour le build et la publication :
 
-Pour construire votre paquet (wheel et sdist) :
+Pour construire votre package (wheel et sdist) :
 
-```
+```sh
 uv build
 ```
 
-Pour publier sur PyPI (ou un index privé configuré) :
+Pour publier sur PyPI (ou un index privé) :
 
-```
+```sh
 uv publish
 # Pour un index privé, vous pourriez avoir besoin de spécifier l'URL (sauf si déjà spécifiée dans votre pyproject.toml)
 # uv publish --repository-url https://mon-artifactory.corp/api/pypi/mon-repo-local
 ```
 
-Et pour tester rapidement si votre paquet fraîchement construit s'installe et s'importe correctement :
+Et pour tester rapidement si votre package fraîchement buildé s'installe et s'importe correctement :
 
+```sh
+# Remplacez <MON_PACKAGE> par le nom de votre paquet
+uv run --with <MON_PACKAGE>-<VERSION>.whl --no-project --python -c "import <MON_PACKAGE>"
 ```
-# Remplacez <MON_PAQUET> par le nom de votre paquet
-uv run --with <MON_PAQUET>-<VERSION>.whl --no-project --python -c "import <MON_PAQUET>"
-```
+
+Et voilà ! Vous avez publié votre package en un clin d'oeil !
 
 # Nettoyer votre cache
 
-Avec le temps, `uv` (comme `pip`) accumule un cache de paquets téléchargés. Pour le nettoyer :
+Avec le temps, `uv` (comme `pip`) accumule un cache de paquets téléchargés. Alors certes, cela permet rapidement d'installer vos dépendances sur plusieurs projets, mais à la longue, cela pourrait prendre pas mal de place sur votre ordinateur. Pour le nettoyer, il suffit simplement de lancer la commande suivante :
 
-```
+```sh
 uv cache clean
 ```
 
 # Conclusion
 
-Vous l'aurez compris, `uv` n'est pas juste "un autre gestionnaire de paquets". C'est une véritable bouffée d'air frais.
-*  La Vitesse : C'est le premier argument qui frappe. Les installations, les résolutions, tout est incroyablement plus rapide que `pip`. Sur de gros projets, le gain de temps est phénoménal.
-* L'Unification : `uv` regroupe des fonctionnalités qui nécessitaient auparavant plusieurs outils (`pip`, `venv`, `pip-tools`, voire `pyenv` pour des besoins basiques). Avoir une seule interface cohérente simplifie grandement le workflow.
-* La Modernité : Il embrasse pleinement `pyproject.toml` et les standards modernes de packaging Python.
-* La Fiabilité : Le système de lockfile (`uv.lock`) assure des builds reproductibles, un point essentiel pour le travail en équipe et l'intégration continue.
+Vous l'aurez compris, `uv` n'est pas juste "encore un autre gestionnaire de paquets". C'est une véritable bouffée d'air frais dans l'écosystème Python.
+
+* **La Vitesse :** C'est le premier argument qui choque lorsqu'on l'utilise. Les installations, les résolutions, tout est incroyablement plus rapide que `pip`. Sur de gros projets, le gain de temps est phénoménal.
+* **L'Unification :** `uv` regroupe des fonctionnalités qui nécessitaient auparavant plusieurs outils (`pip`, `venv`, `pip-tools`, voire `pyenv` pour des besoins basiques). Avoir une seule interface cohérente simplifie grandement le workflow.
+* **La Compliance :** Les développeurs d'`uv` basent tous leurs choix sur les guidelines Python (ces fameux PEP). Vous pouvez donc être sûr que votre `pyproject.toml` respecte les standards modernes de packaging Python.
+* **La Fiabilité :** Le système de lockfile (`uv.lock`) assure des builds reproductibles, un point essentiel pour le travail en équipe et l'intégration continue.
 
 Depuis que j'utilise `uv`, mes interactions avec la gestion des dépendances Python sont devenues plus rapides, plus simples et plus agréables. C'est le genre d'outil qui, une fois adopté, vous fait vous demander comment vous faisiez avant.
 
-Alors, si vous cherchez à moderniser votre outillage Python et à gagner en productivité (et en sérénité !), je ne peux que vous encourager à donner sa chance à `uv`. L'essayer, c'est très souvent l'adopter !
+Alors, si vous cherchez à moderniser votre utilisation de Python et à gagner en productivité (et en sérénité !), je ne peux que vous encourager à donner sa chance à `uv`. L'essayer, c'est très souvent l'adopter !
 
 # Références
 
@@ -410,6 +415,9 @@ uvx --python 3.12 ruff@0.9.6 check
 
 # Quickly run ipython with requests installed
 uvx --with requests -p 3.13 ipython
+
+# Update your project's version
+uv version --bump [major/minor/patch]
 
 # Clean the cache
 uv cache clean

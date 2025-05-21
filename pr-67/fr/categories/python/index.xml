@@ -249,7 +249,7 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;uv run main.py
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;Lorsque vous ajoutez un nouveau paquet à votre projet (avec la commande &lt;code&gt;uv add&lt;/code&gt;), &lt;code&gt;uv&lt;/code&gt; se charge automatiquement de créer un environment virtuel s&amp;rsquo;il n&amp;rsquo;existe pas déjà.&lt;/p&gt;
+&lt;/div&gt;&lt;p&gt;Lorsque vous ajoutez un nouveau paquet à votre projet (avec la commande &lt;code&gt;uv add&lt;/code&gt;), uv se charge automatiquement de créer un environment virtuel s&amp;rsquo;il n&amp;rsquo;existe pas déjà.&lt;/p&gt;
 &lt;p&gt;Ensuite, en lançant votre script via &lt;code&gt;uv run&lt;/code&gt;, uv se mettra automatiquement dans votre environnement virtuel.&lt;/p&gt;
 &lt;h3 id=&#34;installation-de-python&#34;&gt;&lt;a href=&#34;#installation-de-python&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Installation de Python
 &lt;/h3&gt;&lt;p&gt;Vous utilisiez peut-être pyenv pour installer vos différentes versions de Python. Avec uv, tout cela est de l&amp;rsquo;histoire ancienne !&lt;/p&gt;
@@ -457,7 +457,7 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;N&amp;rsquo;hésitez pas à consulter la &lt;a class=&#34;link&#34; href=&#34;https://docs.astral.sh/uv/configuration/indexes/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;documentation &lt;code&gt;uv&lt;/code&gt; sur les index&lt;/a&gt; pour plus de détails.&lt;/p&gt;
+    &gt;documentation uv sur les index&lt;/a&gt; pour plus de détails.&lt;/p&gt;
 &lt;h2 id=&#34;migrer-un-projet-existant-vers-uv&#34;&gt;&lt;a href=&#34;#migrer-un-projet-existant-vers-uv&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Migrer un projet existant vers uv
 &lt;/h2&gt;&lt;p&gt;Vous avez un projet avec un bon vieux &lt;code&gt;requirements.txt&lt;/code&gt; ? La migration est assez simple :&lt;/p&gt;
 &lt;ol&gt;

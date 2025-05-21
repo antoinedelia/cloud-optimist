@@ -331,8 +331,15 @@
     <li><a href="#project-management-with-uv">Project Management with uv</a>
       <ol>
         <li><a href="#starting-a-new-project">Starting a New Project</a></li>
+        <li><a href="#migrating-an-existing-project-to-uv">Migrating an Existing Project to uv</a></li>
+        <li><a href="#joining-a-project-that-already-uses-uv">Joining a Project That Already Uses uv</a></li>
       </ol>
     </li>
+    <li><a href="#build-and-publish-your-project">Build and Publish Your Project</a></li>
+    <li><a href="#cleaning-your-cache">Cleaning Your Cache</a></li>
+    <li><a href="#conclusion">Conclusion</a></li>
+    <li><a href="#references">References</a></li>
+    <li><a href="#bonus-uv-cheatsheet">Bonus: uv cheatsheet</a></li>
   </ol>
 </nav>
         </div>
@@ -409,7 +416,7 @@
 
 
                 <time class="article-time--reading">
-                    9 minute read
+                    12 minute read
                 </time>
             </div>
         
@@ -889,7 +896,137 @@
 </div>
 </div><p>Feel free to consult the <a class="link" href="https://docs.astral.sh/uv/configuration/indexes/"  target="_blank" rel="noopener"
     >uv documentation on indexes</a> for more details.</p>
-
+<h2 id="migrating-an-existing-project-to-uv"><a href="#migrating-an-existing-project-to-uv" class="header-anchor"></a>Migrating an Existing Project to uv
+</h2><p>Do you have a project with a good old <code>requirements.txt</code>? Migration is quite simple:</p>
+<ol>
+<li>If you don&rsquo;t have a <code>pyproject.toml</code>, create one (feel free to use the one provided above).</li>
+<li>Run the following commands to add your requirements to your <code>pyproject.toml</code>: <code>uv add -r requirements.txt</code> and <code>uv add --dev -r requirements-dev.txt</code>.</li>
+<li>Once all dependencies are migrated, you can delete your old requirements files.</li>
+</ol>
+<blockquote>
+<p>If you were using other tools like Poetry, migration tools exist (such as: <code>uvx migrate-to-uv</code>).</p></blockquote>
+<p>And there you have it, your project is powered by uv!</p>
+<h2 id="joining-a-project-that-already-uses-uv"><a href="#joining-a-project-that-already-uses-uv" class="header-anchor"></a>Joining a Project That Already Uses uv
+</h2><p>If you clone a project that is already managed by uv (so it should have a <code>pyproject.toml</code> and a <code>uv.lock</code>), setting it up is incredibly simple. You just need to run:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">uv sync
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>This magic command will read the <code>uv.lock</code> file and install exactly the same versions of all the packages listed there. Isn&rsquo;t that beautiful?</p>
+<h1 id="build-and-publish-your-project"><a href="#build-and-publish-your-project" class="header-anchor"></a>Build and Publish Your Project
+</h1><p>uv doesn&rsquo;t stop there and also offers commands for building and publishing.</p>
+<p>To build your package:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">uv build
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>To publish to PyPI (or a private index):</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">uv publish
+</span></span><span class="line"><span class="cl"><span class="c1"># For a private index, you might need to specify the URL (unless already specified in your pyproject.toml)</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># uv publish --repository-url [https://my-artifactory.corp/api/pypi/my-local-repo](https://my-artifactory.corp/api/pypi/my-local-repo)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>And to quickly test if your freshly built package installs and imports correctly:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="c1"># Replace &lt;MY_PACKAGE&gt; with your package name</span>
+</span></span><span class="line"><span class="cl">uv run --with &lt;MY_PACKAGE&gt;-&lt;VERSION&gt;.whl --no-project --python -c <span class="s2">&#34;import &lt;MY_PACKAGE&gt;&#34;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>And there you go! You&rsquo;ve published your package in the blink of an eye!</p>
+<h1 id="cleaning-your-cache"><a href="#cleaning-your-cache" class="header-anchor"></a>Cleaning Your Cache
+</h1><p>Over time, uv (just like pip) accumulates a cache of downloaded packages. While this allows for quick installation of your dependencies across multiple projects, in the long run, it could take up quite a bit of space on your computer. To clean it, simply run the following command:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">uv cache clean
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="conclusion"><a href="#conclusion" class="header-anchor"></a>Conclusion
+</h1><p>As you&rsquo;ve understood, uv isn&rsquo;t just &ldquo;another package manager.&rdquo; <strong>It&rsquo;s a real breath of fresh air in the Python ecosystem.</strong></p>
+<ul>
+<li><strong>Speed:</strong> This is the first thing that shocks you when you use it. Installations, resolutions, everything is incredibly faster than pip. On large projects, the time savings are phenomenal.</li>
+<li><strong>Unification:</strong> uv brings together functionalities that previously required multiple tools (pip, venv, pip-tools, or even pyenv for basic needs). Having a single, coherent interface greatly simplifies the workflow.</li>
+<li><strong>Compliance:</strong> The uv developers base all their choices on Python guidelines (those famous PEPs). You can therefore be sure that your <code>pyproject.toml</code> respects modern Python packaging standards.</li>
+<li><strong>Reliability:</strong> The lockfile system (<code>uv.lock</code>) ensures reproducible builds, an essential point for teamwork and continuous integration.</li>
+</ul>
+<p>Since I started using uv, my interactions with Python dependency management have become faster, simpler, and more enjoyable. <strong>It&rsquo;s the kind of tool that, once adopted, makes you wonder how you ever managed before.</strong></p>
+<p>So, if you&rsquo;re looking to modernize your Python usage and gain productivity (and peace of mind!), I can only encourage you to give uv a try. Trying it is very often adopting it!</p>
+<h1 id="references"><a href="#references" class="header-anchor"></a>References
+</h1><ul>
+<li>Official uv documentation: <a class="link" href="https://docs.astral.sh/uv"  target="_blank" rel="noopener"
+    >https://docs.astral.sh/uv</a></li>
+<li>uv GitHub repo: <a class="link" href="https://github.com/astral-sh/uv"  target="_blank" rel="noopener"
+    >https://github.com/astral-sh/uv</a></li>
+<li><a class="link" href="https://www.bitecode.dev/p/a-year-of-uv-pros-cons-and-should"  target="_blank" rel="noopener"
+    >A year of uv: pros, cons, and should you switch? (bitecode.dev)</a></li>
+<li><a class="link" href="https://www.bitecode.dev/p/uv-tricks"  target="_blank" rel="noopener"
+    >uv tricks (bitecode.dev)</a></li>
+</ul>
+<h1 id="bonus-uv-cheatsheet"><a href="#bonus-uv-cheatsheet" class="header-anchor"></a>Bonus: uv cheatsheet
+</h1><p>Here&rsquo;s a list of super handy uv commands. A cheatsheet, if you will. Feel free to come back and consult it as needed!</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="c1"># Update uv</span>
+</span></span><span class="line"><span class="cl">uv self update
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Run a script with a specific Python version</span>
+</span></span><span class="line"><span class="cl">uv run --python 3.12.3 main.py
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Quickly run a tool with a specific version</span>
+</span></span><span class="line"><span class="cl">uvx --python 3.12 ruff@0.9.6 check
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Quickly run ipython with requests installed</span>
+</span></span><span class="line"><span class="cl">uvx --with requests -p 3.13 ipython
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Update your project&#39;s version</span>
+</span></span><span class="line"><span class="cl">uv version --bump <span class="o">[</span>major/minor/patch<span class="o">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Clean the cache</span>
+</span></span><span class="line"><span class="cl">uv cache clean
+</span></span></code></pre></td></tr></table>
+</div>
+</div>
 </section>
 
 

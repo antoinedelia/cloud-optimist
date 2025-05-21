@@ -162,7 +162,7 @@ uv add requests
 uv run main.py
 ```
 
-Lorsque vous ajoutez un nouveau paquet à votre projet (avec la commande `uv add`), `uv` se charge automatiquement de créer un environment virtuel s'il n'existe pas déjà.
+Lorsque vous ajoutez un nouveau paquet à votre projet (avec la commande `uv add`), uv se charge automatiquement de créer un environment virtuel s'il n'existe pas déjà.
 
 Ensuite, en lançant votre script via `uv run`, uv se mettra automatiquement dans votre environnement virtuel.
 
@@ -324,7 +324,7 @@ export UV_INDEX_VOTRE_INDEX_USERNAME="delia, antoine"
 export UV_INDEX_VOTRE_INDEX_PASSWORD="cmVmdG**************************FJUjNw"
 ```
 
-N'hésitez pas à consulter la [documentation `uv` sur les index](https://docs.astral.sh/uv/configuration/indexes/) pour plus de détails.
+N'hésitez pas à consulter la [documentation uv sur les index](https://docs.astral.sh/uv/configuration/indexes/) pour plus de détails.
 
 ## Migrer un projet existant vers uv
 

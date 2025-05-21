@@ -326,3 +326,102 @@ export UV_INDEX_YOUR_INDEX_PASSWORD="cmVmdG**************************FJUjNw"
 ```
 
 Feel free to consult the [uv documentation on indexes](https://docs.astral.sh/uv/configuration/indexes/) for more details.
+
+## Migrating an Existing Project to uv
+
+Do you have a project with a good old `requirements.txt`? Migration is quite simple:
+
+1. If you don't have a `pyproject.toml`, create one (feel free to use the one provided above).
+2. Run the following commands to add your requirements to your `pyproject.toml`: `uv add -r requirements.txt` and `uv add --dev -r requirements-dev.txt`.
+3. Once all dependencies are migrated, you can delete your old requirements files.
+
+> If you were using other tools like Poetry, migration tools exist (such as: `uvx migrate-to-uv`).
+
+And there you have it, your project is powered by uv!
+
+## Joining a Project That Already Uses uv
+
+If you clone a project that is already managed by uv (so it should have a `pyproject.toml` and a `uv.lock`), setting it up is incredibly simple. You just need to run:
+
+```sh
+uv sync
+```
+
+This magic command will read the `uv.lock` file and install exactly the same versions of all the packages listed there. Isn't that beautiful?
+
+# Build and Publish Your Project
+
+uv doesn't stop there and also offers commands for building and publishing.
+
+To build your package:
+```sh
+uv build
+```
+
+To publish to PyPI (or a private index):
+
+```sh
+uv publish
+# For a private index, you might need to specify the URL (unless already specified in your pyproject.toml)
+# uv publish --repository-url [https://my-artifactory.corp/api/pypi/my-local-repo](https://my-artifactory.corp/api/pypi/my-local-repo)
+```
+
+And to quickly test if your freshly built package installs and imports correctly:
+
+```sh
+# Replace <MY_PACKAGE> with your package name
+uv run --with <MY_PACKAGE>-<VERSION>.whl --no-project --python -c "import <MY_PACKAGE>"
+```
+
+And there you go! You've published your package in the blink of an eye!
+
+# Cleaning Your Cache
+
+Over time, uv (just like pip) accumulates a cache of downloaded packages. While this allows for quick installation of your dependencies across multiple projects, in the long run, it could take up quite a bit of space on your computer. To clean it, simply run the following command:
+
+```sh
+uv cache clean
+```
+
+# Conclusion
+
+As you've understood, uv isn't just "another package manager." **It's a real breath of fresh air in the Python ecosystem.**
+
+* **Speed:** This is the first thing that shocks you when you use it. Installations, resolutions, everything is incredibly faster than pip. On large projects, the time savings are phenomenal.
+* **Unification:** uv brings together functionalities that previously required multiple tools (pip, venv, pip-tools, or even pyenv for basic needs). Having a single, coherent interface greatly simplifies the workflow.
+* **Compliance:** The uv developers base all their choices on Python guidelines (those famous PEPs). You can therefore be sure that your `pyproject.toml` respects modern Python packaging standards.
+* **Reliability:** The lockfile system (`uv.lock`) ensures reproducible builds, an essential point for teamwork and continuous integration.
+
+Since I started using uv, my interactions with Python dependency management have become faster, simpler, and more enjoyable. **It's the kind of tool that, once adopted, makes you wonder how you ever managed before.**
+
+So, if you're looking to modernize your Python usage and gain productivity (and peace of mind!), I can only encourage you to give uv a try. Trying it is very often adopting it!
+
+# References
+* Official uv documentation: https://docs.astral.sh/uv
+* uv GitHub repo: https://github.com/astral-sh/uv
+* [A year of uv: pros, cons, and should you switch? (bitecode.dev)](https://www.bitecode.dev/p/a-year-of-uv-pros-cons-and-should)
+* [uv tricks (bitecode.dev)](https://www.bitecode.dev/p/uv-tricks)
+
+# Bonus: uv cheatsheet
+
+Here's a list of super handy uv commands. A cheatsheet, if you will. Feel free to come back and consult it as needed!
+
+```sh
+# Update uv
+uv self update
+
+# Run a script with a specific Python version
+uv run --python 3.12.3 main.py
+
+# Quickly run a tool with a specific version
+uvx --python 3.12 ruff@0.9.6 check
+
+# Quickly run ipython with requests installed
+uvx --with requests -p 3.13 ipython
+
+# Update your project's version
+uv version --bump [major/minor/patch]
+
+# Clean the cache
+uv cache clean
+```

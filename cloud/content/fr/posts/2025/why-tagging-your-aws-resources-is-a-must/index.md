@@ -45,70 +45,86 @@ Selon votre usage, vous aurez sûrement d'autres idées de tags, mais avec ceux 
 
 # Suivre les coûts grâce aux tags
 
-L'un des avantages les plus concrets du tagging est la visibilité qu'il apporte sur vos dépenses. AWS Cost Explorer est l'outil de prédilection pour cela.
+L'un des avantages les plus concrets du tagging est la visibilité qu'il apporte sur vos dépenses. [AWS Cost Explorer](https://aws.amazon.com/aws-cost-management/aws-cost-explorer/) est l'outil de prédilection pour cela.
 
-Une fois vos ressources correctement taguées (par exemple, avec le tag `Project` ou `CostCenter`), vous devez activer ces tags pour l'allocation des coûts dans la console de gestion de la facturation AWS (Billing and Cost Management Dashboard -> Cost Allocation Tags). Attention, il peut y avoir un délai avant que les tags activés n'apparaissent dans Cost Explorer.
+Une fois vos ressources correctement taguées (par exemple, avec le tag `Project`), vous devez activer ces tags pour l'allocation des coûts dans la console de gestion de la facturation AWS (Billing and Cost Management -> Cost Organization -> Cost Allocation Tags). Attention, il peut y avoir un délai avant que les tags activés n'apparaissent dans Cost Explorer.
 
 Une fois activés, vous pouvez :
-* Filtrer les rapports par tag : Dans Cost Explorer, vous pouvez filtrer vos coûts par la valeur d'un tag spécifique. Par exemple, afficher uniquement les coûts liés au `Project=MonSuperProjetCRM`.
-* Grouper les coûts par tag : Vous pouvez également choisir de grouper vos dépenses par clé de tag. Cela vous donnera une vue d'ensemble de la répartition des coûts entre les différents projets, environnements, etc.
+* Filtrer par tag : Dans Cost Explorer, vous pouvez filtrer vos coûts par la valeur d'un tag spécifique.
+* Grouper par tag : Vous pouvez également choisir de grouper vos dépenses par tag. Cela vous donnera une vue d'ensemble de la répartition des coûts entre les différents projets, environnements, etc.
 * Créer des budgets basés sur les tags : Avec AWS Budgets, vous pouvez définir des seuils d'alerte pour les coûts associés à des tags spécifiques, vous aidant à éviter les mauvaises surprises.
 
-Cette capacité à disséquer votre facture AWS par tags transforme la gestion des coûts d'une corvée obscure en un exercice transparent et contrôlable. C'est un must pour toute organisation soucieuse de son budget Cloud.
+![Exemple de filtrage par tag](/img/why-tagging-your-aws-resources-is-a-must/cost_explorer_tag_filtering.png)
+_Exemple de filtrage par tag pour mon blog : les coûts sont minimes_
 
-# Retrouver ses Petits : Les Outils à Votre Service
-Maintenant que l'on est convaincu de l'utilité des tags, comment fait-on pour lister nos ressources en fonction de ces précieuses étiquettes ?
+Cette capacité à disséquer votre facture AWS par tags transforme la gestion des coûts d'une corvée obscure en un exercice transparent et contrôlable. C'est un must pour toute organisation soucieuse de son budget Cloud. Vous pourrez désormais rajouter _FinOps_ dans votre bio LinkedIn !
+
+# Garder un œil sur les ressources déployées
+
+Maintenant que l'on est convaincu de l'utilité des tags, comment fait-on pour lister toutes les ressources qui utilisent un tag précis ? Nous allons le voir ensemble avec une partie dans la console AWS, et une partie qui se passera dans le terminal (pour tous les geeks qui lisent cet article !).
 
 ## AWS Resource Explorer : L'Exploration Visuelle
-Si vous n'êtes pas encore familier avec AWS Resource Explorer, c'est le moment de le découvrir ! Ce service, relativement récent, vous permet de rechercher et de découvrir vos ressources AWS à travers toutes les régions de votre compte, en utilisant une interface simple, un peu comme un moteur de recherche.
+Si vous n'êtes pas encore familier avec [AWS Resource Explorer](https://aws.amazon.com/resourceexplorer/), c'est le moment de le découvrir ! Ce service, relativement récent, vous permet de rechercher et de découvrir vos ressources AWS à travers toutes les régions de votre compte, en utilisant une interface simple, un peu comme un moteur de recherche.
 
 L'avantage principal de Resource Explorer est sa capacité à vous donner une vue unifiée. Plus besoin de sauter de région en région. Vous activez l'indexation, et ensuite, vous pouvez rechercher vos ressources par nom, ID, et bien sûr... par tag !
 
 C'est un excellent outil pour :
 * Avoir une vue d'ensemble rapide.
 * Explorer visuellement les ressources associées à un tag spécifique.
-* Identifier rapidement des ressources sans avoir à scripter.
+* Identifier rapidement des ressources sans avoir à coder quoi que ce soit.
 
-Pour l'utiliser, activez-le dans les régions souhaitées (ou toutes), laissez-le indexer vos ressources, puis utilisez la barre de recherche avec une syntaxe comme tag:Project=MonSuperProjet ou tag:Environment=Production.
+Pour l'utiliser, activez-le dans les régions souhaitées (ou toutes), laissez-le indexer vos ressources, puis utilisez la barre de recherche avec une syntaxe comme `tag.key:Project tag.value:Cloud*`.
 
-## AWS CLI : La Puissance de la Ligne de Commande
-Pour ceux qui, comme moi, aiment avoir la main via la ligne de commande, ou qui ont besoin d'automatiser ces recherches, l'AWS CLI reste une alliée de choix. Plus précisément, c'est le service resourcegroupstaggingapi qui va nous intéresser.
+![Recherche des ressources par tag](/img/why-tagging-your-aws-resources-is-a-must/resource_explorer_search_tags)
+_Exemple de recherche par tag pour mon blog : seulement trois ressources permettent de gérer ce blog !_
 
-La commande clé est get-resources. Voici un exemple typique pour lister les ARN (Amazon Resource Names) de toutes les ressources ayant le tag Project avec la valeur mon-projet :
+
+## AWS CLI : Pour ceux qui aiment la CLI
+Pour ceux qui, comme moi, aiment avoir la main via la ligne de commande, ou qui ont besoin d'automatiser ces recherches, l'[AWS CLI](https://aws.amazon.com/cli/) reste une alliée de choix. Plus précisément, c'est le service [resourcegroupstaggingapi](https://docs.aws.amazon.com/cli/latest/reference/resourcegroupstaggingapi/) qui va nous intéresser.
+
+La commande clé est [get-resources](https://docs.aws.amazon.com/cli/latest/reference/resourcegroupstaggingapi/get-resources.html). Voici un exemple typique pour lister les ARN de toutes les ressources ayant le tag Project avec la valeur "Cloud Antoine Delia" :
 
 ```sh
 aws resourcegroupstaggingapi get-resources \
-    --tag-filters "Key=Project,Values=mon-projet" \
+    --tag-filters "Key=Project,Values=Cloud Antoine Delia" \
     | jq "[.ResourceTagMappingList[].ResourceARN]"
+```
+
+Ce qui nous donne : 
+```json
+[
+  "arn:aws:s3:::antoiXXXXXXXXXXXXX"
+]
 ```
 
 Décortiquons un peu :
 
-* `aws resourcegroupstaggingapi get-resources` : C'est l'appel à l'API.
-* `--tag-filters "Key=Project,Values=mon-projet"` : C'est ici qu'on spécifie notre filtre. On cherche le tag Project qui a la valeur mon-projet. Vous pouvez ajouter plusieurs filtres.
-* `| jq "[.ResourceTagMappingList[].ResourceARN]"` : jq est un outil formidable pour manipuler du JSON en ligne de commande. Ici, on l'utilise pour extraire proprement la liste des ARN des ressources trouvées.
+* `aws resourcegroupstaggingapi get-resources` : C'est l'appel à l'API, jusqu'ici, tout va bien.
+* `--tag-filters "Key=Project,Values=Cloud Antoine Delia"` : C'est ici qu'on spécifie notre filtre. On cherche le tag Project qui a la valeur "Cloud Antoine Delia". Vous pouvez ajouter plusieurs filtres.
+* `| jq "[.ResourceTagMappingList[].ResourceARN]"` : [jq](https://jqlang.org/) est un outil formidable pour manipuler du JSON en ligne de commande. Ici, on l'utilise pour extraire proprement la liste des ARN des ressources trouvées.
 
-Cette commande est extrêmement puissante car vous pouvez l'intégrer dans des scripts pour :
+> Eh attends une minute ! Dans la console, tu nous montres trois ressources, et là il n'y en a plus qu'une ! Elle est où l'arnaque ?
+
+Habillement remarqué ! Il faut savoir que lorsque vous faites votre appel à l'API, vous utilisez une region par défaut. Hors, si vous avez des ressources dans diverses régions, il faudra le spécifier. Ainsi, si l'on rajoute `--region us-east-1` juste avant le pipe jq, on obtient bien nos deux ressources manquantes.
+
+```json
+[
+  "arn:aws:acm:us-east-1:6XXXXXXXXXXX0:certificate/f4ca3b13-XXXXXXXXXXXXX",
+  "arn:aws:cloudfront::6XXXXXXXXXXX0:distribution/ERSXXXXXXXXXX"
+]
+```
+
+Outre ce détail qu'il ne vous faudra pas oublier, cette commande est extrêmement puissante car vous pouvez l'intégrer dans des scripts pour :
 * Générer des rapports réguliers sur les ressources par projet.
 * Détecter automatiquement les ressources qui ne respectent pas votre politique de tagging.
 * Combiner avec d'autres commandes AWS CLI pour effectuer des actions sur les ressources listées.
 
-Par exemple, pour trouver les ressources non taguées avec une clé Project spécifique, c'est un peu plus indirect, mais vous pourriez lister toutes les ressources puis filtrer celles qui n'ont pas ce tag, ou utiliser Resource Explorer avec une requête négative si supportée pour ce cas. Souvent, on se concentre sur les ressources qui ont certains tags pour vérifier la conformité ou l'inventaire. Pour les "orphelines", une approche peut être de lister toutes les ressources d'un type (ex: toutes les EC2) et de vérifier manuellement ou par script celles qui manquent des tags essentiels.
+Par exemple, vous pourriez ainsi lister toutes vos ressources d'un certain type (ex: toutes vos instances EC2) et de vérifier celles à qui il manque des tags essentiels.
 
-# Automatiser le Nettoyage : Une Lambda à la Rescousse (Avec Prudence !)
-
-Identifier les ressources non taguées, c'est bien. Les nettoyer automatiquement, c'est encore mieux... mais cela demande une extrême prudence ! Une suppression ou un arrêt automatisé mal configuré peut avoir des conséquences désastreuses.
-
-Cela dit, pour des actions moins destructrices (comme stopper des instances EC2 de développement non taguées après une certaine période, ou simplement notifier une équipe), une fonction Lambda peut être très utile.
-
-L'idée serait d'avoir une Lambda, déclenchée régulièrement (par exemple, via Amazon EventBridge Scheduler), qui utilise l'API `resourcegroupstaggingapi` pour lister les ressources. Elle vérifierait ensuite l'absence de tags critiques (comme `Project` ou `Owner`). Si une ressource est jugée "orpheline" selon vos critères :
-* Pour commencer (et pour la sécurité) : Logguez simplement l'information dans CloudWatch Logs ou envoyez une notification (SNS, Slack via un webhook, etc.).
-* Avec plus de confiance (et de tests !) : Vous pourriez envisager des actions comme stopper une instance EC2 (si vous êtes sûr qu'elle n'est pas critique et qu'elle correspond à des critères précis, par exemple, un tag `Environment=dev` manquant le tag `Project`). La suppression automatique est rarement recommandée sans de multiples garde-fous et validations humaines.
-
-Je vous fournirai un exemple de script Python pour une telle Lambda dans un instant. Rappelez-vous que ce script sera un point de départ et devra être adapté et testé minutieusement dans un environnement de non-production avant toute utilisation sur des ressources réelles.
+Et si vous vous demandez si AWS n'offre pas déjà un service pour ça... C'est le cas ! Mais nous en parlerons dans un futur article (pour les curieux, je veux parler d'[AWS Config](https://aws.amazon.com/config/)).
 
 # Conclusion
 
-Vous l'aurez compris, une stratégie de tagging rigoureuse n'est pas une option, c'est une nécessité pour opérer sereinement sur AWS. Que vous préfériez la convivialité d'AWS Resource Explorer pour une exploration rapide ou la flexibilité de l'AWS CLI pour des analyses plus poussées et de l'automatisation, AWS vous donne les moyens de tirer parti de vos tags.
+Vous l'aurez compris, une stratégie de tagging rigoureuse n'est pas une option, c'est une nécessité pour opérer sereinement sur AWS. Que vous préfériez la convivialité d'AWS Resource Explorer pour une exploration rapide ou la flexibilité de l'AWS CLI pour des analyses plus poussées et saupoudrer le tout d'automatisation, AWS vous donne les moyens de tirer parti de vos tags.
 
-Alors, un petit conseil : si ce n'est pas déjà fait, définissez une politique de tagging claire dans votre organisation, appliquez-la, et utilisez ces outils pour vérifier régulièrement que tout est en ordre. Votre DSI (et votre portefeuille) vous remercieront !
+Alors, un petit conseil : si ce n'est pas déjà fait, définissez une politique de tagging claire dans votre organisation, appliquez-la, et utilisez ces outils pour vérifier régulièrement que tout est en ordre. Vous m'en remercierez plus tard !

@@ -314,13 +314,16 @@
             <nav id="TableOfContents">
   <ol>
     <li><a href="#introduction">Introduction</a></li>
-    <li><a href="#pourquoi-les-tags-sont-ils-utiles-">Pourquoi les tags sont-ils utiles ?</a></li>
-    <li><a href="#quels-tags-utiliser-">Quels tags utiliser ?</a></li>
-    <li><a href="#suivre-les-coûts-grâce-aux-tags">Suivre les coûts grâce aux tags</a></li>
-    <li><a href="#aws-resource-explorer--garder-un-œil-sur-les-ressources-déployées">AWS Resource Explorer : Garder un œil sur les ressources déployées</a>
+    <li><a href="#pourquoi-les-tags-sont-ils-utiles-">Pourquoi les tags sont-ils utiles ?</a>
       <ol>
-        <li><a href="#lexploration-visuelle-dans-la-console-aws">L&rsquo;exploration visuelle dans la console AWS</a></li>
-        <li><a href="#une-approche-plus-technique-avec-aws-cli">Une approche plus technique avec AWS CLI</a></li>
+        <li><a href="#aws-cost-explorer--suivre-les-coûts-grâce-aux-tags">AWS Cost Explorer : Suivre les coûts grâce aux tags</a></li>
+        <li><a href="#aws-resource-explorer--garder-un-œil-sur-les-ressources-déployées">AWS Resource Explorer : Garder un œil sur les ressources déployées</a>
+          <ol>
+            <li><a href="#lexploration-visuelle-dans-la-console-aws">L&rsquo;exploration visuelle dans la console AWS</a></li>
+            <li><a href="#une-approche-plus-technique-avec-aws-cli">Une approche plus technique avec AWS CLI</a></li>
+          </ol>
+        </li>
+        <li><a href="#aws-iam--sécuriser-lutilisation-de-vos-ressources">AWS IAM : Sécuriser l&rsquo;utilisation de vos ressources</a></li>
       </ol>
     </li>
     <li><a href="#conclusion">Conclusion</a></li>
@@ -400,7 +403,7 @@
 
 
                 <time class="article-time--reading">
-                    7 minutes de lecture
+                    8 minutes de lecture
                 </time>
             </div>
         
@@ -432,8 +435,8 @@
 </ol>
 <p>Bref, taguer, c&rsquo;est la base d&rsquo;une bonne gouvernance Cloud. Pour plus de détails, je vous invite à consulter le <a class="link" href="https://aws.amazon.com/solutions/guidance/tagging-on-aws/"  target="_blank" rel="noopener"
     >guide de tagging proposé par AWS</a>.</p>
-<h1 id="quels-tags-utiliser-"><a href="#quels-tags-utiliser-" class="header-anchor"></a>Quels tags utiliser ?
-</h1><p>On peut fort heureusement associer plusieurs tags à une même ressource. Mais cela pose la question : combien de tags sont nécessaires ?</p>
+<hr>
+<p>On peut fort heureusement associer plusieurs tags à une même ressource. Mais cela pose la question : combien de tags sont nécessaires ?</p>
 <p>Cela va dépendre de votre entreprise et de chaque projet, mais globalement, il y a des tags qui ne font pas de mal, peu importe votre situation :</p>
 <ul>
 <li><strong>Project</strong> : Le nom du projet lié à la ressource. Générallement, le nom du repository GitHub fait l&rsquo;affaire</li>
@@ -441,8 +444,9 @@
 <li><strong>Owner</strong> : L&rsquo;owner de la ressource. Cela pourrait être une personne, mais plus idéallement une équipe (frontend, backend, security, &hellip;)</li>
 </ul>
 <p>Selon votre usage, vous aurez sûrement d&rsquo;autres idées de tags, mais avec ceux ci-dessus, ce sera déjà un bon début !</p>
-<h1 id="suivre-les-coûts-grâce-aux-tags"><a href="#suivre-les-co%c3%bbts-gr%c3%a2ce-aux-tags" class="header-anchor"></a>Suivre les coûts grâce aux tags
-</h1><p>L&rsquo;un des avantages les plus concrets du tagging est la visibilité qu&rsquo;il apporte sur vos dépenses. <a class="link" href="https://aws.amazon.com/aws-cost-management/aws-cost-explorer/"  target="_blank" rel="noopener"
+<p>Voyons maintenant quelques cas concrêts de l&rsquo;utilisation des tags dans AWS.</p>
+<h2 id="aws-cost-explorer--suivre-les-coûts-grâce-aux-tags"><a href="#aws-cost-explorer--suivre-les-co%c3%bbts-gr%c3%a2ce-aux-tags" class="header-anchor"></a>AWS Cost Explorer : Suivre les coûts grâce aux tags
+</h2><p>L&rsquo;un des avantages les plus concrets du tagging est la visibilité qu&rsquo;il apporte sur vos dépenses. <a class="link" href="https://aws.amazon.com/aws-cost-management/aws-cost-explorer/"  target="_blank" rel="noopener"
     >AWS Cost Explorer</a> est l&rsquo;outil de prédilection pour cela.</p>
 <p>Une fois vos ressources correctement taguées (par exemple, avec le tag <code>Project</code>), vous devez activer ces tags pour l&rsquo;allocation des coûts dans la console de gestion de la facturation AWS (Billing and Cost Management -&gt; Cost Organization -&gt; Cost Allocation Tags). Attention, il peut y avoir un délai avant que les tags activés n&rsquo;apparaissent dans Cost Explorer.</p>
 <p>Une fois activés, vous pouvez :</p>
@@ -463,10 +467,10 @@
 ></p>
 <p><em>Exemple de filtrage par tag pour mon blog : les coûts sont minimes, suis-je un expert FinOps ?</em></p>
 <p>Cette capacité à disséquer votre facture AWS par tags transforme la gestion des coûts d&rsquo;une corvée obscure en un exercice transparent et contrôlable. C&rsquo;est un must pour toute organisation soucieuse de son budget Cloud. Vous pourrez désormais rajouter <em>FinOps</em> dans votre bio LinkedIn !</p>
-<h1 id="aws-resource-explorer--garder-un-œil-sur-les-ressources-déployées"><a href="#aws-resource-explorer--garder-un-%c5%93il-sur-les-ressources-d%c3%a9ploy%c3%a9es" class="header-anchor"></a>AWS Resource Explorer : Garder un œil sur les ressources déployées
-</h1><p>Maintenant que l&rsquo;on est convaincu de l&rsquo;utilité des tags, comment fait-on pour lister toutes les ressources qui utilisent un tag précis ? Nous allons le voir ensemble avec une partie dans la console AWS, et une partie qui se passera dans le terminal (pour tous les geeks qui lisent cet article !).</p>
-<h2 id="lexploration-visuelle-dans-la-console-aws"><a href="#lexploration-visuelle-dans-la-console-aws" class="header-anchor"></a>L&rsquo;exploration visuelle dans la console AWS
-</h2><p>Si vous n&rsquo;êtes pas encore familier avec <a class="link" href="https://aws.amazon.com/resourceexplorer/"  target="_blank" rel="noopener"
+<h2 id="aws-resource-explorer--garder-un-œil-sur-les-ressources-déployées"><a href="#aws-resource-explorer--garder-un-%c5%93il-sur-les-ressources-d%c3%a9ploy%c3%a9es" class="header-anchor"></a>AWS Resource Explorer : Garder un œil sur les ressources déployées
+</h2><p>Maintenant que l&rsquo;on est convaincu de l&rsquo;utilité des tags, comment fait-on pour lister toutes les ressources qui utilisent un tag précis ? Nous allons le voir ensemble avec une partie dans la console AWS, et une partie qui se passera dans le terminal (pour tous les geeks qui lisent cet article !).</p>
+<h3 id="lexploration-visuelle-dans-la-console-aws"><a href="#lexploration-visuelle-dans-la-console-aws" class="header-anchor"></a>L&rsquo;exploration visuelle dans la console AWS
+</h3><p>Si vous n&rsquo;êtes pas encore familier avec <a class="link" href="https://aws.amazon.com/resourceexplorer/"  target="_blank" rel="noopener"
     >AWS Resource Explorer</a>, c&rsquo;est le moment de le découvrir ! Ce service, relativement récent, vous permet de rechercher et de découvrir vos ressources AWS à travers toutes les régions de votre compte, en utilisant une interface simple, un peu comme un moteur de recherche.</p>
 <p>L&rsquo;avantage principal de Resource Explorer est sa capacité à vous donner une vue unifiée. Plus besoin de sauter de région en région. Vous activez l&rsquo;indexation, et ensuite, vous pouvez rechercher vos ressources par nom, ID, et bien sûr&hellip; par tag !</p>
 <p>C&rsquo;est un excellent outil pour :</p>
@@ -487,8 +491,8 @@
 	
 ></p>
 <p><em>Exemple de recherche par tag pour mon blog : seulement trois ressources permettent de gérer ce blog !</em></p>
-<h2 id="une-approche-plus-technique-avec-aws-cli"><a href="#une-approche-plus-technique-avec-aws-cli" class="header-anchor"></a>Une approche plus technique avec AWS CLI
-</h2><p>Pour ceux qui, comme moi, aiment avoir la main via la ligne de commande, ou qui ont besoin d&rsquo;automatiser ces recherches, l&rsquo;<a class="link" href="https://aws.amazon.com/cli/"  target="_blank" rel="noopener"
+<h3 id="une-approche-plus-technique-avec-aws-cli"><a href="#une-approche-plus-technique-avec-aws-cli" class="header-anchor"></a>Une approche plus technique avec AWS CLI
+</h3><p>Pour ceux qui, comme moi, aiment avoir la main via la ligne de commande, ou qui ont besoin d&rsquo;automatiser ces recherches, l&rsquo;<a class="link" href="https://aws.amazon.com/cli/"  target="_blank" rel="noopener"
     >AWS CLI</a> reste une alliée de choix. Plus précisément, c&rsquo;est le service <a class="link" href="https://docs.aws.amazon.com/cli/latest/reference/resourcegroupstaggingapi/"  target="_blank" rel="noopener"
     >resourcegroupstaggingapi</a> qui va nous intéresser.</p>
 <p>La commande clé est <a class="link" href="https://docs.aws.amazon.com/cli/latest/reference/resourcegroupstaggingapi/get-resources.html"  target="_blank" rel="noopener"
@@ -551,8 +555,71 @@
 <p>Par exemple, vous pourriez ainsi lister toutes vos ressources d&rsquo;un certain type (ex: toutes vos instances EC2) et de vérifier celles à qui il manque des tags essentiels.</p>
 <p>Et si vous vous demandez si AWS n&rsquo;offre pas déjà un service pour ça&hellip; C&rsquo;est le cas ! Mais nous en parlerons dans un futur article (pour les curieux, je veux parler d&rsquo;<a class="link" href="https://aws.amazon.com/config/"  target="_blank" rel="noopener"
     >AWS Config</a>).</p>
+<h2 id="aws-iam--sécuriser-lutilisation-de-vos-ressources"><a href="#aws-iam--s%c3%a9curiser-lutilisation-de-vos-ressources" class="header-anchor"></a>AWS IAM : Sécuriser l&rsquo;utilisation de vos ressources
+</h2><p>Vos ressources sont déployées dans AWS, et vous souhaitez maintenant donner accès à une équipe la permission de gérer tout cela.</p>
+<p>Seulement voilà, dans votre compte AWS, vous avec aussi des ressources critiques qui ne doivent surtout pas être compromises.</p>
+<p>AWS IAM est là pour vous ! À l&rsquo;aide d&rsquo;une simple policy, vous pouvez spécifier que seules les ressources comportant un certain tag peuvent être modifiées par un utilisateur ou un groupe.</p>
+<p>Prenons par exemple le cas suivant : vous aimeriez laisser une équipe la possibilité de démarrer ou stopper certaines instances EC2, mais de les empêcher d&rsquo;accidentellement supprimer une instance EC2 critique !</p>
+<p>Il vous suffit d&rsquo;ajouter la policy suivante à vos utilisateurs :</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;Version&#34;</span><span class="p">:</span> <span class="s2">&#34;2012-10-17&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;Statement&#34;</span><span class="p">:</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;Sid&#34;</span><span class="p">:</span> <span class="s2">&#34;AllowStartStopEC2IfProjectCloud&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;Effect&#34;</span><span class="p">:</span> <span class="s2">&#34;Allow&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;Action&#34;</span><span class="p">:</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;ec2:StartInstances&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;ec2:StopInstances&#34;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">],</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;Resource&#34;</span><span class="p">:</span> <span class="s2">&#34;arn:aws:ec2:*:*:instance/*&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;Condition&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;StringEquals&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">          <span class="nt">&#34;aws:ResourceTag/Project&#34;</span><span class="p">:</span> <span class="s2">&#34;Cloud Antoine Delia&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;Sid&#34;</span><span class="p">:</span> <span class="s2">&#34;AllowDescribeToSeeInstances&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;Effect&#34;</span><span class="p">:</span> <span class="s2">&#34;Allow&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;Action&#34;</span><span class="p">:</span> <span class="s2">&#34;ec2:DescribeInstances&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;Resource&#34;</span><span class="p">:</span> <span class="s2">&#34;*&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Ainsi, vos utilisateurs seront autonomes dans l&rsquo;utilisation de leurs ressources, sans pour autant avoir la possibilité d&rsquo;impacter d&rsquo;autres ressources.</p>
 <h1 id="conclusion"><a href="#conclusion" class="header-anchor"></a>Conclusion
-</h1><p>Vous l&rsquo;aurez compris, une stratégie de tagging rigoureuse n&rsquo;est pas une option, c&rsquo;est une nécessité pour opérer sereinement sur AWS. Que vous préfériez la convivialité d&rsquo;AWS Resource Explorer pour une exploration rapide ou la flexibilité de l&rsquo;AWS CLI pour des analyses plus poussées et saupoudrer le tout d&rsquo;automatisation, AWS vous donne les moyens de tirer parti de vos tags.</p>
+</h1><p>Vous l&rsquo;aurez compris, une stratégie de tagging rigoureuse n&rsquo;est pas une option, c&rsquo;est une nécessité pour opérer sereinement sur AWS. Que ce soit sur le plan organisationnel, financier, ou encore dans la gestion de la sécurité, AWS vous donne les moyens de tirer pleinement parti de vos tags.</p>
 <p>Alors, un petit conseil : si ce n&rsquo;est pas déjà fait, définissez une politique de tagging claire dans votre organisation, appliquez-la, et utilisez ces outils pour vérifier régulièrement que tout est en ordre. Vous m&rsquo;en remercierez plus tard !</p>
 
 </section>

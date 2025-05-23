@@ -15,7 +15,7 @@ Plus on déploie de services sur AWS, plus on commence à s'y perdre. Au début,
 
 Heureusement, il existe une pratique simple mais incroyablement puissante : le tagging.
 
-Dans cet article, j'aimerais vous montrer qu'une bonne stratégie de tags est cruciale.
+Dans cet article, j'aimerais vous montrer qu'une bonne stratégie de tags est cruciale pour votre organisation, votre gestion des coûts, et pour la sécurité de votre compte AWS.
 
 À vos marques. Prêts ? Taguez !
 

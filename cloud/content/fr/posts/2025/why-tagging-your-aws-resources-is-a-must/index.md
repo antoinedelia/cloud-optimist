@@ -15,9 +15,9 @@ Plus on déploie de services sur AWS, plus on commence à s'y perdre. Au début,
 
 Heureusement, il existe une pratique simple mais incroyablement puissante : le tagging.
 
-Dans cet article, j'aimerai vous montrer qu'une bonne stratégie de tags est cruciale. Nous aurons également l'occasion de découvrir un service AWS fait pour ça : AWS Resource Explorer.
+Dans cet article, j'aimerais vous montrer qu'une bonne stratégie de tags est cruciale. Nous aurons également l'occasion de découvrir un service AWS fait pour ça : AWS Resource Explorer.
 
-A vos marques. Prêt ? Taguez !
+À vos marques. Prêts ? Taguez !
 
 # Pourquoi les tags sont-ils utiles ?
 
@@ -37,13 +37,13 @@ Bref, taguer, c'est la base d'une bonne gouvernance Cloud. Pour plus de détails
 On peut fort heureusement associer plusieurs tags à une même ressource. Mais cela pose la question : combien de tags sont nécessaires ?
 
 Cela va dépendre de votre entreprise et de chaque projet, mais globalement, il y a des tags qui ne font pas de mal, peu importe votre situation :
-* **Project** : Le nom du projet lié à la ressource. Générallement, le nom du repository GitHub fait l'affaire
+* **Project** : Le nom du projet lié à la ressource. Généralement, le nom du repository GitHub fait l'affaire
 * **Environment** : L'environnement désiré (dev, val, prod, ...). Même si vous avez des comptes AWS cloisonnés, cela vous permettra d'identifier si une ressource s'est perdue durant un déploiement
-* **Owner** : L'owner de la ressource. Cela pourrait être une personne, mais plus idéallement une équipe (frontend, backend, security, ...)
+* **Owner** : L'owner de la ressource. Cela pourrait être une personne, mais plus idéalement une équipe (frontend, backend, security, ...)
 
-Selon votre usage, vous aurez sûrement d'autres idées de tags, mais avec ceux ci-dessus, ce sera déjà un bon début !
+Selon votre usage, vous aurez sûrement d'autres idées de tags, mais avec ceux-ci, ce sera déjà un bon début !
 
-Voyons maintenant quelques cas concrêts de l'utilisation des tags dans AWS.
+Voyons maintenant quelques cas concrets de l'utilité des tags dans AWS.
 
 ## AWS Cost Explorer : Suivre les coûts grâce aux tags
 
@@ -108,7 +108,7 @@ Décortiquons un peu :
 
 > Eh attends une minute ! Dans la console, tu nous montres trois ressources, et là il n'y en a plus qu'une ! Elle est où l'arnaque ?
 
-Habillement remarqué ! Il faut savoir que lorsque vous faites votre appel à l'API, vous utilisez une region par défaut. Hors, si vous avez des ressources dans diverses régions, il faudra le spécifier. Ainsi, si l'on rajoute `--region us-east-1` juste avant le pipe jq, on obtient bien nos deux ressources manquantes.
+Habilement remarqué ! Il faut savoir que lorsque vous faites votre appel à l'API, vous utilisez une region par défaut. Or, si vous avez des ressources dans diverses régions, il faudra le spécifier. Ainsi, si l'on ajoute `--region us-east-1` juste avant le pipe jq, on obtient bien nos deux ressources manquantes.
 
 ```json
 [
@@ -128,13 +128,13 @@ Et si vous vous demandez si AWS n'offre pas déjà un service pour ça... C'est 
 
 ## AWS IAM : Sécuriser l'utilisation de vos ressources
 
-Vos ressources sont déployées dans AWS, et vous souhaitez maintenant donner accès à une équipe la permission de gérer tout cela.
+Vos ressources sont déployées dans AWS, et vous souhaitez maintenant donner à une équipe la permission de gérer tout cela.
 
-Seulement voilà, dans votre compte AWS, vous avec aussi des ressources critiques qui ne doivent surtout pas être compromises.
+Seulement voilà, dans votre compte AWS, vous avez aussi des ressources critiques qui ne doivent surtout pas être compromises.
 
 AWS IAM est là pour vous ! À l'aide d'une simple policy, vous pouvez spécifier que seules les ressources comportant un certain tag peuvent être modifiées par un utilisateur ou un groupe.
 
-Prenons par exemple le cas suivant : vous aimeriez laisser une équipe la possibilité de démarrer ou stopper certaines instances EC2, mais de les empêcher d'accidentellement stopper une instance EC2 critique !
+Prenons par exemple le cas suivant : vous aimeriez la possibilité à une équipe de démarrer ou stopper certaines instances EC2, mais de les empêcher d'accidentellement stopper une instance EC2 critique !
 
 Il vous suffit d'ajouter la policy suivante à vos utilisateurs :
 

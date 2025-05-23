@@ -32,7 +32,7 @@ Une bonne stratégie de tagging vous permet notamment de :
 
 Bref, taguer, c'est la base d'une bonne gouvernance Cloud. Pour plus de détails, je vous invite à consulter le [guide de tagging proposé par AWS](https://aws.amazon.com/solutions/guidance/tagging-on-aws/).
 
-# Quels tags utiliser ?
+---
 
 On peut fort heureusement associer plusieurs tags à une même ressource. Mais cela pose la question : combien de tags sont nécessaires ?
 
@@ -43,7 +43,9 @@ Cela va dépendre de votre entreprise et de chaque projet, mais globalement, il 
 
 Selon votre usage, vous aurez sûrement d'autres idées de tags, mais avec ceux ci-dessus, ce sera déjà un bon début !
 
-# Suivre les coûts grâce aux tags
+Voyons maintenant quelques cas concrêts de l'utilisation des tags dans AWS.
+
+## AWS Cost Explorer : Suivre les coûts grâce aux tags
 
 L'un des avantages les plus concrets du tagging est la visibilité qu'il apporte sur vos dépenses. [AWS Cost Explorer](https://aws.amazon.com/aws-cost-management/aws-cost-explorer/) est l'outil de prédilection pour cela.
 
@@ -60,11 +62,11 @@ _Exemple de filtrage par tag pour mon blog : les coûts sont minimes, suis-je un
 
 Cette capacité à disséquer votre facture AWS par tags transforme la gestion des coûts d'une corvée obscure en un exercice transparent et contrôlable. C'est un must pour toute organisation soucieuse de son budget Cloud. Vous pourrez désormais rajouter _FinOps_ dans votre bio LinkedIn !
 
-# AWS Resource Explorer : Garder un œil sur les ressources déployées
+## AWS Resource Explorer : Garder un œil sur les ressources déployées
 
 Maintenant que l'on est convaincu de l'utilité des tags, comment fait-on pour lister toutes les ressources qui utilisent un tag précis ? Nous allons le voir ensemble avec une partie dans la console AWS, et une partie qui se passera dans le terminal (pour tous les geeks qui lisent cet article !).
 
-## L'exploration visuelle dans la console AWS
+### L'exploration visuelle dans la console AWS
 Si vous n'êtes pas encore familier avec [AWS Resource Explorer](https://aws.amazon.com/resourceexplorer/), c'est le moment de le découvrir ! Ce service, relativement récent, vous permet de rechercher et de découvrir vos ressources AWS à travers toutes les régions de votre compte, en utilisant une interface simple, un peu comme un moteur de recherche.
 
 L'avantage principal de Resource Explorer est sa capacité à vous donner une vue unifiée. Plus besoin de sauter de région en région. Vous activez l'indexation, et ensuite, vous pouvez rechercher vos ressources par nom, ID, et bien sûr... par tag !
@@ -80,7 +82,7 @@ Pour l'utiliser, activez-le dans les régions souhaitées (ou toutes), laissez-l
 
 _Exemple de recherche par tag pour mon blog : seulement trois ressources permettent de gérer ce blog !_
 
-## Une approche plus technique avec AWS CLI
+### Une approche plus technique avec AWS CLI
 Pour ceux qui, comme moi, aiment avoir la main via la ligne de commande, ou qui ont besoin d'automatiser ces recherches, l'[AWS CLI](https://aws.amazon.com/cli/) reste une alliée de choix. Plus précisément, c'est le service [resourcegroupstaggingapi](https://docs.aws.amazon.com/cli/latest/reference/resourcegroupstaggingapi/) qui va nous intéresser.
 
 La commande clé est [get-resources](https://docs.aws.amazon.com/cli/latest/reference/resourcegroupstaggingapi/get-resources.html). Voici un exemple typique pour lister les ARN de toutes les ressources ayant le tag Project avec la valeur "Cloud Antoine Delia" :
@@ -124,8 +126,50 @@ Par exemple, vous pourriez ainsi lister toutes vos ressources d'un certain type 
 
 Et si vous vous demandez si AWS n'offre pas déjà un service pour ça... C'est le cas ! Mais nous en parlerons dans un futur article (pour les curieux, je veux parler d'[AWS Config](https://aws.amazon.com/config/)).
 
+## AWS IAM : Sécuriser l'utilisation de vos ressources
+
+Vos ressources sont déployées dans AWS, et vous souhaitez maintenant donner accès à une équipe la permission de gérer tout cela.
+
+Seulement voilà, dans votre compte AWS, vous avec aussi des ressources critiques qui ne doivent surtout pas être compromises.
+
+AWS IAM est là pour vous ! À l'aide d'une simple policy, vous pouvez spécifier que seules les ressources comportant un certain tag peuvent être modifiées par un utilisateur ou un groupe.
+
+Prenons par exemple le cas suivant : vous aimeriez laisser une équipe la possibilité de démarrer ou stopper certaines instances EC2, mais de les empêcher d'accidentellement supprimer une instance EC2 critique !
+
+Il vous suffit d'ajouter la policy suivante à vos utilisateurs :
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "AllowStartStopEC2IfProjectCloud",
+      "Effect": "Allow",
+      "Action": [
+        "ec2:StartInstances",
+        "ec2:StopInstances"
+      ],
+      "Resource": "arn:aws:ec2:*:*:instance/*",
+      "Condition": {
+        "StringEquals": {
+          "aws:ResourceTag/Project": "Cloud Antoine Delia"
+        }
+      }
+    },
+    {
+      "Sid": "AllowDescribeToSeeInstances",
+      "Effect": "Allow",
+      "Action": "ec2:DescribeInstances",
+      "Resource": "*"
+    }
+  ]
+}
+```
+
+Ainsi, vos utilisateurs seront autonomes dans l'utilisation de leurs ressources, sans pour autant avoir la possibilité d'impacter d'autres ressources.
+
 # Conclusion
 
-Vous l'aurez compris, une stratégie de tagging rigoureuse n'est pas une option, c'est une nécessité pour opérer sereinement sur AWS. Que vous préfériez la convivialité d'AWS Resource Explorer pour une exploration rapide ou la flexibilité de l'AWS CLI pour des analyses plus poussées et saupoudrer le tout d'automatisation, AWS vous donne les moyens de tirer parti de vos tags.
+Vous l'aurez compris, une stratégie de tagging rigoureuse n'est pas une option, c'est une nécessité pour opérer sereinement sur AWS. Que ce soit sur le plan organisationnel, financier, ou encore dans la gestion de la sécurité, AWS vous donne les moyens de tirer pleinement parti de vos tags.
 
 Alors, un petit conseil : si ce n'est pas déjà fait, définissez une politique de tagging claire dans votre organisation, appliquez-la, et utilisez ces outils pour vérifier régulièrement que tout est en ordre. Vous m'en remercierez plus tard !

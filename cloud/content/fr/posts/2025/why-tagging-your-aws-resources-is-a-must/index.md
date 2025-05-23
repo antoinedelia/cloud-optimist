@@ -134,7 +134,7 @@ Seulement voilà, dans votre compte AWS, vous avec aussi des ressources critique
 
 AWS IAM est là pour vous ! À l'aide d'une simple policy, vous pouvez spécifier que seules les ressources comportant un certain tag peuvent être modifiées par un utilisateur ou un groupe.
 
-Prenons par exemple le cas suivant : vous aimeriez laisser une équipe la possibilité de démarrer ou stopper certaines instances EC2, mais de les empêcher d'accidentellement supprimer une instance EC2 critique !
+Prenons par exemple le cas suivant : vous aimeriez laisser une équipe la possibilité de démarrer ou stopper certaines instances EC2, mais de les empêcher d'accidentellement stopper une instance EC2 critique !
 
 Il vous suffit d'ajouter la policy suivante à vos utilisateurs :
 

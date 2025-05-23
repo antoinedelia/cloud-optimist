@@ -153,7 +153,7 @@
 &lt;/h2&gt;&lt;p&gt;Vos ressources sont déployées dans AWS, et vous souhaitez maintenant donner accès à une équipe la permission de gérer tout cela.&lt;/p&gt;
 &lt;p&gt;Seulement voilà, dans votre compte AWS, vous avec aussi des ressources critiques qui ne doivent surtout pas être compromises.&lt;/p&gt;
 &lt;p&gt;AWS IAM est là pour vous ! À l&amp;rsquo;aide d&amp;rsquo;une simple policy, vous pouvez spécifier que seules les ressources comportant un certain tag peuvent être modifiées par un utilisateur ou un groupe.&lt;/p&gt;
-&lt;p&gt;Prenons par exemple le cas suivant : vous aimeriez laisser une équipe la possibilité de démarrer ou stopper certaines instances EC2, mais de les empêcher d&amp;rsquo;accidentellement supprimer une instance EC2 critique !&lt;/p&gt;
+&lt;p&gt;Prenons par exemple le cas suivant : vous aimeriez laisser une équipe la possibilité de démarrer ou stopper certaines instances EC2, mais de les empêcher d&amp;rsquo;accidentellement stopper une instance EC2 critique !&lt;/p&gt;
 &lt;p&gt;Il vous suffit d&amp;rsquo;ajouter la policy suivante à vos utilisateurs :&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;

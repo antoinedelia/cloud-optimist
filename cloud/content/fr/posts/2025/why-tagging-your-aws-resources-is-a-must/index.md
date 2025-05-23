@@ -15,7 +15,7 @@ Plus on déploie de services sur AWS, plus on commence à s'y perdre. Au début,
 
 Heureusement, il existe une pratique simple mais incroyablement puissante : le tagging.
 
-Dans cet article, j'aimerais vous montrer qu'une bonne stratégie de tags est cruciale. Nous aurons également l'occasion de découvrir un service AWS fait pour ça : AWS Resource Explorer.
+Dans cet article, j'aimerais vous montrer qu'une bonne stratégie de tags est cruciale.
 
 À vos marques. Prêts ? Taguez !
 

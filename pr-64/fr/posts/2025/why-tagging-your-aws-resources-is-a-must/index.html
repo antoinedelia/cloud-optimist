@@ -421,8 +421,8 @@
     <h1 id="introduction"><a href="#introduction" class="header-anchor"></a>Introduction
 </h1><p>Plus on déploie de services sur AWS, plus on commence à s&rsquo;y perdre. Au début, on connaît par coeur tous les services qu&rsquo;on utilise, le nombre de Lambdas ou d&rsquo;EC2 qui sont lancées. Mais petit à petit, il est facile de ne plus savoir où donner de la tête, surtout lorsque différents projets s&rsquo;accumulent. Retrouver rapidement quelles ressources appartiennent à quel projet, ou identifier celles qui n&rsquo;ont pas été correctement nettoyées après un PoC, tout cela peut vite devenir un casse-tête. Et c&rsquo;est sans parler de la vision des coûts !</p>
 <p>Heureusement, il existe une pratique simple mais incroyablement puissante : le tagging.</p>
-<p>Dans cet article, j&rsquo;aimerai vous montrer qu&rsquo;une bonne stratégie de tags est cruciale. Nous aurons également l&rsquo;occasion de découvrir un service AWS fait pour ça : AWS Resource Explorer.</p>
-<p>A vos marques. Prêt ? Taguez !</p>
+<p>Dans cet article, j&rsquo;aimerais vous montrer qu&rsquo;une bonne stratégie de tags est cruciale. Nous aurons également l&rsquo;occasion de découvrir un service AWS fait pour ça : AWS Resource Explorer.</p>
+<p>À vos marques. Prêts ? Taguez !</p>
 <h1 id="pourquoi-les-tags-sont-ils-utiles-"><a href="#pourquoi-les-tags-sont-ils-utiles-" class="header-anchor"></a>Pourquoi les tags sont-ils utiles ?
 </h1><p>Imaginez des étiquettes sur des boîtes de déménagement. Sans elles, impossible de savoir ce qu&rsquo;il y a dedans ou à quelle pièce elles appartiennent. Les tags sur AWS, c&rsquo;est pareil ! Un tag est une information (sous la forme clé-valeur) que vous assignez à vos ressources (instances EC2, buckets S3, bases de données RDS, etc.).</p>
 <p>Une bonne stratégie de tagging vous permet notamment de :</p>
@@ -439,12 +439,12 @@
 <p>On peut fort heureusement associer plusieurs tags à une même ressource. Mais cela pose la question : combien de tags sont nécessaires ?</p>
 <p>Cela va dépendre de votre entreprise et de chaque projet, mais globalement, il y a des tags qui ne font pas de mal, peu importe votre situation :</p>
 <ul>
-<li><strong>Project</strong> : Le nom du projet lié à la ressource. Générallement, le nom du repository GitHub fait l&rsquo;affaire</li>
+<li><strong>Project</strong> : Le nom du projet lié à la ressource. Généralement, le nom du repository GitHub fait l&rsquo;affaire</li>
 <li><strong>Environment</strong> : L&rsquo;environnement désiré (dev, val, prod, &hellip;). Même si vous avez des comptes AWS cloisonnés, cela vous permettra d&rsquo;identifier si une ressource s&rsquo;est perdue durant un déploiement</li>
-<li><strong>Owner</strong> : L&rsquo;owner de la ressource. Cela pourrait être une personne, mais plus idéallement une équipe (frontend, backend, security, &hellip;)</li>
+<li><strong>Owner</strong> : L&rsquo;owner de la ressource. Cela pourrait être une personne, mais plus idéalement une équipe (frontend, backend, security, &hellip;)</li>
 </ul>
-<p>Selon votre usage, vous aurez sûrement d&rsquo;autres idées de tags, mais avec ceux ci-dessus, ce sera déjà un bon début !</p>
-<p>Voyons maintenant quelques cas concrêts de l&rsquo;utilisation des tags dans AWS.</p>
+<p>Selon votre usage, vous aurez sûrement d&rsquo;autres idées de tags, mais avec ceux-ci, ce sera déjà un bon début !</p>
+<p>Voyons maintenant quelques cas concrets de l&rsquo;utilité des tags dans AWS.</p>
 <h2 id="aws-cost-explorer--suivre-les-coûts-grâce-aux-tags"><a href="#aws-cost-explorer--suivre-les-co%c3%bbts-gr%c3%a2ce-aux-tags" class="header-anchor"></a>AWS Cost Explorer : Suivre les coûts grâce aux tags
 </h2><p>L&rsquo;un des avantages les plus concrets du tagging est la visibilité qu&rsquo;il apporte sur vos dépenses. <a class="link" href="https://aws.amazon.com/aws-cost-management/aws-cost-explorer/"  target="_blank" rel="noopener"
     >AWS Cost Explorer</a> est l&rsquo;outil de prédilection pour cela.</p>
@@ -531,7 +531,7 @@
 </ul>
 <blockquote>
 <p>Eh attends une minute ! Dans la console, tu nous montres trois ressources, et là il n&rsquo;y en a plus qu&rsquo;une ! Elle est où l&rsquo;arnaque ?</p></blockquote>
-<p>Habillement remarqué ! Il faut savoir que lorsque vous faites votre appel à l&rsquo;API, vous utilisez une region par défaut. Hors, si vous avez des ressources dans diverses régions, il faudra le spécifier. Ainsi, si l&rsquo;on rajoute <code>--region us-east-1</code> juste avant le pipe jq, on obtient bien nos deux ressources manquantes.</p>
+<p>Habilement remarqué ! Il faut savoir que lorsque vous faites votre appel à l&rsquo;API, vous utilisez une region par défaut. Or, si vous avez des ressources dans diverses régions, il faudra le spécifier. Ainsi, si l&rsquo;on ajoute <code>--region us-east-1</code> juste avant le pipe jq, on obtient bien nos deux ressources manquantes.</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -556,10 +556,10 @@
 <p>Et si vous vous demandez si AWS n&rsquo;offre pas déjà un service pour ça&hellip; C&rsquo;est le cas ! Mais nous en parlerons dans un futur article (pour les curieux, je veux parler d&rsquo;<a class="link" href="https://aws.amazon.com/config/"  target="_blank" rel="noopener"
     >AWS Config</a>).</p>
 <h2 id="aws-iam--sécuriser-lutilisation-de-vos-ressources"><a href="#aws-iam--s%c3%a9curiser-lutilisation-de-vos-ressources" class="header-anchor"></a>AWS IAM : Sécuriser l&rsquo;utilisation de vos ressources
-</h2><p>Vos ressources sont déployées dans AWS, et vous souhaitez maintenant donner accès à une équipe la permission de gérer tout cela.</p>
-<p>Seulement voilà, dans votre compte AWS, vous avec aussi des ressources critiques qui ne doivent surtout pas être compromises.</p>
+</h2><p>Vos ressources sont déployées dans AWS, et vous souhaitez maintenant donner à une équipe la permission de gérer tout cela.</p>
+<p>Seulement voilà, dans votre compte AWS, vous avez aussi des ressources critiques qui ne doivent surtout pas être compromises.</p>
 <p>AWS IAM est là pour vous ! À l&rsquo;aide d&rsquo;une simple policy, vous pouvez spécifier que seules les ressources comportant un certain tag peuvent être modifiées par un utilisateur ou un groupe.</p>
-<p>Prenons par exemple le cas suivant : vous aimeriez laisser une équipe la possibilité de démarrer ou stopper certaines instances EC2, mais de les empêcher d&rsquo;accidentellement stopper une instance EC2 critique !</p>
+<p>Prenons par exemple le cas suivant : vous aimeriez la possibilité à une équipe de démarrer ou stopper certaines instances EC2, mais de les empêcher d&rsquo;accidentellement stopper une instance EC2 critique !</p>
 <p>Il vous suffit d&rsquo;ajouter la policy suivante à vos utilisateurs :</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">

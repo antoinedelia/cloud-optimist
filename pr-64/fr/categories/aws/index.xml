@@ -15,8 +15,8 @@
         <description>&lt;img src="https://antoinedelia.github.io/cloud-optimist/pr-64/fr/posts/2025/why-tagging-your-aws-resources-is-a-must/aws_tagging.jpeg" alt="Featured image of post Pourquoi taguer vos ressources AWS est indispensable ?" /&gt;&lt;h1 id=&#34;introduction&#34;&gt;&lt;a href=&#34;#introduction&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Introduction
 &lt;/h1&gt;&lt;p&gt;Plus on déploie de services sur AWS, plus on commence à s&amp;rsquo;y perdre. Au début, on connaît par coeur tous les services qu&amp;rsquo;on utilise, le nombre de Lambdas ou d&amp;rsquo;EC2 qui sont lancées. Mais petit à petit, il est facile de ne plus savoir où donner de la tête, surtout lorsque différents projets s&amp;rsquo;accumulent. Retrouver rapidement quelles ressources appartiennent à quel projet, ou identifier celles qui n&amp;rsquo;ont pas été correctement nettoyées après un PoC, tout cela peut vite devenir un casse-tête. Et c&amp;rsquo;est sans parler de la vision des coûts !&lt;/p&gt;
 &lt;p&gt;Heureusement, il existe une pratique simple mais incroyablement puissante : le tagging.&lt;/p&gt;
-&lt;p&gt;Dans cet article, j&amp;rsquo;aimerai vous montrer qu&amp;rsquo;une bonne stratégie de tags est cruciale. Nous aurons également l&amp;rsquo;occasion de découvrir un service AWS fait pour ça : AWS Resource Explorer.&lt;/p&gt;
-&lt;p&gt;A vos marques. Prêt ? Taguez !&lt;/p&gt;
+&lt;p&gt;Dans cet article, j&amp;rsquo;aimerais vous montrer qu&amp;rsquo;une bonne stratégie de tags est cruciale. Nous aurons également l&amp;rsquo;occasion de découvrir un service AWS fait pour ça : AWS Resource Explorer.&lt;/p&gt;
+&lt;p&gt;À vos marques. Prêts ? Taguez !&lt;/p&gt;
 &lt;h1 id=&#34;pourquoi-les-tags-sont-ils-utiles-&#34;&gt;&lt;a href=&#34;#pourquoi-les-tags-sont-ils-utiles-&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Pourquoi les tags sont-ils utiles ?
 &lt;/h1&gt;&lt;p&gt;Imaginez des étiquettes sur des boîtes de déménagement. Sans elles, impossible de savoir ce qu&amp;rsquo;il y a dedans ou à quelle pièce elles appartiennent. Les tags sur AWS, c&amp;rsquo;est pareil ! Un tag est une information (sous la forme clé-valeur) que vous assignez à vos ressources (instances EC2, buckets S3, bases de données RDS, etc.).&lt;/p&gt;
 &lt;p&gt;Une bonne stratégie de tagging vous permet notamment de :&lt;/p&gt;
@@ -33,12 +33,12 @@
 &lt;p&gt;On peut fort heureusement associer plusieurs tags à une même ressource. Mais cela pose la question : combien de tags sont nécessaires ?&lt;/p&gt;
 &lt;p&gt;Cela va dépendre de votre entreprise et de chaque projet, mais globalement, il y a des tags qui ne font pas de mal, peu importe votre situation :&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;Project&lt;/strong&gt; : Le nom du projet lié à la ressource. Générallement, le nom du repository GitHub fait l&amp;rsquo;affaire&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Project&lt;/strong&gt; : Le nom du projet lié à la ressource. Généralement, le nom du repository GitHub fait l&amp;rsquo;affaire&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;Environment&lt;/strong&gt; : L&amp;rsquo;environnement désiré (dev, val, prod, &amp;hellip;). Même si vous avez des comptes AWS cloisonnés, cela vous permettra d&amp;rsquo;identifier si une ressource s&amp;rsquo;est perdue durant un déploiement&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Owner&lt;/strong&gt; : L&amp;rsquo;owner de la ressource. Cela pourrait être une personne, mais plus idéallement une équipe (frontend, backend, security, &amp;hellip;)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Owner&lt;/strong&gt; : L&amp;rsquo;owner de la ressource. Cela pourrait être une personne, mais plus idéalement une équipe (frontend, backend, security, &amp;hellip;)&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;Selon votre usage, vous aurez sûrement d&amp;rsquo;autres idées de tags, mais avec ceux ci-dessus, ce sera déjà un bon début !&lt;/p&gt;
-&lt;p&gt;Voyons maintenant quelques cas concrêts de l&amp;rsquo;utilisation des tags dans AWS.&lt;/p&gt;
+&lt;p&gt;Selon votre usage, vous aurez sûrement d&amp;rsquo;autres idées de tags, mais avec ceux-ci, ce sera déjà un bon début !&lt;/p&gt;
+&lt;p&gt;Voyons maintenant quelques cas concrets de l&amp;rsquo;utilité des tags dans AWS.&lt;/p&gt;
 &lt;h2 id=&#34;aws-cost-explorer--suivre-les-coûts-grâce-aux-tags&#34;&gt;&lt;a href=&#34;#aws-cost-explorer--suivre-les-co%c3%bbts-gr%c3%a2ce-aux-tags&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;AWS Cost Explorer : Suivre les coûts grâce aux tags
 &lt;/h2&gt;&lt;p&gt;L&amp;rsquo;un des avantages les plus concrets du tagging est la visibilité qu&amp;rsquo;il apporte sur vos dépenses. &lt;a class=&#34;link&#34; href=&#34;https://aws.amazon.com/aws-cost-management/aws-cost-explorer/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;AWS Cost Explorer&lt;/a&gt; est l&amp;rsquo;outil de prédilection pour cela.&lt;/p&gt;
@@ -125,7 +125,7 @@
 &lt;/ul&gt;
 &lt;blockquote&gt;
 &lt;p&gt;Eh attends une minute ! Dans la console, tu nous montres trois ressources, et là il n&amp;rsquo;y en a plus qu&amp;rsquo;une ! Elle est où l&amp;rsquo;arnaque ?&lt;/p&gt;&lt;/blockquote&gt;
-&lt;p&gt;Habillement remarqué ! Il faut savoir que lorsque vous faites votre appel à l&amp;rsquo;API, vous utilisez une region par défaut. Hors, si vous avez des ressources dans diverses régions, il faudra le spécifier. Ainsi, si l&amp;rsquo;on rajoute &lt;code&gt;--region us-east-1&lt;/code&gt; juste avant le pipe jq, on obtient bien nos deux ressources manquantes.&lt;/p&gt;
+&lt;p&gt;Habilement remarqué ! Il faut savoir que lorsque vous faites votre appel à l&amp;rsquo;API, vous utilisez une region par défaut. Or, si vous avez des ressources dans diverses régions, il faudra le spécifier. Ainsi, si l&amp;rsquo;on ajoute &lt;code&gt;--region us-east-1&lt;/code&gt; juste avant le pipe jq, on obtient bien nos deux ressources manquantes.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
@@ -150,10 +150,10 @@
 &lt;p&gt;Et si vous vous demandez si AWS n&amp;rsquo;offre pas déjà un service pour ça&amp;hellip; C&amp;rsquo;est le cas ! Mais nous en parlerons dans un futur article (pour les curieux, je veux parler d&amp;rsquo;&lt;a class=&#34;link&#34; href=&#34;https://aws.amazon.com/config/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;AWS Config&lt;/a&gt;).&lt;/p&gt;
 &lt;h2 id=&#34;aws-iam--sécuriser-lutilisation-de-vos-ressources&#34;&gt;&lt;a href=&#34;#aws-iam--s%c3%a9curiser-lutilisation-de-vos-ressources&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;AWS IAM : Sécuriser l&amp;rsquo;utilisation de vos ressources
-&lt;/h2&gt;&lt;p&gt;Vos ressources sont déployées dans AWS, et vous souhaitez maintenant donner accès à une équipe la permission de gérer tout cela.&lt;/p&gt;
-&lt;p&gt;Seulement voilà, dans votre compte AWS, vous avec aussi des ressources critiques qui ne doivent surtout pas être compromises.&lt;/p&gt;
+&lt;/h2&gt;&lt;p&gt;Vos ressources sont déployées dans AWS, et vous souhaitez maintenant donner à une équipe la permission de gérer tout cela.&lt;/p&gt;
+&lt;p&gt;Seulement voilà, dans votre compte AWS, vous avez aussi des ressources critiques qui ne doivent surtout pas être compromises.&lt;/p&gt;
 &lt;p&gt;AWS IAM est là pour vous ! À l&amp;rsquo;aide d&amp;rsquo;une simple policy, vous pouvez spécifier que seules les ressources comportant un certain tag peuvent être modifiées par un utilisateur ou un groupe.&lt;/p&gt;
-&lt;p&gt;Prenons par exemple le cas suivant : vous aimeriez laisser une équipe la possibilité de démarrer ou stopper certaines instances EC2, mais de les empêcher d&amp;rsquo;accidentellement stopper une instance EC2 critique !&lt;/p&gt;
+&lt;p&gt;Prenons par exemple le cas suivant : vous aimeriez la possibilité à une équipe de démarrer ou stopper certaines instances EC2, mais de les empêcher d&amp;rsquo;accidentellement stopper une instance EC2 critique !&lt;/p&gt;
 &lt;p&gt;Il vous suffit d&amp;rsquo;ajouter la policy suivante à vos utilisateurs :&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;

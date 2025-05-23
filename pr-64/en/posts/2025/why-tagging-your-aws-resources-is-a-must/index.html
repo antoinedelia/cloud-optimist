@@ -1,18 +1,18 @@
 <!DOCTYPE html>
-<html lang="fr-FR" dir="ltr">
+<html lang="en-US" dir="ltr">
     <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="Introduction Plus on déploie de services sur AWS, plus on commence à s&rsquo;y perdre. Au début, on connaît par coeur tous les services qu&rsquo;on utilise, le nombre de Lambdas ou d&rsquo;EC2 qui sont lancées. Mais petit à petit, il est facile de ne plus savoir où donner de la tête, surtout lorsque différents projets s&rsquo;accumulent. Retrouver rapidement quelles ressources appartiennent à quel projet, ou identifier celles qui n&rsquo;ont pas été correctement nettoyées après un PoC, tout cela peut vite devenir un casse-tête. Et c&rsquo;est sans parler de la vision des coûts !\n">
-<title>Pourquoi taguer vos ressources AWS est indispensable ?</title>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="Introduction The more services we deploy on AWS, the easier it is to get lost. At first, we know all the services we use by heart, the number of Lambdas or EC2 instances running. But little by little, it&rsquo;s easy to feel overwhelmed, especially when different projects pile up. Quickly finding which resources belong to which project, or identifying those that weren&rsquo;t properly cleaned up after a PoC, can quickly become a headache. And that&rsquo;s without even mentioning cost visibility! Fortunately, there&rsquo;s a simple yet incredibly powerful practice: tagging.\n">
+<title>Why Tagging your AWS Resources is a Must?</title>
 
-<link rel='canonical' href='https://antoinedelia.github.io/cloud-optimist/pr-64/fr/posts/2025/why-tagging-your-aws-resources-is-a-must/'>
+<link rel='canonical' href='https://antoinedelia.github.io/cloud-optimist/pr-64/en/posts/2025/why-tagging-your-aws-resources-is-a-must/'>
 
-<link rel="stylesheet" href="/cloud-optimist/pr-64/scss/style.min.946cca6c6259ef94ac55abfae7c7bf3291ea3ed5eea17ef77500b257217c6710.css"><meta property='og:title' content="Pourquoi taguer vos ressources AWS est indispensable ?">
-<meta property='og:description' content="Introduction Plus on déploie de services sur AWS, plus on commence à s&rsquo;y perdre. Au début, on connaît par coeur tous les services qu&rsquo;on utilise, le nombre de Lambdas ou d&rsquo;EC2 qui sont lancées. Mais petit à petit, il est facile de ne plus savoir où donner de la tête, surtout lorsque différents projets s&rsquo;accumulent. Retrouver rapidement quelles ressources appartiennent à quel projet, ou identifier celles qui n&rsquo;ont pas été correctement nettoyées après un PoC, tout cela peut vite devenir un casse-tête. Et c&rsquo;est sans parler de la vision des coûts !\n">
-<meta property='og:url' content='https://antoinedelia.github.io/cloud-optimist/pr-64/fr/posts/2025/why-tagging-your-aws-resources-is-a-must/'>
+<link rel="stylesheet" href="/cloud-optimist/pr-64/scss/style.min.946cca6c6259ef94ac55abfae7c7bf3291ea3ed5eea17ef77500b257217c6710.css"><meta property='og:title' content="Why Tagging your AWS Resources is a Must?">
+<meta property='og:description' content="Introduction The more services we deploy on AWS, the easier it is to get lost. At first, we know all the services we use by heart, the number of Lambdas or EC2 instances running. But little by little, it&rsquo;s easy to feel overwhelmed, especially when different projects pile up. Quickly finding which resources belong to which project, or identifying those that weren&rsquo;t properly cleaned up after a PoC, can quickly become a headache. And that&rsquo;s without even mentioning cost visibility! Fortunately, there&rsquo;s a simple yet incredibly powerful practice: tagging.\n">
+<meta property='og:url' content='https://antoinedelia.github.io/cloud-optimist/pr-64/en/posts/2025/why-tagging-your-aws-resources-is-a-must/'>
 <meta property='og:site_name' content='The Cloud Optimist'>
 <meta property='og:type' content='article'><meta property='article:section' content='Posts' /><meta property='article:tag' content='AWS' /><meta property='article:published_time' content='2025-05-24T07:30:00&#43;02:00'/><meta property='article:modified_time' content='2025-05-24T07:30:00&#43;02:00'/><meta property='og:image' content='https://antoinedelia.github.io/cloud-optimist/pr-64/fr/posts/2025/why-tagging-your-aws-resources-is-a-must/aws_tagging.jpeg' />
-<meta name="twitter:title" content="Pourquoi taguer vos ressources AWS est indispensable ?">
-<meta name="twitter:description" content="Introduction Plus on déploie de services sur AWS, plus on commence à s&rsquo;y perdre. Au début, on connaît par coeur tous les services qu&rsquo;on utilise, le nombre de Lambdas ou d&rsquo;EC2 qui sont lancées. Mais petit à petit, il est facile de ne plus savoir où donner de la tête, surtout lorsque différents projets s&rsquo;accumulent. Retrouver rapidement quelles ressources appartiennent à quel projet, ou identifier celles qui n&rsquo;ont pas été correctement nettoyées après un PoC, tout cela peut vite devenir un casse-tête. Et c&rsquo;est sans parler de la vision des coûts !\n"><meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Why Tagging your AWS Resources is a Must?">
+<meta name="twitter:description" content="Introduction The more services we deploy on AWS, the easier it is to get lost. At first, we know all the services we use by heart, the number of Lambdas or EC2 instances running. But little by little, it&rsquo;s easy to feel overwhelmed, especially when different projects pile up. Quickly finding which resources belong to which project, or identifying those that weren&rsquo;t properly cleaned up after a PoC, can quickly become a headache. And that&rsquo;s without even mentioning cost visibility! Fortunately, there&rsquo;s a simple yet incredibly powerful practice: tagging.\n"><meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:image" content='https://antoinedelia.github.io/cloud-optimist/pr-64/fr/posts/2025/why-tagging-your-aws-resources-is-a-must/aws_tagging.jpeg' />
     <link rel="shortcut icon" href="/favicon.ico" />
 
@@ -57,7 +57,7 @@
     })();
 </script>
 <div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
-    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Afficher le menu">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
         <span class="hamburger-box">
             <span class="hamburger-inner"></span>
         </span>
@@ -67,7 +67,7 @@
         
             
             <figure class="site-avatar">
-                <a href="/cloud-optimist/pr-64/fr/">
+                <a href="/cloud-optimist/pr-64/en/">
                 
                     
                     
@@ -86,8 +86,8 @@
         
         
         <div class="site-meta">
-            <h1 class="site-name"><a href="/cloud-optimist/pr-64/fr">The Cloud Optimist</a></h1>
-            <h2 class="site-description">Un blog autour des sujets Cloud &amp; DevOps.</h2>
+            <h1 class="site-name"><a href="/cloud-optimist/pr-64/en">The Cloud Optimist</a></h1>
+            <h2 class="site-description">A blog about Cloud &amp; DevOps topics.</h2>
         </div>
     </header><ol class="menu-social">
             
@@ -144,7 +144,7 @@
         
         
         <li >
-            <a href='/cloud-optimist/pr-64/fr' >
+            <a href='/cloud-optimist/pr-64/en' >
                 
                 
                 
@@ -158,13 +158,13 @@
 
 
                 
-                <span>Accueil</span>
+                <span>Home</span>
             </a>
         </li>
         
         
         <li >
-            <a href='/cloud-optimist/pr-64/fr/about/' >
+            <a href='/cloud-optimist/pr-64/en/about/' >
                 
                 
                 
@@ -177,13 +177,13 @@
 
 
                 
-                <span>À Propos</span>
+                <span>About</span>
             </a>
         </li>
         
         
         <li >
-            <a href='/cloud-optimist/pr-64/fr/archives/' >
+            <a href='/cloud-optimist/pr-64/en/archives/' >
                 
                 
                 
@@ -203,7 +203,7 @@
         
         
         <li >
-            <a href='/cloud-optimist/pr-64/fr/search/' >
+            <a href='/cloud-optimist/pr-64/en/search/' >
                 
                 
                 
@@ -216,13 +216,13 @@
 
 
                 
-                <span>Recherche</span>
+                <span>Search</span>
             </a>
         </li>
         
         
         <li >
-            <a href='/cloud-optimist/pr-64/fr/liens/' >
+            <a href='/cloud-optimist/pr-64/en/links/' >
                 
                 
                 
@@ -235,7 +235,7 @@
 
 
                 
-                <span>Liens</span>
+                <span>Links</span>
             </a>
         </li>
         
@@ -256,9 +256,9 @@
 
                             <select name="language" title="language" onchange="window.location.href = this.selectedOptions[0].value">
                                 
-                                    <option value="https://antoinedelia.github.io/cloud-optimist/pr-64/fr/" selected>French</option>
+                                    <option value="https://antoinedelia.github.io/cloud-optimist/pr-64/fr/" >French</option>
                                 
-                                    <option value="https://antoinedelia.github.io/cloud-optimist/pr-64/en/" >English</option>
+                                    <option value="https://antoinedelia.github.io/cloud-optimist/pr-64/en/" selected>English</option>
                                 
                             </select>
                         </li>
@@ -283,7 +283,7 @@
 
 
 
-                        <span>Mode sombre</span>
+                        <span>Dark Mode</span>
                     </li>
                 
             </ol>
@@ -308,22 +308,22 @@
 
 
         </div>
-        <h2 class="widget-title section-title">Table des matières</h2>
+        <h2 class="widget-title section-title">Table of contents</h2>
         
         <div class="widget--toc">
             <nav id="TableOfContents">
   <ol>
     <li><a href="#introduction">Introduction</a></li>
-    <li><a href="#pourquoi-les-tags-sont-ils-utiles-">Pourquoi les tags sont-ils utiles ?</a>
+    <li><a href="#why-are-tags-useful">Why are tags useful?</a>
       <ol>
-        <li><a href="#aws-cost-explorer--suivre-les-coûts-grâce-aux-tags">AWS Cost Explorer : Suivre les coûts grâce aux tags</a></li>
-        <li><a href="#aws-resource-explorer--garder-un-œil-sur-les-ressources-déployées">AWS Resource Explorer : Garder un œil sur les ressources déployées</a>
+        <li><a href="#aws-cost-explorer-tracking-costs-thanks-to-tags">AWS Cost Explorer: Tracking costs thanks to tags</a></li>
+        <li><a href="#aws-resource-explorer-keeping-an-eye-on-deployed-resources">AWS Resource Explorer: Keeping an eye on deployed resources</a>
           <ol>
-            <li><a href="#lexploration-visuelle-dans-la-console-aws">L&rsquo;exploration visuelle dans la console AWS</a></li>
-            <li><a href="#une-approche-plus-technique-avec-aws-cli">Une approche plus technique avec AWS CLI</a></li>
+            <li><a href="#visual-exploration-in-the-aws-console">Visual exploration in the AWS console</a></li>
+            <li><a href="#a-more-technical-approach-with-aws-cli">A more technical approach with AWS CLI</a></li>
           </ol>
         </li>
-        <li><a href="#aws-iam--sécuriser-lutilisation-de-vos-ressources">AWS IAM : Sécuriser l&rsquo;utilisation de vos ressources</a></li>
+        <li><a href="#aws-iam-securing-the-use-of-your-resources">AWS IAM: Securing the use of your resources</a></li>
       </ol>
     </li>
     <li><a href="#conclusion">Conclusion</a></li>
@@ -341,13 +341,13 @@
     <article class="has-image main-article">
     <header class="article-header">
         <div class="article-image">
-            <a href="/cloud-optimist/pr-64/fr/posts/2025/why-tagging-your-aws-resources-is-a-must/">
+            <a href="/cloud-optimist/pr-64/en/posts/2025/why-tagging-your-aws-resources-is-a-must/">
                 <img src="/cloud-optimist/pr-64/fr/posts/2025/why-tagging-your-aws-resources-is-a-must/aws_tagging_hu_53b2fed13f287b3d.jpeg"
                         srcset="/cloud-optimist/pr-64/fr/posts/2025/why-tagging-your-aws-resources-is-a-must/aws_tagging_hu_53b2fed13f287b3d.jpeg 800w, /cloud-optimist/pr-64/fr/posts/2025/why-tagging-your-aws-resources-is-a-must/aws_tagging_hu_cbe135452f79742f.jpeg 1600w"
                         width="800" 
                         height="450" 
                         loading="lazy"
-                        alt="Featured image of post Pourquoi taguer vos ressources AWS est indispensable ?" />
+                        alt="Featured image of post Why Tagging your AWS Resources is a Must?" />
                 
             </a>
         </div>
@@ -357,7 +357,7 @@
     
     <header class="article-category">
         
-            <a href="/cloud-optimist/pr-64/fr/categories/aws/" >
+            <a href="/cloud-optimist/pr-64/en/categories/aws/" >
                 AWS
             </a>
         
@@ -366,7 +366,7 @@
 
     <div class="article-title-wrapper">
         <h2 class="article-title">
-            <a href="/cloud-optimist/pr-64/fr/posts/2025/why-tagging-your-aws-resources-is-a-must/">Pourquoi taguer vos ressources AWS est indispensable ?</a>
+            <a href="/cloud-optimist/pr-64/en/posts/2025/why-tagging-your-aws-resources-is-a-must/">Why Tagging your AWS Resources is a Must?</a>
         </h2>
     
         
@@ -388,7 +388,7 @@
   <path d="M3 11h16" />
   <path d="M18 16.496v1.504l1 1" />
 </svg>
-                <time class="article-time--published">24 mai 2025</time>
+                <time class="article-time--published">May 24, 2025</time>
             </div>
         
 
@@ -403,7 +403,7 @@
 
 
                 <time class="article-time--reading">
-                    8 minutes de lecture
+                    8 minute read
                 </time>
             </div>
         
@@ -425,7 +425,7 @@
 
             <div>
                 
-                    <a href="https://antoinedelia.github.io/cloud-optimist/pr-64/en/posts/2025/why-tagging-your-aws-resources-is-a-must/" class="link">English</a>
+                    <a href="https://antoinedelia.github.io/cloud-optimist/pr-64/fr/posts/2025/why-tagging-your-aws-resources-is-a-must/" class="link">French</a>
                 
             </div>
         </footer>
@@ -438,41 +438,41 @@
     
     
     <h1 id="introduction"><a href="#introduction" class="header-anchor"></a>Introduction
-</h1><p>Plus on déploie de services sur AWS, plus on commence à s&rsquo;y perdre. Au début, on connaît par coeur tous les services qu&rsquo;on utilise, le nombre de Lambdas ou d&rsquo;EC2 qui sont lancées. Mais petit à petit, il est facile de ne plus savoir où donner de la tête, surtout lorsque différents projets s&rsquo;accumulent. Retrouver rapidement quelles ressources appartiennent à quel projet, ou identifier celles qui n&rsquo;ont pas été correctement nettoyées après un PoC, tout cela peut vite devenir un casse-tête. Et c&rsquo;est sans parler de la vision des coûts !</p>
-<p>Heureusement, il existe une pratique simple mais incroyablement puissante : le tagging.</p>
-<p>Dans cet article, j&rsquo;aimerais vous montrer qu&rsquo;une bonne stratégie de tags est cruciale pour votre organisation, votre gestion des coûts, et pour la sécurité de votre compte AWS.</p>
-<p>À vos marques. Prêts ? Taguez !</p>
-<h1 id="pourquoi-les-tags-sont-ils-utiles-"><a href="#pourquoi-les-tags-sont-ils-utiles-" class="header-anchor"></a>Pourquoi les tags sont-ils utiles ?
-</h1><p>Imaginez des étiquettes sur des boîtes de déménagement. Sans elles, impossible de savoir ce qu&rsquo;il y a dedans ou à quelle pièce elles appartiennent. Les tags sur AWS, c&rsquo;est pareil ! Un tag est une information (sous la forme clé-valeur) que vous assignez à vos ressources (instances EC2, buckets S3, bases de données RDS, etc.).</p>
-<p>Une bonne stratégie de tagging vous permet notamment de :</p>
+</h1><p>The more services we deploy on AWS, the easier it is to get lost. At first, we know all the services we use by heart, the number of Lambdas or EC2 instances running. But little by little, it&rsquo;s easy to feel overwhelmed, especially when different projects pile up. Quickly finding which resources belong to which project, or identifying those that weren&rsquo;t properly cleaned up after a PoC, can quickly become a headache. And that&rsquo;s without even mentioning cost visibility!
+Fortunately, there&rsquo;s a simple yet incredibly powerful practice: tagging.</p>
+<p>In this article, I want to show you that a good tagging strategy is crucial for your organization, the way you handle cost, and to secure your AWS account.</p>
+<p>Ready? Tag along with me!</p>
+<h1 id="why-are-tags-useful"><a href="#why-are-tags-useful" class="header-anchor"></a>Why are tags useful?
+</h1><p>Imagine labels on moving boxes. Without them, it&rsquo;s impossible to know what&rsquo;s inside or which room they belong to. Tags on AWS are the same! A tag is a piece of information (in key-value format) that you assign to your resources (EC2 instances, S3 buckets, RDS databases, etc.).
+A good tagging strategy allows you to, among other things:</p>
 <ol>
-<li>Identifier des ressources orphelines : C&rsquo;est le grand classique. Une ressource sans tag <code>Project</code> ou <code>Owner</code> ? Il y a de fortes chances qu&rsquo;elle ait été oubliée et qu&rsquo;elle consomme des ressources (et donc de l&rsquo;argent) pour rien. Lister les ressources non taguées (ou mal taguées) est une première étape essentielle pour faire le ménage.</li>
-<li>Ventiler les coûts : En taguant vos ressources avec un identifiant de projet, de centre de coût, ou d&rsquo;équipe, vous pouvez ensuite utiliser AWS Cost Explorer pour filtrer vos dépenses et comprendre précisément quels projets consomment le plus. Indispensable pour la refacturation interne ou simplement pour optimiser votre budget.</li>
-<li>Automatiser des actions : Les tags peuvent servir de déclencheurs pour des scripts d&rsquo;automatisation (par exemple, sauvegarder toutes les instances EC2 avec le tag <code>Backup=Daily</code>).</li>
-<li>Gérer les accès et la sécurité : Le service <a class="link" href="https://aws.amazon.com/iam"  target="_blank" rel="noopener"
-    >AWS IAM</a> peut utiliser les tags pour accorder des permissions granulaires.</li>
+<li>Identify orphan resources: This is the classic scenario. A resource without a <code>Project</code> or <code>Owner</code> tag? There&rsquo;s a good chance it has been forgotten and is consuming resources (and therefore money) for nothing. Listing untagged (or poorly tagged) resources is an essential first step in cleaning up.</li>
+<li>Allocate costs: By tagging your resources with a project identifier, cost center, or team, you can then use AWS Cost Explorer to filter your expenses and understand precisely which projects consume the most. This is essential for internal chargebacks or simply for optimizing your budget.</li>
+<li>Automate actions: Tags can serve as triggers for automation scripts (for example, backing up all EC2 instances with the tag <code>Backup=Daily</code>).</li>
+<li>Manage access and security: The <a class="link" href="https://aws.amazon.com/iam"  target="_blank" rel="noopener"
+    >AWS IAM</a> service can use tags to grant granular permissions.</li>
 </ol>
-<p>Bref, taguer, c&rsquo;est la base d&rsquo;une bonne gouvernance Cloud. Pour plus de détails, je vous invite à consulter le <a class="link" href="https://aws.amazon.com/solutions/guidance/tagging-on-aws/"  target="_blank" rel="noopener"
-    >guide de tagging proposé par AWS</a>.</p>
+<p>In short, tagging is the foundation of good Cloud governance. For more details, I invite you to consult the <a class="link" href="https://aws.amazon.com/solutions/guidance/tagging-on-aws/"  target="_blank" rel="noopener"
+    >tagging guide proposed by AWS</a>.</p>
 <hr>
-<p>On peut fort heureusement associer plusieurs tags à une même ressource. Mais cela pose la question : combien de tags sont nécessaires ?</p>
-<p>Cela va dépendre de votre entreprise et de chaque projet, mais globalement, il y a des tags qui ne font pas de mal, peu importe votre situation :</p>
+<p>Fortunately, we can associate multiple tags with the same resource. But this raises the question: how many tags are necessary?</p>
+<p>This will depend on your company and each project, but overall, there are some tags that won&rsquo;t hurt, no matter your situation:</p>
 <ul>
-<li><strong>Project</strong> : Le nom du projet lié à la ressource. Généralement, le nom du repository GitHub fait l&rsquo;affaire</li>
-<li><strong>Environment</strong> : L&rsquo;environnement désiré (dev, val, prod, &hellip;). Même si vous avez des comptes AWS cloisonnés, cela vous permettra d&rsquo;identifier si une ressource s&rsquo;est perdue durant un déploiement</li>
-<li><strong>Owner</strong> : L&rsquo;owner de la ressource. Cela pourrait être une personne, mais plus idéalement une équipe (frontend, backend, security, &hellip;)</li>
+<li><strong>Project</strong>: The name of the project linked to the resource. Usually, the GitHub repository name works well.</li>
+<li><strong>Environment</strong>: The desired environment (dev, uat, prod, &hellip;). Even if you have separate AWS accounts, this will help you identify if a resource got lost during deployment.</li>
+<li><strong>Owner</strong>: The owner of the resource. This could be a person, but more ideally a team (frontend, backend, security, &hellip;).</li>
 </ul>
-<p>Selon votre usage, vous aurez sûrement d&rsquo;autres idées de tags, mais avec ceux-ci, ce sera déjà un bon début !</p>
-<p>Voyons maintenant quelques cas concrets de l&rsquo;utilité des tags dans AWS.</p>
-<h2 id="aws-cost-explorer--suivre-les-coûts-grâce-aux-tags"><a href="#aws-cost-explorer--suivre-les-co%c3%bbts-gr%c3%a2ce-aux-tags" class="header-anchor"></a>AWS Cost Explorer : Suivre les coûts grâce aux tags
-</h2><p>L&rsquo;un des avantages les plus concrets du tagging est la visibilité qu&rsquo;il apporte sur vos dépenses. <a class="link" href="https://aws.amazon.com/aws-cost-management/aws-cost-explorer/"  target="_blank" rel="noopener"
-    >AWS Cost Explorer</a> est l&rsquo;outil de prédilection pour cela.</p>
-<p>Une fois vos ressources correctement taguées (par exemple, avec le tag <code>Project</code>), vous devez activer ces tags pour l&rsquo;allocation des coûts dans la console de gestion de la facturation AWS (Billing and Cost Management -&gt; Cost Organization -&gt; Cost Allocation Tags). Attention, il peut y avoir un délai avant que les tags activés n&rsquo;apparaissent dans Cost Explorer.</p>
-<p>Une fois activés, vous pouvez :</p>
+<p>Depending on your use case, you&rsquo;ll surely have other ideas for tags, but with the ones above, you&rsquo;ll already have a good start!</p>
+<p>Let&rsquo;s now look at some concrete examples of using tags in AWS.</p>
+<h2 id="aws-cost-explorer-tracking-costs-thanks-to-tags"><a href="#aws-cost-explorer-tracking-costs-thanks-to-tags" class="header-anchor"></a>AWS Cost Explorer: Tracking costs thanks to tags
+</h2><p>One of the most concrete benefits of tagging is the visibility it provides over your expenses. <a class="link" href="https://aws.amazon.com/aws-cost-management/aws-cost-explorer/"  target="_blank" rel="noopener"
+    >AWS Cost Explorer</a> is the tool of choice for this.</p>
+<p>Once your resources are correctly tagged (for example, with the <code>Project</code> tag), you need to activate these tags for cost allocation in the AWS Billing and Cost Management console (Billing and Cost Management -&gt; Cost Organization -&gt; Cost Allocation Tags). Be aware that there might be a delay before the activated tags appear in Cost Explorer.</p>
+<p>Once activated, you can:</p>
 <ul>
-<li>Filtrer par tag : Dans Cost Explorer, vous pouvez filtrer vos coûts par la valeur d&rsquo;un tag spécifique.</li>
-<li>Grouper par tag : Vous pouvez également choisir de grouper vos dépenses par tag. Cela vous donnera une vue d&rsquo;ensemble de la répartition des coûts entre les différents projets, environnements, etc.</li>
-<li>Créer des budgets basés sur les tags : Avec AWS Budgets, vous pouvez définir des seuils d&rsquo;alerte pour les coûts associés à des tags spécifiques, vous aidant à éviter les mauvaises surprises.</li>
+<li>Filter by tag: In Cost Explorer, you can filter your costs by the value of a specific tag.</li>
+<li>Group by tag: You can also choose to group your expenses by tag. This will give you an overview of the cost distribution across different projects, environments, etc.</li>
+<li>Create budgets based on tags: With AWS Budgets, you can set alert thresholds for costs associated with specific tags, helping you avoid nasty surprises.</li>
 </ul>
 <p><img src="/img/why-tagging-your-aws-resources-is-a-must/cost_explorer_tag_filtering.png"
 	
@@ -480,42 +480,42 @@
 	
 	loading="lazy"
 	
-		alt="Exemple de filtrage par tag"
+		alt="Exemple of filtering by tag"
 	
 	
 ></p>
-<p><em>Exemple de filtrage par tag pour mon blog : les coûts sont minimes, suis-je un expert FinOps ?</em></p>
-<p>Cette capacité à disséquer votre facture AWS par tags transforme la gestion des coûts d&rsquo;une corvée obscure en un exercice transparent et contrôlable. C&rsquo;est un must pour toute organisation soucieuse de son budget Cloud. Vous pourrez désormais rajouter <em>FinOps</em> dans votre bio LinkedIn !</p>
-<h2 id="aws-resource-explorer--garder-un-œil-sur-les-ressources-déployées"><a href="#aws-resource-explorer--garder-un-%c5%93il-sur-les-ressources-d%c3%a9ploy%c3%a9es" class="header-anchor"></a>AWS Resource Explorer : Garder un œil sur les ressources déployées
-</h2><p>Maintenant que l&rsquo;on est convaincu de l&rsquo;utilité des tags, comment fait-on pour lister toutes les ressources qui utilisent un tag précis ? Nous allons le voir ensemble avec une partie dans la console AWS, et une partie qui se passera dans le terminal (pour tous les geeks qui lisent cet article !).</p>
-<h3 id="lexploration-visuelle-dans-la-console-aws"><a href="#lexploration-visuelle-dans-la-console-aws" class="header-anchor"></a>L&rsquo;exploration visuelle dans la console AWS
-</h3><p>Si vous n&rsquo;êtes pas encore familier avec <a class="link" href="https://aws.amazon.com/resourceexplorer/"  target="_blank" rel="noopener"
-    >AWS Resource Explorer</a>, c&rsquo;est le moment de le découvrir ! Ce service, relativement récent, vous permet de rechercher et de découvrir vos ressources AWS à travers toutes les régions de votre compte, en utilisant une interface simple, un peu comme un moteur de recherche.</p>
-<p>L&rsquo;avantage principal de Resource Explorer est sa capacité à vous donner une vue unifiée. Plus besoin de sauter de région en région. Vous activez l&rsquo;indexation, et ensuite, vous pouvez rechercher vos ressources par nom, ID, et bien sûr&hellip; par tag !</p>
-<p>C&rsquo;est un excellent outil pour :</p>
+<p><em>Example of filtering by tag for my blog: the costs are minimal, am I a FinOps expert?</em></p>
+<p>This ability to dissect your AWS bill by tags transforms cost management from an obscure chore into a transparent and controllable exercise. It&rsquo;s a must for any organization concerned about its Cloud budget. You can now add <em>FinOps</em> to your LinkedIn bio!</p>
+<h2 id="aws-resource-explorer-keeping-an-eye-on-deployed-resources"><a href="#aws-resource-explorer-keeping-an-eye-on-deployed-resources" class="header-anchor"></a>AWS Resource Explorer: Keeping an eye on deployed resources
+</h2><p>Now that we are convinced of the usefulness of tags, how do we list all the resources that use a specific tag? We will see this together, with one part in the AWS console, and another part in the terminal (for all the geeks reading this article!).</p>
+<h3 id="visual-exploration-in-the-aws-console"><a href="#visual-exploration-in-the-aws-console" class="header-anchor"></a>Visual exploration in the AWS console
+</h3><p>If you are not yet familiar with <a class="link" href="https://aws.amazon.com/resourceexplorer/"  target="_blank" rel="noopener"
+    >AWS Resource Explorer</a>, now is the time to discover it! This relatively recent service allows you to search and discover your AWS resources across all regions of your account, using a simple interface, much like a search engine.</p>
+<p>The main advantage of Resource Explorer is its ability to give you a unified view. No more jumping from region to region. You activate indexing, and then you can search for your resources by name, ID, and of course&hellip; by tag!</p>
+<p>It&rsquo;s an excellent tool for:</p>
 <ul>
-<li>Avoir une vue d&rsquo;ensemble rapide.</li>
-<li>Explorer visuellement les ressources associées à un tag spécifique.</li>
-<li>Identifier rapidement des ressources sans avoir à coder quoi que ce soit.</li>
+<li>Getting a quick overview.</li>
+<li>Visually exploring resources associated with a specific tag.</li>
+<li>Quickly identifying resources without having to code anything.</li>
 </ul>
-<p>Pour l&rsquo;utiliser, activez-le dans les régions souhaitées (ou toutes), laissez-le indexer vos ressources, puis utilisez la barre de recherche avec une syntaxe comme <code>tag.key:Project tag.value:Cloud*</code>.</p>
+<p>To use it, activate it in the desired regions (or all of them), let it index your resources, and then use the search bar with a syntax like <code>tag.key:Project tag.value:Cloud*</code>.</p>
 <p><img src="/img/why-tagging-your-aws-resources-is-a-must/resource_explorer_search_tags"
 	
 	
 	
 	loading="lazy"
 	
-		alt="Recherche des ressources par tag"
+		alt="Searching resources by tag"
 	
 	
 ></p>
-<p><em>Exemple de recherche par tag pour mon blog : seulement trois ressources permettent de gérer ce blog !</em></p>
-<h3 id="une-approche-plus-technique-avec-aws-cli"><a href="#une-approche-plus-technique-avec-aws-cli" class="header-anchor"></a>Une approche plus technique avec AWS CLI
-</h3><p>Pour ceux qui, comme moi, aiment avoir la main via la ligne de commande, ou qui ont besoin d&rsquo;automatiser ces recherches, l&rsquo;<a class="link" href="https://aws.amazon.com/cli/"  target="_blank" rel="noopener"
-    >AWS CLI</a> reste une alliée de choix. Plus précisément, c&rsquo;est le service <a class="link" href="https://docs.aws.amazon.com/cli/latest/reference/resourcegroupstaggingapi/"  target="_blank" rel="noopener"
-    >resourcegroupstaggingapi</a> qui va nous intéresser.</p>
-<p>La commande clé est <a class="link" href="https://docs.aws.amazon.com/cli/latest/reference/resourcegroupstaggingapi/get-resources.html"  target="_blank" rel="noopener"
-    >get-resources</a>. Voici un exemple typique pour lister les ARN de toutes les ressources ayant le tag Project avec la valeur &ldquo;Cloud Antoine Delia&rdquo; :</p>
+<p><em>Example of a tag search for my blog: only three resources manage this blog!</em></p>
+<h3 id="a-more-technical-approach-with-aws-cli"><a href="#a-more-technical-approach-with-aws-cli" class="header-anchor"></a>A more technical approach with AWS CLI
+</h3><p>For those who, like me, like to have control via the command line, or who need to automate these searches, the <a class="link" href="https://aws.amazon.com/cli/"  target="_blank" rel="noopener"
+    >AWS CLI</a> remains a key ally. More specifically, it&rsquo;s the <a class="link" href="https://docs.aws.amazon.com/cli/latest/reference/resourcegroupstaggingapi/"  target="_blank" rel="noopener"
+    >resourcegroupstaggingapi</a> service that will interest us.</p>
+<p>The key command is <a class="link" href="https://docs.aws.amazon.com/cli/latest/reference/resourcegroupstaggingapi/get-resources.html"  target="_blank" rel="noopener"
+    >get-resources</a>. Here is a typical example to list the ARNs of all resources having the tag Project with the value &ldquo;Cloud Antoine Delia&rdquo;:</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -528,7 +528,7 @@
 </span></span></span><span class="line"><span class="cl"><span class="se"></span>    <span class="p">|</span> jq <span class="s2">&#34;[.ResourceTagMappingList[].ResourceARN]&#34;</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>Ce qui nous donne :</p>
+</div><p>Which gives us:</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -541,16 +541,16 @@
 </span></span><span class="line"><span class="cl"><span class="p">]</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>Décortiquons un peu :</p>
+</div><p>Let&rsquo;s break it down a bit:</p>
 <ul>
-<li><code>aws resourcegroupstaggingapi get-resources</code> : C&rsquo;est l&rsquo;appel à l&rsquo;API, jusqu&rsquo;ici, tout va bien.</li>
-<li><code>--tag-filters &quot;Key=Project,Values=Cloud Antoine Delia&quot;</code> : C&rsquo;est ici qu&rsquo;on spécifie notre filtre. On cherche le tag Project qui a la valeur &ldquo;Cloud Antoine Delia&rdquo;. Vous pouvez ajouter plusieurs filtres.</li>
-<li><code>| jq &quot;[.ResourceTagMappingList[].ResourceARN]&quot;</code> : <a class="link" href="https://jqlang.org/"  target="_blank" rel="noopener"
-    >jq</a> est un outil formidable pour manipuler du JSON en ligne de commande. Ici, on l&rsquo;utilise pour extraire proprement la liste des ARN des ressources trouvées (vous pouvez vous en passer, mais pourquoi se compliquer la vie ?).</li>
+<li><code>aws resourcegroupstaggingapi get-resources</code>: This is the API call; so far, so good.</li>
+<li><code>--tag-filters &quot;Key=Project,Values=Cloud Antoine Delia&quot;</code>: This is where we specify our filter. We are looking for the tag Project with the value &ldquo;Cloud Antoine Delia&rdquo;. You can add multiple filters.</li>
+<li><code>| jq &quot;[.ResourceTagMappingList[].ResourceARN]&quot;</code>: <a class="link" href="https://jqlang.org/"  target="_blank" rel="noopener"
+    >jq</a> is a wonderful tool for manipulating JSON on the command line. Here, we use it to cleanly extract the list of ARNs of the found resources (you can do without it, but why make life difficult?).</li>
 </ul>
 <blockquote>
-<p>Eh attends une minute ! Dans la console, tu nous montres trois ressources, et là il n&rsquo;y en a plus qu&rsquo;une ! Elle est où l&rsquo;arnaque ?</p></blockquote>
-<p>Habilement remarqué ! Il faut savoir que lorsque vous faites votre appel à l&rsquo;API, vous utilisez une region par défaut. Or, si vous avez des ressources dans diverses régions, il faudra le spécifier. Ainsi, si l&rsquo;on ajoute <code>--region us-east-1</code> juste avant le pipe jq, on obtient bien nos deux ressources manquantes.</p>
+<p>Hey, wait a minute! In the console, you show us three resources, and now there&rsquo;s only one! Where&rsquo;s the catch?</p></blockquote>
+<p>Well spotted! You should know that when you make your API call, you are using a default region. However, if you have resources in various regions, you will need to specify it. Thus, if we add <code>--region us-east-1</code> just before the jq pipe, we indeed get our two missing resources.</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -565,21 +565,21 @@
 </span></span><span class="line"><span class="cl"><span class="p">]</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>Outre ce détail qu&rsquo;il ne vous faudra pas oublier, cette commande est extrêmement puissante car vous pouvez l&rsquo;intégrer dans des scripts pour :</p>
+</div><p>Besides this detail that you must not forget, this command is extremely powerful because you can integrate it into scripts to:</p>
 <ul>
-<li>Générer des rapports réguliers sur les ressources par projet.</li>
-<li>Détecter automatiquement les ressources qui ne respectent pas votre politique de tagging.</li>
-<li>Combiner avec d&rsquo;autres commandes AWS CLI pour effectuer des actions sur les ressources listées.</li>
+<li>Generate regular reports on resources by project.</li>
+<li>Automatically detect resources that do not comply with your tagging policy.</li>
+<li>Combine with other AWS CLI commands to perform actions on the listed resources.</li>
 </ul>
-<p>Par exemple, vous pourriez ainsi lister toutes vos ressources d&rsquo;un certain type (ex: toutes vos instances EC2) et de vérifier celles à qui il manque des tags essentiels.</p>
-<p>Et si vous vous demandez si AWS n&rsquo;offre pas déjà un service pour ça&hellip; C&rsquo;est le cas ! Mais nous en parlerons dans un futur article (pour les curieux, je veux parler d&rsquo;<a class="link" href="https://aws.amazon.com/config/"  target="_blank" rel="noopener"
+<p>For example, you could list all your resources of a certain type (e.g., all your EC2 instances) and check which ones are missing essential tags.</p>
+<p>And if you&rsquo;re wondering if AWS doesn&rsquo;t already offer a service for this&hellip; It does! But we will talk about that in a future article (for the curious, I&rsquo;m talking about <a class="link" href="https://aws.amazon.com/config/"  target="_blank" rel="noopener"
     >AWS Config</a>).</p>
-<h2 id="aws-iam--sécuriser-lutilisation-de-vos-ressources"><a href="#aws-iam--s%c3%a9curiser-lutilisation-de-vos-ressources" class="header-anchor"></a>AWS IAM : Sécuriser l&rsquo;utilisation de vos ressources
-</h2><p>Vos ressources sont déployées dans AWS, et vous souhaitez maintenant donner à une équipe la permission de gérer tout cela.</p>
-<p>Seulement voilà, dans votre compte AWS, vous avez aussi des ressources critiques qui ne doivent surtout pas être compromises.</p>
-<p>AWS IAM est là pour vous ! À l&rsquo;aide d&rsquo;une simple policy, vous pouvez spécifier que seules les ressources comportant un certain tag peuvent être modifiées par un utilisateur ou un groupe.</p>
-<p>Prenons par exemple le cas suivant : vous aimeriez la possibilité à une équipe de démarrer ou stopper certaines instances EC2, mais de les empêcher d&rsquo;accidentellement stopper une instance EC2 critique !</p>
-<p>Il vous suffit d&rsquo;ajouter la policy suivante à vos utilisateurs :</p>
+<h2 id="aws-iam-securing-the-use-of-your-resources"><a href="#aws-iam-securing-the-use-of-your-resources" class="header-anchor"></a>AWS IAM: Securing the use of your resources
+</h2><p>Your resources are deployed in AWS, and now you want to give a team permission to manage all of that.
+But here&rsquo;s the thing, in your AWS account, you also have critical resources that must absolutely not be compromised.
+AWS IAM is here for you! Using a simple policy, you can specify that only resources with a certain tag can be modified by a user or group.
+Let&rsquo;s take the following example: you would like to allow a team to start or stop certain EC2 instances, but prevent them from accidentally stopping a critical EC2 instance!
+You just need to add the following policy to your users:</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
@@ -636,10 +636,10 @@
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>Ainsi, vos utilisateurs seront autonomes dans l&rsquo;utilisation de leurs ressources, sans pour autant avoir la possibilité d&rsquo;impacter d&rsquo;autres ressources.</p>
+</div><p>Thus, your users will be autonomous in using their resources, without having the possibility to impact other resources.</p>
 <h1 id="conclusion"><a href="#conclusion" class="header-anchor"></a>Conclusion
-</h1><p>Vous l&rsquo;aurez compris, une stratégie de tagging rigoureuse n&rsquo;est pas une option, c&rsquo;est une nécessité pour opérer sereinement sur AWS. Que ce soit sur le plan organisationnel, financier, ou encore dans la gestion de la sécurité, AWS vous donne les moyens de tirer pleinement parti de vos tags.</p>
-<p>Alors, un petit conseil : si ce n&rsquo;est pas déjà fait, définissez une politique de tagging claire dans votre organisation, appliquez-la, et utilisez ces outils pour vérifier régulièrement que tout est en ordre. Vous m&rsquo;en remercierez plus tard !</p>
+</h1><p>You&rsquo;ve understood it: a rigorous tagging strategy isn&rsquo;t an option; it&rsquo;s a necessity for operating serenely on AWS. Whether on the organizational, financial, or security management level, AWS gives you the means to take full advantage of your tags.</p>
+<p>So, a little piece of advice: if you haven&rsquo;t already, define a clear tagging policy in your organization, apply it, and use these tools to regularly check that everything is in order. You&rsquo;ll thank me later!</p>
 
 </section>
 
@@ -648,7 +648,7 @@
     
     <section class="article-tags">
         
-            <a href="/cloud-optimist/pr-64/fr/tags/aws/">AWS</a>
+            <a href="/cloud-optimist/pr-64/en/tags/aws/">AWS</a>
         
     </section>
 
@@ -676,13 +676,13 @@
     
 
 <aside class="related-content--wrapper">
-    <h2 class="section-title">Contenus liés</h2>
+    <h2 class="section-title">Related content</h2>
     <div class="related-content">
         <div class="flex article-list--tile">
             
                 
 <article class="has-image">
-    <a href="/cloud-optimist/pr-64/fr/posts/2025/aws-lambdas-init-phase-to-be-billed-soon-should-we-be-alarmed/">
+    <a href="/cloud-optimist/pr-64/en/posts/2025/aws-lambdas-init-phase-to-be-billed-soon-should-we-be-alarmed/">
         
         
             <div class="article-image">
@@ -690,7 +690,7 @@
                         width="250" 
                         height="150" 
                         loading="lazy"
-                        alt="Featured image of post AWS Lambda : La phase d&#39;INIT devient payante - faut-il s&#39;alarmer ?"
+                        alt="Featured image of post AWS Lambda: INIT Phase To Be Billed Soon - Should We Be Alarmed?"
                         
                         data-hash="md5-5nXwRMl1iO3bJrqbDpOY0A==">
                 
@@ -698,7 +698,7 @@
         
 
         <div class="article-details">
-            <h2 class="article-title">AWS Lambda : La phase d&#39;INIT devient payante - faut-il s&#39;alarmer ?</h2>
+            <h2 class="article-title">AWS Lambda: INIT Phase To Be Billed Soon - Should We Be Alarmed?</h2>
         </div>
     </a>
 </article>
@@ -706,15 +706,15 @@
             
                 
 <article class="has-image">
-    <a href="/cloud-optimist/pr-64/fr/posts/2025/how-i-automated-my-blog-to-the-cloud/">
+    <a href="/cloud-optimist/pr-64/en/posts/2025/how-i-automated-my-blog-to-the-cloud/">
         
         
             <div class="article-image">
-                <img src="/cloud-optimist/pr-64/fr/posts/2025/how-i-automated-my-blog-to-the-cloud/automated-blog.f8912fd4b1ac173a63449d8e8f990bda_hu_64c667224eaab470.jpeg" 
+                <img src="/cloud-optimist/pr-64/en/posts/2025/how-i-automated-my-blog-to-the-cloud/automated-blog.f8912fd4b1ac173a63449d8e8f990bda_hu_64c667224eaab470.jpeg" 
                         width="250" 
                         height="150" 
                         loading="lazy"
-                        alt="Featured image of post Comment j&#39;ai automatisé la création de mon blog dans le Cloud"
+                        alt="Featured image of post How I Automated My Blog To The Cloud"
                         
                         data-hash="md5-&#43;JEv1LGsFzpjRJ2Oj5kL2g==">
                 
@@ -722,7 +722,7 @@
         
 
         <div class="article-details">
-            <h2 class="article-title">Comment j&#39;ai automatisé la création de mon blog dans le Cloud</h2>
+            <h2 class="article-title">How I Automated My Blog To The Cloud</h2>
         </div>
     </a>
 </article>
@@ -747,7 +747,7 @@
     data-emit-metadata="1"
     data-input-position="top"
     data-theme="light"
-    data-lang="fr"
+    data-lang="en"
     data-loading=""
     crossorigin="anonymous"
     async
@@ -798,8 +798,8 @@
     </section>
     
     <section class="powerby">
-        Généré avec <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
-        Thème <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.29.0">Stack</a></b> conçu par <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.29.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
     </section>
 </footer>
 

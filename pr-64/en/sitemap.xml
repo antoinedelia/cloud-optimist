@@ -3,7 +3,7 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://antoinedelia.github.io/cloud-optimist/pr-64/en/categories/aws/</loc>
-    <lastmod>2025-05-13T07:30:00+02:00</lastmod>
+    <lastmod>2025-05-24T07:30:00+02:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="fr-FR"
@@ -16,7 +16,7 @@
                 />
   </url><url>
     <loc>https://antoinedelia.github.io/cloud-optimist/pr-64/en/tags/aws/</loc>
-    <lastmod>2025-05-13T07:30:00+02:00</lastmod>
+    <lastmod>2025-05-24T07:30:00+02:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="fr-FR"
@@ -26,6 +26,71 @@
                 rel="alternate"
                 hreflang="en-US"
                 href="https://antoinedelia.github.io/cloud-optimist/pr-64/en/tags/aws/"
+                />
+  </url><url>
+    <loc>https://antoinedelia.github.io/cloud-optimist/pr-64/en/categories/</loc>
+    <lastmod>2025-05-24T07:30:00+02:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="fr-FR"
+                href="https://antoinedelia.github.io/cloud-optimist/pr-64/fr/categories/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en-US"
+                href="https://antoinedelia.github.io/cloud-optimist/pr-64/en/categories/"
+                />
+  </url><url>
+    <loc>https://antoinedelia.github.io/cloud-optimist/pr-64/en/posts/</loc>
+    <lastmod>2025-05-24T07:30:00+02:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="fr-FR"
+                href="https://antoinedelia.github.io/cloud-optimist/pr-64/fr/posts/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en-US"
+                href="https://antoinedelia.github.io/cloud-optimist/pr-64/en/posts/"
+                />
+  </url><url>
+    <loc>https://antoinedelia.github.io/cloud-optimist/pr-64/en/tags/</loc>
+    <lastmod>2025-05-24T07:30:00+02:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="fr-FR"
+                href="https://antoinedelia.github.io/cloud-optimist/pr-64/fr/tags/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en-US"
+                href="https://antoinedelia.github.io/cloud-optimist/pr-64/en/tags/"
+                />
+  </url><url>
+    <loc>https://antoinedelia.github.io/cloud-optimist/pr-64/en/</loc>
+    <lastmod>2025-05-24T07:30:00+02:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="fr-FR"
+                href="https://antoinedelia.github.io/cloud-optimist/pr-64/fr/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en-US"
+                href="https://antoinedelia.github.io/cloud-optimist/pr-64/en/"
+                />
+  </url><url>
+    <loc>https://antoinedelia.github.io/cloud-optimist/pr-64/en/posts/2025/why-tagging-your-aws-resources-is-a-must/</loc>
+    <lastmod>2025-05-24T07:30:00+02:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="fr-FR"
+                href="https://antoinedelia.github.io/cloud-optimist/pr-64/fr/posts/2025/why-tagging-your-aws-resources-is-a-must/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en-US"
+                href="https://antoinedelia.github.io/cloud-optimist/pr-64/en/posts/2025/why-tagging-your-aws-resources-is-a-must/"
                 />
   </url><url>
     <loc>https://antoinedelia.github.io/cloud-optimist/pr-64/en/posts/2025/aws-lambdas-init-phase-to-be-billed-soon-should-we-be-alarmed/</loc>
@@ -39,58 +104,6 @@
                 rel="alternate"
                 hreflang="en-US"
                 href="https://antoinedelia.github.io/cloud-optimist/pr-64/en/posts/2025/aws-lambdas-init-phase-to-be-billed-soon-should-we-be-alarmed/"
-                />
-  </url><url>
-    <loc>https://antoinedelia.github.io/cloud-optimist/pr-64/en/categories/</loc>
-    <lastmod>2025-05-13T07:30:00+02:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="fr-FR"
-                href="https://antoinedelia.github.io/cloud-optimist/pr-64/fr/categories/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="en-US"
-                href="https://antoinedelia.github.io/cloud-optimist/pr-64/en/categories/"
-                />
-  </url><url>
-    <loc>https://antoinedelia.github.io/cloud-optimist/pr-64/en/posts/</loc>
-    <lastmod>2025-05-13T07:30:00+02:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="fr-FR"
-                href="https://antoinedelia.github.io/cloud-optimist/pr-64/fr/posts/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="en-US"
-                href="https://antoinedelia.github.io/cloud-optimist/pr-64/en/posts/"
-                />
-  </url><url>
-    <loc>https://antoinedelia.github.io/cloud-optimist/pr-64/en/tags/</loc>
-    <lastmod>2025-05-13T07:30:00+02:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="fr-FR"
-                href="https://antoinedelia.github.io/cloud-optimist/pr-64/fr/tags/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="en-US"
-                href="https://antoinedelia.github.io/cloud-optimist/pr-64/en/tags/"
-                />
-  </url><url>
-    <loc>https://antoinedelia.github.io/cloud-optimist/pr-64/en/</loc>
-    <lastmod>2025-05-13T07:30:00+02:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="fr-FR"
-                href="https://antoinedelia.github.io/cloud-optimist/pr-64/fr/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="en-US"
-                href="https://antoinedelia.github.io/cloud-optimist/pr-64/en/"
                 />
   </url><url>
     <loc>https://antoinedelia.github.io/cloud-optimist/pr-64/en/categories/ci/cd/</loc>

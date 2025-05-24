@@ -1,0 +1,1248 @@
+<!DOCTYPE html>
+<html lang="en-US" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="How it started and why it ended When I started blogging, I was still in engineering school. And the world of websites and blogs was still new to me. So when I wanted to create a personal blog, I turned to what I thought was the best solution at the time: WordPress.\nLike it or not, WordPress is quite easy to use for beginners, even more for me who was still discovering how to host a website at the time.\n">
+<title>How I Automated My Blog To The Cloud</title>
+
+<link rel='canonical' href='https://antoinedelia.github.io/cloud-optimist/pr-66/en/posts/2025/how-i-automated-my-blog-to-the-cloud/'>
+
+<link rel="stylesheet" href="/cloud-optimist/pr-66/scss/style.min.946cca6c6259ef94ac55abfae7c7bf3291ea3ed5eea17ef77500b257217c6710.css"><meta property='og:title' content="How I Automated My Blog To The Cloud">
+<meta property='og:description' content="How it started and why it ended When I started blogging, I was still in engineering school. And the world of websites and blogs was still new to me. So when I wanted to create a personal blog, I turned to what I thought was the best solution at the time: WordPress.\nLike it or not, WordPress is quite easy to use for beginners, even more for me who was still discovering how to host a website at the time.\n">
+<meta property='og:url' content='https://antoinedelia.github.io/cloud-optimist/pr-66/en/posts/2025/how-i-automated-my-blog-to-the-cloud/'>
+<meta property='og:site_name' content='The Cloud Optimist'>
+<meta property='og:type' content='article'><meta property='article:section' content='Posts' /><meta property='article:tag' content='Terraform' /><meta property='article:tag' content='CI/CD' /><meta property='article:tag' content='GitHub Actions' /><meta property='article:tag' content='Hugo' /><meta property='article:tag' content='AWS' /><meta property='article:published_time' content='2025-03-04T07:30:00&#43;01:00'/><meta property='article:modified_time' content='2025-03-04T07:30:00&#43;01:00'/><meta property='og:image' content='https://antoinedelia.github.io/cloud-optimist/pr-66/en/posts/2025/how-i-automated-my-blog-to-the-cloud/automated-blog.jpeg' />
+<meta name="twitter:title" content="How I Automated My Blog To The Cloud">
+<meta name="twitter:description" content="How it started and why it ended When I started blogging, I was still in engineering school. And the world of websites and blogs was still new to me. So when I wanted to create a personal blog, I turned to what I thought was the best solution at the time: WordPress.\nLike it or not, WordPress is quite easy to use for beginners, even more for me who was still discovering how to host a website at the time.\n"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://antoinedelia.github.io/cloud-optimist/pr-66/en/posts/2025/how-i-automated-my-blog-to-the-cloud/automated-blog.jpeg' />
+    <link rel="shortcut icon" href="/favicon.ico" />
+
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-NPENVXWP54"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-NPENVXWP54');
+        }
+      </script>
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/cloud-optimist/pr-66/en/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/cloud-optimist/pr-66/img/avatar_hu_bf2a480adb63282c.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">☁️</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/cloud-optimist/pr-66/en">The Cloud Optimist</a></h1>
+            <h2 class="site-description">A blog about Cloud &amp; DevOps topics.</h2>
+        </div>
+    </header><ol class="menu-social">
+            
+                <li>
+                    <a 
+                        href='https://github.com/antoinedelia/'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://linkedin.com/in/antoinedelia'
+                        target="_blank"
+                        title="LinkedIn"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-brand-linkedin"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M8 11v5" /><path d="M8 8v.01" /><path d="M12 16v-5" /><path d="M16 16v-3a2 2 0 1 0 -4 0" /><path d="M3 7a4 4 0 0 1 4 -4h10a4 4 0 0 1 4 4v10a4 4 0 0 1 -4 4h-10a4 4 0 0 1 -4 -4z" /></svg>
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://stackoverflow.com/users/4141606/antoine-delia?tab=profile'
+                        target="_blank"
+                        title="Stack Overflow"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-brand-stackoverflow"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 17v1a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-1" /><path d="M8 16h8" /><path d="M8.322 12.582l7.956 .836" /><path d="M8.787 9.168l7.826 1.664" /><path d="M10.096 5.764l7.608 2.472" /></svg>
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/cloud-optimist/pr-66/en' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>Home</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/cloud-optimist/pr-66/en/about/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>About</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/cloud-optimist/pr-66/en/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>Archives</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/cloud-optimist/pr-66/en/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>Search</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/cloud-optimist/pr-66/en/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>Links</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+                    
+                        <li id="i18n-switch">  
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                            <select name="language" title="language" onchange="window.location.href = this.selectedOptions[0].value">
+                                
+                                    <option value="https://antoinedelia.github.io/cloud-optimist/pr-66/fr/" >French</option>
+                                
+                                    <option value="https://antoinedelia.github.io/cloud-optimist/pr-66/en/" selected>English</option>
+                                
+                            </select>
+                        </li>
+                    
+                
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>Dark Mode</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">Table of contents</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#how-it-started-and-why-it-ended">How it started and why it ended</a></li>
+    <li><a href="#the-start-of-a-new-plan">The start of a new plan</a>
+      <ol>
+        <li><a href="#discovering-hugo">Discovering Hugo</a></li>
+        <li><a href="#a-new-challenger-aws">A new challenger: AWS</a></li>
+        <li><a href="#terraform-to-the-rescue">Terraform to the rescue</a></li>
+        <li><a href="#forget-copy-and-paste-with-github-actions">Forget copy and paste with GitHub Actions</a></li>
+      </ol>
+    </li>
+    <li><a href="#technically-what-i-have-today">Technically: What I Have Today</a>
+      <ol>
+        <li><a href="#project-structure">Project Structure</a></li>
+        <li><a href="#the-github-actions">The GitHub Actions</a>
+          <ol>
+            <li><a href="#the-initialization-step">The Initialization Step</a></li>
+            <li><a href="#the-terraform-step">The Terraform Step</a></li>
+            <li><a href="#the-hugo-and-aws-steps">The Hugo and AWS Steps</a></li>
+          </ol>
+        </li>
+        <li><a href="#the-terraform-part">The Terraform part</a></li>
+        <li><a href="#the-hugo-part">The Hugo part</a></li>
+      </ol>
+    </li>
+    <li><a href="#potential-improvements">Potential Improvements</a></li>
+    <li><a href="#conclusion">Conclusion</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/cloud-optimist/pr-66/en/posts/2025/how-i-automated-my-blog-to-the-cloud/">
+                <img src="/cloud-optimist/pr-66/en/posts/2025/how-i-automated-my-blog-to-the-cloud/automated-blog_hu_7594974bbac2daa1.jpeg"
+                        srcset="/cloud-optimist/pr-66/en/posts/2025/how-i-automated-my-blog-to-the-cloud/automated-blog_hu_7594974bbac2daa1.jpeg 800w, /cloud-optimist/pr-66/en/posts/2025/how-i-automated-my-blog-to-the-cloud/automated-blog_hu_5f38d27d988af5e4.jpeg 1600w"
+                        width="800" 
+                        height="457" 
+                        loading="lazy"
+                        alt="Featured image of post How I Automated My Blog To The Cloud" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/cloud-optimist/pr-66/en/categories/terraform/" >
+                Terraform
+            </a>
+        
+            <a href="/cloud-optimist/pr-66/en/categories/ci/cd/" >
+                CI/CD
+            </a>
+        
+            <a href="/cloud-optimist/pr-66/en/categories/github-actions/" >
+                GitHub Actions
+            </a>
+        
+            <a href="/cloud-optimist/pr-66/en/categories/hugo/" >
+                Hugo
+            </a>
+        
+            <a href="/cloud-optimist/pr-66/en/categories/aws/" >
+                AWS
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/cloud-optimist/pr-66/en/posts/2025/how-i-automated-my-blog-to-the-cloud/">How I Automated My Blog To The Cloud</a>
+        </h2>
+    
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Mar 04, 2025</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    15 minute read
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+        <footer class="article-translations">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+            <div>
+                
+                    <a href="https://antoinedelia.github.io/cloud-optimist/pr-66/fr/posts/2025/how-i-automated-my-blog-to-the-cloud/" class="link">French</a>
+                
+            </div>
+        </footer>
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <h1 id="how-it-started-and-why-it-ended"><a href="#how-it-started-and-why-it-ended" class="header-anchor"></a>How it started and why it ended
+</h1><p>When I started blogging, I was still in engineering school. And the world of websites and blogs was still new to me. So when I wanted to create a personal blog, I turned to what I thought was the best solution at the time: WordPress.</p>
+<p>Like it or not, <strong>WordPress is quite easy to use</strong> for beginners, even more for me who was still discovering how to host a website at the time.</p>
+<p>So, with a brand new OVH account, I was able to quickly setup my <a class="link" href="https://blog.antoinedelia.fr"  target="_blank" rel="noopener"
+    >personal blog</a> in a few clicks!</p>
+<p>And when the time came where I wanted to create a blog dedicated to professional topics, I naturally came back to my ol&rsquo; friend WordPress.</p>
+<p>But after some months, the glory of WordPress started to fade into a darker view. Sure, it was convenient to add a new post by going through WordPress&rsquo; UI, but maintaining the website was always boresome. Moreover, a WordPress installation requires using a database, which incurred a higher bill at the end of each month.</p>
+<p>All of this for a blog that I knew did not receive many visits each day.</p>
+<p><img src="/img/how-i-automated-my-blog-to-the-cloud/struggling_blog.jpeg"
+	
+	
+	
+	loading="lazy"
+	
+		alt="The struggle with WordPress"
+	
+	
+></p>
+<p>Surely there was a better way to do this.</p>
+<h1 id="the-start-of-a-new-plan"><a href="#the-start-of-a-new-plan" class="header-anchor"></a>The start of a new plan
+</h1><p>I will tell you here the path that led me to the rebirth of my blog on which you are today. If you are only interested in the technical details, you can <a class="link" href="#technically-what-i-have-today" >move on to the next section</a>. Otherwise, happy reading!</p>
+<h2 id="discovering-hugo"><a href="#discovering-hugo" class="header-anchor"></a>Discovering Hugo
+</h2><p>Before searching for a new tool, I tried to think of what I needed.</p>
+<p>My blog was essentially a simple webpage, a static website with no fancy JavaScript or stuff like that. Plus, there was no backend to handle API calls for user authentication for example, so <strong>I could simply not use any database at all</strong>.</p>
+<p>So what I needed was essentially a way to focus on the content of the blog, and make sure I could attach to it a nice theme, and that was it!</p>
+<p>But, as I&rsquo;m an engineer, so in essence, a real bad designer, I wanted to avoid having to deal with CSS as much as possible. Again, I wanted to focus on the content, rather than the looks. So I searched and searched for the perfect tool. And I didn&rsquo;t had to look too long to find it: <a class="link" href="https://gohugo.io/"  target="_blank" rel="noopener"
+    >Hugo</a>.</p>
+<p><img src="/img/how-i-automated-my-blog-to-the-cloud/hugo.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="Hugo logo"
+	
+	
+></p>
+<p>Upon arriving on its website, I was greeted by an intriguing message message: <strong>The world’s fastest framework for building websites</strong>. Surely, I was curious, and dug into the documentation. And oh boy, was I not disappointed.</p>
+<p>This was exactly what I wanted. A framework where I had to write in markdown format, that would be converted to HTML for me. Plus, it came with <a class="link" href="https://themes.gohugo.io/"  target="_blank" rel="noopener"
+    >a bunch of themes</a>, so I didn&rsquo;t even had to bother about the design. I could just pick one that I liked, and move on.</p>
+<p>So, without losing any more time, I started to convert my WordPress blog to a Hugo site. I came across a handy script called <a class="link" href="https://github.com/SchumacherFM/wordpress-to-hugo-exporter"  target="_blank" rel="noopener"
+    >wordpress-to-hugo-exporter</a> that converted my whole Wordpress database into compatible markdown syntax, and I was ready to go!</p>
+<p>Now I needed to host this website somewhere.</p>
+<h2 id="a-new-challenger-aws"><a href="#a-new-challenger-aws" class="header-anchor"></a>A new challenger: AWS
+</h2><p>In parallel, I had an opportunity working for a company that focused on the Cloud, more specifically <a class="link" href="https://aws.amazon.com/"  target="_blank" rel="noopener"
+    >AWS</a>.</p>
+<p><img src="/img/how-i-automated-my-blog-to-the-cloud/aws.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="AWS logo"
+	
+	
+></p>
+<p>At the time, Cloud was brand new to me. But I was hearing more and more about it, and I wanted to check what was all the fuss around it. Would this be a true life-changer, as people would call it, or would it be yet again another buzz word, and become a dying trend?</p>
+<p>Long story short, <strong>AWS was (and still is) amazing!</strong> Not only was it an amazing discovery, I could simply not see a world without Cloud anymore.</p>
+<p>The more I learned about all these amazing AWS services, the more I thought: <strong>isn&rsquo;t there a way for me to leverage the Cloud to host my blog?</strong></p>
+<p>With that in mind, I started looking for options that AWS provided. And because of my recent discovery of Hugo, my website did not needed PHP anymore, nor any database to work. It was now a simple, static website, which could perfectly fit in an S3 bucket.</p>
+<p>Not only does AWS has a <a class="link" href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/WebsiteHosting.html"  target="_blank" rel="noopener"
+    >documentation about hosting a static website on an S3 bucket</a>, but <a class="link" href="https://aws.amazon.com/s3/pricing/"  target="_blank" rel="noopener"
+    >the pricing for it was just a few cents</a>.</p>
+<p>I had found an easy and cost-effective way to host my website.</p>
+<p>The last point that was bothering me, is that to setup all of this, I had to create an S3 bucket, configure it, add a CDN with AWS CloudFront, take into account certificates with AWS ACM, and finally create a DNS record in AWS Route53. So many actions that, if done manually, could make it super difficult to reproduce this setup if I had to do it again.</p>
+<p>I needed a robust way to configure this infrastructure.</p>
+<h2 id="terraform-to-the-rescue"><a href="#terraform-to-the-rescue" class="header-anchor"></a>Terraform to the rescue
+</h2><p>When you start learning Cloud, you will usually hear about <a class="link" href="https://en.wikipedia.org/wiki/Infrastructure_as_code"  target="_blank" rel="noopener"
+    >Infrastructure as Code</a>.</p>
+<p>The idea is simple: describe your Cloud infrastructure with&hellip; code! (yes, as the name stands by).</p>
+<p>The benefits of using an IaC tool, is that you will be able to keep track of the changes done on your infrastructure (like you would do with code in GitHub).</p>
+<p>Now, let&rsquo;s say that someone wants to update the configuration of an AWS service. This person goes to the AWS console and start making their changes. But after some trial and error, they decide to give up for now, and to go back to the initial state. And here is the problem: they don&rsquo;t know exactly how it was before! And unless they took note of the initial state before making their changes, they will, again, have to do a bunch of trial and errors before going back to the beginning.</p>
+<p>All of that could have been prevented if the infrastructure was configured through an IaC tool to begin with. In such a case, a simple automated deploy could have done the trick!</p>
+<p>There are a bunch of IaC tools out there. But how can I not talk about the most popular one, the one that made IaC a standard in the Cloud ecosystem: <a class="link" href="https://www.terraform.io/"  target="_blank" rel="noopener"
+    >Terraform</a>.</p>
+<p><img src="/img/how-i-automated-my-blog-to-the-cloud/terraform.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="Terraform logo"
+	
+	
+></p>
+<p>Terraform, as you could have guessed, is an Infrastructure as Code tool with a declarative approach, meaning that you have to declare the state of the infrastructure you wish to deploy. To do that, you need ton use a specific language: hcl (which stands for HashiCorp Configuration Language). Here is an example to create an S3 bucket with Terraform.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-terraform" data-lang="terraform"><span class="line"><span class="cl"><span class="kr">resource</span> <span class="s2">&#34;aws_s3_bucket&#34;</span> <span class="s2">&#34;example&#34;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">bucket</span> <span class="o">=</span> <span class="s2">&#34;my-tf-test-bucket&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nx">tags</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">Name</span>        <span class="o">=</span> <span class="s2">&#34;My bucket&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">Environment</span> <span class="o">=</span> <span class="s2">&#34;Dev&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Let&rsquo;s go back to my blog! Terraform seems to be the perfect tool to configure the infrastructure that will host my blog. All I had to do was to go through an architecture step to know which AWS services I needed, and how to interconnect them, before translating that to Terraform.</p>
+<p>And here is the architecture diagram I came up with.</p>
+<p><img src="/img/how-i-automated-my-blog-to-the-cloud/blog_architecture_diagram.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="Architecture diagram of my blog hosted on AWS, deployed with Terraform"
+	
+	
+></p>
+<p>All of this was perfect, but I realized one thing. Every time I needed to add a post, or update the infrastructure, I had to clone my repository, make the appropriate changes, and do a lot of manual actions to update my blog.</p>
+<p>Let&rsquo;s say that I was not too pleased with that, and I intended to fix that!</p>
+<h2 id="forget-copy-and-paste-with-github-actions"><a href="#forget-copy-and-paste-with-github-actions" class="header-anchor"></a>Forget copy and paste with GitHub Actions
+</h2><p>Like I said before, my website was ready. The last step I needed was about <strong>the deployment</strong>.</p>
+<p>For now, when I had to create a new post, I had to manually build my Hugo website, and move the generated files to my S3 bucket. What a waste of time and energy!</p>
+<p>So I explored the topic of CI/CD pipelines to make my life easy (if you&rsquo;re interested in this topic, I suggest reading <a class="link" href="/en/posts/2025/how-we-built-a-cicd-strategy-that-onboards-100-python-projects-in-under-a-minute/" >my post about setting up a CI/CD strategy</a>). While Jenkins tried to get my attention, I decided to go with the obvious choice: <a class="link" href="https://github.com/features/actions"  target="_blank" rel="noopener"
+    >GitHub Actions</a>.</p>
+<p><img src="/img/how-i-automated-my-blog-to-the-cloud/github_actions.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="GitHub Actions logo"
+	
+	
+></p>
+<p>GitHub Actions are simple CI/CD pipelines that you can define directly in your GitHub repository. The main benefit, is that you do not need any additional account, nor to install anything: all is included! In addition, GitHub Actions use an easy-to-read YAML syntax (in opposition to Jenkins and its horrifying groovy!).</p>
+<p>So I created a pipeline that was able to configure Terraform in case I made any modifications, and could also build and deploy my website automatically in my S3 bucket when I updated or added a post.</p>
+<p>All the steps were looking good, mission accomplished!</p>
+<h1 id="technically-what-i-have-today"><a href="#technically-what-i-have-today" class="header-anchor"></a>Technically: What I Have Today
+</h1><p>My blog is now fully automated and deploys to AWS!</p>
+<p>If you want to dive into it, everything is publicly available on my GitHub repository: <a class="link" href="https://github.com/antoinedelia/cloud-optimist"  target="_blank" rel="noopener"
+    >https://github.com/antoinedelia/cloud-optimist</a></p>
+<p>Now, let me show you more details about it.</p>
+<h2 id="project-structure"><a href="#project-structure" class="header-anchor"></a>Project Structure
+</h2><p>The project structure is as follow:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">cloud-optimist/
+</span></span><span class="line"><span class="cl">├── .github/
+</span></span><span class="line"><span class="cl">│   └── workflows/
+</span></span><span class="line"><span class="cl">│       └── main.yml  <span class="c1"># GitHub Actions</span>
+</span></span><span class="line"><span class="cl">├── cloud/
+</span></span><span class="line"><span class="cl">│   └── ...  <span class="c1"># My Hugo blog</span>
+</span></span><span class="line"><span class="cl">├── terraform/
+</span></span><span class="line"><span class="cl">│   └── ...  <span class="c1"># The Terraform configuration</span>
+</span></span><span class="line"><span class="cl">└── README.md
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>As you can see, I split my project into three key directories:</p>
+<ul>
+<li><code>.github</code> : contains the <code>main.yml</code> file which defines the GitHub Actions CI/CD steps</li>
+<li><code>cloud</code> : contains my Hugo blog</li>
+<li><code>terraform</code> : contains all the Terraform infrastructure</li>
+</ul>
+<h2 id="the-github-actions"><a href="#the-github-actions" class="header-anchor"></a>The GitHub Actions
+</h2><p>My GitHub Actions is rather simple, and can be divided into multiple steps.</p>
+<h3 id="the-initialization-step"><a href="#the-initialization-step" class="header-anchor"></a>The Initialization Step
+</h3><p>Let&rsquo;s have a look at the top of the file.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yml" data-lang="yml"><span class="line"><span class="cl"><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;Build and Deploy&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">on</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">push</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">branches</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="l">master</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">pull_request</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">jobs</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">build-and-deploy</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;Build &amp; Deploy&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">runs-on</span><span class="p">:</span><span class="w"> </span><span class="l">ubuntu-latest</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">environment</span><span class="p">:</span><span class="w"> </span><span class="l">production</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">defaults</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">run</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">shell</span><span class="p">:</span><span class="w"> </span><span class="l">bash</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">working-directory</span><span class="p">:</span><span class="w"> </span><span class="l">cloud</span><span class="w">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>Here, I ask GitHub to run the pipeline on the <code>master</code> branch, or if I have a Pull Request. Let me reassure you, I do not deploy anything to production with a Pull Request. You&rsquo;ll see below that this only allows me to perform some &ldquo;dry-run&rdquo; checks and ensure no issues are found before I can safely deploy to production via the <code>master</code> branch.</p>
+<p>I also ask GitHub to use <code>bash</code> and to use the <code>cloud</code> directory as the default working directory.</p>
+<p>Let&rsquo;s see what&rsquo;s next:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yml" data-lang="yml"><span class="line"><span class="cl"><span class="w">    </span><span class="nt">steps</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l">actions/checkout@v3</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l">dorny/paths-filter@v2</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l">filter</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">with</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">filters</span><span class="p">:</span><span class="w"> </span><span class="p">|</span><span class="sd">
+</span></span></span><span class="line"><span class="cl"><span class="sd">          web:
+</span></span></span><span class="line"><span class="cl"><span class="sd">            - &#39;cloud/**&#39;
+</span></span></span><span class="line"><span class="cl"><span class="sd">          terraform:
+</span></span></span><span class="line"><span class="cl"><span class="sd">            - &#39;terraform/**&#39;</span><span class="w">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>This step is crucial if you wish to fasten your CI/CD and ultimately save cost.</p>
+<p>I&rsquo;m using the <a class="link" href="https://github.com/dorny/paths-filter"  target="_blank" rel="noopener"
+    >dorny/paths-filter</a> actions which allows me to <strong>detect which files were modified in the last commit</strong>. In my case, I look for the <code>cloud</code> and <code>terraform</code> directories. This way, if no changes were detected on the Terraform side, no need to trigger the Terraform steps in my pipeline. In the same way, if the directory <code>cloud</code> is untouched, no need to try to build and deploy the contents of my blog. This will save you few cents related to the data transfer pricing to your AWS S3 bucket (no need to thanks me!).</p>
+<p>The next steps speak for themselves.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yml" data-lang="yml"><span class="line"><span class="cl"><span class="w">    </span><span class="c"># Checkout the repository to the GitHub Actions runner</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">Checkout</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l">actions/checkout@v2</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">Update Git Submodules</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">working-directory</span><span class="p">:</span><span class="w"> </span><span class="l">./</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l">git submodule update --init --recursive</span><span class="w">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>I simply get the content of my repository and update the submodules. This last step was useful back when I was using submodules to handle my Hugo themes. I now use the <a class="link" href="https://gohugo.io/hugo-modules/use-modules/"  target="_blank" rel="noopener"
+    >Hugo Modules</a>, which could let me remove this step altogether.</p>
+<h3 id="the-terraform-step"><a href="#the-terraform-step" class="header-anchor"></a>The Terraform Step
+</h3><p>Let&rsquo;s continue with Terraform:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yml" data-lang="yml"><span class="line"><span class="cl"><span class="w">    </span><span class="c"># Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">Setup Terraform</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">if</span><span class="p">:</span><span class="w"> </span><span class="l">steps.filter.outputs.terraform == &#39;true&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l">hashicorp/setup-terraform@v1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">with</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">cli_config_credentials_token</span><span class="p">:</span><span class="w"> </span><span class="l">${{ secrets.TF_API_TOKEN }}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="c"># Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">Terraform Init</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">if</span><span class="p">:</span><span class="w"> </span><span class="l">steps.filter.outputs.terraform == &#39;true&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">working-directory</span><span class="p">:</span><span class="w"> </span><span class="l">./terraform</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l">terraform init</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="c"># Checks that all Terraform configuration files adhere to a canonical format</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">Terraform Format</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">if</span><span class="p">:</span><span class="w"> </span><span class="l">steps.filter.outputs.terraform == &#39;true&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">working-directory</span><span class="p">:</span><span class="w"> </span><span class="l">./terraform</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l">terraform fmt -check</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="c"># Generates an execution plan for Terraform</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">Terraform Plan</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">if</span><span class="p">:</span><span class="w"> </span><span class="l">steps.filter.outputs.terraform == &#39;true&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">working-directory</span><span class="p">:</span><span class="w"> </span><span class="l">./terraform</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l">terraform plan</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="c"># On push to master, build or change infrastructure according to Terraform configuration files</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">Terraform Apply</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">working-directory</span><span class="p">:</span><span class="w"> </span><span class="l">./terraform</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">if</span><span class="p">:</span><span class="w"> </span><span class="l">steps.filter.outputs.terraform == &#39;true&#39; &amp;&amp; github.ref == &#39;refs/heads/master&#39; &amp;&amp; github.event_name == &#39;push&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l">terraform apply -auto-approve</span><span class="w">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>Now that&rsquo;s a long step! Let&rsquo;s break it down.</p>
+<p>The first thing that should&rsquo;ve catch your attention is this line:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yml" data-lang="yml"><span class="line"><span class="cl"><span class="nt">if</span><span class="p">:</span><span class="w"> </span><span class="l">steps.filter.outputs.terraform == &#39;true&#39;</span><span class="w">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>Do you remember? This is what allows us to tell if files were updated in the <code>terraform</code> directory. Here, I check if I need to run these steps or not.</p>
+<p>Then, I am running some ordinary Terraform commands: <code>terraform init</code> to initialize my project, <code>terraform fmt -check</code> to ensure my code is fancy, and finally <code>terraform plan</code> to look at the changes planned.</p>
+<p>Last but not least, <code>terraform apply -auto-approve</code>, which will deploy the changes to my AWS infrastructure. But if you look closely, you will notice I added two extra checks:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yml" data-lang="yml"><span class="line"><span class="cl"><span class="l">github.ref == &#39;refs/heads/master&#39; &amp;&amp; github.event_name == &#39;push&#39;</span><span class="w">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>This ensures that <strong>this step will only be ran if the event is a <code>push</code> on the <code>master</code> branch</strong>. This way, no need to worry about an unwanted deployment when I simply play with my infrastructure on another branch or in a Pull Request. Phew!</p>
+<h3 id="the-hugo-and-aws-steps"><a href="#the-hugo-and-aws-steps" class="header-anchor"></a>The Hugo and AWS Steps
+</h3><p>Now that my infrastructure is ready, it is time to publish my blog!</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yml" data-lang="yml"><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">Build</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l">actions/setup-node@v2</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">if</span><span class="p">:</span><span class="w"> </span><span class="l">steps.filter.outputs.web == &#39;true&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l">sudo wget https://github.com/gohugoio/hugo/releases/download/v0.142.0/hugo_extended_0.142.0_linux-amd64.deb -O hugo.deb</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l">sudo dpkg --install ./hugo.deb</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l">hugo</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">Deploy to AWS</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l">jakejarvis/s3-sync-action@master</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">if</span><span class="p">:</span><span class="w"> </span><span class="l">steps.filter.outputs.web == &#39;true&#39; &amp;&amp; github.ref == &#39;refs/heads/master&#39; &amp;&amp; github.event_name == &#39;push&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">with</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">args</span><span class="p">:</span><span class="w"> </span>--<span class="l">acl public-read --follow-symlinks --delete</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">env</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">AWS_S3_BUCKET</span><span class="p">:</span><span class="w"> </span><span class="l">${{ secrets.AWS_S3_BUCKET }}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">AWS_ACCESS_KEY_ID</span><span class="p">:</span><span class="w"> </span><span class="l">${{ secrets.AWS_ACCESS_KEY_ID }}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">AWS_SECRET_ACCESS_KEY</span><span class="p">:</span><span class="w"> </span><span class="l">${{ secrets.AWS_SECRET_ACCESS_KEY }}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">AWS_REGION</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;eu-west-1&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">SOURCE_DIR</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;cloud/public/&#39;</span><span class="w">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>As for Terraform, we check if any modifications were done on the blog.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yml" data-lang="yml"><span class="line"><span class="cl"><span class="nt">if</span><span class="p">:</span><span class="w"> </span><span class="l">steps.filter.outputs.web == &#39;true&#39;</span><span class="w">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>Then, I&rsquo;m retrieving an extended version of Hugo straight from the GitHub release (here the v0.142.0). I&rsquo;m installing it and build my blog using the <code>hugo</code> command.</p>
+<blockquote>
+<p>This step could be simplified using the <a class="link" href="https://github.com/peaceiris/actions-hugo"  target="_blank" rel="noopener"
+    >peaceiris/actions-hugo</a> actions</p></blockquote>
+<p>Finally, I&rsquo;m using the <a class="link" href="https://github.com/jakejarvis/s3-sync-action"  target="_blank" rel="noopener"
+    >jakejarvis/s3-sync-action</a> actions (I realized while writing this post that this action has been archived a couple of days before, ouch! &ndash; I&rsquo;ll add an edit later to mention an alternative) to move my blog&rsquo;s files into my S3 bucket.</p>
+<p>Of course, you&rsquo;ll have to store some credentials in your GitHub repository so that your GitHub Actions can be authorized to use AWS, but nothing too crazy.</p>
+<p>We are now done with the GitHub Actions part!</p>
+<h2 id="the-terraform-part"><a href="#the-terraform-part" class="header-anchor"></a>The Terraform part
+</h2><p>Regarding Terraform, I&rsquo;ll keep it short, as this is not too complex.</p>
+<p>There is one personal choice here, is that <strong>I prefer to split my <code>.tf</code> files based on the AWS services used</strong>, rather than putting them all in a single <code>main.tf</code> file, which could make it hard to read. In the end, I have an <code>s3.tf</code> file for all resources linked to the S3 service, a <code>cloudfront.tf</code> file for everything related to CloudFront, and so on.</p>
+<p>One important information, is that <strong>it is necessary to define at least the <code>us-east-1</code> region</strong>, as you must deploy your ACM certificates there. For the rest, I&rsquo;m deploying all my resources in the <code>eu-west-1</code> region. To make this split, I&rsquo;m using the <a class="link" href="https://developer.hashicorp.com/terraform/language/providers/configuration#alias-multiple-provider-configurations"  target="_blank" rel="noopener"
+    >Terraform alias</a>. Here&rsquo;s an example:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-terraform" data-lang="terraform"><span class="line"><span class="cl"><span class="c1"># The default configuration: all resources starting with `aws_` will use this provider
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kr">provider</span> <span class="s2">&#34;aws&#34;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">region</span> <span class="o">=</span> <span class="s2">&#34;eu-west-1&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kr">provider</span> <span class="s2">&#34;aws&#34;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">region</span> <span class="o">=</span> <span class="s2">&#34;us-east-1&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">alias</span>  <span class="o">=</span> <span class="s2">&#34;us_east_1&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kr">resource</span> <span class="s2">&#34;aws_s3_bucket&#34;</span> <span class="s2">&#34;site&#34;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">bucket</span>        <span class="o">=</span> <span class="nb">var</span><span class="p">.</span><span class="nx">bucket_name</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">force_destroy</span> <span class="o">=</span> <span class="kc">true</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kr">resource</span> <span class="s2">&#34;aws_acm_certificate&#34;</span> <span class="s2">&#34;cert&#34;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">provider</span>                  <span class="o">=</span> <span class="nx">aws</span><span class="p">.</span><span class="nx">us_east_1</span><span class="c1">  # Will be deployed in us-east-1
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="nx">domain_name</span>               <span class="o">=</span> <span class="nb">var</span><span class="p">.</span><span class="nx">domain_name</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">subject_alternative_names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&#34;*.</span><span class="si">${</span><span class="nb">var</span><span class="p">.</span><span class="nx">domain_name</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">validation_method</span>         <span class="o">=</span> <span class="s2">&#34;DNS&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="the-hugo-part"><a href="#the-hugo-part" class="header-anchor"></a>The Hugo part
+</h2><p>My Hugo blog is based on the <a class="link" href="https://themes.gohugo.io/themes/hugo-theme-stack/"  target="_blank" rel="noopener"
+    >Stack theme</a>. There is also a <a class="link" href="https://github.com/CaiJimmy/hugo-theme-stack-starter"  target="_blank" rel="noopener"
+    >GitHub template</a> available which allows you to quickly setup your own blog based on this theme.</p>
+<p>Not a lot to say about this part, except that I encourage you to have a look at the <a class="link" href="https://gohugo.io/hugo-modules/"  target="_blank" rel="noopener"
+    >Hugo Modules</a>, which will save you from having to deal with submodules (and will make it easier when you need to update your theme).</p>
+<h1 id="potential-improvements"><a href="#potential-improvements" class="header-anchor"></a>Potential Improvements
+</h1><p>While I&rsquo;m extremely satisfied with the end results, I noted a few points that could be improved in the future.</p>
+<p>First off, I saw that Hugo has a <code>deploy</code> command that could, well, deploy your blog directly to an S3 bucket. Perfect! So I need to learn a bit more about <a class="link" href="https://gohugo.io/hosting-and-deployment/hugo-deploy/"  target="_blank" rel="noopener"
+    >Hugo Deploy</a>.</p>
+<p>Finally, even though using AWS as my hosting platform is not expensive (less than 2$ a month), it is not free. But it would be completely possible to use <a class="link" href="https://pages.github.com/"  target="_blank" rel="noopener"
+    >GitHub Pages</a> to make this blog accessible, while taking the advantage of GitHub as the hosting platform (on this point, I&rsquo;m a bit reluctant, as then I would not be able to show-off with my beautifully made AWS diagrams&hellip;).</p>
+<h1 id="conclusion"><a href="#conclusion" class="header-anchor"></a>Conclusion
+</h1><p>Here we are, you know everything!</p>
+<p>From my beginnings with WordPress, which, while being useful, showed some weaknesses on the backup, maintainability and deployment part.</p>
+<p>Of my research to find the perfect technical suite: AWS, Terraform, Hugo and GitHub Actions, all of that to enable a speedy deployment at almost no cost!</p>
+<p>When I look back to my previous setup and compare to what I have today, I am so happy to have done the switch!</p>
+<p>Now, it&rsquo;s up to you! You have all the information to create your own blog and deploy all of this with a breeze!</p>
+<p><em>Happy blogging !</em></p>
+<p><img src="/img/how-i-automated-my-blog-to-the-cloud/happy_blog.jpeg"
+	
+	
+	
+	loading="lazy"
+	
+		alt="Successfully migrated my blog to the Cloud"
+	
+	
+></p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/cloud-optimist/pr-66/en/tags/terraform/">Terraform</a>
+        
+            <a href="/cloud-optimist/pr-66/en/tags/ci/cd/">CI/CD</a>
+        
+            <a href="/cloud-optimist/pr-66/en/tags/github-actions/">GitHub Actions</a>
+        
+            <a href="/cloud-optimist/pr-66/en/tags/hugo/">Hugo</a>
+        
+            <a href="/cloud-optimist/pr-66/en/tags/aws/">AWS</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">Related content</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/cloud-optimist/pr-66/en/posts/2025/aws-lambdas-init-phase-to-be-billed-soon-should-we-be-alarmed/">
+        
+        
+            <div class="article-image">
+                <img src="/cloud-optimist/pr-66/fr/posts/2025/aws-lambdas-init-phase-to-be-billed-soon-should-we-be-alarmed/lambda-init-billing.e675f044c97588eddb26ba9b0e9398d0_hu_bf7c4666c0f5eba.jpeg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post AWS Lambda: INIT Phase To Be Billed Soon - Should We Be Alarmed?"
+                        
+                        data-hash="md5-5nXwRMl1iO3bJrqbDpOY0A==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">AWS Lambda: INIT Phase To Be Billed Soon - Should We Be Alarmed?</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/cloud-optimist/pr-66/en/posts/2025/how-we-built-a-cicd-strategy-that-onboards-100-python-projects-in-under-a-minute/">
+        
+        
+            <div class="article-image">
+                <img src="/cloud-optimist/pr-66/en/posts/2025/how-we-built-a-cicd-strategy-that-onboards-100-python-projects-in-under-a-minute/ci-cd-strategy.4bfd0d2defa14a08bf1ba9f713764379_hu_45c21de14ec7648a.jpeg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post How We Built a CI/CD Strategy That Onboards 100&#43; Python Projects in Under a Minute"
+                        
+                        data-hash="md5-S/0NLe&#43;hSgi/G6n3E3ZDeQ==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">How We Built a CI/CD Strategy That Onboards 100&#43; Python Projects in Under a Minute</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <script
+    src="https://giscus.app/client.js"
+    data-repo="antoinedelia/cloud-optimist"
+    data-repo-id="R_kgDOHWH-Zg"
+    data-category="Comments"
+    data-category-id="DIC_kwDOHWH-Zs4CoHBh"
+    data-mapping="pathname"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="1"
+    data-input-position="top"
+    data-theme="light"
+    data-lang="en"
+    data-loading=""
+    crossorigin="anonymous"
+    async
+></script>
+<script>
+    function setGiscusTheme(theme) {
+        let giscus = document.querySelector("iframe.giscus-frame");
+        if (giscus) {
+            giscus.contentWindow.postMessage(
+                {
+                    giscus: {
+                        setConfig: {
+                            theme: theme,
+                        },
+                    },
+                },
+                "https://giscus.app"
+            );
+        }
+    }
+
+    (function () {
+        addEventListener("message", (e) => {
+            if (event.origin !== "https://giscus.app") return;
+            handler();
+        });
+        window.addEventListener("onColorSchemeChange", handler);
+
+        function handler() {
+            if (document.documentElement.dataset.scheme === "light") {
+                setGiscusTheme('light');
+            } else {
+                setGiscusTheme('dark_dimmed');
+            }
+        }
+    })();
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2022 - 
+        
+        2025 The Cloud Optimist
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.29.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/cloud-optimist/pr-66/ts/main.1e9a3bafd846ced4c345d084b355fb8c7bae75701c338f8a1f8a82c780137826.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

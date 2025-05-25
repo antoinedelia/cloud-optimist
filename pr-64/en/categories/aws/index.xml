@@ -37,7 +37,8 @@ A good tagging strategy allows you to, among other things:&lt;/p&gt;
 &lt;li&gt;&lt;strong&gt;Environment&lt;/strong&gt;: The desired environment (dev, uat, prod, &amp;hellip;). Even if you have separate AWS accounts, this will help you identify if a resource got lost during deployment.&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;Owner&lt;/strong&gt;: The owner of the resource. This could be a person, but more ideally a team (frontend, backend, security, &amp;hellip;).&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;Depending on your use case, you&amp;rsquo;ll surely have other ideas for tags, but with the ones above, you&amp;rsquo;ll already have a good start!&lt;/p&gt;
+&lt;p&gt;Depending on your use case, you&amp;rsquo;ll surely have other ideas for tags, but with the ones above, you&amp;rsquo;ll already have a good start! And in case of doubt, feel free to read the &lt;a class=&#34;link&#34; href=&#34;https://docs.aws.amazon.com/tag-editor/latest/userguide/best-practices-and-strats.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;tagging best practices from AWS&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;Let&amp;rsquo;s now look at some concrete examples of using tags in AWS.&lt;/p&gt;
 &lt;h2 id=&#34;aws-cost-explorer-tracking-costs-thanks-to-tags&#34;&gt;&lt;a href=&#34;#aws-cost-explorer-tracking-costs-thanks-to-tags&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;AWS Cost Explorer: Tracking costs thanks to tags
 &lt;/h2&gt;&lt;p&gt;One of the most concrete benefits of tagging is the visibility it provides over your expenses. &lt;a class=&#34;link&#34; href=&#34;https://aws.amazon.com/aws-cost-management/aws-cost-explorer/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;

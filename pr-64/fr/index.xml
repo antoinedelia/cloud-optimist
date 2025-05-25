@@ -37,7 +37,8 @@
 &lt;li&gt;&lt;strong&gt;Environment&lt;/strong&gt; : L&amp;rsquo;environnement désiré (dev, val, prod, &amp;hellip;). Même si vous avez des comptes AWS cloisonnés, cela vous permettra d&amp;rsquo;identifier si une ressource s&amp;rsquo;est perdue durant un déploiement&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;Owner&lt;/strong&gt; : L&amp;rsquo;owner de la ressource. Cela pourrait être une personne, mais plus idéalement une équipe (frontend, backend, security, &amp;hellip;)&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;Selon votre usage, vous aurez sûrement d&amp;rsquo;autres idées de tags, mais avec ceux-ci, ce sera déjà un bon début !&lt;/p&gt;
+&lt;p&gt;Selon votre usage, vous aurez sûrement d&amp;rsquo;autres idées de tags, mais avec ceux-ci, ce sera déjà un bon début ! Et dans le doute, n&amp;rsquo;hésitez pas à consulter les &lt;a class=&#34;link&#34; href=&#34;https://docs.aws.amazon.com/tag-editor/latest/userguide/best-practices-and-strats.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;best practices de tagging recommandées par AWS&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;Voyons maintenant quelques cas concrets de l&amp;rsquo;utilité des tags dans AWS.&lt;/p&gt;
 &lt;h2 id=&#34;aws-cost-explorer--suivre-les-coûts-grâce-aux-tags&#34;&gt;&lt;a href=&#34;#aws-cost-explorer--suivre-les-co%c3%bbts-gr%c3%a2ce-aux-tags&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;AWS Cost Explorer : Suivre les coûts grâce aux tags
 &lt;/h2&gt;&lt;p&gt;L&amp;rsquo;un des avantages les plus concrets du tagging est la visibilité qu&amp;rsquo;il apporte sur vos dépenses. &lt;a class=&#34;link&#34; href=&#34;https://aws.amazon.com/aws-cost-management/aws-cost-explorer/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;

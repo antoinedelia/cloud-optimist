@@ -41,7 +41,7 @@ Cela va dépendre de votre entreprise et de chaque projet, mais globalement, il 
 * **Environment** : L'environnement désiré (dev, val, prod, ...). Même si vous avez des comptes AWS cloisonnés, cela vous permettra d'identifier si une ressource s'est perdue durant un déploiement
 * **Owner** : L'owner de la ressource. Cela pourrait être une personne, mais plus idéalement une équipe (frontend, backend, security, ...)
 
-Selon votre usage, vous aurez sûrement d'autres idées de tags, mais avec ceux-ci, ce sera déjà un bon début !
+Selon votre usage, vous aurez sûrement d'autres idées de tags, mais avec ceux-ci, ce sera déjà un bon début ! Et dans le doute, n'hésitez pas à consulter les [best practices de tagging recommandées par AWS](https://docs.aws.amazon.com/tag-editor/latest/userguide/best-practices-and-strats.html).
 
 Voyons maintenant quelques cas concrets de l'utilité des tags dans AWS.
 

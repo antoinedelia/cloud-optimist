@@ -40,7 +40,7 @@ This will depend on your company and each project, but overall, there are some t
 * **Environment**: The desired environment (dev, uat, prod, ...). Even if you have separate AWS accounts, this will help you identify if a resource got lost during deployment.
 * **Owner**: The owner of the resource. This could be a person, but more ideally a team (frontend, backend, security, ...).
 
-Depending on your use case, you'll surely have other ideas for tags, but with the ones above, you'll already have a good start!
+Depending on your use case, you'll surely have other ideas for tags, but with the ones above, you'll already have a good start! And in case of doubt, feel free to read the [tagging best practices from AWS](https://docs.aws.amazon.com/tag-editor/latest/userguide/best-practices-and-strats.html).
 
 Let's now look at some concrete examples of using tags in AWS.
 

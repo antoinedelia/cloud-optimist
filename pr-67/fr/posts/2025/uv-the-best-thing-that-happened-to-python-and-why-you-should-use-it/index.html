@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="fr-FR" dir="ltr">
     <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="Introduction Python est sûrement mon langage de programmation préféré. Sa simplicité permet en un rien de temps de développer des scripts, des backends, voire même des sites internets, sans pour autant se faire des nœuds au cerveau.\nMais il y a toujours eu une chose qui me déplaisait chez Python : ses outils de packaging. Pendant longtemps, je me suis tenu à l&rsquo;écart de tous ces outils comme Poetry, car bien franchement, je n&rsquo;y comprenais rien !\n">
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="Introduction Python est sûrement mon langage de programmation préféré. Sa simplicité permet en un rien de temps de développer des scripts, des backends, voire même des sites internet, sans pour autant se faire des nœuds au cerveau.\nMais il y a toujours eu une chose qui me déplaisait chez Python : ses outils de packaging. Pendant longtemps, je me suis tenu à l&rsquo;écart de tous ces outils comme Poetry, car bien franchement, je n&rsquo;y comprenais rien !\n">
 <title>uv : La meilleure chose qui soit arrivée à Python - et pourquoi vous devriez l&#39;utiliser</title>
 
 <link rel='canonical' href='https://antoinedelia.github.io/cloud-optimist/pr-67/fr/posts/2025/uv-the-best-thing-that-happened-to-python-and-why-you-should-use-it/'>
 
-<link rel="stylesheet" href="/cloud-optimist/pr-67/scss/style.min.663803bebe609202d5b39d848f2d7c2dc8b598a2d879efa079fa88893d29c49c.css"><meta property='og:title' content="uv : La meilleure chose qui soit arrivée à Python - et pourquoi vous devriez l'utiliser">
-<meta property='og:description' content="Introduction Python est sûrement mon langage de programmation préféré. Sa simplicité permet en un rien de temps de développer des scripts, des backends, voire même des sites internets, sans pour autant se faire des nœuds au cerveau.\nMais il y a toujours eu une chose qui me déplaisait chez Python : ses outils de packaging. Pendant longtemps, je me suis tenu à l&rsquo;écart de tous ces outils comme Poetry, car bien franchement, je n&rsquo;y comprenais rien !\n">
+<link rel="stylesheet" href="/cloud-optimist/pr-67/scss/style.min.946cca6c6259ef94ac55abfae7c7bf3291ea3ed5eea17ef77500b257217c6710.css"><meta property='og:title' content="uv : La meilleure chose qui soit arrivée à Python - et pourquoi vous devriez l'utiliser">
+<meta property='og:description' content="Introduction Python est sûrement mon langage de programmation préféré. Sa simplicité permet en un rien de temps de développer des scripts, des backends, voire même des sites internet, sans pour autant se faire des nœuds au cerveau.\nMais il y a toujours eu une chose qui me déplaisait chez Python : ses outils de packaging. Pendant longtemps, je me suis tenu à l&rsquo;écart de tous ces outils comme Poetry, car bien franchement, je n&rsquo;y comprenais rien !\n">
 <meta property='og:url' content='https://antoinedelia.github.io/cloud-optimist/pr-67/fr/posts/2025/uv-the-best-thing-that-happened-to-python-and-why-you-should-use-it/'>
 <meta property='og:site_name' content='The Cloud Optimist'>
-<meta property='og:type' content='article'><meta property='article:section' content='Posts' /><meta property='article:tag' content='Python' /><meta property='article:published_time' content='2025-06-04T07:30:00&#43;02:00'/><meta property='article:modified_time' content='2025-06-04T07:30:00&#43;02:00'/><meta property='og:image' content='https://antoinedelia.github.io/cloud-optimist/pr-67/fr/posts/2025/uv-the-best-thing-that-happened-to-python-and-why-you-should-use-it/uv.jpg' />
+<meta property='og:type' content='article'><meta property='article:section' content='Posts' /><meta property='article:tag' content='Python' /><meta property='article:published_time' content='2025-05-26T07:30:00&#43;02:00'/><meta property='article:modified_time' content='2025-05-26T07:30:00&#43;02:00'/><meta property='og:image' content='https://antoinedelia.github.io/cloud-optimist/pr-67/fr/posts/2025/uv-the-best-thing-that-happened-to-python-and-why-you-should-use-it/uv.jpg' />
 <meta name="twitter:title" content="uv : La meilleure chose qui soit arrivée à Python - et pourquoi vous devriez l'utiliser">
-<meta name="twitter:description" content="Introduction Python est sûrement mon langage de programmation préféré. Sa simplicité permet en un rien de temps de développer des scripts, des backends, voire même des sites internets, sans pour autant se faire des nœuds au cerveau.\nMais il y a toujours eu une chose qui me déplaisait chez Python : ses outils de packaging. Pendant longtemps, je me suis tenu à l&rsquo;écart de tous ces outils comme Poetry, car bien franchement, je n&rsquo;y comprenais rien !\n"><meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:description" content="Introduction Python est sûrement mon langage de programmation préféré. Sa simplicité permet en un rien de temps de développer des scripts, des backends, voire même des sites internet, sans pour autant se faire des nœuds au cerveau.\nMais il y a toujours eu une chose qui me déplaisait chez Python : ses outils de packaging. Pendant longtemps, je me suis tenu à l&rsquo;écart de tous ces outils comme Poetry, car bien franchement, je n&rsquo;y comprenais rien !\n"><meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:image" content='https://antoinedelia.github.io/cloud-optimist/pr-67/fr/posts/2025/uv-the-best-thing-that-happened-to-python-and-why-you-should-use-it/uv.jpg' />
     <link rel="shortcut icon" href="/favicon.ico" />
 
@@ -401,7 +401,7 @@
   <path d="M3 11h16" />
   <path d="M18 16.496v1.504l1 1" />
 </svg>
-                <time class="article-time--published">04 juin 2025</time>
+                <time class="article-time--published">26 mai 2025</time>
             </div>
         
 
@@ -451,13 +451,13 @@
     
     
     <h1 id="introduction"><a href="#introduction" class="header-anchor"></a>Introduction
-</h1><p>Python est sûrement mon langage de programmation préféré. Sa simplicité permet en un rien de temps de développer des scripts, des backends, voire même des sites internets, sans pour autant se faire des nœuds au cerveau.</p>
+</h1><p>Python est sûrement mon langage de programmation préféré. Sa simplicité permet en un rien de temps de développer des scripts, des backends, voire même des sites internet, sans pour autant se faire des nœuds au cerveau.</p>
 <p>Mais il y a toujours eu une chose qui me déplaisait chez Python : ses outils de packaging. Pendant longtemps, je me suis tenu à l&rsquo;écart de tous ces outils comme Poetry, car bien franchement, je n&rsquo;y comprenais rien !</p>
 <p>Et puis, j&rsquo;ai fait une découverte qui, non seulement m&rsquo;a montré que packager son code Python est une tâche toute simple, mais qui en plus a complètement changé toutes mes habitudes.</p>
 <p>Je veux parler de <a class="link" href="https://docs.astral.sh/uv"  target="_blank" rel="noopener"
     ><strong>uv</strong></a>.</p>
 <p>Créé par la même équipe talentueuse de chez Astral (qui nous avait déjà régalé avec leur outil <a class="link" href="https://astral.sh/ruff"  target="_blank" rel="noopener"
-    >ruff</a>), uv est présenté comme un installateur et résolveur de paquets Python &ldquo;extrêmement rapide&rdquo;. Cet outil est ce qu&rsquo;on pourrait appeller un <strong>game-changer</strong> : une fois que vous y avez goûté, impossible de revenir en arrière !</p>
+    >ruff</a>), uv est présenté comme un installateur et résolveur de paquets Python &ldquo;extrêmement rapide&rdquo;. Cet outil est ce qu&rsquo;on pourrait appeler un <strong>game-changer</strong> : une fois que vous y avez goûté, impossible de revenir en arrière !</p>
 <p>Alors, qu&rsquo;est-ce que <strong>uv</strong> a de si spécial ? Pourquoi cet engouement ? C&rsquo;est ce que nous allons décortiquer ensemble. Accrochez-vous, vous pourriez bien avoir un nouveau coup de foudre !</p>
 <blockquote>
 <p>Ce guide se base sur mon expérience avec uv et les exemples ont été testés avec la version 0.7.3. Selon votre configuration, notamment derrière certains proxys d&rsquo;entreprise, vous pourriez avoir besoin d&rsquo;ajouter l&rsquo;option <code>--native-tls</code> à certaines commandes uv si vous rencontrez des soucis de connexion SSL.)</p></blockquote>
@@ -465,7 +465,7 @@
 </h1><p>En quelques mots, uv est un outil en ligne de commande qui ambitionne de remplacer pip, pip-tools, venv, pyenv, et même une partie de virtualenv et pipx, tout en étant beaucoup, <em>beaucoup</em> plus rapide. Oui, rien que ça !</p>
 <p>Comme nombre de nouveaux outils à la mode, il est écrit en Rust. Pardon, je devrais dire, il est écrit en ✨ <em>Rust</em> ✨. Ce qui explique en grande partie ses performances fulgurantes.</p>
 <h2 id="préambule"><a href="#pr%c3%a9ambule" class="header-anchor"></a>Préambule
-</h2><p>Avant de nous lancer tête la première dans uv et son fonctionnement, j&rsquo;aimerai en premier lieu vous indiquer la façon dont uv gère les dépendances, les environnements virtuels, et l&rsquo;installation des versions de Python. Cela m&rsquo;a plutôt dérouté la première fois que j&rsquo;y ai été confronté, et je pense donc qu&rsquo;il est important de le mentionner avant toute chose.</p>
+</h2><p>Avant de nous lancer tête la première dans uv et son fonctionnement, j&rsquo;aimerais en premier lieu vous indiquer la façon dont uv gère les dépendances, les environnements virtuels, et l&rsquo;installation des versions de Python. Cela m&rsquo;a plutôt dérouté la première fois que j&rsquo;y ai été confronté, et je pense donc qu&rsquo;il est important de le mentionner avant toute chose.</p>
 <h3 id="gestion-des-dépendances"><a href="#gestion-des-d%c3%a9pendances" class="header-anchor"></a>Gestion des dépendances
 </h3><p>uv base toute sa configuration sur votre fichier <code>pyproject.toml</code>. Si vous aviez l&rsquo;habitude d&rsquo;utiliser un <code>requirements.txt</code> par exemple, sachez que uv l&rsquo;ignorera complètement.</p>
 <p>Comme je suis sympa, je vous mets ici un gist d&rsquo;un template de <code>pyproject.toml</code> que j&rsquo;utilise à chaque fois pour démarrer un nouveau projet Python.</p>
@@ -658,10 +658,10 @@
 </div></details>
 <p>Au lieu d&rsquo;ajouter vos dépendances à la main, vous pouvez maintenant utiliser <code>uv add &lt;package_name&gt;</code>, et celui-ci sera ajouté à votre <code>pyproject.toml</code>.</p>
 <blockquote>
-<p>Attention cependant, car certains outils externes se basent toujours sur un fichier <code>requirements.txt</code>. Vous aurez donc peut-être besoin de lancer la commande <code>uv pip compile -o requirements.txt</code> dans votre pipeline CI/CD/</p></blockquote>
+<p>Attention cependant, car certains outils externes se basent toujours sur un fichier <code>requirements.txt</code>. Vous aurez donc peut-être besoin de lancer la commande <code>uv pip compile -o requirements.txt</code> dans votre pipeline CI/CD.</p></blockquote>
 <h3 id="environnement-virtuel"><a href="#environnement-virtuel" class="header-anchor"></a>Environnement virtuel
-</h3><p>Comme moi, vous aviez peut-être l&rsquo;habitude d&rsquo;utiliser la commande <code>source .venv/bin/activate</code> pour activer votre environnement virtuel. Avec uv, c&rsquo;est un peu différent. Votre <code>.venv</code> sera toujours crée, mais en utilisant uv, il se mettra par défaut dans votre environnement virtuel. Prenons un exemple.</p>
-<p>Là où à l&rsquo;époque vous aurieuz dû faire ce genre de commandes pour lancer votre script.</p>
+</h3><p>Comme moi, vous aviez peut-être l&rsquo;habitude d&rsquo;utiliser la commande <code>source .venv/bin/activate</code> pour activer votre environnement virtuel. Avec uv, c&rsquo;est un peu différent. Votre <code>.venv</code> sera toujours créé, mais en utilisant uv, il se mettra par défaut dans votre environnement virtuel. Prenons un exemple.</p>
+<p>Là où à l&rsquo;époque vous auriez dû faire ce genre de commandes pour lancer votre script.</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -687,11 +687,11 @@
 </span></span><span class="line"><span class="cl">uv run main.py
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>Lorsque vous ajoutez un nouveau paquet à votre projet (avec la commande <code>uv add</code>), uv se charge automatiquement de créer un environment virtuel s&rsquo;il n&rsquo;existe pas déjà.</p>
+</div><p>Lorsque vous ajoutez un nouveau paquet à votre projet (avec la commande <code>uv add</code>), uv se charge automatiquement de créer un environnement virtuel s&rsquo;il n&rsquo;existe pas déjà.</p>
 <p>Ensuite, en lançant votre script via <code>uv run</code>, uv se mettra automatiquement dans votre environnement virtuel.</p>
 <h3 id="installation-de-python"><a href="#installation-de-python" class="header-anchor"></a>Installation de Python
 </h3><p>Vous utilisiez peut-être pyenv pour installer vos différentes versions de Python. Avec uv, tout cela est de l&rsquo;histoire ancienne !</p>
-<p>Lorsque vous souhaitez lancer un projet avec une version de Python bien spécifique, vous avez plusieurs moyen de faire :</p>
+<p>Lorsque vous souhaitez lancer un projet avec une version de Python bien spécifique, vous avez plusieurs moyens de faire :</p>
 <ul>
 <li>Utiliser le fichier <code>.python-version</code></li>
 <li>Créer un environnement virtuel : <code>uv venv --python 3.11.6</code></li>
@@ -702,7 +702,7 @@
 <p>Bon, je crois que vous en savez assez pour commencer votre initiation. Allons-y !</p>
 <h1 id="installation"><a href="#installation" class="header-anchor"></a>Installation
 </h1><p>L&rsquo;installation de uv est un jeu d&rsquo;enfant. Vous avez plusieurs options, choisissez celle qui vous convient le mieux (n&rsquo;hésitez pas à consulter la <a class="link" href="https://docs.astral.sh/uv/getting-started/installation/"  target="_blank" rel="noopener"
-    >documentation officielle sur son instalation</a> si besoin) :</p>
+    >documentation officielle sur son installation</a> si besoin) :</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -767,7 +767,7 @@
 </span></span></code></pre></td></tr></table>
 </div>
 </div><blockquote>
-<p>Comme je vous l&rsquo;expliquait un peu plus haut, les versions de Python installées par uv ne sont pas disponibles &ldquo;globalement&rdquo; sur votre système via la simple commande <code>python</code>. Pour les utiliser, il faut passer par <code>uv run --python &lt;version&gt;</code>, ou les activer dans un environnement virtuel créé avec cette version spécifique.</p></blockquote>
+<p>Comme je vous l&rsquo;expliquais un peu plus haut, les versions de Python installées par uv ne sont pas disponibles &ldquo;globalement&rdquo; sur votre système via la simple commande <code>python</code>. Pour les utiliser, il faut passer par <code>uv run --python &lt;version&gt;</code>, ou les activer dans un environnement virtuel créé avec cette version spécifique.</p></blockquote>
 <h1 id="uvx-pour-exécuter-des-packages-à-la-volée"><a href="#uvx-pour-ex%c3%a9cuter-des-packages-%c3%a0-la-vol%c3%a9e" class="header-anchor"></a>uvx pour exécuter des packages à la volée
 </h1><p>Vous connaissez peut-être <a class="link" href="https://docs.npmjs.com/cli/v8/commands/npx"  target="_blank" rel="noopener"
     >npx</a> dans le monde JavaScript ? uvx (le shortcut de <code>uv tool run</code>) est l&rsquo;équivalent proposé par uv. Il permet d&rsquo;exécuter une commande CLI Python (comme ruff, black, ipython, etc.) dans un environnement temporaire avec les dépendances spécifiées, sans polluer votre projet ou votre système.</p>
@@ -916,7 +916,7 @@
 <pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">uv sync
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>Cette commande magique va lire le fichier <code>uv.lock</code> et installer <em>exactement</em> les mêmes versions de tous les paquets qui y sont listées. C&rsquo;est pas beau tout ça ?</p>
+</div><p>Cette commande magique va lire le fichier <code>uv.lock</code> et installer <em>exactement</em> les mêmes versions de tous les paquets qui y sont listés. N&rsquo;est-ce pas beau tout ça ?</p>
 <h1 id="build-et-publier-votre-projet"><a href="#build-et-publier-votre-projet" class="header-anchor"></a>Build et publier votre projet
 </h1><p>uv ne s&rsquo;arrête pas là et propose aussi des commandes pour le build et la publication.</p>
 <p>Pour construire votre package :</p>
@@ -954,7 +954,7 @@
 </div>
 </div><p>Et voilà ! Vous avez publié votre package en un clin d&rsquo;oeil !</p>
 <h1 id="nettoyer-votre-cache"><a href="#nettoyer-votre-cache" class="header-anchor"></a>Nettoyer votre cache
-</h1><p>Avec le temps, uv (tout comme pip) accumule un cache de paquets téléchargés. Alors certes, cela permet rapidement d&rsquo;installer vos dépendances sur plusieurs projets, mais à la longue, cela pourrait prendre pas mal de place sur votre ordinateur. Pour le nettoyer, il suffit simplement de lancer la commande suivante :</p>
+</h1><p>Avec le temps, uv (tout comme pip) accumule un cache de paquets téléchargés. Alors certes, cela permet rapidement d&rsquo;installer vos dépendances sur plusieurs projets, mais à la longue, cela pourrait prendre pas mal de place sur votre ordinateur. Pour le nettoyer, il suffit de lancer la commande suivante :</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -966,10 +966,10 @@
 </div><h1 id="conclusion"><a href="#conclusion" class="header-anchor"></a>Conclusion
 </h1><p>Vous l&rsquo;aurez compris, uv n&rsquo;est pas juste &ldquo;encore un autre gestionnaire de paquets&rdquo;. <strong>C&rsquo;est une véritable bouffée d&rsquo;air frais dans l&rsquo;écosystème Python.</strong></p>
 <ul>
-<li><strong>La Vitesse :</strong> C&rsquo;est le premier argument qui choque lorsqu&rsquo;on l&rsquo;utilise. Les installations, les résolutions, tout est incroyablement plus rapide que pip. Sur de gros projets, le gain de temps est phénoménal.</li>
-<li><strong>L&rsquo;Unification :</strong> uv regroupe des fonctionnalités qui nécessitaient auparavant plusieurs outils (pip, venv, pip-tools, voire pyenv pour des besoins basiques). Avoir une seule interface cohérente simplifie grandement le workflow.</li>
-<li><strong>La Compliance :</strong> Les développeurs d&rsquo;uv basent tous leurs choix sur les guidelines Python (ces fameux PEP). Vous pouvez donc être sûr que votre <code>pyproject.toml</code> respecte les standards modernes de packaging Python.</li>
-<li><strong>La Fiabilité :</strong> Le système de lockfile (<code>uv.lock</code>) assure des builds reproductibles, un point essentiel pour le travail en équipe et l&rsquo;intégration continue.</li>
+<li><strong>La vitesse :</strong> C&rsquo;est le premier argument qui frappe lorsqu&rsquo;on l&rsquo;utilise. Les installations, les résolutions, tout est incroyablement plus rapide que pip. Sur de gros projets, le gain de temps est phénoménal.</li>
+<li><strong>L&rsquo;unification :</strong> uv regroupe des fonctionnalités qui nécessitaient auparavant plusieurs outils (pip, venv, pip-tools, voire pyenv pour des besoins basiques). Avoir une seule interface cohérente simplifie grandement le workflow.</li>
+<li><strong>La conformité :</strong> Les développeurs d&rsquo;uv basent tous leurs choix sur les guidelines Python (ces fameux PEP). Vous pouvez donc être sûr que votre <code>pyproject.toml</code> respecte les standards modernes de packaging Python.</li>
+<li><strong>La fiabilité :</strong> Le système de lockfile (<code>uv.lock</code>) assure des builds reproductibles, un point essentiel pour le travail en équipe et l&rsquo;intégration continue.</li>
 </ul>
 <p>Depuis que j&rsquo;utilise uv, mes interactions avec la gestion des dépendances Python sont devenues plus rapides, plus simples et plus agréables. <strong>C&rsquo;est le genre d&rsquo;outil qui, une fois adopté, vous fait vous demander comment vous faisiez avant.</strong></p>
 <p>Alors, si vous cherchez à moderniser votre utilisation de Python et à gagner en productivité (et en sérénité !), je ne peux que vous encourager à donner sa chance à uv. L&rsquo;essayer, c&rsquo;est très souvent l&rsquo;adopter !</p>

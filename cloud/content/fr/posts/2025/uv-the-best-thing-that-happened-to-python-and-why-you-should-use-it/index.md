@@ -424,6 +424,9 @@ uvx --with requests -p 3.13 ipython
 # Update your project's version
 uv version --bump [major/minor/patch]
 
+# Export the lockfile to requirements.txt
+uv export --no-hashes --format requirements.txt > requirements.txt
+
 # Clean the cache
 uv cache clean
 ```

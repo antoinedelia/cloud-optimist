@@ -1,8 +1,8 @@
 ---
 title: "uv: The Best Thing to Happen to Python - and Why You Should Use It"
-date: 2025-06-04T07:30:00+02:00
+date: 2025-05-26T07:30:00+02:00
 author: Antoine Delia
-draft: true
+draft: false
 tags:
     - Python
 categories: [ Python ]

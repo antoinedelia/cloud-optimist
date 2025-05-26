@@ -1,8 +1,8 @@
 ---
 title: "uv : La meilleure chose qui soit arrivée à Python - et pourquoi vous devriez l'utiliser"
-date: 2025-06-04T07:30:00+02:00
+date: 2025-05-26T07:30:00+02:00
 author: Antoine Delia
-draft: true
+draft: false
 tags:
     - Python
 categories: [ Python ]
@@ -11,7 +11,7 @@ image: uv.jpg
 
 # Introduction
 
-Python est sûrement mon langage de programmation préféré. Sa simplicité permet en un rien de temps de développer des scripts, des backends, voire même des sites internets, sans pour autant se faire des nœuds au cerveau.
+Python est sûrement mon langage de programmation préféré. Sa simplicité permet en un rien de temps de développer des scripts, des backends, voire même des sites internet, sans pour autant se faire des nœuds au cerveau.
 
 Mais il y a toujours eu une chose qui me déplaisait chez Python : ses outils de packaging. Pendant longtemps, je me suis tenu à l'écart de tous ces outils comme Poetry, car bien franchement, je n'y comprenais rien !
 
@@ -19,7 +19,7 @@ Et puis, j'ai fait une découverte qui, non seulement m'a montré que packager s
 
 Je veux parler de [**uv**](https://docs.astral.sh/uv).
 
-Créé par la même équipe talentueuse de chez Astral (qui nous avait déjà régalé avec leur outil [ruff](https://astral.sh/ruff)), uv est présenté comme un installateur et résolveur de paquets Python "extrêmement rapide". Cet outil est ce qu'on pourrait appeller un **game-changer** : une fois que vous y avez goûté, impossible de revenir en arrière !
+Créé par la même équipe talentueuse de chez Astral (qui nous avait déjà régalé avec leur outil [ruff](https://astral.sh/ruff)), uv est présenté comme un installateur et résolveur de paquets Python "extrêmement rapide". Cet outil est ce qu'on pourrait appeler un **game-changer** : une fois que vous y avez goûté, impossible de revenir en arrière !
 
 Alors, qu'est-ce que **uv** a de si spécial ? Pourquoi cet engouement ? C'est ce que nous allons décortiquer ensemble. Accrochez-vous, vous pourriez bien avoir un nouveau coup de foudre !
 
@@ -33,7 +33,7 @@ Comme nombre de nouveaux outils à la mode, il est écrit en Rust. Pardon, je de
 
 ## Préambule
 
-Avant de nous lancer tête la première dans uv et son fonctionnement, j'aimerai en premier lieu vous indiquer la façon dont uv gère les dépendances, les environnements virtuels, et l'installation des versions de Python. Cela m'a plutôt dérouté la première fois que j'y ai été confronté, et je pense donc qu'il est important de le mentionner avant toute chose.
+Avant de nous lancer tête la première dans uv et son fonctionnement, j'aimerais en premier lieu vous indiquer la façon dont uv gère les dépendances, les environnements virtuels, et l'installation des versions de Python. Cela m'a plutôt dérouté la première fois que j'y ai été confronté, et je pense donc qu'il est important de le mentionner avant toute chose.
 
 ### Gestion des dépendances
 
@@ -140,13 +140,13 @@ pythonpath = [ # what to add to the python path
 
 Au lieu d'ajouter vos dépendances à la main, vous pouvez maintenant utiliser `uv add <package_name>`, et celui-ci sera ajouté à votre `pyproject.toml`.
 
-> Attention cependant, car certains outils externes se basent toujours sur un fichier `requirements.txt`. Vous aurez donc peut-être besoin de lancer la commande `uv pip compile -o requirements.txt` dans votre pipeline CI/CD/
+> Attention cependant, car certains outils externes se basent toujours sur un fichier `requirements.txt`. Vous aurez donc peut-être besoin de lancer la commande `uv pip compile -o requirements.txt` dans votre pipeline CI/CD.
 
 ### Environnement virtuel
 
-Comme moi, vous aviez peut-être l'habitude d'utiliser la commande `source .venv/bin/activate` pour activer votre environnement virtuel. Avec uv, c'est un peu différent. Votre `.venv` sera toujours crée, mais en utilisant uv, il se mettra par défaut dans votre environnement virtuel. Prenons un exemple.
+Comme moi, vous aviez peut-être l'habitude d'utiliser la commande `source .venv/bin/activate` pour activer votre environnement virtuel. Avec uv, c'est un peu différent. Votre `.venv` sera toujours créé, mais en utilisant uv, il se mettra par défaut dans votre environnement virtuel. Prenons un exemple.
 
-Là où à l'époque vous aurieuz dû faire ce genre de commandes pour lancer votre script.
+Là où à l'époque vous auriez dû faire ce genre de commandes pour lancer votre script.
 
 ```sh
 python -m venv .venv
@@ -162,7 +162,7 @@ uv add requests
 uv run main.py
 ```
 
-Lorsque vous ajoutez un nouveau paquet à votre projet (avec la commande `uv add`), uv se charge automatiquement de créer un environment virtuel s'il n'existe pas déjà.
+Lorsque vous ajoutez un nouveau paquet à votre projet (avec la commande `uv add`), uv se charge automatiquement de créer un environnement virtuel s'il n'existe pas déjà.
 
 Ensuite, en lançant votre script via `uv run`, uv se mettra automatiquement dans votre environnement virtuel.
 
@@ -170,7 +170,7 @@ Ensuite, en lançant votre script via `uv run`, uv se mettra automatiquement dan
 
 Vous utilisiez peut-être pyenv pour installer vos différentes versions de Python. Avec uv, tout cela est de l'histoire ancienne !
 
-Lorsque vous souhaitez lancer un projet avec une version de Python bien spécifique, vous avez plusieurs moyen de faire :
+Lorsque vous souhaitez lancer un projet avec une version de Python bien spécifique, vous avez plusieurs moyens de faire :
 * Utiliser le fichier `.python-version`
 * Créer un environnement virtuel : `uv venv --python 3.11.6`
 * Lancer une version de Python spécifique : `uvx python@3.12`
@@ -183,7 +183,7 @@ Bon, je crois que vous en savez assez pour commencer votre initiation. Allons-y 
 
 # Installation
 
-L'installation de uv est un jeu d'enfant. Vous avez plusieurs options, choisissez celle qui vous convient le mieux (n'hésitez pas à consulter la [documentation officielle sur son instalation](https://docs.astral.sh/uv/getting-started/installation/) si besoin) :
+L'installation de uv est un jeu d'enfant. Vous avez plusieurs options, choisissez celle qui vous convient le mieux (n'hésitez pas à consulter la [documentation officielle sur son installation](https://docs.astral.sh/uv/getting-started/installation/) si besoin) :
 
 ```sh
 # Sur macOS et Linux - je vous recommande d'utiliser cela si possible
@@ -227,7 +227,7 @@ Vous pouvez ensuite utiliser cette version pour exécuter un script :
 uv run --python 3.9 python mon_script.py
 ```
 
-> Comme je vous l'expliquait un peu plus haut, les versions de Python installées par uv ne sont pas disponibles "globalement" sur votre système via la simple commande `python`. Pour les utiliser, il faut passer par `uv run --python <version>`, ou les activer dans un environnement virtuel créé avec cette version spécifique. 
+> Comme je vous l'expliquais un peu plus haut, les versions de Python installées par uv ne sont pas disponibles "globalement" sur votre système via la simple commande `python`. Pour les utiliser, il faut passer par `uv run --python <version>`, ou les activer dans un environnement virtuel créé avec cette version spécifique. 
 
 # uvx pour exécuter des packages à la volée
 
@@ -346,7 +346,7 @@ Si vous clonez un projet qui est déjà géré par uv (il devrait donc y avoir u
 uv sync
 ```
 
-Cette commande magique va lire le fichier `uv.lock` et installer _exactement_ les mêmes versions de tous les paquets qui y sont listées. C'est pas beau tout ça ?
+Cette commande magique va lire le fichier `uv.lock` et installer _exactement_ les mêmes versions de tous les paquets qui y sont listés. N'est-ce pas beau tout ça ?
 
 # Build et publier votre projet
 
@@ -377,7 +377,7 @@ Et voilà ! Vous avez publié votre package en un clin d'oeil !
 
 # Nettoyer votre cache
 
-Avec le temps, uv (tout comme pip) accumule un cache de paquets téléchargés. Alors certes, cela permet rapidement d'installer vos dépendances sur plusieurs projets, mais à la longue, cela pourrait prendre pas mal de place sur votre ordinateur. Pour le nettoyer, il suffit simplement de lancer la commande suivante :
+Avec le temps, uv (tout comme pip) accumule un cache de paquets téléchargés. Alors certes, cela permet rapidement d'installer vos dépendances sur plusieurs projets, mais à la longue, cela pourrait prendre pas mal de place sur votre ordinateur. Pour le nettoyer, il suffit de lancer la commande suivante :
 
 ```sh
 uv cache clean
@@ -387,10 +387,10 @@ uv cache clean
 
 Vous l'aurez compris, uv n'est pas juste "encore un autre gestionnaire de paquets". **C'est une véritable bouffée d'air frais dans l'écosystème Python.**
 
-* **La Vitesse :** C'est le premier argument qui choque lorsqu'on l'utilise. Les installations, les résolutions, tout est incroyablement plus rapide que pip. Sur de gros projets, le gain de temps est phénoménal.
-* **L'Unification :** uv regroupe des fonctionnalités qui nécessitaient auparavant plusieurs outils (pip, venv, pip-tools, voire pyenv pour des besoins basiques). Avoir une seule interface cohérente simplifie grandement le workflow.
-* **La Compliance :** Les développeurs d'uv basent tous leurs choix sur les guidelines Python (ces fameux PEP). Vous pouvez donc être sûr que votre `pyproject.toml` respecte les standards modernes de packaging Python.
-* **La Fiabilité :** Le système de lockfile (`uv.lock`) assure des builds reproductibles, un point essentiel pour le travail en équipe et l'intégration continue.
+* **La vitesse :** C'est le premier argument qui frappe lorsqu'on l'utilise. Les installations, les résolutions, tout est incroyablement plus rapide que pip. Sur de gros projets, le gain de temps est phénoménal.
+* **L'unification :** uv regroupe des fonctionnalités qui nécessitaient auparavant plusieurs outils (pip, venv, pip-tools, voire pyenv pour des besoins basiques). Avoir une seule interface cohérente simplifie grandement le workflow.
+* **La conformité :** Les développeurs d'uv basent tous leurs choix sur les guidelines Python (ces fameux PEP). Vous pouvez donc être sûr que votre `pyproject.toml` respecte les standards modernes de packaging Python.
+* **La fiabilité :** Le système de lockfile (`uv.lock`) assure des builds reproductibles, un point essentiel pour le travail en équipe et l'intégration continue.
 
 Depuis que j'utilise uv, mes interactions avec la gestion des dépendances Python sont devenues plus rapides, plus simples et plus agréables. **C'est le genre d'outil qui, une fois adopté, vous fait vous demander comment vous faisiez avant.**
 

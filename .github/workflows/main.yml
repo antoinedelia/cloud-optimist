@@ -11,7 +11,6 @@ jobs:
   terraform:
     name: '[Terraform] Plan & Apply'
     runs-on: ubuntu-latest
-    environment: production
     defaults:
       run:
         shell: bash
@@ -57,7 +56,6 @@ jobs:
   hugo:
     name: '[Hugo] Build & Deploy'
     runs-on: ubuntu-latest
-    environment: production
     needs: terraform
     defaults:
       run:

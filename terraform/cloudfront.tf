@@ -27,11 +27,6 @@ resource "aws_cloudfront_response_headers_policy" "static_site_security" {
       referrer_policy = "strict-origin-when-cross-origin"
       override        = true
     }
-
-    permissions_policy {
-      permissions_policy = "geolocation=(), microphone=(), camera=()"
-      override           = true
-    }
   }
 }
 

@@ -25,7 +25,7 @@ resource "aws_cloudfront_response_headers_policy" "static_site_security" {
 
     referrer_policy {
       referrer_policy = "strict-origin-when-cross-origin"
-      override         = true
+      override        = true
     }
 
     permissions_policy {
@@ -70,11 +70,11 @@ resource "aws_cloudfront_distribution" "dist" {
       }
     }
 
-    viewer_protocol_policy     = "redirect-to-https"
-    compress                   = true
-    min_ttl                    = 0
-    default_ttl                = 3600
-    max_ttl                    = 86400
+    viewer_protocol_policy = "redirect-to-https"
+    compress               = true
+    min_ttl                = 0
+    default_ttl            = 3600
+    max_ttl                = 86400
 
     response_headers_policy_id = aws_cloudfront_response_headers_policy.static_site_security.id
   }

@@ -2,6 +2,97 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://antoinedelia.github.io/cloud-optimist/pr-64/fr/categories/</loc>
+    <lastmod>2025-05-26T07:30:00+02:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en-US"
+                href="https://antoinedelia.github.io/cloud-optimist/pr-64/en/categories/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="fr-FR"
+                href="https://antoinedelia.github.io/cloud-optimist/pr-64/fr/categories/"
+                />
+  </url><url>
+    <loc>https://antoinedelia.github.io/cloud-optimist/pr-64/fr/posts/</loc>
+    <lastmod>2025-05-26T07:30:00+02:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en-US"
+                href="https://antoinedelia.github.io/cloud-optimist/pr-64/en/posts/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="fr-FR"
+                href="https://antoinedelia.github.io/cloud-optimist/pr-64/fr/posts/"
+                />
+  </url><url>
+    <loc>https://antoinedelia.github.io/cloud-optimist/pr-64/fr/categories/python/</loc>
+    <lastmod>2025-05-26T07:30:00+02:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en-US"
+                href="https://antoinedelia.github.io/cloud-optimist/pr-64/en/categories/python/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="fr-FR"
+                href="https://antoinedelia.github.io/cloud-optimist/pr-64/fr/categories/python/"
+                />
+  </url><url>
+    <loc>https://antoinedelia.github.io/cloud-optimist/pr-64/fr/tags/python/</loc>
+    <lastmod>2025-05-26T07:30:00+02:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en-US"
+                href="https://antoinedelia.github.io/cloud-optimist/pr-64/en/tags/python/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="fr-FR"
+                href="https://antoinedelia.github.io/cloud-optimist/pr-64/fr/tags/python/"
+                />
+  </url><url>
+    <loc>https://antoinedelia.github.io/cloud-optimist/pr-64/fr/tags/</loc>
+    <lastmod>2025-05-26T07:30:00+02:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en-US"
+                href="https://antoinedelia.github.io/cloud-optimist/pr-64/en/tags/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="fr-FR"
+                href="https://antoinedelia.github.io/cloud-optimist/pr-64/fr/tags/"
+                />
+  </url><url>
+    <loc>https://antoinedelia.github.io/cloud-optimist/pr-64/fr/</loc>
+    <lastmod>2025-05-26T07:30:00+02:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en-US"
+                href="https://antoinedelia.github.io/cloud-optimist/pr-64/en/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="fr-FR"
+                href="https://antoinedelia.github.io/cloud-optimist/pr-64/fr/"
+                />
+  </url><url>
+    <loc>https://antoinedelia.github.io/cloud-optimist/pr-64/fr/posts/2025/uv-the-best-thing-that-happened-to-python-and-why-you-should-use-it/</loc>
+    <lastmod>2025-05-26T07:30:00+02:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en-US"
+                href="https://antoinedelia.github.io/cloud-optimist/pr-64/en/posts/2025/uv-the-best-thing-that-happened-to-python-and-why-you-should-use-it/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="fr-FR"
+                href="https://antoinedelia.github.io/cloud-optimist/pr-64/fr/posts/2025/uv-the-best-thing-that-happened-to-python-and-why-you-should-use-it/"
+                />
+  </url><url>
     <loc>https://antoinedelia.github.io/cloud-optimist/pr-64/fr/categories/aws/</loc>
     <lastmod>2025-05-24T07:30:00+02:00</lastmod>
     <xhtml:link
@@ -28,32 +119,6 @@
                 href="https://antoinedelia.github.io/cloud-optimist/pr-64/fr/tags/aws/"
                 />
   </url><url>
-    <loc>https://antoinedelia.github.io/cloud-optimist/pr-64/fr/categories/</loc>
-    <lastmod>2025-05-24T07:30:00+02:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="en-US"
-                href="https://antoinedelia.github.io/cloud-optimist/pr-64/en/categories/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="fr-FR"
-                href="https://antoinedelia.github.io/cloud-optimist/pr-64/fr/categories/"
-                />
-  </url><url>
-    <loc>https://antoinedelia.github.io/cloud-optimist/pr-64/fr/posts/</loc>
-    <lastmod>2025-05-24T07:30:00+02:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="en-US"
-                href="https://antoinedelia.github.io/cloud-optimist/pr-64/en/posts/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="fr-FR"
-                href="https://antoinedelia.github.io/cloud-optimist/pr-64/fr/posts/"
-                />
-  </url><url>
     <loc>https://antoinedelia.github.io/cloud-optimist/pr-64/fr/posts/2025/why-tagging-your-aws-resources-is-a-must/</loc>
     <lastmod>2025-05-24T07:30:00+02:00</lastmod>
     <xhtml:link
@@ -65,32 +130,6 @@
                 rel="alternate"
                 hreflang="fr-FR"
                 href="https://antoinedelia.github.io/cloud-optimist/pr-64/fr/posts/2025/why-tagging-your-aws-resources-is-a-must/"
-                />
-  </url><url>
-    <loc>https://antoinedelia.github.io/cloud-optimist/pr-64/fr/tags/</loc>
-    <lastmod>2025-05-24T07:30:00+02:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="en-US"
-                href="https://antoinedelia.github.io/cloud-optimist/pr-64/en/tags/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="fr-FR"
-                href="https://antoinedelia.github.io/cloud-optimist/pr-64/fr/tags/"
-                />
-  </url><url>
-    <loc>https://antoinedelia.github.io/cloud-optimist/pr-64/fr/</loc>
-    <lastmod>2025-05-24T07:30:00+02:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="en-US"
-                href="https://antoinedelia.github.io/cloud-optimist/pr-64/en/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="fr-FR"
-                href="https://antoinedelia.github.io/cloud-optimist/pr-64/fr/"
                 />
   </url><url>
     <loc>https://antoinedelia.github.io/cloud-optimist/pr-64/fr/posts/2025/aws-lambdas-init-phase-to-be-billed-soon-should-we-be-alarmed/</loc>
@@ -260,32 +299,6 @@
                 rel="alternate"
                 hreflang="fr-FR"
                 href="https://antoinedelia.github.io/cloud-optimist/pr-64/fr/tags/jenkins/"
-                />
-  </url><url>
-    <loc>https://antoinedelia.github.io/cloud-optimist/pr-64/fr/categories/python/</loc>
-    <lastmod>2025-01-19T16:45:00+02:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="en-US"
-                href="https://antoinedelia.github.io/cloud-optimist/pr-64/en/categories/python/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="fr-FR"
-                href="https://antoinedelia.github.io/cloud-optimist/pr-64/fr/categories/python/"
-                />
-  </url><url>
-    <loc>https://antoinedelia.github.io/cloud-optimist/pr-64/fr/tags/python/</loc>
-    <lastmod>2025-01-19T16:45:00+02:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="en-US"
-                href="https://antoinedelia.github.io/cloud-optimist/pr-64/en/tags/python/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="fr-FR"
-                href="https://antoinedelia.github.io/cloud-optimist/pr-64/fr/tags/python/"
                 />
   </url><url>
     <loc>https://antoinedelia.github.io/cloud-optimist/pr-64/fr/categories/api/</loc>

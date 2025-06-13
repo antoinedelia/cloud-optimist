@@ -6,7 +6,15 @@
         <description>Recent content in Categories on The Cloud Optimist</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>en-US</language>
-        <lastBuildDate>Sat, 24 May 2025 07:30:00 +0200</lastBuildDate><atom:link href="https://antoinedelia.github.io/cloud-optimist/pr-64/en/categories/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Mon, 26 May 2025 07:30:00 +0200</lastBuildDate><atom:link href="https://antoinedelia.github.io/cloud-optimist/pr-64/en/categories/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Python</title>
+        <link>https://antoinedelia.github.io/cloud-optimist/pr-64/en/categories/python/</link>
+        <pubDate>Mon, 26 May 2025 07:30:00 +0200</pubDate>
+        
+        <guid>https://antoinedelia.github.io/cloud-optimist/pr-64/en/categories/python/</guid>
+        <description></description>
+        </item>
+        <item>
         <title>AWS</title>
         <link>https://antoinedelia.github.io/cloud-optimist/pr-64/en/categories/aws/</link>
         <pubDate>Sat, 24 May 2025 07:30:00 +0200</pubDate>
@@ -52,14 +60,6 @@
         <pubDate>Sun, 19 Jan 2025 16:45:00 +0200</pubDate>
         
         <guid>https://antoinedelia.github.io/cloud-optimist/pr-64/en/categories/jenkins/</guid>
-        <description></description>
-        </item>
-        <item>
-        <title>Python</title>
-        <link>https://antoinedelia.github.io/cloud-optimist/pr-64/en/categories/python/</link>
-        <pubDate>Sun, 19 Jan 2025 16:45:00 +0200</pubDate>
-        
-        <guid>https://antoinedelia.github.io/cloud-optimist/pr-64/en/categories/python/</guid>
         <description></description>
         </item>
         <item>

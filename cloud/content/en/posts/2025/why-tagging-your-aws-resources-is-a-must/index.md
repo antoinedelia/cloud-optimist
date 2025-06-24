@@ -80,7 +80,7 @@ It's an excellent tool for:
 
 To use it, activate it in the desired regions (or all of them), let it index your resources, and then use the search bar with a syntax like `tag.key:Project tag.value:Cloud*`.
 
-![Searching resources by tag](/img/why-tagging-your-aws-resources-is-a-must/resource_explorer_search_tags)
+![Searching resources by tag](/img/why-tagging-your-aws-resources-is-a-must/resource_explorer_search_tags.png)
 
 _Example of a tag search for my blog: only three resources manage this blog!_
 

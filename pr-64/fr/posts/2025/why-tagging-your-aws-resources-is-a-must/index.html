@@ -439,20 +439,20 @@
     
     <h1 id="introduction"><a href="#introduction" class="header-anchor"></a>Introduction
 </h1><p>Plus on déploie de services sur AWS, plus on commence à s&rsquo;y perdre. Au début, on connaît par coeur tous les services qu&rsquo;on utilise, le nombre de Lambdas ou d&rsquo;EC2 qui sont lancées. Mais petit à petit, il est facile de ne plus savoir où donner de la tête, surtout lorsque différents projets s&rsquo;accumulent. Retrouver rapidement quelles ressources appartiennent à quel projet, ou identifier celles qui n&rsquo;ont pas été correctement nettoyées après un PoC, tout cela peut vite devenir un casse-tête. Et c&rsquo;est sans parler de la vision des coûts !</p>
-<p>Heureusement, il existe une pratique simple mais incroyablement puissante : le tagging.</p>
-<p>Dans cet article, j&rsquo;aimerais vous montrer qu&rsquo;une bonne stratégie de tags est cruciale pour votre organisation, votre gestion des coûts, et pour la sécurité de votre compte AWS.</p>
+<p>Heureusement, il existe une pratique simple mais incroyablement puissante : <strong>le tagging</strong>.</p>
+<p>Dans cet article, j&rsquo;aimerais vous montrer qu&rsquo;une bonne stratégie de tags est <strong>cruciale pour votre organisation, votre gestion des coûts, et pour la sécurité</strong> de votre compte AWS.</p>
 <p>À vos marques. Prêts ? Taguez !</p>
 <h1 id="pourquoi-les-tags-sont-ils-utiles-"><a href="#pourquoi-les-tags-sont-ils-utiles-" class="header-anchor"></a>Pourquoi les tags sont-ils utiles ?
-</h1><p>Imaginez des étiquettes sur des boîtes de déménagement. Sans elles, impossible de savoir ce qu&rsquo;il y a dedans ou à quelle pièce elles appartiennent. Les tags sur AWS, c&rsquo;est pareil ! Un tag est une information (sous la forme clé-valeur) que vous assignez à vos ressources (instances EC2, buckets S3, bases de données RDS, etc.).</p>
+</h1><p>Imaginez des étiquettes sur des boîtes de déménagement. Sans elles, impossible de savoir ce qu&rsquo;il y a dedans ou à quelle pièce elles appartiennent. Les tags sur AWS, c&rsquo;est pareil ! Un tag est une <strong>information</strong> (sous la forme clé-valeur) que vous assignez à vos ressources (instances EC2, buckets S3, bases de données RDS, etc.).</p>
 <p>Une bonne stratégie de tagging vous permet notamment de :</p>
 <ol>
-<li>Identifier des ressources orphelines : C&rsquo;est le grand classique. Une ressource sans tag <code>Project</code> ou <code>Owner</code> ? Il y a de fortes chances qu&rsquo;elle ait été oubliée et qu&rsquo;elle consomme des ressources (et donc de l&rsquo;argent) pour rien. Lister les ressources non taguées (ou mal taguées) est une première étape essentielle pour faire le ménage.</li>
-<li>Ventiler les coûts : En taguant vos ressources avec un identifiant de projet, de centre de coût, ou d&rsquo;équipe, vous pouvez ensuite utiliser AWS Cost Explorer pour filtrer vos dépenses et comprendre précisément quels projets consomment le plus. Indispensable pour la refacturation interne ou simplement pour optimiser votre budget.</li>
-<li>Automatiser des actions : Les tags peuvent servir de déclencheurs pour des scripts d&rsquo;automatisation (par exemple, sauvegarder toutes les instances EC2 avec le tag <code>Backup=Daily</code>).</li>
-<li>Gérer les accès et la sécurité : Le service <a class="link" href="https://aws.amazon.com/iam"  target="_blank" rel="noopener"
+<li><strong>Identifier des ressources orphelines</strong> : C&rsquo;est le grand classique. Une ressource sans tag <code>Project</code> ou <code>Owner</code> ? Il y a de fortes chances qu&rsquo;elle ait été oubliée et qu&rsquo;elle consomme des ressources (et donc de l&rsquo;argent) pour rien. Lister les ressources non taguées (ou mal taguées) est une première étape essentielle pour faire le ménage.</li>
+<li><strong>Ventiler les coûts</strong> : En taguant vos ressources avec un identifiant de projet, de centre de coût, ou d&rsquo;équipe, vous pouvez ensuite utiliser AWS Cost Explorer pour filtrer vos dépenses et comprendre précisément quels projets consomment le plus. Indispensable pour la refacturation interne ou simplement pour optimiser votre budget.</li>
+<li><strong>Automatiser des actions</strong> : Les tags peuvent servir de déclencheurs pour des scripts d&rsquo;automatisation (par exemple, sauvegarder toutes les instances EC2 avec le tag <code>Backup=Daily</code>).</li>
+<li><strong>Gérer les accès et la sécurité</strong> : Le service <a class="link" href="https://aws.amazon.com/iam"  target="_blank" rel="noopener"
     >AWS IAM</a> peut utiliser les tags pour accorder des permissions granulaires.</li>
 </ol>
-<p>Bref, taguer, c&rsquo;est la base d&rsquo;une bonne gouvernance Cloud. Pour plus de détails, je vous invite à consulter le <a class="link" href="https://aws.amazon.com/solutions/guidance/tagging-on-aws/"  target="_blank" rel="noopener"
+<p>Bref, taguer, c&rsquo;est la base d&rsquo;une <strong>bonne gouvernance Cloud</strong>. Pour plus de détails, je vous invite à consulter le <a class="link" href="https://aws.amazon.com/solutions/guidance/tagging-on-aws/"  target="_blank" rel="noopener"
     >guide de tagging proposé par AWS</a>.</p>
 <hr>
 <p>On peut fort heureusement associer plusieurs tags à une même ressource. Mais cela pose la question : combien de tags sont nécessaires ?</p>
@@ -466,14 +466,14 @@
     >best practices de tagging recommandées par AWS</a>.</p>
 <p>Voyons maintenant quelques cas concrets de l&rsquo;utilité des tags dans AWS.</p>
 <h2 id="aws-cost-explorer--suivre-les-coûts-grâce-aux-tags"><a href="#aws-cost-explorer--suivre-les-co%c3%bbts-gr%c3%a2ce-aux-tags" class="header-anchor"></a>AWS Cost Explorer : Suivre les coûts grâce aux tags
-</h2><p>L&rsquo;un des avantages les plus concrets du tagging est la visibilité qu&rsquo;il apporte sur vos dépenses. <a class="link" href="https://aws.amazon.com/aws-cost-management/aws-cost-explorer/"  target="_blank" rel="noopener"
+</h2><p>L&rsquo;un des avantages les plus concrets du tagging est la <strong>visibilité qu&rsquo;il apporte sur vos dépenses</strong>. <a class="link" href="https://aws.amazon.com/aws-cost-management/aws-cost-explorer/"  target="_blank" rel="noopener"
     >AWS Cost Explorer</a> est l&rsquo;outil de prédilection pour cela.</p>
 <p>Une fois vos ressources correctement taguées (par exemple, avec le tag <code>Project</code>), vous devez activer ces tags pour l&rsquo;allocation des coûts dans la console de gestion de la facturation AWS (Billing and Cost Management -&gt; Cost Organization -&gt; Cost Allocation Tags). Attention, il peut y avoir un délai avant que les tags activés n&rsquo;apparaissent dans Cost Explorer.</p>
 <p>Une fois activés, vous pouvez :</p>
 <ul>
-<li>Filtrer par tag : Dans Cost Explorer, vous pouvez filtrer vos coûts par la valeur d&rsquo;un tag spécifique.</li>
-<li>Grouper par tag : Vous pouvez également choisir de grouper vos dépenses par tag. Cela vous donnera une vue d&rsquo;ensemble de la répartition des coûts entre les différents projets, environnements, etc.</li>
-<li>Créer des budgets basés sur les tags : Avec AWS Budgets, vous pouvez définir des seuils d&rsquo;alerte pour les coûts associés à des tags spécifiques, vous aidant à éviter les mauvaises surprises.</li>
+<li><strong>Filtrer par tag</strong> : Dans Cost Explorer, vous pouvez filtrer vos coûts par la valeur d&rsquo;un tag spécifique.</li>
+<li><strong>Grouper par tag</strong> : Vous pouvez également choisir de grouper vos dépenses par tag. Cela vous donnera une vue d&rsquo;ensemble de la répartition des coûts entre les différents projets, environnements, etc.</li>
+<li><strong>Créer des budgets basés sur les tags</strong> : Avec AWS Budgets, vous pouvez définir des seuils d&rsquo;alerte pour les coûts associés à des tags spécifiques, vous aidant à éviter les mauvaises surprises.</li>
 </ul>
 <p><img src="/img/why-tagging-your-aws-resources-is-a-must/cost_explorer_tag_filtering.png"
 	
@@ -488,7 +488,7 @@
 <p><em>Exemple de filtrage par tag pour mon blog : les coûts sont minimes, suis-je un expert FinOps ?</em></p>
 <p>Cette capacité à disséquer votre facture AWS par tags transforme la gestion des coûts d&rsquo;une corvée obscure en un exercice transparent et contrôlable. C&rsquo;est un must pour toute organisation soucieuse de son budget Cloud. Vous pourrez désormais rajouter <em>FinOps</em> dans votre bio LinkedIn !</p>
 <h2 id="aws-resource-explorer--garder-un-œil-sur-les-ressources-déployées"><a href="#aws-resource-explorer--garder-un-%c5%93il-sur-les-ressources-d%c3%a9ploy%c3%a9es" class="header-anchor"></a>AWS Resource Explorer : Garder un œil sur les ressources déployées
-</h2><p>Maintenant que l&rsquo;on est convaincu de l&rsquo;utilité des tags, comment fait-on pour lister toutes les ressources qui utilisent un tag précis ? Nous allons le voir ensemble avec une partie dans la console AWS, et une partie qui se passera dans le terminal (pour tous les geeks qui lisent cet article !).</p>
+</h2><p>Maintenant que l&rsquo;on est convaincu de l&rsquo;utilité des tags, comment fait-on pour <strong>lister toutes les ressources qui utilisent un tag précis ?</strong> Nous allons le voir ensemble avec une partie dans la console AWS, et une partie qui se passera dans le terminal (pour tous les geeks qui lisent cet article !).</p>
 <h3 id="lexploration-visuelle-dans-la-console-aws"><a href="#lexploration-visuelle-dans-la-console-aws" class="header-anchor"></a>L&rsquo;exploration visuelle dans la console AWS
 </h3><p>Si vous n&rsquo;êtes pas encore familier avec <a class="link" href="https://aws.amazon.com/resourceexplorer/"  target="_blank" rel="noopener"
     >AWS Resource Explorer</a>, c&rsquo;est le moment de le découvrir ! Ce service, relativement récent, vous permet de rechercher et de découvrir vos ressources AWS à travers toutes les régions de votre compte, en utilisant une interface simple, un peu comme un moteur de recherche.</p>
@@ -551,7 +551,7 @@
 </ul>
 <blockquote>
 <p>Eh attends une minute ! Dans la console, tu nous montres trois ressources, et là il n&rsquo;y en a plus qu&rsquo;une ! Elle est où l&rsquo;arnaque ?</p></blockquote>
-<p>Habilement remarqué ! Il faut savoir que lorsque vous faites votre appel à l&rsquo;API, vous utilisez une region par défaut. Or, si vous avez des ressources dans diverses régions, il faudra le spécifier. Ainsi, si l&rsquo;on ajoute <code>--region us-east-1</code> juste avant le pipe jq, on obtient bien nos deux ressources manquantes.</p>
+<p>Habilement remarqué ! Il faut savoir que lorsque vous faites votre appel à l&rsquo;API, vous utilisez une <strong>region par défaut</strong>. Or, si vous avez des ressources dans diverses régions, il faudra le spécifier. Ainsi, si l&rsquo;on ajoute <code>--region us-east-1</code> juste avant le pipe jq, on obtient bien nos deux ressources manquantes.</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -578,7 +578,7 @@
 <h2 id="aws-iam--sécuriser-lutilisation-de-vos-ressources"><a href="#aws-iam--s%c3%a9curiser-lutilisation-de-vos-ressources" class="header-anchor"></a>AWS IAM : Sécuriser l&rsquo;utilisation de vos ressources
 </h2><p>Vos ressources sont déployées dans AWS, et vous souhaitez maintenant donner à une équipe la permission de gérer tout cela.</p>
 <p>Seulement voilà, dans votre compte AWS, vous avez aussi des ressources critiques qui ne doivent surtout pas être compromises.</p>
-<p>AWS IAM est là pour vous ! À l&rsquo;aide d&rsquo;une simple policy, vous pouvez spécifier que seules les ressources comportant un certain tag peuvent être modifiées par un utilisateur ou un groupe.</p>
+<p>AWS IAM est là pour vous ! À l&rsquo;aide d&rsquo;une simple policy, vous pouvez spécifier que <strong>seules les ressources comportant un certain tag peuvent être modifiées</strong> par un utilisateur ou un groupe.</p>
 <p>Prenons par exemple le cas suivant : vous aimeriez la possibilité à une équipe de démarrer ou stopper certaines instances EC2, mais de les empêcher d&rsquo;accidentellement stopper une instance EC2 critique !</p>
 <p>Il vous suffit d&rsquo;ajouter la policy suivante à vos utilisateurs :</p>
 <div class="highlight"><div class="chroma">
@@ -639,8 +639,8 @@
 </div>
 </div><p>Ainsi, vos utilisateurs seront autonomes dans l&rsquo;utilisation de leurs ressources, sans pour autant avoir la possibilité d&rsquo;impacter d&rsquo;autres ressources.</p>
 <h1 id="conclusion"><a href="#conclusion" class="header-anchor"></a>Conclusion
-</h1><p>Vous l&rsquo;aurez compris, une stratégie de tagging rigoureuse n&rsquo;est pas une option, c&rsquo;est une nécessité pour opérer sereinement sur AWS. Que ce soit sur le plan organisationnel, financier, ou encore dans la gestion de la sécurité, AWS vous donne les moyens de tirer pleinement parti de vos tags.</p>
-<p>Alors, un petit conseil : si ce n&rsquo;est pas déjà fait, définissez une politique de tagging claire dans votre organisation, appliquez-la, et utilisez ces outils pour vérifier régulièrement que tout est en ordre. Vous m&rsquo;en remercierez plus tard !</p>
+</h1><p>Vous l&rsquo;aurez compris, une stratégie de tagging rigoureuse <strong>n&rsquo;est pas une option, c&rsquo;est une nécessité</strong> pour opérer sereinement sur AWS. Que ce soit sur le plan organisationnel, financier, ou encore dans la gestion de la sécurité, AWS vous donne les moyens de tirer pleinement parti de vos tags.</p>
+<p>Alors, un petit conseil : si ce n&rsquo;est pas déjà fait, <strong>définissez une politique de tagging claire</strong> dans votre organisation, appliquez-la, et utilisez ces outils pour vérifier régulièrement que tout est en ordre. Vous m&rsquo;en remercierez plus tard !</p>
 
 </section>
 

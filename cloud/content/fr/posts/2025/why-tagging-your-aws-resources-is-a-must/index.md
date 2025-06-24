@@ -1,8 +1,8 @@
 ---
 title: "Pourquoi taguer vos ressources AWS est indispensable ?"
-date: 2025-05-24T07:30:00+02:00
+date: 2025-06-24T07:30:00+02:00
 author: Antoine Delia
-draft: true
+draft: false
 tags:
     - AWS
 categories: [ AWS ]

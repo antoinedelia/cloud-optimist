@@ -9,11 +9,6 @@ resource "aws_cloudfront_response_headers_policy" "static_site_security" {
       override                   = true
     }
 
-    content_security_policy {
-      content_security_policy = "default-src 'self'; script-src 'self'; style-src 'self'; object-src 'none'"
-      override                = true
-    }
-
     frame_options {
       frame_option = "DENY"
       override     = true

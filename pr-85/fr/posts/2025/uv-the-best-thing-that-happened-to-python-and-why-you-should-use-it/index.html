@@ -1,0 +1,1291 @@
+<!DOCTYPE html>
+<html lang="fr-FR" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="Introduction Python est sûrement mon langage de programmation préféré. Sa simplicité permet en un rien de temps de développer des scripts, des backends, voire même des sites internet, sans pour autant se faire des nœuds au cerveau.\nMais il y a toujours eu une chose qui me déplaisait chez Python : ses outils de packaging. Pendant longtemps, je me suis tenu à l&rsquo;écart de tous ces outils comme Poetry, car bien franchement, je n&rsquo;y comprenais rien !\n">
+<title>uv : La meilleure chose qui soit arrivée à Python - et pourquoi vous devriez l&#39;utiliser</title>
+
+<link rel='canonical' href='https://antoinedelia.github.io/cloud-optimist/pr-85/fr/posts/2025/uv-the-best-thing-that-happened-to-python-and-why-you-should-use-it/'>
+
+<link rel="stylesheet" href="/cloud-optimist/pr-85/scss/style.min.946cca6c6259ef94ac55abfae7c7bf3291ea3ed5eea17ef77500b257217c6710.css"><meta property='og:title' content="uv : La meilleure chose qui soit arrivée à Python - et pourquoi vous devriez l'utiliser">
+<meta property='og:description' content="Introduction Python est sûrement mon langage de programmation préféré. Sa simplicité permet en un rien de temps de développer des scripts, des backends, voire même des sites internet, sans pour autant se faire des nœuds au cerveau.\nMais il y a toujours eu une chose qui me déplaisait chez Python : ses outils de packaging. Pendant longtemps, je me suis tenu à l&rsquo;écart de tous ces outils comme Poetry, car bien franchement, je n&rsquo;y comprenais rien !\n">
+<meta property='og:url' content='https://antoinedelia.github.io/cloud-optimist/pr-85/fr/posts/2025/uv-the-best-thing-that-happened-to-python-and-why-you-should-use-it/'>
+<meta property='og:site_name' content='The Cloud Optimist'>
+<meta property='og:type' content='article'><meta property='article:section' content='Posts' /><meta property='article:tag' content='Python' /><meta property='article:published_time' content='2025-05-26T07:30:00&#43;02:00'/><meta property='article:modified_time' content='2025-05-26T07:30:00&#43;02:00'/><meta property='og:image' content='https://antoinedelia.github.io/cloud-optimist/pr-85/fr/posts/2025/uv-the-best-thing-that-happened-to-python-and-why-you-should-use-it/uv.jpg' />
+<meta name="twitter:title" content="uv : La meilleure chose qui soit arrivée à Python - et pourquoi vous devriez l'utiliser">
+<meta name="twitter:description" content="Introduction Python est sûrement mon langage de programmation préféré. Sa simplicité permet en un rien de temps de développer des scripts, des backends, voire même des sites internet, sans pour autant se faire des nœuds au cerveau.\nMais il y a toujours eu une chose qui me déplaisait chez Python : ses outils de packaging. Pendant longtemps, je me suis tenu à l&rsquo;écart de tous ces outils comme Poetry, car bien franchement, je n&rsquo;y comprenais rien !\n"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://antoinedelia.github.io/cloud-optimist/pr-85/fr/posts/2025/uv-the-best-thing-that-happened-to-python-and-why-you-should-use-it/uv.jpg' />
+    <link rel="shortcut icon" href="/favicon.ico" />
+
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-NPENVXWP54"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-NPENVXWP54');
+        }
+      </script>
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Afficher le menu">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/cloud-optimist/pr-85/fr/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/cloud-optimist/pr-85/img/avatar_hu_bf2a480adb63282c.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">☁️</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/cloud-optimist/pr-85/fr">The Cloud Optimist</a></h1>
+            <h2 class="site-description">Un blog autour des sujets Cloud &amp; DevOps.</h2>
+        </div>
+    </header><ol class="menu-social">
+            
+                <li>
+                    <a 
+                        href='https://github.com/antoinedelia/'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://linkedin.com/in/antoinedelia'
+                        target="_blank"
+                        title="LinkedIn"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-brand-linkedin"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M8 11v5" /><path d="M8 8v.01" /><path d="M12 16v-5" /><path d="M16 16v-3a2 2 0 1 0 -4 0" /><path d="M3 7a4 4 0 0 1 4 -4h10a4 4 0 0 1 4 4v10a4 4 0 0 1 -4 4h-10a4 4 0 0 1 -4 -4z" /></svg>
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://stackoverflow.com/users/4141606/antoine-delia?tab=profile'
+                        target="_blank"
+                        title="Stack Overflow"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-brand-stackoverflow"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 17v1a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-1" /><path d="M8 16h8" /><path d="M8.322 12.582l7.956 .836" /><path d="M8.787 9.168l7.826 1.664" /><path d="M10.096 5.764l7.608 2.472" /></svg>
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/cloud-optimist/pr-85/fr' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>Accueil</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/cloud-optimist/pr-85/fr/about/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>À Propos</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/cloud-optimist/pr-85/fr/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>Archives</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/cloud-optimist/pr-85/fr/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>Recherche</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/cloud-optimist/pr-85/fr/liens/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>Liens</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+                    
+                        <li id="i18n-switch">  
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                            <select name="language" title="language" onchange="window.location.href = this.selectedOptions[0].value">
+                                
+                                    <option value="https://antoinedelia.github.io/cloud-optimist/pr-85/fr/" selected>French</option>
+                                
+                                    <option value="https://antoinedelia.github.io/cloud-optimist/pr-85/en/" >English</option>
+                                
+                            </select>
+                        </li>
+                    
+                
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>Mode sombre</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">Table des matières</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#introduction">Introduction</a></li>
+    <li><a href="#uv-cest-quoi-au-juste-">uv, c&rsquo;est quoi au juste ?</a>
+      <ol>
+        <li><a href="#préambule">Préambule</a>
+          <ol>
+            <li><a href="#gestion-des-dépendances">Gestion des dépendances</a></li>
+            <li><a href="#environnement-virtuel">Environnement virtuel</a></li>
+            <li><a href="#installation-de-python">Installation de Python</a></li>
+          </ol>
+        </li>
+      </ol>
+    </li>
+    <li><a href="#installation">Installation</a></li>
+    <li><a href="#gérer-les-versions-de-python-avec-uv">Gérer les versions de Python avec uv</a></li>
+    <li><a href="#uvx-pour-exécuter-des-packages-à-la-volée">uvx pour exécuter des packages à la volée</a></li>
+    <li><a href="#la-gestion-des-projets-avec-uv">La gestion des projets avec uv</a>
+      <ol>
+        <li><a href="#démarrer-un-nouveau-projet">Démarrer un nouveau projet</a></li>
+        <li><a href="#migrer-un-projet-existant-vers-uv">Migrer un projet existant vers uv</a></li>
+        <li><a href="#rejoindre-un-projet-qui-utilise-déjà-uv">Rejoindre un projet qui utilise déjà uv</a></li>
+      </ol>
+    </li>
+    <li><a href="#build-et-publier-votre-projet">Build et publier votre projet</a></li>
+    <li><a href="#nettoyer-votre-cache">Nettoyer votre cache</a></li>
+    <li><a href="#conclusion">Conclusion</a></li>
+    <li><a href="#références">Références</a></li>
+    <li><a href="#bonus--uv-cheatsheet">Bonus : uv cheatsheet</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/cloud-optimist/pr-85/fr/posts/2025/uv-the-best-thing-that-happened-to-python-and-why-you-should-use-it/">
+                <img src="/cloud-optimist/pr-85/fr/posts/2025/uv-the-best-thing-that-happened-to-python-and-why-you-should-use-it/uv_hu_201eb92a363f712.jpg"
+                        srcset="/cloud-optimist/pr-85/fr/posts/2025/uv-the-best-thing-that-happened-to-python-and-why-you-should-use-it/uv_hu_201eb92a363f712.jpg 800w, /cloud-optimist/pr-85/fr/posts/2025/uv-the-best-thing-that-happened-to-python-and-why-you-should-use-it/uv_hu_3d37f37e371fd0e2.jpg 1600w"
+                        width="800" 
+                        height="575" 
+                        loading="lazy"
+                        alt="Featured image of post uv : La meilleure chose qui soit arrivée à Python - et pourquoi vous devriez l&#39;utiliser" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/cloud-optimist/pr-85/fr/categories/python/" >
+                Python
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/cloud-optimist/pr-85/fr/posts/2025/uv-the-best-thing-that-happened-to-python-and-why-you-should-use-it/">uv : La meilleure chose qui soit arrivée à Python - et pourquoi vous devriez l&#39;utiliser</a>
+        </h2>
+    
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">26 mai 2025</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    13 minutes de lecture
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+        <footer class="article-translations">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+            <div>
+                
+                    <a href="https://antoinedelia.github.io/cloud-optimist/pr-85/en/posts/2025/uv-the-best-thing-that-happened-to-python-and-why-you-should-use-it/" class="link">English</a>
+                
+            </div>
+        </footer>
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <h1 id="introduction"><a href="#introduction" class="header-anchor"></a>Introduction
+</h1><p>Python est sûrement mon langage de programmation préféré. Sa simplicité permet en un rien de temps de développer des scripts, des backends, voire même des sites internet, sans pour autant se faire des nœuds au cerveau.</p>
+<p>Mais il y a toujours eu une chose qui me déplaisait chez Python : ses outils de packaging. Pendant longtemps, je me suis tenu à l&rsquo;écart de tous ces outils comme Poetry, car bien franchement, je n&rsquo;y comprenais rien !</p>
+<p>Et puis, j&rsquo;ai fait une découverte qui, non seulement m&rsquo;a montré que packager son code Python est une tâche toute simple, mais qui en plus a complètement changé toutes mes habitudes.</p>
+<p>Je veux parler de <a class="link" href="https://docs.astral.sh/uv"  target="_blank" rel="noopener"
+    ><strong>uv</strong></a>.</p>
+<p>Créé par la même équipe talentueuse de chez Astral (qui nous avait déjà régalé avec leur outil <a class="link" href="https://astral.sh/ruff"  target="_blank" rel="noopener"
+    >ruff</a>), uv est présenté comme un installateur et résolveur de paquets Python &ldquo;extrêmement rapide&rdquo;. Cet outil est ce qu&rsquo;on pourrait appeler un <strong>game-changer</strong> : une fois que vous y avez goûté, impossible de revenir en arrière !</p>
+<p>Alors, qu&rsquo;est-ce que <strong>uv</strong> a de si spécial ? Pourquoi cet engouement ? C&rsquo;est ce que nous allons décortiquer ensemble. Accrochez-vous, vous pourriez bien avoir un nouveau coup de foudre !</p>
+<blockquote>
+<p>Ce guide se base sur mon expérience avec uv et les exemples ont été testés avec la version 0.7.3. Selon votre configuration, notamment derrière certains proxys d&rsquo;entreprise, vous pourriez avoir besoin d&rsquo;ajouter l&rsquo;option <code>--native-tls</code> à certaines commandes uv si vous rencontrez des soucis de connexion SSL.)</p></blockquote>
+<h1 id="uv-cest-quoi-au-juste-"><a href="#uv-cest-quoi-au-juste-" class="header-anchor"></a>uv, c&rsquo;est quoi au juste ?
+</h1><p>En quelques mots, uv est un outil en ligne de commande qui ambitionne de remplacer pip, pip-tools, venv, pyenv, et même une partie de virtualenv et pipx, tout en étant beaucoup, <em>beaucoup</em> plus rapide. Oui, rien que ça !</p>
+<p>Comme nombre de nouveaux outils à la mode, il est écrit en Rust. Pardon, je devrais dire, il est écrit en ✨ <em>Rust</em> ✨. Ce qui explique en grande partie ses performances fulgurantes.</p>
+<h2 id="préambule"><a href="#pr%c3%a9ambule" class="header-anchor"></a>Préambule
+</h2><p>Avant de nous lancer tête la première dans uv et son fonctionnement, j&rsquo;aimerais en premier lieu vous indiquer la façon dont uv gère les dépendances, les environnements virtuels, et l&rsquo;installation des versions de Python. Cela m&rsquo;a plutôt dérouté la première fois que j&rsquo;y ai été confronté, et je pense donc qu&rsquo;il est important de le mentionner avant toute chose.</p>
+<h3 id="gestion-des-dépendances"><a href="#gestion-des-d%c3%a9pendances" class="header-anchor"></a>Gestion des dépendances
+</h3><p>uv base toute sa configuration sur votre fichier <code>pyproject.toml</code>. Si vous aviez l&rsquo;habitude d&rsquo;utiliser un <code>requirements.txt</code> par exemple, sachez que uv l&rsquo;ignorera complètement.</p>
+<p>Comme je suis sympa, je vous mets ici un gist d&rsquo;un template de <code>pyproject.toml</code> que j&rsquo;utilise à chaque fois pour démarrer un nouveau projet Python.</p>
+<details>
+    <summary>pyproject.toml</summary>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span><span class="lnt">74
+</span><span class="lnt">75
+</span><span class="lnt">76
+</span><span class="lnt">77
+</span><span class="lnt">78
+</span><span class="lnt">79
+</span><span class="lnt">80
+</span><span class="lnt">81
+</span><span class="lnt">82
+</span><span class="lnt">83
+</span><span class="lnt">84
+</span><span class="lnt">85
+</span><span class="lnt">86
+</span><span class="lnt">87
+</span><span class="lnt">88
+</span><span class="lnt">89
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="p">[</span><span class="nx">project</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">name</span> <span class="p">=</span> <span class="s2">&#34;project-name&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">version</span> <span class="p">=</span> <span class="s2">&#34;0.1.0&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">description</span> <span class="p">=</span> <span class="s2">&#34;Project description&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">readme</span> <span class="p">=</span> <span class="s2">&#34;README.md&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">requires-python</span> <span class="p">=</span> <span class="s2">&#34;&gt;=3.12&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">[[</span><span class="nx">tool</span><span class="p">.</span><span class="nx">uv</span><span class="p">.</span><span class="nx">index</span><span class="p">]]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">name</span> <span class="p">=</span> <span class="s2">&#34;votre-index&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">url</span> <span class="p">=</span> <span class="s2">&#34;https://mon-artifactory.corp/api/pypi/mon-repo-virtual&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">publish-url</span> <span class="p">=</span> <span class="s2">&#34;https://mon-artifactory.corp/api/pypi/mon-repo-local&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">default</span> <span class="p">=</span> <span class="kc">true</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">[</span><span class="nx">tool</span><span class="p">.</span><span class="nx">ruff</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="c"># Exclude common directories that are typically not part of the source code or are generated by tools.</span>
+</span></span><span class="line"><span class="cl"><span class="nx">exclude</span> <span class="p">=</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;.bzr&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;.cache&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;.direnv&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;.eggs&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;.git&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;.git-rewrite&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;.hg&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;.mypy_cache&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;.nox&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;.pants.d&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;.pytype&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;.ruff_cache&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;.svn&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;.tox&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;.venv&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;__pypackages__&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;_build&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;buck-out&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;build&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;dist&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;node_modules&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;venv&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="p">]</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="c"># Set the maximum line length to 127 characters.</span>
+</span></span><span class="line"><span class="cl"><span class="nx">line-length</span> <span class="p">=</span> <span class="mi">127</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="c"># Define the number of spaces used for indentation, aligning with Black&#39;s style.</span>
+</span></span><span class="line"><span class="cl"><span class="nx">indent-width</span> <span class="p">=</span> <span class="mi">4</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="c"># The minimum Python version to target, e.g., when considering automatic code upgrades,</span>
+</span></span><span class="line"><span class="cl"><span class="c"># like rewriting type annotations</span>
+</span></span><span class="line"><span class="cl"><span class="nx">target-version</span> <span class="p">=</span> <span class="s2">&#34;py312&#34;</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="p">[</span><span class="nx">tool</span><span class="p">.</span><span class="nx">ruff</span><span class="p">.</span><span class="nx">lint</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="c"># Enable Pyflakes (F) and a subset of the pycodestyle (E) codes by default.</span>
+</span></span><span class="line"><span class="cl"><span class="c"># pycodestyle warnings (W)</span>
+</span></span><span class="line"><span class="cl"><span class="c"># Activate Security Rules (S) to replace bandit</span>
+</span></span><span class="line"><span class="cl"><span class="c"># Enable the isort rules (I) to replace isort</span>
+</span></span><span class="line"><span class="cl"><span class="c"># flake8-bugbear (B)</span>
+</span></span><span class="line"><span class="cl"><span class="c"># flake8-simplify (SIM)</span>
+</span></span><span class="line"><span class="cl"><span class="nx">select</span> <span class="p">=</span> <span class="p">[</span><span class="s2">&#34;F&#34;</span><span class="p">,</span> <span class="s2">&#34;E4&#34;</span><span class="p">,</span> <span class="s2">&#34;E7&#34;</span><span class="p">,</span> <span class="s2">&#34;E9&#34;</span><span class="p">,</span> <span class="s2">&#34;W&#34;</span><span class="p">,</span> <span class="s2">&#34;S&#34;</span><span class="p">,</span> <span class="s2">&#34;I&#34;</span><span class="p">,</span> <span class="s2">&#34;B&#34;</span><span class="p">,</span> <span class="s2">&#34;SIM&#34;</span><span class="p">,</span> <span class="s2">&#34;PGH004&#34;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">ignore</span> <span class="p">=</span> <span class="p">[]</span> <span class="c"># List any rules to be ignored, currently empty.</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="c"># Allow auto-fixing of all enabled rules when using the `--fix` option.</span>
+</span></span><span class="line"><span class="cl"><span class="nx">fixable</span> <span class="p">=</span> <span class="p">[</span><span class="s2">&#34;ALL&#34;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">unfixable</span> <span class="p">=</span> <span class="p">[]</span> <span class="c"># Specify rules that cannot be auto-fixed, if any.</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="c"># Define a regex pattern for allowed unused variables (typically underscore-prefixed).</span>
+</span></span><span class="line"><span class="cl"><span class="nx">dummy-variable-rgx</span> <span class="p">=</span> <span class="s2">&#34;^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$&#34;</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="p">[</span><span class="nx">tool</span><span class="p">.</span><span class="nx">ruff</span><span class="p">.</span><span class="nx">format</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="c"># Enforce double quotes for strings, following Black&#39;s style.</span>
+</span></span><span class="line"><span class="cl"><span class="nx">quote-style</span> <span class="p">=</span> <span class="s2">&#34;double&#34;</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="c"># Use spaces for indentation, in line with Black&#39;s formatting style.</span>
+</span></span><span class="line"><span class="cl"><span class="nx">indent-style</span> <span class="p">=</span> <span class="s2">&#34;space&#34;</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="c"># Keep magic trailing commas, a feature of Black&#39;s formatting.</span>
+</span></span><span class="line"><span class="cl"><span class="nx">skip-magic-trailing-comma</span> <span class="p">=</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="c"># Automatically detect and use the appropriate line ending style.</span>
+</span></span><span class="line"><span class="cl"><span class="nx">line-ending</span> <span class="p">=</span> <span class="s2">&#34;auto&#34;</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="c"># Update this with your package name or directory to be scanned by pytest-cov</span>
+</span></span><span class="line"><span class="cl"><span class="p">[</span><span class="nx">tool</span><span class="p">.</span><span class="nx">pytest</span><span class="p">.</span><span class="nx">ini_options</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">addopts</span> <span class="p">=</span> <span class="s2">&#34;-s --no-header --cov=src --cov-fail-under=50&#34;</span> <span class="c"># force cmd flags</span>
+</span></span><span class="line"><span class="cl"><span class="nx">testpaths</span> <span class="p">=</span> <span class="p">[</span> <span class="c"># what directories contain tests</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;tests&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">pythonpath</span> <span class="p">=</span> <span class="p">[</span> <span class="c"># what to add to the python path</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;.&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">]</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></details>
+<p>Au lieu d&rsquo;ajouter vos dépendances à la main, vous pouvez maintenant utiliser <code>uv add &lt;package_name&gt;</code>, et celui-ci sera ajouté à votre <code>pyproject.toml</code>.</p>
+<blockquote>
+<p>Attention cependant, car certains outils externes se basent toujours sur un fichier <code>requirements.txt</code>. Vous aurez donc peut-être besoin de lancer la commande <code>uv pip compile -o requirements.txt</code> dans votre pipeline CI/CD.</p></blockquote>
+<h3 id="environnement-virtuel"><a href="#environnement-virtuel" class="header-anchor"></a>Environnement virtuel
+</h3><p>Comme moi, vous aviez peut-être l&rsquo;habitude d&rsquo;utiliser la commande <code>source .venv/bin/activate</code> pour activer votre environnement virtuel. Avec uv, c&rsquo;est un peu différent. Votre <code>.venv</code> sera toujours créé, mais en utilisant uv, il se mettra par défaut dans votre environnement virtuel. Prenons un exemple.</p>
+<p>Là où à l&rsquo;époque vous auriez dû faire ce genre de commandes pour lancer votre script.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">python -m venv .venv
+</span></span><span class="line"><span class="cl"><span class="nb">source</span> .venv/bin/activate
+</span></span><span class="line"><span class="cl">pip install requests
+</span></span><span class="line"><span class="cl">python main.py
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Désormais, uv enlève la gestion de l&rsquo;environnement virtuel de votre travail. Ainsi, les commandes ci-dessus seront remplacées par celles-ci.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">uv add requests
+</span></span><span class="line"><span class="cl">uv run main.py
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Lorsque vous ajoutez un nouveau paquet à votre projet (avec la commande <code>uv add</code>), uv se charge automatiquement de créer un environnement virtuel s&rsquo;il n&rsquo;existe pas déjà.</p>
+<p>Ensuite, en lançant votre script via <code>uv run</code>, uv se mettra automatiquement dans votre environnement virtuel.</p>
+<h3 id="installation-de-python"><a href="#installation-de-python" class="header-anchor"></a>Installation de Python
+</h3><p>Vous utilisiez peut-être pyenv pour installer vos différentes versions de Python. Avec uv, tout cela est de l&rsquo;histoire ancienne !</p>
+<p>Lorsque vous souhaitez lancer un projet avec une version de Python bien spécifique, vous avez plusieurs moyens de faire :</p>
+<ul>
+<li>Utiliser le fichier <code>.python-version</code></li>
+<li>Créer un environnement virtuel : <code>uv venv --python 3.11.6</code></li>
+<li>Lancer une version de Python spécifique : <code>uvx python@3.12</code></li>
+</ul>
+<p>Ce que vous devez retenir, c&rsquo;est que uv ne s&rsquo;appuie pas sur une version globale de Python installée, mais essaiera toujours d&rsquo;utiliser la version spécifique à votre projet.</p>
+<hr>
+<p>Bon, je crois que vous en savez assez pour commencer votre initiation. Allons-y !</p>
+<h1 id="installation"><a href="#installation" class="header-anchor"></a>Installation
+</h1><p>L&rsquo;installation de uv est un jeu d&rsquo;enfant. Vous avez plusieurs options, choisissez celle qui vous convient le mieux (n&rsquo;hésitez pas à consulter la <a class="link" href="https://docs.astral.sh/uv/getting-started/installation/"  target="_blank" rel="noopener"
+    >documentation officielle sur son installation</a> si besoin) :</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="c1"># Sur macOS et Linux - je vous recommande d&#39;utiliser cela si possible</span>
+</span></span><span class="line"><span class="cl">curl -LsSf https://astral.sh/uv/install.sh <span class="p">|</span> sh
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Sur Windows (avec PowerShell)</span>
+</span></span><span class="line"><span class="cl">powershell -c <span class="s2">&#34;irm https://astral.sh/uv/install.ps1 | iex&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Avec pip (si vous avez déjà un environnement Python)</span>
+</span></span><span class="line"><span class="cl">pip install uv
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Une fois installé, vous pouvez le mettre à jour très simplement :</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">uv self update
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Et voilà, uv est prêt à l&rsquo;emploi !</p>
+<h1 id="gérer-les-versions-de-python-avec-uv"><a href="#g%c3%a9rer-les-versions-de-python-avec-uv" class="header-anchor"></a>Gérer les versions de Python avec uv
+</h1><p>Une des fonctionnalités sympathiques de uv est sa capacité à installer des versions spécifiques de Python. Plus besoin de passer par le site officiel Python, de jongler avec pyenv ou d&rsquo;autres outils.</p>
+<p>Pour installer la dernière version stable de Python :</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">uv python install
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Besoin d&rsquo;une version particulière ? Pas de problème :</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="c1"># Installer Python 3.9</span>
+</span></span><span class="line"><span class="cl">uv python install 3.9
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Vous pouvez ensuite utiliser cette version pour exécuter un script :</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">uv run --python 3.9 python mon_script.py
+</span></span></code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>Comme je vous l&rsquo;expliquais un peu plus haut, les versions de Python installées par uv ne sont pas disponibles &ldquo;globalement&rdquo; sur votre système via la simple commande <code>python</code>. Pour les utiliser, il faut passer par <code>uv run --python &lt;version&gt;</code>, ou les activer dans un environnement virtuel créé avec cette version spécifique.</p></blockquote>
+<h1 id="uvx-pour-exécuter-des-packages-à-la-volée"><a href="#uvx-pour-ex%c3%a9cuter-des-packages-%c3%a0-la-vol%c3%a9e" class="header-anchor"></a>uvx pour exécuter des packages à la volée
+</h1><p>Vous connaissez peut-être <a class="link" href="https://docs.npmjs.com/cli/v8/commands/npx"  target="_blank" rel="noopener"
+    >npx</a> dans le monde JavaScript ? uvx (le shortcut de <code>uv tool run</code>) est l&rsquo;équivalent proposé par uv. Il permet d&rsquo;exécuter une commande CLI Python (comme ruff, black, ipython, etc.) dans un environnement temporaire avec les dépendances spécifiées, sans polluer votre projet ou votre système.</p>
+<p>Par exemple, pour lancer une version spécifique de ruff :</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">uvx --python 3.12 ruff@0.9.6 check main.py
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Ou pour lancer ipython avec requests disponible temporairement :</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">uvx --with requests -p 3.13 ipython
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Extrêmement pratique pour des one-shots ou pour tester des outils !</p>
+<h1 id="la-gestion-des-projets-avec-uv"><a href="#la-gestion-des-projets-avec-uv" class="header-anchor"></a>La gestion des projets avec uv
+</h1><p>Bon, toutes ces commandes, c&rsquo;est très sympa, mais j&rsquo;imagine que vous vous demandez comment intégrer uv dans un nouveau projet, ou dans un projet existant.</p>
+<p>Laissez-moi donc vous montrer toute la puissance de uv pour créer et gérer un projet Python.</p>
+<h2 id="démarrer-un-nouveau-projet"><a href="#d%c3%a9marrer-un-nouveau-projet" class="header-anchor"></a>Démarrer un nouveau projet
+</h2><p>Pour initialiser un nouveau projet avec uv :</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">uv init
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Cette commande va créer quelques fichiers pour vous :</p>
+<ul>
+<li><code>.python-version</code> : Spécifie la version de Python à utiliser pour ce projet (par exemple, <code>3.11</code>).</li>
+<li><code>main.py</code> : Un fichier Python d&rsquo;exemple.</li>
+<li><code>pyproject.toml</code> : Le fichier central pour la configuration de votre projet, y compris ses dépendances. C&rsquo;est le standard moderne en Python.</li>
+</ul>
+<p>Maintenant, voyons comment gérer nos dépendances.</p>
+<p>Avec uv, le <code>pyproject.toml</code> devient votre source de vérité pour les dépendances.</p>
+<p>Pour ajouter une nouvelle dépendance à votre projet :</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">uv add requests
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Pour ajouter une dépendance de développement (uniquement pour le dev, comme ruff ou pytest) :</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">uv add ruff --dev
+</span></span><span class="line"><span class="cl">uv add pytest --dev
+</span></span></code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>⚠️ Très important : La première fois que vous ajoutez une dépendance, uv va générer un fichier <code>uv.lock</code>. Ce fichier contient les versions exactes de toutes vos dépendances (directes et indirectes) qui ont été résolues. Ce fichier <code>uv.lock</code> est crucial et DOIT être commité dans votre repository GitHub. Il garantit que les versions de vos paquets soient les mêmes pour tout le monde, selon votre environnement de travail.</p></blockquote>
+<p>Une fois vos dépendances (notamment de dev) ajoutées, vous pouvez les utiliser avec <code>uv run</code> :</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">uv run ruff format .
+</span></span><span class="line"><span class="cl">uv run pytest
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Pour supprimer un paquet :</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="c1"># Pour une dépendance normale</span>
+</span></span><span class="line"><span class="cl">uv remove requests
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Pour une dépendance de développement (notez le --group dev)</span>
+</span></span><span class="line"><span class="cl">uv remove ruff --group dev
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Dans le cas où vous utiliseriez uv en entreprise avec un index privé, vous pouvez aussi configurer cela !</p>
+<p>Par défaut, uv utilise PyPI. Si vous travaillez dans un environnement d&rsquo;entreprise (avec un Artifactory ou un autre index privé), vous pouvez configurer uv pour l&rsquo;utiliser via le fichier <code>pyproject.toml</code>.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="p">[[</span><span class="nx">tool</span><span class="p">.</span><span class="nx">uv</span><span class="p">.</span><span class="nx">index</span><span class="p">]]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">name</span> <span class="p">=</span> <span class="s2">&#34;votre-index&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">url</span> <span class="p">=</span> <span class="s2">&#34;https://mon-artifactory.corp/api/pypi/mon-repo-virtual&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">publish-url</span> <span class="p">=</span> <span class="s2">&#34;https://mon-artifactory.corp/api/pypi/mon-repo-local&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">default</span> <span class="p">=</span> <span class="kc">true</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Ensuite, vous pouvez par exemple exporter des variables d&rsquo;environnement pour vous authentifier.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="c1"># Les variables d&#39;environnement doivent respecter le format suivant : UV_INDEX_{name}_USERNAME</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># où {name} est le nom de l&#39;index que vous avez défini dans votre fichier pyproject.toml</span>
+</span></span><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">UV_INDEX_VOTRE_INDEX_USERNAME</span><span class="o">=</span><span class="s2">&#34;delia, antoine&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">UV_INDEX_VOTRE_INDEX_PASSWORD</span><span class="o">=</span><span class="s2">&#34;cmVmdG**************************FJUjNw&#34;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>N&rsquo;hésitez pas à consulter la <a class="link" href="https://docs.astral.sh/uv/configuration/indexes/"  target="_blank" rel="noopener"
+    >documentation uv sur les index</a> pour plus de détails.</p>
+<h2 id="migrer-un-projet-existant-vers-uv"><a href="#migrer-un-projet-existant-vers-uv" class="header-anchor"></a>Migrer un projet existant vers uv
+</h2><p>Vous avez un projet avec un bon vieux <code>requirements.txt</code> ? La migration est assez simple :</p>
+<ol>
+<li>Si vous n&rsquo;avez pas de <code>pyproject.toml</code>, créez-en un (n&rsquo;hésitez pas à utiliser celui fourni plus haut).</li>
+<li>Lancez les commandes suivantes pour ajouter vos requirements dans votre pyproject.toml : <code>uv add -r requirements.txt</code> et <code>uv add --dev -r requirements-dev.txt</code>.</li>
+<li>Une fois toutes les dépendances migrées, vous pouvez supprimer vos anciens fichiers <code>requirements.txt</code>.</li>
+</ol>
+<blockquote>
+<p>Si vous utilisiez d&rsquo;autres outils comme Poetry, il existe des outils de migration (comme par exemple : <code>uvx migrate-to-uv</code>).</p></blockquote>
+<p>Et voilà, votre projet est propulsé par uv !</p>
+<h2 id="rejoindre-un-projet-qui-utilise-déjà-uv"><a href="#rejoindre-un-projet-qui-utilise-d%c3%a9j%c3%a0-uv" class="header-anchor"></a>Rejoindre un projet qui utilise déjà uv
+</h2><p>Si vous clonez un projet qui est déjà géré par uv (il devrait donc y avoir un <code>pyproject.toml</code> et un <code>uv.lock</code>), la mise en place est d&rsquo;une simplicité enfantine. Vous n&rsquo;avez qu&rsquo;à lancer :</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">uv sync
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Cette commande magique va lire le fichier <code>uv.lock</code> et installer <em>exactement</em> les mêmes versions de tous les paquets qui y sont listés. N&rsquo;est-ce pas beau tout ça ?</p>
+<h1 id="build-et-publier-votre-projet"><a href="#build-et-publier-votre-projet" class="header-anchor"></a>Build et publier votre projet
+</h1><p>uv ne s&rsquo;arrête pas là et propose aussi des commandes pour le build et la publication.</p>
+<p>Pour construire votre package :</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">uv build
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Pour publier sur PyPI (ou un index privé) :</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">uv publish
+</span></span><span class="line"><span class="cl"><span class="c1"># Pour un index privé, vous pourriez avoir besoin de spécifier l&#39;URL (sauf si déjà spécifiée dans votre pyproject.toml)</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># uv publish --repository-url https://mon-artifactory.corp/api/pypi/mon-repo-local</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Et pour tester rapidement si votre package fraîchement buildé s&rsquo;installe et s&rsquo;importe correctement :</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="c1"># Remplacez &lt;MON_PACKAGE&gt; par le nom de votre paquet</span>
+</span></span><span class="line"><span class="cl">uv run --with &lt;MON_PACKAGE&gt;-&lt;VERSION&gt;.whl --no-project --python -c <span class="s2">&#34;import &lt;MON_PACKAGE&gt;&#34;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Et voilà ! Vous avez publié votre package en un clin d&rsquo;oeil !</p>
+<h1 id="nettoyer-votre-cache"><a href="#nettoyer-votre-cache" class="header-anchor"></a>Nettoyer votre cache
+</h1><p>Avec le temps, uv (tout comme pip) accumule un cache de paquets téléchargés. Alors certes, cela permet rapidement d&rsquo;installer vos dépendances sur plusieurs projets, mais à la longue, cela pourrait prendre pas mal de place sur votre ordinateur. Pour le nettoyer, il suffit de lancer la commande suivante :</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">uv cache clean
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="conclusion"><a href="#conclusion" class="header-anchor"></a>Conclusion
+</h1><p>Vous l&rsquo;aurez compris, uv n&rsquo;est pas juste &ldquo;encore un autre gestionnaire de paquets&rdquo;. <strong>C&rsquo;est une véritable bouffée d&rsquo;air frais dans l&rsquo;écosystème Python.</strong></p>
+<ul>
+<li><strong>La vitesse :</strong> C&rsquo;est le premier argument qui frappe lorsqu&rsquo;on l&rsquo;utilise. Les installations, les résolutions, tout est incroyablement plus rapide que pip. Sur de gros projets, le gain de temps est phénoménal.</li>
+<li><strong>L&rsquo;unification :</strong> uv regroupe des fonctionnalités qui nécessitaient auparavant plusieurs outils (pip, venv, pip-tools, voire pyenv pour des besoins basiques). Avoir une seule interface cohérente simplifie grandement le workflow.</li>
+<li><strong>La conformité :</strong> Les développeurs d&rsquo;uv basent tous leurs choix sur les guidelines Python (ces fameux PEP). Vous pouvez donc être sûr que votre <code>pyproject.toml</code> respecte les standards modernes de packaging Python.</li>
+<li><strong>La fiabilité :</strong> Le système de lockfile (<code>uv.lock</code>) assure des builds reproductibles, un point essentiel pour le travail en équipe et l&rsquo;intégration continue.</li>
+</ul>
+<p>Depuis que j&rsquo;utilise uv, mes interactions avec la gestion des dépendances Python sont devenues plus rapides, plus simples et plus agréables. <strong>C&rsquo;est le genre d&rsquo;outil qui, une fois adopté, vous fait vous demander comment vous faisiez avant.</strong></p>
+<p>Alors, si vous cherchez à moderniser votre utilisation de Python et à gagner en productivité (et en sérénité !), je ne peux que vous encourager à donner sa chance à uv. L&rsquo;essayer, c&rsquo;est très souvent l&rsquo;adopter !</p>
+<h1 id="références"><a href="#r%c3%a9f%c3%a9rences" class="header-anchor"></a>Références
+</h1><ul>
+<li>Documentation officielle uv : <a class="link" href="https://docs.astral.sh/uv"  target="_blank" rel="noopener"
+    >https://docs.astral.sh/uv</a></li>
+<li>Repo GitHub uv : <a class="link" href="https://github.com/astral-sh/uv"  target="_blank" rel="noopener"
+    >https://github.com/astral-sh/uv</a></li>
+<li><a class="link" href="https://www.bitecode.dev/p/a-year-of-uv-pros-cons-and-should"  target="_blank" rel="noopener"
+    >A year of uv: pros, cons, and should you switch? (bitecode.dev)</a></li>
+<li><a class="link" href="https://www.bitecode.dev/p/uv-tricks"  target="_blank" rel="noopener"
+    >uv tricks (bitecode.dev)</a></li>
+</ul>
+<h1 id="bonus--uv-cheatsheet"><a href="#bonus--uv-cheatsheet" class="header-anchor"></a>Bonus : uv cheatsheet
+</h1><p>Je vous mets ici une liste de commandes uv ultra pratiques. Une sorte de cheatsheet si vous préférez. N&rsquo;hésitez pas à revenir la consulter au besoin !</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="c1"># Update uv</span>
+</span></span><span class="line"><span class="cl">uv self update
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Run a script with a specific Python version</span>
+</span></span><span class="line"><span class="cl">uv run --python 3.12.3 main.py
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Quickly run a tool with a specific version</span>
+</span></span><span class="line"><span class="cl">uvx --python 3.12 ruff@0.9.6 check
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Quickly run ipython with requests installed</span>
+</span></span><span class="line"><span class="cl">uvx --with requests -p 3.13 ipython
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Update your project&#39;s version</span>
+</span></span><span class="line"><span class="cl">uv version --bump <span class="o">[</span>major/minor/patch<span class="o">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Clean the cache</span>
+</span></span><span class="line"><span class="cl">uv cache clean
+</span></span></code></pre></td></tr></table>
+</div>
+</div>
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/cloud-optimist/pr-85/fr/tags/python/">Python</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">Contenus liés</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/cloud-optimist/pr-85/fr/posts/2025/how-we-built-a-cicd-strategy-that-onboards-100-python-projects-in-under-a-minute/">
+        
+        
+            <div class="article-image">
+                <img src="/cloud-optimist/pr-85/fr/posts/2025/how-we-built-a-cicd-strategy-that-onboards-100-python-projects-in-under-a-minute/ci-cd-strategy.4bfd0d2defa14a08bf1ba9f713764379_hu_45c21de14ec7648a.jpeg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post Comment mettre en place une stratégie CI/CD pour onboarder plus de 100 projets Python en moins d&#39;une minute"
+                        
+                        data-hash="md5-S/0NLe&#43;hSgi/G6n3E3ZDeQ==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Comment mettre en place une stratégie CI/CD pour onboarder plus de 100 projets Python en moins d&#39;une minute</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/cloud-optimist/pr-85/fr/posts/2019/fizzbuzz/">
+        
+        
+            <div class="article-image">
+                <img src="/cloud-optimist/pr-85/fr/posts/2019/fizzbuzz/fizzbuzz.507a6f45d72f3b5c285c478e290da764_hu_4beca0b9aead7369.jpeg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post FizzBuzz, la façon la plus simple et efficace de tester un développeur"
+                        
+                        data-hash="md5-UHpvRdcvO1woXEeOKQ2nZA==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">FizzBuzz, la façon la plus simple et efficace de tester un développeur</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <script
+    src="https://giscus.app/client.js"
+    data-repo="antoinedelia/cloud-optimist"
+    data-repo-id="R_kgDOHWH-Zg"
+    data-category="Comments"
+    data-category-id="DIC_kwDOHWH-Zs4CoHBh"
+    data-mapping="pathname"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="1"
+    data-input-position="top"
+    data-theme="light"
+    data-lang="fr"
+    data-loading=""
+    crossorigin="anonymous"
+    async
+></script>
+<script>
+    function setGiscusTheme(theme) {
+        let giscus = document.querySelector("iframe.giscus-frame");
+        if (giscus) {
+            giscus.contentWindow.postMessage(
+                {
+                    giscus: {
+                        setConfig: {
+                            theme: theme,
+                        },
+                    },
+                },
+                "https://giscus.app"
+            );
+        }
+    }
+
+    (function () {
+        addEventListener("message", (e) => {
+            if (event.origin !== "https://giscus.app") return;
+            handler();
+        });
+        window.addEventListener("onColorSchemeChange", handler);
+
+        function handler() {
+            if (document.documentElement.dataset.scheme === "light") {
+                setGiscusTheme('light');
+            } else {
+                setGiscusTheme('dark_dimmed');
+            }
+        }
+    })();
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2022 - 
+        
+        2025 The Cloud Optimist
+    </section>
+    
+    <section class="powerby">
+        Généré avec <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Thème <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.29.0">Stack</a></b> conçu par <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/cloud-optimist/pr-85/ts/main.1e9a3bafd846ced4c345d084b355fb8c7bae75701c338f8a1f8a82c780137826.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

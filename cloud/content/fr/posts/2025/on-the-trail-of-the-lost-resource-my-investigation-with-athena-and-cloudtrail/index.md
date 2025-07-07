@@ -4,11 +4,11 @@ date: 2025-07-24T07:30:00+02:00
 author: Antoine Delia
 draft: true
 tags:
-    - AWS
     - CloudTrail
-    - S3
     - Athena
-categories: [ AWS, CloudTrail, S3, Athena ]
+    - S3
+    - Cognito
+categories: [ AWS ]
 image: aws_lost_resource.jpeg
 ---
 
@@ -20,19 +20,19 @@ Une ressource était là (un Cognito User Pool), bien présente, mais personne n
 
 Ma mission, si je l'acceptais : découvrir qui l'avait créée. Le problème ? L'événement datait d'il y a environ quatre mois.
 
-Mon premier réflexe a été de me tourner vers AWS CloudTrail. Et là, premier mur : l'historique des événements n'est consultable que sur les 90 derniers jours. Raté !
+Mon premier réflexe a été de me tourner vers AWS CloudTrail. Et là, premier mur : [l'historique des événements n'est consultable que sur les 90 derniers jours](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/view-cloudtrail-events.html#event-history-limitations). Raté !
 
-Heureusement, je savais que nos logs CloudTrail étaient archivés sur le long terme dans un bucket S3. Mon plan B, un peu désespéré : télécharger manuellement les archives du bon mois, décompresser des dizaines de fichiers JSON, et lancer un <kbd>Ctrl+F</kbd> en priant très fort. Autant vous dire que ce n'est ni efficace, ni agréable, ni rapide.
+Heureusement, je savais que nos logs CloudTrail étaient archivés dans un bucket S3. Mon premier réflexe : télécharger manuellement les archives du bon mois, décompresser des dizaines de fichiers JSON, et lancer un <kbd>Ctrl+F</kbd> en priant très fort. Autant vous dire que ce n'est ni efficace, ni agréable, ni rapide.
 
-C'est cette expérience douloureuse qui m'a poussé à enfin mettre en place une solution bien plus propre et puissante : **AWS Athena**.
+Je me suis donc demandé s'il n'y avait pas un moyen plus simple de pouvoir chercher dans cet amas de logs, et j'ai finalement trouvé la solution parfaite : **AWS Athena**.
 
-# Athena à la Rescousse : Interroger vos Logs S3 avec du SQL
+# Interroger vos logs S3 avec Athena
 
-Pour ceux qui ne connaissent pas, AWS Athena est un service de requête interactif qui facilite l'analyse de données directement dans Amazon S3 en utilisant du SQL standard. En gros, vous pouvez faire des requêtes sur des fichiers plats (JSON, CSV, Parquet...) comme s'il s'agissait d'une base de données traditionnelle. Plus besoin de télécharger quoi que ce soit !
+Pour ceux qui ne connaissent pas, [AWS Athena](https://docs.aws.amazon.com/athena/latest/ug/what-is.html) est un service de requête interactif qui facilite l'analyse de données directement dans Amazon S3 en utilisant du SQL standard. En gros, vous pouvez faire des requêtes sur des fichiers (JSON, CSV, ...) comme s'il s'agissait d'une base de données traditionnelle. Plus besoin de télécharger quoi que ce soit !
 
-L'idée est donc de "mapper" nos logs CloudTrail stockés dans S3 à une table virtuelle dans Athena. Pour cela, on utilise une seule requête `CREATE EXTERNAL TABLE`. En suivant [la documentation d'AWS sur le sujet](https://docs.aws.amazon.com/athena/latest/ug/create-cloudtrail-table-partition-projection.html), j'ai lancé la requête suivante dans la console Athena.
+L'idée est donc de "mapper" nos logs CloudTrail stockés dans S3 à une table dans Athena. Pour cela, on utilise une seule requête `CREATE EXTERNAL TABLE`. En suivant [la documentation d'AWS sur le sujet](https://docs.aws.amazon.com/athena/latest/ug/create-cloudtrail-table-partition-projection.html), j'ai lancé la requête suivante dans la console Athena.
 
-Cette requête crée une table et utilise une fonctionnalité très pratique appelée "partition projection". Cela permet à Athena de déduire l'emplacement des logs en fonction de la date, sans avoir à gérer manuellement les partitions.
+Cette requête crée une table et utilise une fonctionnalité très pratique appelée "partition projection". Cela permet à Athena de déduire l'emplacement des logs en fonction de la date, sans avoir à gérer manuellement les partitions. Pratique quand la structure est bien standardisée comme c'est le cas avec AWS CloudTrail.
 
 ```sql
 CREATE EXTERNAL TABLE cloudtrail_logs_pp (
@@ -75,7 +75,7 @@ TBLPROPERTIES (
 )
 ```
 
-**Attention :** N'oubliez pas de remplacer les URLs `s3://...` par le chemin exact de votre bucket S3 où sont stockés vos logs CloudTrail, et d'ajuster la `projection.timestamp.range` à la période qui vous intéresse.
+**Attention :** N'oubliez pas de remplacer les URLs `s3://...` par le chemin exact de votre bucket S3 où sont stockés vos logs CloudTrail, et d'ajuster la propriété `projection.timestamp.range` à la période qui vous intéresse.
 
 # L'Heure de l'Enquête : Trouver l'Information
 
@@ -96,6 +96,8 @@ WHERE
 ```
 
 En quelques secondes, Athena a scanné les logs du jour demandé et m'a retourné le résultat.
+
+![Athena query to search CloudTrail logs in S3](/img/on-the-trail-of-the-lost-resource-my-investigation-with-athena-and-cloudtrail/running_the_athena_query.png)
 
 J'avais l'heure exacte, l'événement, et surtout, l'ARN de l'utilisateur qui avait effectué l'action. Mission accomplie !
 

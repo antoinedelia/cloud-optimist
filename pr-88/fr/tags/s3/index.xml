@@ -7,12 +7,12 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>fr-FR</language>
         <lastBuildDate>Thu, 24 Jul 2025 07:30:00 +0200</lastBuildDate><atom:link href="https://antoinedelia.github.io/cloud-optimist/pr-88/fr/tags/s3/index.xml" rel="self" type="application/rss+xml" /><item>
-        <title>Sur la piste de la ressource perdue : Mon enquête avec Athena et CloudTrail</title>
+        <title>Sur la piste de la ressource perdue - Mon enquête avec Athena et CloudTrail</title>
         <link>https://antoinedelia.github.io/cloud-optimist/pr-88/fr/posts/2025/on-the-trail-of-the-lost-resource-my-investigation-with-athena-and-cloudtrail/</link>
         <pubDate>Thu, 24 Jul 2025 07:30:00 +0200</pubDate>
         
         <guid>https://antoinedelia.github.io/cloud-optimist/pr-88/fr/posts/2025/on-the-trail-of-the-lost-resource-my-investigation-with-athena-and-cloudtrail/</guid>
-        <description>&lt;img src="https://antoinedelia.github.io/cloud-optimist/pr-88/fr/posts/2025/on-the-trail-of-the-lost-resource-my-investigation-with-athena-and-cloudtrail/aws_lost_resource.jpeg" alt="Featured image of post Sur la piste de la ressource perdue : Mon enquête avec Athena et CloudTrail" /&gt;&lt;h1 id=&#34;introduction&#34;&gt;&lt;a href=&#34;#introduction&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Introduction
+        <description>&lt;img src="https://antoinedelia.github.io/cloud-optimist/pr-88/fr/posts/2025/on-the-trail-of-the-lost-resource-my-investigation-with-athena-and-cloudtrail/aws_lost_resource.jpeg" alt="Featured image of post Sur la piste de la ressource perdue - Mon enquête avec Athena et CloudTrail" /&gt;&lt;h1 id=&#34;introduction&#34;&gt;&lt;a href=&#34;#introduction&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Introduction
 &lt;/h1&gt;&lt;p&gt;Récemment, j&amp;rsquo;ai dû jouer les détectives sur notre compte AWS.&lt;/p&gt;
 &lt;p&gt;Une ressource était là (un Cognito User Pool), bien présente, mais personne ne se souvenait de son origine. Et évidemment, pas de tags pour nous aider (si seulement ils avaient lu &lt;a class=&#34;link&#34; href=&#34;https://antoinedelia.github.io/cloud-optimist/pr-88/fr/posts/2025/why-tagging-your-aws-resources-is-a-must/&#34; &gt;mon article sur le tagging des resources AWS&lt;/a&gt;).&lt;/p&gt;
 &lt;p&gt;Ma mission, si je l&amp;rsquo;acceptais : découvrir qui l&amp;rsquo;avait créée. Le problème ? L&amp;rsquo;événement datait d&amp;rsquo;il y a environ quatre mois.&lt;/p&gt;

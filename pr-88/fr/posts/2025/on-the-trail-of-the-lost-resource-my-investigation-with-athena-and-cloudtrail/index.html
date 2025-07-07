@@ -10,10 +10,10 @@
 <meta property='og:description' content="Introduction Récemment, j&rsquo;ai dû jouer les détectives sur notre compte AWS.\nUne ressource était là (un Cognito User Pool), bien présente, mais personne ne se souvenait de son origine. Et évidemment, pas de tags pour nous aider (si seulement ils avaient lu mon article sur le tagging des resources AWS).\nMa mission, si je l&rsquo;acceptais : découvrir qui l&rsquo;avait créée. Le problème ? L&rsquo;événement datait d&rsquo;il y a environ quatre mois.\n">
 <meta property='og:url' content='https://antoinedelia.github.io/cloud-optimist/pr-88/fr/posts/2025/on-the-trail-of-the-lost-resource-my-investigation-with-athena-and-cloudtrail/'>
 <meta property='og:site_name' content='The Cloud Optimist'>
-<meta property='og:type' content='article'><meta property='article:section' content='Posts' /><meta property='article:tag' content='AWS' /><meta property='article:tag' content='CloudTrail' /><meta property='article:tag' content='S3' /><meta property='article:tag' content='Athena' /><meta property='article:published_time' content='2025-07-24T07:30:00&#43;02:00'/><meta property='article:modified_time' content='2025-07-24T07:30:00&#43;02:00'/><meta property='og:image' content='https://antoinedelia.github.io/cloud-optimist/pr-88/aws_lost_resource.jpeg' />
+<meta property='og:type' content='article'><meta property='article:section' content='Posts' /><meta property='article:tag' content='CloudTrail' /><meta property='article:tag' content='Athena' /><meta property='article:tag' content='S3' /><meta property='article:tag' content='Cognito' /><meta property='article:published_time' content='2025-07-24T07:30:00&#43;02:00'/><meta property='article:modified_time' content='2025-07-24T07:30:00&#43;02:00'/><meta property='og:image' content='https://antoinedelia.github.io/cloud-optimist/pr-88/fr/posts/2025/on-the-trail-of-the-lost-resource-my-investigation-with-athena-and-cloudtrail/aws_lost_resource.jpeg' />
 <meta name="twitter:title" content="Sur la piste de la ressource perdue : Mon enquête avec Athena et CloudTrail">
 <meta name="twitter:description" content="Introduction Récemment, j&rsquo;ai dû jouer les détectives sur notre compte AWS.\nUne ressource était là (un Cognito User Pool), bien présente, mais personne ne se souvenait de son origine. Et évidemment, pas de tags pour nous aider (si seulement ils avaient lu mon article sur le tagging des resources AWS).\nMa mission, si je l&rsquo;acceptais : découvrir qui l&rsquo;avait créée. Le problème ? L&rsquo;événement datait d&rsquo;il y a environ quatre mois.\n"><meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:image" content='https://antoinedelia.github.io/cloud-optimist/pr-88/aws_lost_resource.jpeg' />
+    <meta name="twitter:image" content='https://antoinedelia.github.io/cloud-optimist/pr-88/fr/posts/2025/on-the-trail-of-the-lost-resource-my-investigation-with-athena-and-cloudtrail/aws_lost_resource.jpeg' />
     <link rel="shortcut icon" href="/favicon.ico" />
 
       <script async src="https://www.googletagmanager.com/gtag/js?id=G-NPENVXWP54"></script>
@@ -314,7 +314,7 @@
             <nav id="TableOfContents">
   <ol>
     <li><a href="#introduction">Introduction</a></li>
-    <li><a href="#athena-à-la-rescousse--interroger-vos-logs-s3-avec-du-sql">Athena à la Rescousse : Interroger vos Logs S3 avec du SQL</a></li>
+    <li><a href="#interroger-vos-logs-s3-avec-athena">Interroger vos logs S3 avec Athena</a></li>
     <li><a href="#lheure-de-lenquête--trouver-linformation">L&rsquo;Heure de l&rsquo;Enquête : Trouver l&rsquo;Information</a></li>
     <li><a href="#le-verdict-et-le-coupable">Le Verdict&hellip; et le Coupable</a></li>
   </ol>
@@ -332,8 +332,12 @@
     <header class="article-header">
         <div class="article-image">
             <a href="/cloud-optimist/pr-88/fr/posts/2025/on-the-trail-of-the-lost-resource-my-investigation-with-athena-and-cloudtrail/">
-                
-                    <img src="/cloud-optimist/pr-88/aws_lost_resource.jpeg" loading="lazy" alt="Featured image of post Sur la piste de la ressource perdue : Mon enquête avec Athena et CloudTrail" />
+                <img src="/cloud-optimist/pr-88/fr/posts/2025/on-the-trail-of-the-lost-resource-my-investigation-with-athena-and-cloudtrail/aws_lost_resource_hu_c2a70ac72cfbfbc1.jpeg"
+                        srcset="/cloud-optimist/pr-88/fr/posts/2025/on-the-trail-of-the-lost-resource-my-investigation-with-athena-and-cloudtrail/aws_lost_resource_hu_c2a70ac72cfbfbc1.jpeg 800w, /cloud-optimist/pr-88/fr/posts/2025/on-the-trail-of-the-lost-resource-my-investigation-with-athena-and-cloudtrail/aws_lost_resource_hu_2c11f912c62c419d.jpeg 1600w"
+                        width="800" 
+                        height="436" 
+                        loading="lazy"
+                        alt="Featured image of post Sur la piste de la ressource perdue : Mon enquête avec Athena et CloudTrail" />
                 
             </a>
         </div>
@@ -345,18 +349,6 @@
         
             <a href="/cloud-optimist/pr-88/fr/categories/aws/" >
                 AWS
-            </a>
-        
-            <a href="/cloud-optimist/pr-88/fr/categories/cloudtrail/" >
-                CloudTrail
-            </a>
-        
-            <a href="/cloud-optimist/pr-88/fr/categories/s3/" >
-                S3
-            </a>
-        
-            <a href="/cloud-optimist/pr-88/fr/categories/athena/" >
-                Athena
             </a>
         
     </header>
@@ -420,14 +412,16 @@
 </h1><p>Récemment, j&rsquo;ai dû jouer les détectives sur notre compte AWS.</p>
 <p>Une ressource était là (un Cognito User Pool), bien présente, mais personne ne se souvenait de son origine. Et évidemment, pas de tags pour nous aider (si seulement ils avaient lu <a class="link" href="/fr/posts/2025/why-tagging-your-aws-resources-is-a-must/" >mon article sur le tagging des resources AWS</a>).</p>
 <p>Ma mission, si je l&rsquo;acceptais : découvrir qui l&rsquo;avait créée. Le problème ? L&rsquo;événement datait d&rsquo;il y a environ quatre mois.</p>
-<p>Mon premier réflexe a été de me tourner vers AWS CloudTrail. Et là, premier mur : l&rsquo;historique des événements n&rsquo;est consultable que sur les 90 derniers jours. Raté !</p>
-<p>Heureusement, je savais que nos logs CloudTrail étaient archivés sur le long terme dans un bucket S3. Mon plan B, un peu désespéré : télécharger manuellement les archives du bon mois, décompresser des dizaines de fichiers JSON, et lancer un <kbd>Ctrl+F</kbd> en priant très fort. Autant vous dire que ce n&rsquo;est ni efficace, ni agréable, ni rapide.</p>
-<p>C&rsquo;est cette expérience douloureuse qui m&rsquo;a poussé à enfin mettre en place une solution bien plus propre et puissante : <strong>AWS Athena</strong>.</p>
-<h1 id="athena-à-la-rescousse--interroger-vos-logs-s3-avec-du-sql"><a href="#athena-%c3%a0-la-rescousse--interroger-vos-logs-s3-avec-du-sql" class="header-anchor"></a>Athena à la Rescousse : Interroger vos Logs S3 avec du SQL
-</h1><p>Pour ceux qui ne connaissent pas, AWS Athena est un service de requête interactif qui facilite l&rsquo;analyse de données directement dans Amazon S3 en utilisant du SQL standard. En gros, vous pouvez faire des requêtes sur des fichiers plats (JSON, CSV, Parquet&hellip;) comme s&rsquo;il s&rsquo;agissait d&rsquo;une base de données traditionnelle. Plus besoin de télécharger quoi que ce soit !</p>
-<p>L&rsquo;idée est donc de &ldquo;mapper&rdquo; nos logs CloudTrail stockés dans S3 à une table virtuelle dans Athena. Pour cela, on utilise une seule requête <code>CREATE EXTERNAL TABLE</code>. En suivant <a class="link" href="https://docs.aws.amazon.com/athena/latest/ug/create-cloudtrail-table-partition-projection.html"  target="_blank" rel="noopener"
+<p>Mon premier réflexe a été de me tourner vers AWS CloudTrail. Et là, premier mur : <a class="link" href="https://docs.aws.amazon.com/awscloudtrail/latest/userguide/view-cloudtrail-events.html#event-history-limitations"  target="_blank" rel="noopener"
+    >l&rsquo;historique des événements n&rsquo;est consultable que sur les 90 derniers jours</a>. Raté !</p>
+<p>Heureusement, je savais que nos logs CloudTrail étaient archivés dans un bucket S3. Mon premier réflexe : télécharger manuellement les archives du bon mois, décompresser des dizaines de fichiers JSON, et lancer un <kbd>Ctrl+F</kbd> en priant très fort. Autant vous dire que ce n&rsquo;est ni efficace, ni agréable, ni rapide.</p>
+<p>Je me suis donc demandé s&rsquo;il n&rsquo;y avait pas un moyen plus simple de pouvoir chercher dans cet amas de logs, et j&rsquo;ai finalement trouvé la solution parfaite : <strong>AWS Athena</strong>.</p>
+<h1 id="interroger-vos-logs-s3-avec-athena"><a href="#interroger-vos-logs-s3-avec-athena" class="header-anchor"></a>Interroger vos logs S3 avec Athena
+</h1><p>Pour ceux qui ne connaissent pas, <a class="link" href="https://docs.aws.amazon.com/athena/latest/ug/what-is.html"  target="_blank" rel="noopener"
+    >AWS Athena</a> est un service de requête interactif qui facilite l&rsquo;analyse de données directement dans Amazon S3 en utilisant du SQL standard. En gros, vous pouvez faire des requêtes sur des fichiers (JSON, CSV, &hellip;) comme s&rsquo;il s&rsquo;agissait d&rsquo;une base de données traditionnelle. Plus besoin de télécharger quoi que ce soit !</p>
+<p>L&rsquo;idée est donc de &ldquo;mapper&rdquo; nos logs CloudTrail stockés dans S3 à une table dans Athena. Pour cela, on utilise une seule requête <code>CREATE EXTERNAL TABLE</code>. En suivant <a class="link" href="https://docs.aws.amazon.com/athena/latest/ug/create-cloudtrail-table-partition-projection.html"  target="_blank" rel="noopener"
     >la documentation d&rsquo;AWS sur le sujet</a>, j&rsquo;ai lancé la requête suivante dans la console Athena.</p>
-<p>Cette requête crée une table et utilise une fonctionnalité très pratique appelée &ldquo;partition projection&rdquo;. Cela permet à Athena de déduire l&rsquo;emplacement des logs en fonction de la date, sans avoir à gérer manuellement les partitions.</p>
+<p>Cette requête crée une table et utilise une fonctionnalité très pratique appelée &ldquo;partition projection&rdquo;. Cela permet à Athena de déduire l&rsquo;emplacement des logs en fonction de la date, sans avoir à gérer manuellement les partitions. Pratique quand la structure est bien standardisée comme c&rsquo;est le cas avec AWS CloudTrail.</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
@@ -510,7 +504,7 @@
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">)</span><span class="w">
 </span></span></span></code></pre></td></tr></table>
 </div>
-</div><p><strong>Attention :</strong> N&rsquo;oubliez pas de remplacer les URLs <code>s3://...</code> par le chemin exact de votre bucket S3 où sont stockés vos logs CloudTrail, et d&rsquo;ajuster la <code>projection.timestamp.range</code> à la période qui vous intéresse.</p>
+</div><p><strong>Attention :</strong> N&rsquo;oubliez pas de remplacer les URLs <code>s3://...</code> par le chemin exact de votre bucket S3 où sont stockés vos logs CloudTrail, et d&rsquo;ajuster la propriété <code>projection.timestamp.range</code> à la période qui vous intéresse.</p>
 <h1 id="lheure-de-lenquête--trouver-linformation"><a href="#lheure-de-lenqu%c3%aate--trouver-linformation" class="header-anchor"></a>L&rsquo;Heure de l&rsquo;Enquête : Trouver l&rsquo;Information
 </h1><p>Une fois la table créée (ce qui ne prend que quelques secondes), le plus dur est fait ! Mon enquête pouvait enfin commencer.</p>
 <p>Je cherchais à savoir qui avait créé un <code>UserPoolClient</code> pour Cognito à une date précise. Ma requête SQL ressemblait donc à ça :</p>
@@ -539,6 +533,16 @@
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>En quelques secondes, Athena a scanné les logs du jour demandé et m&rsquo;a retourné le résultat.</p>
+<p><img src="/img/on-the-trail-of-the-lost-resource-my-investigation-with-athena-and-cloudtrail/running_the_athena_query.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="Athena query to search CloudTrail logs in S3"
+	
+	
+></p>
 <p>J&rsquo;avais l&rsquo;heure exacte, l&rsquo;événement, et surtout, l&rsquo;ARN de l&rsquo;utilisateur qui avait effectué l&rsquo;action. Mission accomplie !</p>
 <h1 id="le-verdict-et-le-coupable"><a href="#le-verdict-et-le-coupable" class="header-anchor"></a>Le Verdict&hellip; et le Coupable
 </h1><p>Le plus drôle dans cette histoire ?</p>
@@ -552,13 +556,13 @@
     
     <section class="article-tags">
         
-            <a href="/cloud-optimist/pr-88/fr/tags/aws/">AWS</a>
-        
             <a href="/cloud-optimist/pr-88/fr/tags/cloudtrail/">CloudTrail</a>
+        
+            <a href="/cloud-optimist/pr-88/fr/tags/athena/">Athena</a>
         
             <a href="/cloud-optimist/pr-88/fr/tags/s3/">S3</a>
         
-            <a href="/cloud-optimist/pr-88/fr/tags/athena/">Athena</a>
+            <a href="/cloud-optimist/pr-88/fr/tags/cognito/">Cognito</a>
         
     </section>
 

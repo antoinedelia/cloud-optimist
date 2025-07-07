@@ -1,5 +1,5 @@
 ---
-title: "Sur la piste de la ressource perdue : Mon enquête avec Athena et CloudTrail"
+title: "Sur la piste de la ressource perdue - Mon enquête avec Athena et CloudTrail"
 date: 2025-07-24T07:30:00+02:00
 author: Antoine Delia
 draft: true

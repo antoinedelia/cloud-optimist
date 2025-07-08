@@ -105,6 +105,6 @@ J'avais l'heure exacte, l'événement, et surtout, l'ARN de l'utilisateur qui av
 
 Le plus drôle dans cette histoire ?
 
-Après avoir mis en place cette solution et retrouvé l'information si facilement, j'ai découvert que l'ARN du "coupable" qui avait créé cette ressource il y a quatre mois... était le mien. J'avais complètement oublié !
+Après avoir mis en place cette solution et retrouvé l'information si facilement, j'ai découvert que le "coupable" qui avait créé cette ressource il y a quatre mois... **c'était moi**. J'avais complètement oublié !
 
 Au-delà de l'anecdote, cette expérience m'a confirmé une chose : prendre quelques minutes pour configurer Athena sur vos logs CloudTrail est un investissement incroyablement rentable. Vous vous offrez une capacité d'audit et de recherche sur le long terme qui vous sauvera des heures de recherche manuelle le jour où vous en aurez vraiment besoin. Ne faites pas comme moi, n'attendez pas d'être coincé pour le mettre en place !

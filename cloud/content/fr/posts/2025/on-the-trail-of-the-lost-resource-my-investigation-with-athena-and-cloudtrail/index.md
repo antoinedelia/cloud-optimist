@@ -16,7 +16,7 @@ image: aws_lost_resource.jpeg
 
 Récemment, j'ai dû jouer les détectives sur notre compte AWS.
 
-Une ressource était là (un Cognito User Pool), bien présente, mais personne ne se souvenait de son origine. Et évidemment, pas de tags pour nous aider (si seulement ils avaient lu [mon article sur le tagging des resources AWS](/fr/posts/2025/why-tagging-your-aws-resources-is-a-must/)).
+Une ressource était là (un Cognito User Pool), bien présente, mais personne ne se souvenait de son origine. Et évidemment, pas de tags pour nous aider (si seulement ils avaient lu [mon article sur le tagging des ressources AWS](/fr/posts/2025/why-tagging-your-aws-resources-is-a-must/)).
 
 Ma mission, si je l'acceptais : découvrir qui l'avait créée. Le problème ? L'événement datait d'il y a environ quatre mois.
 
@@ -24,7 +24,7 @@ Mon premier réflexe a été de me tourner vers AWS CloudTrail. Et là, premier 
 
 Heureusement, je savais que nos logs CloudTrail étaient archivés dans un bucket S3. Mon premier réflexe : télécharger manuellement les archives du bon mois, décompresser des dizaines de fichiers JSON, et lancer un <kbd>Ctrl+F</kbd> en priant très fort. Autant vous dire que ce n'est ni efficace, ni agréable, ni rapide.
 
-Je me suis donc demandé s'il n'y avait pas un moyen plus simple de pouvoir chercher dans cet amas de logs, et j'ai finalement trouvé la solution parfaite : **AWS Athena**.
+Je me suis donc demandé s'il n'y avait pas un moyen plus simple de chercher dans cet amas de logs, et j'ai finalement trouvé la solution parfaite : **AWS Athena**.
 
 # Interroger vos logs S3 avec Athena
 
@@ -32,7 +32,7 @@ Pour ceux qui ne connaissent pas, [AWS Athena](https://docs.aws.amazon.com/athen
 
 L'idée est donc de "mapper" nos logs CloudTrail stockés dans S3 à une table dans Athena. Pour cela, on utilise une seule requête `CREATE EXTERNAL TABLE`. En suivant [la documentation d'AWS sur le sujet](https://docs.aws.amazon.com/athena/latest/ug/create-cloudtrail-table-partition-projection.html), j'ai lancé la requête suivante dans la console Athena.
 
-Cette requête crée une table et utilise une fonctionnalité très pratique appelée "partition projection". Cela permet à Athena de déduire l'emplacement des logs en fonction de la date, sans avoir à gérer manuellement les partitions. Pratique quand la structure est bien standardisée comme c'est le cas avec AWS CloudTrail.
+Cette requête crée une table et utilise une fonctionnalité très pratique appelée "partition projection". Cela permet à Athena de déduire l'emplacement des logs en fonction de la date, sans avoir à gérer manuellement les partitions. C'est d'autant plus pratique quand la structure est bien standardisée comme c'est le cas avec AWS CloudTrail.
 
 ```sql
 CREATE EXTERNAL TABLE cloudtrail_logs_pp (

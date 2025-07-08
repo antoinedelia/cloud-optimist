@@ -150,7 +150,7 @@
 &lt;p&gt;J&amp;rsquo;avais l&amp;rsquo;heure exacte, l&amp;rsquo;événement, et surtout, l&amp;rsquo;ARN de l&amp;rsquo;utilisateur qui avait effectué l&amp;rsquo;action. Mission accomplie !&lt;/p&gt;
 &lt;h1 id=&#34;le-verdict-et-le-coupable&#34;&gt;&lt;a href=&#34;#le-verdict-et-le-coupable&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Le Verdict&amp;hellip; et le Coupable
 &lt;/h1&gt;&lt;p&gt;Le plus drôle dans cette histoire ?&lt;/p&gt;
-&lt;p&gt;Après avoir mis en place cette solution et retrouvé l&amp;rsquo;information si facilement, j&amp;rsquo;ai découvert que l&amp;rsquo;ARN du &amp;ldquo;coupable&amp;rdquo; qui avait créé cette ressource il y a quatre mois&amp;hellip; était le mien. J&amp;rsquo;avais complètement oublié !&lt;/p&gt;
+&lt;p&gt;Après avoir mis en place cette solution et retrouvé l&amp;rsquo;information si facilement, j&amp;rsquo;ai découvert que le &amp;ldquo;coupable&amp;rdquo; qui avait créé cette ressource il y a quatre mois&amp;hellip; &lt;strong&gt;c&amp;rsquo;était moi&lt;/strong&gt;. J&amp;rsquo;avais complètement oublié !&lt;/p&gt;
 &lt;p&gt;Au-delà de l&amp;rsquo;anecdote, cette expérience m&amp;rsquo;a confirmé une chose : prendre quelques minutes pour configurer Athena sur vos logs CloudTrail est un investissement incroyablement rentable. Vous vous offrez une capacité d&amp;rsquo;audit et de recherche sur le long terme qui vous sauvera des heures de recherche manuelle le jour où vous en aurez vraiment besoin. Ne faites pas comme moi, n&amp;rsquo;attendez pas d&amp;rsquo;être coincé pour le mettre en place !&lt;/p&gt;
 </description>
         </item>

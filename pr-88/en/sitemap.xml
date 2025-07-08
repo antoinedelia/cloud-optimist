@@ -2,8 +2,21 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://antoinedelia.github.io/cloud-optimist/pr-88/en/tags/athena/</loc>
+    <lastmod>2025-07-24T07:30:00+02:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="fr-FR"
+                href="https://antoinedelia.github.io/cloud-optimist/pr-88/fr/tags/athena/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en-US"
+                href="https://antoinedelia.github.io/cloud-optimist/pr-88/en/tags/athena/"
+                />
+  </url><url>
     <loc>https://antoinedelia.github.io/cloud-optimist/pr-88/en/categories/aws/</loc>
-    <lastmod>2025-06-24T07:30:00+02:00</lastmod>
+    <lastmod>2025-07-24T07:30:00+02:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="fr-FR"
@@ -13,6 +26,110 @@
                 rel="alternate"
                 hreflang="en-US"
                 href="https://antoinedelia.github.io/cloud-optimist/pr-88/en/categories/aws/"
+                />
+  </url><url>
+    <loc>https://antoinedelia.github.io/cloud-optimist/pr-88/en/categories/</loc>
+    <lastmod>2025-07-24T07:30:00+02:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="fr-FR"
+                href="https://antoinedelia.github.io/cloud-optimist/pr-88/fr/categories/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en-US"
+                href="https://antoinedelia.github.io/cloud-optimist/pr-88/en/categories/"
+                />
+  </url><url>
+    <loc>https://antoinedelia.github.io/cloud-optimist/pr-88/en/tags/cloudtrail/</loc>
+    <lastmod>2025-07-24T07:30:00+02:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="fr-FR"
+                href="https://antoinedelia.github.io/cloud-optimist/pr-88/fr/tags/cloudtrail/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en-US"
+                href="https://antoinedelia.github.io/cloud-optimist/pr-88/en/tags/cloudtrail/"
+                />
+  </url><url>
+    <loc>https://antoinedelia.github.io/cloud-optimist/pr-88/en/tags/cognito/</loc>
+    <lastmod>2025-07-24T07:30:00+02:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="fr-FR"
+                href="https://antoinedelia.github.io/cloud-optimist/pr-88/fr/tags/cognito/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en-US"
+                href="https://antoinedelia.github.io/cloud-optimist/pr-88/en/tags/cognito/"
+                />
+  </url><url>
+    <loc>https://antoinedelia.github.io/cloud-optimist/pr-88/en/posts/2025/on-the-trail-of-the-lost-resource-my-investigation-with-athena-and-cloudtrail/</loc>
+    <lastmod>2025-07-24T07:30:00+02:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="fr-FR"
+                href="https://antoinedelia.github.io/cloud-optimist/pr-88/fr/posts/2025/on-the-trail-of-the-lost-resource-my-investigation-with-athena-and-cloudtrail/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en-US"
+                href="https://antoinedelia.github.io/cloud-optimist/pr-88/en/posts/2025/on-the-trail-of-the-lost-resource-my-investigation-with-athena-and-cloudtrail/"
+                />
+  </url><url>
+    <loc>https://antoinedelia.github.io/cloud-optimist/pr-88/en/posts/</loc>
+    <lastmod>2025-07-24T07:30:00+02:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="fr-FR"
+                href="https://antoinedelia.github.io/cloud-optimist/pr-88/fr/posts/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en-US"
+                href="https://antoinedelia.github.io/cloud-optimist/pr-88/en/posts/"
+                />
+  </url><url>
+    <loc>https://antoinedelia.github.io/cloud-optimist/pr-88/en/tags/s3/</loc>
+    <lastmod>2025-07-24T07:30:00+02:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="fr-FR"
+                href="https://antoinedelia.github.io/cloud-optimist/pr-88/fr/tags/s3/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en-US"
+                href="https://antoinedelia.github.io/cloud-optimist/pr-88/en/tags/s3/"
+                />
+  </url><url>
+    <loc>https://antoinedelia.github.io/cloud-optimist/pr-88/en/tags/</loc>
+    <lastmod>2025-07-24T07:30:00+02:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="fr-FR"
+                href="https://antoinedelia.github.io/cloud-optimist/pr-88/fr/tags/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en-US"
+                href="https://antoinedelia.github.io/cloud-optimist/pr-88/en/tags/"
+                />
+  </url><url>
+    <loc>https://antoinedelia.github.io/cloud-optimist/pr-88/en/</loc>
+    <lastmod>2025-07-24T07:30:00+02:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="fr-FR"
+                href="https://antoinedelia.github.io/cloud-optimist/pr-88/fr/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en-US"
+                href="https://antoinedelia.github.io/cloud-optimist/pr-88/en/"
                 />
   </url><url>
     <loc>https://antoinedelia.github.io/cloud-optimist/pr-88/en/tags/aws/</loc>
@@ -26,58 +143,6 @@
                 rel="alternate"
                 hreflang="en-US"
                 href="https://antoinedelia.github.io/cloud-optimist/pr-88/en/tags/aws/"
-                />
-  </url><url>
-    <loc>https://antoinedelia.github.io/cloud-optimist/pr-88/en/categories/</loc>
-    <lastmod>2025-06-24T07:30:00+02:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="fr-FR"
-                href="https://antoinedelia.github.io/cloud-optimist/pr-88/fr/categories/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="en-US"
-                href="https://antoinedelia.github.io/cloud-optimist/pr-88/en/categories/"
-                />
-  </url><url>
-    <loc>https://antoinedelia.github.io/cloud-optimist/pr-88/en/posts/</loc>
-    <lastmod>2025-06-24T07:30:00+02:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="fr-FR"
-                href="https://antoinedelia.github.io/cloud-optimist/pr-88/fr/posts/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="en-US"
-                href="https://antoinedelia.github.io/cloud-optimist/pr-88/en/posts/"
-                />
-  </url><url>
-    <loc>https://antoinedelia.github.io/cloud-optimist/pr-88/en/tags/</loc>
-    <lastmod>2025-06-24T07:30:00+02:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="fr-FR"
-                href="https://antoinedelia.github.io/cloud-optimist/pr-88/fr/tags/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="en-US"
-                href="https://antoinedelia.github.io/cloud-optimist/pr-88/en/tags/"
-                />
-  </url><url>
-    <loc>https://antoinedelia.github.io/cloud-optimist/pr-88/en/</loc>
-    <lastmod>2025-06-24T07:30:00+02:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="fr-FR"
-                href="https://antoinedelia.github.io/cloud-optimist/pr-88/fr/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="en-US"
-                href="https://antoinedelia.github.io/cloud-optimist/pr-88/en/"
                 />
   </url><url>
     <loc>https://antoinedelia.github.io/cloud-optimist/pr-88/en/posts/2025/why-tagging-your-aws-resources-is-a-must/</loc>

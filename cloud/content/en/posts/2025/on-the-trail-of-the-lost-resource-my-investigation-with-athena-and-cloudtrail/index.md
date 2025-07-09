@@ -1,8 +1,8 @@
 ---
 title: "On The Trail of The Lost Resource - My Investigation With Athena and CloudTrail"
-date: 2025-07-24T07:30:00+02:00
+date: 2025-07-09T12:30:00+02:00
 author: Antoine Delia
-draft: true
+draft: false
 tags:
     - CloudTrail
     - Athena

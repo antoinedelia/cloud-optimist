@@ -6,7 +6,8 @@ author: Antoine Delia
 tags:
     - Postman
     - OAuth
-categories: [ Software Engineering, API ]
+    - API
+categories: [ Software Engineering ]
 image: astronaut.jpeg
 ---
 

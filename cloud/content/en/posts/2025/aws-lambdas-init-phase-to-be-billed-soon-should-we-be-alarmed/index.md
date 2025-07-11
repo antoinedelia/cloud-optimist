@@ -5,7 +5,9 @@ author: Antoine Delia
 draft: false
 tags:
     - AWS
-categories: [ AWS ]
+    - Lambda
+    - CloudWatch
+categories: [ Cloud, FinOps ]
 image: lambda-init-billing.jpeg
 ---
 

@@ -5,7 +5,10 @@ author: Antoine Delia
 draft: false
 tags:
     - AWS
-categories: [ AWS ]
+    - IAM
+    - Cost Explorer
+    - Resource Explorer
+categories: [ Cloud, DevOps, FinOps ]
 image: aws_tagging.jpeg
 ---
 

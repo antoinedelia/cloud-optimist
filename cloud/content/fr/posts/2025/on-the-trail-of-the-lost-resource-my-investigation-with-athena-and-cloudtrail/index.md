@@ -4,11 +4,12 @@ date: 2025-07-09T12:30:00+02:00
 author: Antoine Delia
 draft: false
 tags:
+    - AWS
     - CloudTrail
     - Athena
     - S3
     - Cognito
-categories: [ AWS ]
+categories: [ Cloud ]
 image: aws_lost_resource.jpeg
 ---
 

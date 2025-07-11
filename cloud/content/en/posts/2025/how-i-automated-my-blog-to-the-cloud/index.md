@@ -4,12 +4,15 @@ date: 2025-03-04T07:30:00+01:00
 author: Antoine Delia
 draft: false
 tags:
-    - Terraform
-    - CI/CD
     - GitHub Actions
-    - Hugo
+    - WordPress
+    - S3
+    - CloudFront
+    - Certificate
+    - Terraform
     - AWS
-categories: [ Terraform, CI/CD, GitHub Actions, Hugo, AWS ]
+    - Hugo
+categories: [ Infrastructure as Code, DevOps, CI/CD, Blog, Cloud ]
 image: automated-blog.jpeg
 ---
 

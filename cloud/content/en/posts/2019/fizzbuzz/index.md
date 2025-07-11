@@ -5,7 +5,8 @@ draft: false
 author: Antoine Delia
 tags:
     - Python
-categories: [ Python ]
+    - Interview
+categories: [ Software Engineering, Productivity ]
 image: fizzbuzz.jpeg
 ---
 

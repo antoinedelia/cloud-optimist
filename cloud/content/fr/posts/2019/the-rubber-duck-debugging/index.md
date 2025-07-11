@@ -4,6 +4,9 @@ date: 2019-06-26T22:49:13+02:00
 draft: false
 author: Antoine Delia
 image: duck.jpg
+tags:
+    - Troubleshooting
+categories: [ Software Engineering, Productivity ]
 ---
 
 <strong>La programmation est un art complexe.</strong> Vous êtes un véritable architecte et votre mission est de concevoir, construire, décorer et entretenir une application, un peu comme vous le feriez pour une maison.

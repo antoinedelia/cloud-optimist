@@ -4,9 +4,10 @@ author: Antoine Delia
 date: 2025-01-19T16:45:00+02:00
 tags:
     - Python
-    - CI/CD
     - Jenkins
-categories: [ Python, CI/CD, Jenkins ]
+    - uv
+    - ruff
+categories: [ DevOps, CI/CD, Software Engineering ]
 draft: false
 image: ci-cd-strategy.jpeg
 ---

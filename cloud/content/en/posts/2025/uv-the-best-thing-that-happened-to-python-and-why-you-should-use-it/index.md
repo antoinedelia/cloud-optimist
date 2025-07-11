@@ -5,7 +5,9 @@ author: Antoine Delia
 draft: false
 tags:
     - Python
-categories: [ Python ]
+    - uv
+    - ruff
+categories: [ Software Engineering ]
 image: uv.jpg
 ---
 

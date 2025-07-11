@@ -4,6 +4,9 @@ date: 2019-06-26T22:49:13+02:00
 draft: false
 author: Antoine Delia
 image: duck.jpg
+tags:
+    - Troubleshooting
+categories: [ Software Engineering, Productivity ]
 ---
 
 <strong>Programming is a painful art.</strong> You are a real architect and you mission is to design, build, decorate and maintain an application, much like how you would do for a house.

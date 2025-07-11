@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>Jenkins on The Cloud Optimist</title>
+        <link>https://antoinedelia.github.io/cloud-optimist/pr-90/en/tags/jenkins/</link>
+        <description>Recent content in Jenkins on The Cloud Optimist</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>en-US</language>
+        <lastBuildDate>Sun, 19 Jan 2025 16:45:00 +0200</lastBuildDate><atom:link href="https://antoinedelia.github.io/cloud-optimist/pr-90/en/tags/jenkins/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>How We Built a CI/CD Strategy That Onboards 100&#43; Python Projects in Under a Minute</title>
+        <link>https://antoinedelia.github.io/cloud-optimist/pr-90/en/posts/2025/how-we-built-a-cicd-strategy-that-onboards-100-python-projects-in-under-a-minute/</link>
+        <pubDate>Sun, 19 Jan 2025 16:45:00 +0200</pubDate>
+        
+        <guid>https://antoinedelia.github.io/cloud-optimist/pr-90/en/posts/2025/how-we-built-a-cicd-strategy-that-onboards-100-python-projects-in-under-a-minute/</guid>
+        <description>&lt;img src="https://antoinedelia.github.io/cloud-optimist/pr-90/en/posts/2025/how-we-built-a-cicd-strategy-that-onboards-100-python-projects-in-under-a-minute/ci-cd-strategy.jpeg" alt="Featured image of post How We Built a CI/CD Strategy That Onboards 100&#43; Python Projects in Under a Minute" /&gt;&lt;p&gt;We all know CI/CD is important. In fact, it seems impossible to imagine a world where we would ship a project without checking the quality of its code, and having a detailed test suite. Moreover, to enable developers to focus on development, all of this should be automated.&lt;/p&gt;
+&lt;p&gt;Well, things are not always so easy.&lt;/p&gt;
+&lt;p&gt;Today, I’ll share how we transitioned from having no CI/CD strategy to onboarding 100+ Python projects in under a minute.&lt;/p&gt;
+&lt;h1 id=&#34;the-real-world&#34;&gt;&lt;a href=&#34;#the-real-world&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;The Real World
+&lt;/h1&gt;&lt;p&gt;When I joined my current company, I noticed we were managing a large number of Python projects. But when I tried to check for the CI/CD of these, well it was a bit of a mess. Some projects had CI/CD in place, but not too many. And the ones with one were not using the same rules to verify code compliance. It was clear that putting in place a CI/CD for any given project was treated as best effort. And, to be honest, I cannot blame this on anyone.&lt;/p&gt;
+&lt;p&gt;Indeed, while CI/CD is widely recognized as a core component of any project, implementing it in the real world often proves challenging.&lt;/p&gt;
+&lt;p&gt;But I knew we could change that somehow. So before jumping into a strategy to put in place, I wanted to observe what had prevented people to implement a CI/CD to begin with.&lt;/p&gt;
+&lt;h2 id=&#34;lack-of-permissions&#34;&gt;&lt;a href=&#34;#lack-of-permissions&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Lack of Permissions
+&lt;/h2&gt;&lt;p&gt;The first thing that I realized, is that not all developers had the same level of access to our Jenkins instance. So while some were able to create new pipelines for their projects, some couldn&amp;rsquo;t. In large organizations, it is not uncommon to have this kind of scenario.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Lesson learned: a lack of permissions should not be a drawback to use a CI/CD pipeline.&lt;/strong&gt;&lt;/p&gt;&lt;/blockquote&gt;
+&lt;h2 id=&#34;lack-of-knowledge&#34;&gt;&lt;a href=&#34;#lack-of-knowledge&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Lack of Knowledge
+&lt;/h2&gt;&lt;p&gt;When people had the ability to create a pipeline, some did not, as they simply did not have the proper knowledge to do so. Here, I need to mention that our company uses a Jenkins instance, so developers familiar with other CI/CD tools (e.g., GitHub Actions, CircleCI) could not fully transfer these knowledge to Jenkins. Moreover, we did not have a clear documentation on the process to follow to create a new pipeline, so beginners, fearing to break something, would simply do not take the risk to mess with it.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Lesson learned: we should ensure people without proper Jenkins knowledge can use a CI/CD pipeline.&lt;/strong&gt;&lt;/p&gt;&lt;/blockquote&gt;
+&lt;h2 id=&#34;lack-of-time&#34;&gt;&lt;a href=&#34;#lack-of-time&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Lack of Time
+&lt;/h2&gt;&lt;p&gt;It takes effort to put in place a CI/CD at the beginning of a project, something that might be overlooked by managers that want to ship a product as fast as possible. Moreover, it is sometimes difficult to quantify the return on investment of putting in place a CI/CD pipeline. And if it is difficult to prove this can bring business value, it will end up in the &amp;ldquo;we&amp;rsquo;ll deal with this later&amp;rdquo; box. And we know all too well that the tasks that end up in this box will never see the light of day again.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Lesson learned: setting up a CI/CD pipeline for a new or existing project should be easy and straightforward.&lt;/strong&gt;&lt;/p&gt;&lt;/blockquote&gt;
+&lt;h2 id=&#34;lack-of-clear-guidelines&#34;&gt;&lt;a href=&#34;#lack-of-clear-guidelines&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Lack of Clear Guidelines
+&lt;/h2&gt;&lt;p&gt;Finally, I had a look at the projects that &lt;em&gt;did&lt;/em&gt; have a CI/CD pipeline. They were working fine, but I could clearly see that they lacked a common vision. Some of them used the same formatter (black), but they not always used the same line-length. Some included a testing stage, some didn&amp;rsquo;t. Not only did this led to projects not having the same code quality and compliance, I also thought that this could potentially led to confusion for a newcomer, not knowing which standard to use.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Lesson learned: people should use the same CI/CD pipeline to ensure everyone follows the same guidelines (and we should ensure these guidelines are documented somewhere).&lt;/strong&gt;&lt;/p&gt;&lt;/blockquote&gt;
+&lt;h1 id=&#34;the-global-vision&#34;&gt;&lt;a href=&#34;#the-global-vision&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;The Global Vision
+&lt;/h1&gt;&lt;p&gt;After reviewing what could go wrong, it is now important to think of a solution that could address all of these, while following the company&amp;rsquo;s best practices, and using the tools at our disposal.&lt;/p&gt;
+&lt;h2 id=&#34;formatting&#34;&gt;&lt;a href=&#34;#formatting&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Formatting
+&lt;/h2&gt;&lt;p&gt;The first stage should use a formatter to ensure every line of code in our codebase looks the same. This makes sure we are not ending up with different coding standards across our projects.&lt;/p&gt;
+&lt;p&gt;Previously, we used black as our formatter. But after hearing all the good news and testing the new cool kid in the block, we decided to switch to ruff, as it has the same benefits as black, but with a faster execution.&lt;/p&gt;
+&lt;h2 id=&#34;linting&#34;&gt;&lt;a href=&#34;#linting&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Linting
+&lt;/h2&gt;&lt;p&gt;The next stage should use a linter to find potential issues with our code. This makes sure we avoid complexity in our code, as well as identifying code smells or security issues.&lt;/p&gt;
+&lt;p&gt;In the past, I used flake8 a lot. But given that we were already using ruff, and as it can also act as a linter, it was a no-brainer to keep it for this task.&lt;/p&gt;
+&lt;p&gt;There are many rules that ruff can apply. We decided to use some of them by default, while letting developers the choice to update the ones their project would follow.&lt;/p&gt;
+&lt;h2 id=&#34;unit-tests&#34;&gt;&lt;a href=&#34;#unit-tests&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Unit Tests
+&lt;/h2&gt;&lt;p&gt;Tests are a critical part of the development of any project. It ensures we ship quality code to production, while also being able to trust that our code would run just fine.&lt;/p&gt;
+&lt;p&gt;We decided to use pytest to run these tests. The default code directory would be called &lt;code&gt;src&lt;/code&gt;, and all tests should be in a &lt;code&gt;tests&lt;/code&gt; folder, with files being prefixed by &lt;code&gt;test_&lt;/code&gt;.&lt;/p&gt;
+&lt;h2 id=&#34;code-coverage&#34;&gt;&lt;a href=&#34;#code-coverage&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Code Coverage
+&lt;/h2&gt;&lt;p&gt;Closely related to unit tests, code coverage ensures we are able to know how much of our code has been tested. This could quickly tell us if we sufficiently tested our code, as well as pointing out the remaining lines to cover.&lt;/p&gt;
+&lt;p&gt;As we were using pytest, we decided to use pytest-cov to generate a coverage report, as it integrates nicely with pytest.&lt;/p&gt;
+&lt;p&gt;We set the minimum coverage threshold at 50%. Anything lower would risk overlooking significant portions of code, while setting it higher might discourage developers from writing the necessary tests.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://antoinedelia.github.io/cloud-optimist/pr-90/img/how-we-built-a-cicd-strategy-that-onboards-100-python-projects-in-under-a-minute/detailed-view-of-the-code-coverage-step.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Detailed view of the code coverage step&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h2 id=&#34;organization-folders-for-jenkins&#34;&gt;&lt;a href=&#34;#organization-folders-for-jenkins&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Organization Folders for Jenkins
+&lt;/h2&gt;&lt;p&gt;We had our different stages ready. Now all we needed to do, was find a way to globally apply said pipeline to our Python repositories. So I tried looking for a way to easily do that in Jenkins.&lt;/p&gt;
+&lt;p&gt;That&amp;rsquo;s when I stumbled upon &lt;a class=&#34;link&#34; href=&#34;https://www.jenkins.io/doc/book/using/best-practices/#use-organization-folders&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Organization Folders&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Organization Folders are designed for scenarios like ours: automatically scan an organization (as in, a GitHub organization), filter the repositories you want, and apply a Jenkins pipeline to them.&lt;/p&gt;
+&lt;p&gt;In our example, we are able to look for all repositories with the &amp;ldquo;python&amp;rdquo; topic, and identify them as Python projects. They will then be automatically built. If a new repository is created with this topic, it will also get picked up by Jenkins.&lt;/p&gt;
+&lt;p&gt;So, in less than 5 seconds, your project could be onboarded, without having to create it in Jenkins. All is done automatically so you can focus on your code.&lt;/p&gt;
+&lt;h2 id=&#34;examples-and-documentation&#34;&gt;&lt;a href=&#34;#examples-and-documentation&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Examples and Documentation
+&lt;/h2&gt;&lt;p&gt;All of this was great, but I was fearing of one last obstacle. What would happen if developers adopted the CI/CD pipeline only to find stages failing, with no clear documentation to resolve issues? They would probably give up or try to fix it later, which would destroy the initial goal.&lt;/p&gt;
+&lt;p&gt;So I knew that if I wanted to onboard people in this, we needed to deliver clear documentation with direct examples, so they would be able to understand why these errors might appear, and how to fix them.&lt;/p&gt;
+&lt;p&gt;Especially on the unit tests stage, as I know this is always a daunting task to start with. So I prepared a project in advance with some unit tests that I knew they could have a look at to take some inspiration, or that directly covered some tricky parts (mocking boto3 API calls, etc.).&lt;/p&gt;
+&lt;p&gt;The last step was to make a presentation on all of the above. This was key to give meaning to people, so they could really understand the point of doing all this, while making sure they had all the keys to be autonomous.&lt;/p&gt;
+&lt;h1 id=&#34;what-we-have-today&#34;&gt;&lt;a href=&#34;#what-we-have-today&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;What We Have Today
+&lt;/h1&gt;&lt;p&gt;From a developer&amp;rsquo;s view, all he has to do to get his Python project onboarded, is to add the &lt;code&gt;python&lt;/code&gt; topic in his repository, and ensures a &lt;code&gt;pyproject.toml&lt;/code&gt; file is created at the root of the repository.&lt;/p&gt;
+&lt;p&gt;These two requirements are here to tell Jenkins which project it should take into account. Moreover, the &lt;code&gt;pyproject.toml&lt;/code&gt; file is mandatory for the ruff stages in the pipeline.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://antoinedelia.github.io/cloud-optimist/pr-90/img/how-we-built-a-cicd-strategy-that-onboards-100-python-projects-in-under-a-minute/two-simple-steps-to-get-onboarded-with-cicd-pipelines.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Two simple steps to get onboarded with CI/CD pipelines&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;With that done, his Python project will now check for formatting issues, linting errors, validation of unit tests, and code coverage.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://antoinedelia.github.io/cloud-optimist/pr-90/img/how-we-built-a-cicd-strategy-that-onboards-100-python-projects-in-under-a-minute/jenkins-python-cicd-pipeline.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Jenkins Python CI/CD pipeline&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;All in all, we are now able to setup CI/CD pipelines in less than a minute, whether you have a new or existing project!&lt;/p&gt;
+&lt;h1 id=&#34;some-flaws&#34;&gt;&lt;a href=&#34;#some-flaws&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Some Flaws
+&lt;/h1&gt;&lt;p&gt;While this simplifies things a lot, there is still room for improvements.&lt;/p&gt;
+&lt;h2 id=&#34;the-pipeline-cannot-be-enforced&#34;&gt;&lt;a href=&#34;#the-pipeline-cannot-be-enforced&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;The pipeline cannot be enforced
+&lt;/h2&gt;&lt;p&gt;Currently, this CI/CD pipeline cannot be enforced because developers can simply remove the &lt;code&gt;python&lt;/code&gt; topic to bypass it. And while this is fine at first, as we do not want to block developers in their work, at some point, the goal is still to make sure we are applying the same best practices in all Python projects.&lt;/p&gt;
+&lt;p&gt;This might be resolved in the future by the use of &lt;a class=&#34;link&#34; href=&#34;https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets/about-rulesets&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;GitHub Rulesets&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;They essentially act quite the same as branch protection rules, expect you define these rules at the organization level.&lt;/p&gt;
+&lt;p&gt;This way, we could be able to protect our main branches for all our repositories that matches a specific custom properties, and require them to successfully pass the CI/CD pipeline before they are able to merge.&lt;/p&gt;
+&lt;h2 id=&#34;the-pipelines-stages-can-be-ignored&#34;&gt;&lt;a href=&#34;#the-pipelines-stages-can-be-ignored&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;The pipeline&amp;rsquo;s stages can be ignored
+&lt;/h2&gt;&lt;p&gt;The &lt;code&gt;pyproject.toml&lt;/code&gt; is used to say to ruff which format it should apply, or which rules to follow for the linting part.&lt;/p&gt;
+&lt;p&gt;And because we are currently using the &lt;code&gt;pyproject.toml&lt;/code&gt; inside each repository, a developer could just update the rules on his own, bypassing all the guidelines we were trying to apply in the first place.&lt;/p&gt;
+&lt;p&gt;Again, while we are allowing this for now to account for the number of fixes to resolve at first, in the end, we might want to prevent this from happening.&lt;/p&gt;
+&lt;p&gt;We could either use a common and fixed &lt;code&gt;pyproject.toml&lt;/code&gt; file, or add it in the GitHub&amp;rsquo;s CODEOWNERS file to ensure it cannot be modified without strict approval.&lt;/p&gt;
+&lt;h1 id=&#34;whats-next&#34;&gt;&lt;a href=&#34;#whats-next&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;What&amp;rsquo;s Next?
+&lt;/h1&gt;&lt;p&gt;With these in place, we can now think about the evolution of this pipeline.&lt;/p&gt;
+&lt;p&gt;For example, our company has a SonarQube instance. We would be interested to add a stage that could scan the repository for code smells.&lt;/p&gt;
+&lt;p&gt;We are also exploring the use of mkdocs, so that projects can share a common style for documentation.&lt;/p&gt;
+&lt;p&gt;And one of my personal favorites, we might want to explore the use of &lt;code&gt;uv&lt;/code&gt; to install requirements, as it is significantly faster than the old &lt;code&gt;pip&lt;/code&gt; guy!&lt;/p&gt;
+&lt;p&gt;You might have also noticed that while I talked about CI/CD throughout this post, at no point do we have a step that, well, deploys anything (which basically leaves us with a CI pipeline). We are already thinking about a way to build and deploy Python packages to our Artifactory repository manager, which would finally make this a CI/CD pipeline!&lt;/p&gt;
+&lt;p&gt;Finally, we only covered Python in this post, but the same logic could apply to other types of projects. To give you an example, we are also working on a CI/CD pipeline for Terraform.&lt;/p&gt;
+&lt;h1 id=&#34;conclusion&#34;&gt;&lt;a href=&#34;#conclusion&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Conclusion
+&lt;/h1&gt;&lt;p&gt;By tackling permissions, knowledge gaps, and inconsistent guidelines, we built a unified CI/CD strategy that now supports over 100 Python projects. It’s proof that with the right approach, automation is achievable for any organization&lt;/p&gt;
+&lt;p&gt;It’s been a long but rewarding journey!&lt;/p&gt;
+&lt;p&gt;I hope this post proved the value of CI/CD, helped you understand what could prevent it from being applied, and gave you some ideas on how to implement a similar strategy in your organization!&lt;/p&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>

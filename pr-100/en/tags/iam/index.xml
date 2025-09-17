@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>IAM on The Cloud Optimist</title>
+        <link>https://antoinedelia.github.io/cloud-optimist/pr-100/en/tags/iam/</link>
+        <description>Recent content in IAM on The Cloud Optimist</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>en-US</language>
+        <lastBuildDate>Tue, 24 Jun 2025 07:30:00 +0200</lastBuildDate><atom:link href="https://antoinedelia.github.io/cloud-optimist/pr-100/en/tags/iam/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Why Tagging your AWS Resources is a Must?</title>
+        <link>https://antoinedelia.github.io/cloud-optimist/pr-100/en/posts/2025/why-tagging-your-aws-resources-is-a-must/</link>
+        <pubDate>Tue, 24 Jun 2025 07:30:00 +0200</pubDate>
+        
+        <guid>https://antoinedelia.github.io/cloud-optimist/pr-100/en/posts/2025/why-tagging-your-aws-resources-is-a-must/</guid>
+        <description>&lt;img src="https://antoinedelia.github.io/cloud-optimist/pr-100/fr/posts/2025/why-tagging-your-aws-resources-is-a-must/aws_tagging.jpeg" alt="Featured image of post Why Tagging your AWS Resources is a Must?" /&gt;&lt;h1 id=&#34;introduction&#34;&gt;&lt;a href=&#34;#introduction&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Introduction
+&lt;/h1&gt;&lt;p&gt;The more services we deploy on AWS, the easier it is to get lost. At first, we know all the services we use by heart, the number of Lambdas or EC2 instances running. But little by little, it&amp;rsquo;s easy to feel overwhelmed, especially when different projects pile up. Quickly finding which resources belong to which project, or identifying those that weren&amp;rsquo;t properly cleaned up after a PoC, can quickly become a headache. And that&amp;rsquo;s without even mentioning cost visibility!
+Fortunately, there&amp;rsquo;s a simple yet incredibly powerful practice: &lt;strong&gt;tagging&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;In this article, I want to show you that a good tagging strategy is &lt;strong&gt;crucial for your organization, the way you handle cost, and to secure&lt;/strong&gt; your AWS account.&lt;/p&gt;
+&lt;p&gt;Ready? Tag along with me!&lt;/p&gt;
+&lt;h1 id=&#34;why-are-tags-useful&#34;&gt;&lt;a href=&#34;#why-are-tags-useful&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Why are tags useful?
+&lt;/h1&gt;&lt;p&gt;Imagine labels on moving boxes. Without them, it&amp;rsquo;s impossible to know what&amp;rsquo;s inside or which room they belong to. Tags on AWS are the same! A tag is a piece of &lt;strong&gt;information&lt;/strong&gt; (in key-value format) that you assign to your resources (EC2 instances, S3 buckets, RDS databases, etc.).
+A good tagging strategy allows you to, among other things:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;Identify orphan resources&lt;/strong&gt;: This is the classic scenario. A resource without a &lt;code&gt;Project&lt;/code&gt; or &lt;code&gt;Owner&lt;/code&gt; tag? There&amp;rsquo;s a good chance it has been forgotten and is consuming resources (and therefore money) for nothing. Listing untagged (or poorly tagged) resources is an essential first step in cleaning up.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Allocate costs&lt;/strong&gt;: By tagging your resources with a project identifier, cost center, or team, you can then use AWS Cost Explorer to filter your expenses and understand precisely which projects consume the most. This is essential for internal chargebacks or simply for optimizing your budget.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Automate actions&lt;/strong&gt;: Tags can serve as triggers for automation scripts (for example, backing up all EC2 instances with the tag &lt;code&gt;Backup=Daily&lt;/code&gt;).&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Manage access and security&lt;/strong&gt;: The &lt;a class=&#34;link&#34; href=&#34;https://aws.amazon.com/iam&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;AWS IAM&lt;/a&gt; service can use tags to grant granular permissions.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;In short, tagging is the foundation of &lt;strong&gt;good Cloud governance&lt;/strong&gt;. For more details, I invite you to consult the &lt;a class=&#34;link&#34; href=&#34;https://aws.amazon.com/solutions/guidance/tagging-on-aws/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;tagging guide proposed by AWS&lt;/a&gt;.&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;Fortunately, we can associate multiple tags with the same resource. But this raises the question: how many tags are necessary?&lt;/p&gt;
+&lt;p&gt;This will depend on your company and each project, but overall, there are some tags that won&amp;rsquo;t hurt, no matter your situation:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Project&lt;/strong&gt;: The name of the project linked to the resource. Usually, the GitHub repository name works well.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Environment&lt;/strong&gt;: The desired environment (dev, uat, prod, &amp;hellip;). Even if you have separate AWS accounts, this will help you identify if a resource got lost during deployment.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Owner&lt;/strong&gt;: The owner of the resource. This could be a person, but more ideally a team (frontend, backend, security, &amp;hellip;).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Depending on your use case, you&amp;rsquo;ll surely have other ideas for tags, but with the ones above, you&amp;rsquo;ll already have a good start! And in case of doubt, feel free to read the &lt;a class=&#34;link&#34; href=&#34;https://docs.aws.amazon.com/tag-editor/latest/userguide/best-practices-and-strats.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;tagging best practices from AWS&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Let&amp;rsquo;s now look at some concrete examples of using tags in AWS.&lt;/p&gt;
+&lt;h2 id=&#34;aws-cost-explorer-tracking-costs-thanks-to-tags&#34;&gt;&lt;a href=&#34;#aws-cost-explorer-tracking-costs-thanks-to-tags&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;AWS Cost Explorer: Tracking costs thanks to tags
+&lt;/h2&gt;&lt;p&gt;One of the most concrete benefits of tagging is the &lt;strong&gt;visibility it provides over your expenses&lt;/strong&gt;. &lt;a class=&#34;link&#34; href=&#34;https://aws.amazon.com/aws-cost-management/aws-cost-explorer/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;AWS Cost Explorer&lt;/a&gt; is the tool of choice for this.&lt;/p&gt;
+&lt;p&gt;Once your resources are correctly tagged (for example, with the &lt;code&gt;Project&lt;/code&gt; tag), you need to activate these tags for cost allocation in the AWS Billing and Cost Management console (Billing and Cost Management -&amp;gt; Cost Organization -&amp;gt; Cost Allocation Tags). Be aware that there might be a delay before the activated tags appear in Cost Explorer.&lt;/p&gt;
+&lt;p&gt;Once activated, you can:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Filter by tag&lt;/strong&gt;: In Cost Explorer, you can filter your costs by the value of a specific tag.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Group by tag&lt;/strong&gt;: You can also choose to group your expenses by tag. This will give you an overview of the cost distribution across different projects, environments, etc.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Create budgets based on tags&lt;/strong&gt;: With AWS Budgets, you can set alert thresholds for costs associated with specific tags, helping you avoid nasty surprises.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;https://antoinedelia.github.io/cloud-optimist/pr-100/img/why-tagging-your-aws-resources-is-a-must/cost_explorer_tag_filtering.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Example of filtering by tag&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Example of filtering by tag for my blog: the costs are minimal, am I a FinOps expert?&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;This ability to dissect your AWS bill by tags transforms cost management from an obscure chore into a transparent and controllable exercise. It&amp;rsquo;s a must for any organization concerned about its Cloud budget. You can now add &lt;em&gt;FinOps&lt;/em&gt; to your LinkedIn bio!&lt;/p&gt;
+&lt;h2 id=&#34;aws-resource-explorer-keeping-an-eye-on-deployed-resources&#34;&gt;&lt;a href=&#34;#aws-resource-explorer-keeping-an-eye-on-deployed-resources&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;AWS Resource Explorer: Keeping an eye on deployed resources
+&lt;/h2&gt;&lt;p&gt;Now that we are convinced of the usefulness of tags, how do we &lt;strong&gt;list all the resources that use a specific tag?&lt;/strong&gt; We will see this together, with one part in the AWS console, and another part in the terminal (for all the geeks reading this article!).&lt;/p&gt;
+&lt;h3 id=&#34;visual-exploration-in-the-aws-console&#34;&gt;&lt;a href=&#34;#visual-exploration-in-the-aws-console&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Visual exploration in the AWS console
+&lt;/h3&gt;&lt;p&gt;If you are not yet familiar with &lt;a class=&#34;link&#34; href=&#34;https://aws.amazon.com/resourceexplorer/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;AWS Resource Explorer&lt;/a&gt;, now is the time to discover it! This relatively recent service allows you to search and discover your AWS resources across all regions of your account, using a simple interface, much like a search engine.&lt;/p&gt;
+&lt;p&gt;The main advantage of Resource Explorer is its ability to give you a unified view. No more jumping from region to region. You activate indexing, and then you can search for your resources by name, ID, and of course&amp;hellip; by tag!&lt;/p&gt;
+&lt;p&gt;It&amp;rsquo;s an excellent tool for:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Getting a quick overview.&lt;/li&gt;
+&lt;li&gt;Visually exploring resources associated with a specific tag.&lt;/li&gt;
+&lt;li&gt;Quickly identifying resources without having to code anything.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;To use it, activate it in the desired regions (or all of them), let it index your resources, and then use the search bar with a syntax like &lt;code&gt;tag.key:Project tag.value:Cloud*&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://antoinedelia.github.io/cloud-optimist/pr-100/img/why-tagging-your-aws-resources-is-a-must/resource_explorer_search_tags.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Searching resources by tag&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Example of a tag search for my blog: only three resources manage this blog!&lt;/em&gt;&lt;/p&gt;
+&lt;h3 id=&#34;a-more-technical-approach-with-aws-cli&#34;&gt;&lt;a href=&#34;#a-more-technical-approach-with-aws-cli&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;A more technical approach with AWS CLI
+&lt;/h3&gt;&lt;p&gt;For those who, like me, like to have control via the command line, or who need to automate these searches, the &lt;a class=&#34;link&#34; href=&#34;https://aws.amazon.com/cli/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;AWS CLI&lt;/a&gt; remains a key ally. More specifically, it&amp;rsquo;s the &lt;a class=&#34;link&#34; href=&#34;https://docs.aws.amazon.com/cli/latest/reference/resourcegroupstaggingapi/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;resourcegroupstaggingapi&lt;/a&gt; service that will interest us.&lt;/p&gt;
+&lt;p&gt;The key command is &lt;a class=&#34;link&#34; href=&#34;https://docs.aws.amazon.com/cli/latest/reference/resourcegroupstaggingapi/get-resources.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;get-resources&lt;/a&gt;. Here is a typical example to list the ARNs of all resources having the tag Project with the value &amp;ldquo;Cloud Antoine Delia&amp;rdquo;:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;aws resourcegroupstaggingapi get-resources &lt;span class=&#34;se&#34;&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;se&#34;&gt;&lt;/span&gt;    --tag-filters &lt;span class=&#34;s2&#34;&gt;&amp;#34;Key=Project,Values=Cloud Antoine Delia&amp;#34;&lt;/span&gt; &lt;span class=&#34;se&#34;&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;se&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; jq &lt;span class=&#34;s2&#34;&gt;&amp;#34;[.ResourceTagMappingList[].ResourceARN]&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;Which gives us:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-json&#34; data-lang=&#34;json&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;s2&#34;&gt;&amp;#34;arn:aws:s3:::antoiXXXXXXXXXXXXX&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;Let&amp;rsquo;s break it down a bit:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;aws resourcegroupstaggingapi get-resources&lt;/code&gt;: This is the API call; so far, so good.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;--tag-filters &amp;quot;Key=Project,Values=Cloud Antoine Delia&amp;quot;&lt;/code&gt;: This is where we specify our filter. We are looking for the tag Project with the value &amp;ldquo;Cloud Antoine Delia&amp;rdquo;. You can add multiple filters.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;| jq &amp;quot;[.ResourceTagMappingList[].ResourceARN]&amp;quot;&lt;/code&gt;: &lt;a class=&#34;link&#34; href=&#34;https://jqlang.org/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;jq&lt;/a&gt; is a wonderful tool for manipulating JSON on the command line. Here, we use it to cleanly extract the list of ARNs of the found resources (you can do without it, but why make life difficult?).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Hey, wait a minute! In the console, you show us three resources, and now there&amp;rsquo;s only one! Where&amp;rsquo;s the catch?&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;Well spotted! You should know that when you make your API call, you are using &lt;strong&gt;a default region&lt;/strong&gt;. However, if you have resources in various regions, you will need to specify it. Thus, if we add &lt;code&gt;--region us-east-1&lt;/code&gt; just before the jq pipe, we indeed get our two missing resources.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-json&#34; data-lang=&#34;json&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;s2&#34;&gt;&amp;#34;arn:aws:acm:us-east-1:6XXXXXXXXXXX0:certificate/f4ca3b13-XXXXXXXXXXXXX&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;s2&#34;&gt;&amp;#34;arn:aws:cloudfront::6XXXXXXXXXXX0:distribution/ERSXXXXXXXXXX&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;Besides this detail that you must not forget, this command is extremely powerful because you can integrate it into scripts to:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Generate regular reports on resources by project.&lt;/li&gt;
+&lt;li&gt;Automatically detect resources that do not comply with your tagging policy.&lt;/li&gt;
+&lt;li&gt;Combine with other AWS CLI commands to perform actions on the listed resources.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;For example, you could list all your resources of a certain type (e.g., all your EC2 instances) and check which ones are missing essential tags.&lt;/p&gt;
+&lt;p&gt;And if you&amp;rsquo;re wondering if AWS doesn&amp;rsquo;t already offer a service for this&amp;hellip; It does! But we will talk about that in a future article (for the curious, I&amp;rsquo;m talking about &lt;a class=&#34;link&#34; href=&#34;https://aws.amazon.com/config/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;AWS Config&lt;/a&gt;).&lt;/p&gt;
+&lt;h2 id=&#34;aws-iam-securing-the-use-of-your-resources&#34;&gt;&lt;a href=&#34;#aws-iam-securing-the-use-of-your-resources&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;AWS IAM: Securing the use of your resources
+&lt;/h2&gt;&lt;p&gt;Your resources are deployed in AWS, and now you want to give a team permission to manage all of that.
+But here&amp;rsquo;s the thing, in your AWS account, you also have critical resources that must absolutely not be compromised.&lt;/p&gt;
+&lt;p&gt;AWS IAM is here for you! Using a simple policy, you can specify that &lt;strong&gt;only resources with a certain tag can be modified&lt;/strong&gt; by a user or group.&lt;/p&gt;
+&lt;p&gt;Let&amp;rsquo;s take the following example: you would like to allow a team to start or stop certain EC2 instances, but prevent them from accidentally stopping a critical EC2 instance!
+You just need to add the following policy to your users:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;16
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;17
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;18
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;19
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;20
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;21
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;22
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;23
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;24
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;25
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-json&#34; data-lang=&#34;json&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;nt&#34;&gt;&amp;#34;Version&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;2012-10-17&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;nt&#34;&gt;&amp;#34;Statement&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;nt&#34;&gt;&amp;#34;Sid&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;AllowStartStopEC2IfProjectCloud&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;nt&#34;&gt;&amp;#34;Effect&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;Allow&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;nt&#34;&gt;&amp;#34;Action&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;s2&#34;&gt;&amp;#34;ec2:StartInstances&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;s2&#34;&gt;&amp;#34;ec2:StopInstances&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;p&#34;&gt;],&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;nt&#34;&gt;&amp;#34;Resource&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;arn:aws:ec2:*:*:instance/*&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;nt&#34;&gt;&amp;#34;Condition&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;nt&#34;&gt;&amp;#34;StringEquals&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;          &lt;span class=&#34;nt&#34;&gt;&amp;#34;aws:ResourceTag/Project&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;Cloud Antoine Delia&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;p&#34;&gt;},&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;nt&#34;&gt;&amp;#34;Sid&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;AllowDescribeToSeeInstances&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;nt&#34;&gt;&amp;#34;Effect&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;Allow&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;nt&#34;&gt;&amp;#34;Action&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;ec2:DescribeInstances&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;nt&#34;&gt;&amp;#34;Resource&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;*&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;Thus, your users will be autonomous in using their resources, without having the possibility to impact other resources.&lt;/p&gt;
+&lt;h1 id=&#34;conclusion&#34;&gt;&lt;a href=&#34;#conclusion&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Conclusion
+&lt;/h1&gt;&lt;p&gt;You&amp;rsquo;ve understood it: a rigorous tagging strategy &lt;strong&gt;isn&amp;rsquo;t an option; it&amp;rsquo;s a necessity&lt;/strong&gt; for operating serenely on AWS. Whether on the organizational, financial, or security management level, AWS gives you the means to take full advantage of your tags.&lt;/p&gt;
+&lt;p&gt;So, a little piece of advice: if you haven&amp;rsquo;t already, &lt;strong&gt;define a clear tagging policy&lt;/strong&gt; in your organization, apply it, and use these tools to regularly check that everything is in order. You&amp;rsquo;ll thank me later!&lt;/p&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>

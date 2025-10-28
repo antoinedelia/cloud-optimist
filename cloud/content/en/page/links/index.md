@@ -1,10 +1,6 @@
 ---
 title: Links
 links:
-  - title: Let's work together!
-    description: I support startups and SMEs in optimizing their Cloud infrastructure and implementing DevOps practices.
-    website: https://www.malt.fr/profile/antoinedelia
-    image: https://www.svgrepo.com/show/349444/malt.svg
   - title: GitHub
     description: Have a look at my GitHub profile.
     website: https://github.com/antoinedelia

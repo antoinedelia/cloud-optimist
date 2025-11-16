@@ -436,7 +436,8 @@
 &lt;/div&gt;&lt;p&gt;Then, I&amp;rsquo;m retrieving an extended version of Hugo straight from the GitHub release (here the v0.142.0). I&amp;rsquo;m installing it and build my blog using the &lt;code&gt;hugo&lt;/code&gt; command.&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;This step could be simplified using the &lt;a class=&#34;link&#34; href=&#34;https://github.com/peaceiris/actions-hugo&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;peaceiris/actions-hugo&lt;/a&gt; actions&lt;/p&gt;&lt;/blockquote&gt;
+    &gt;peaceiris/actions-hugo&lt;/a&gt; actions&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;p&gt;Finally, I&amp;rsquo;m using the &lt;a class=&#34;link&#34; href=&#34;https://github.com/jakejarvis/s3-sync-action&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;jakejarvis/s3-sync-action&lt;/a&gt; actions (I realized while writing this post that this action has been archived a couple of days before, ouch! &amp;ndash; I&amp;rsquo;ll add an edit later to mention an alternative) to move my blog&amp;rsquo;s files into my S3 bucket.&lt;/p&gt;
 &lt;p&gt;Of course, you&amp;rsquo;ll have to store some credentials in your GitHub repository so that your GitHub Actions can be authorized to use AWS, but nothing too crazy.&lt;/p&gt;
@@ -541,19 +542,23 @@
 &lt;h2 id=&#34;lack-of-permissions&#34;&gt;&lt;a href=&#34;#lack-of-permissions&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Lack of Permissions
 &lt;/h2&gt;&lt;p&gt;The first thing that I realized, is that not all developers had the same level of access to our Jenkins instance. So while some were able to create new pipelines for their projects, some couldn&amp;rsquo;t. In large organizations, it is not uncommon to have this kind of scenario.&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;&lt;strong&gt;Lesson learned: a lack of permissions should not be a drawback to use a CI/CD pipeline.&lt;/strong&gt;&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Lesson learned: a lack of permissions should not be a drawback to use a CI/CD pipeline.&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;h2 id=&#34;lack-of-knowledge&#34;&gt;&lt;a href=&#34;#lack-of-knowledge&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Lack of Knowledge
 &lt;/h2&gt;&lt;p&gt;When people had the ability to create a pipeline, some did not, as they simply did not have the proper knowledge to do so. Here, I need to mention that our company uses a Jenkins instance, so developers familiar with other CI/CD tools (e.g., GitHub Actions, CircleCI) could not fully transfer these knowledge to Jenkins. Moreover, we did not have a clear documentation on the process to follow to create a new pipeline, so beginners, fearing to break something, would simply do not take the risk to mess with it.&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;&lt;strong&gt;Lesson learned: we should ensure people without proper Jenkins knowledge can use a CI/CD pipeline.&lt;/strong&gt;&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Lesson learned: we should ensure people without proper Jenkins knowledge can use a CI/CD pipeline.&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;h2 id=&#34;lack-of-time&#34;&gt;&lt;a href=&#34;#lack-of-time&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Lack of Time
 &lt;/h2&gt;&lt;p&gt;It takes effort to put in place a CI/CD at the beginning of a project, something that might be overlooked by managers that want to ship a product as fast as possible. Moreover, it is sometimes difficult to quantify the return on investment of putting in place a CI/CD pipeline. And if it is difficult to prove this can bring business value, it will end up in the &amp;ldquo;we&amp;rsquo;ll deal with this later&amp;rdquo; box. And we know all too well that the tasks that end up in this box will never see the light of day again.&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;&lt;strong&gt;Lesson learned: setting up a CI/CD pipeline for a new or existing project should be easy and straightforward.&lt;/strong&gt;&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Lesson learned: setting up a CI/CD pipeline for a new or existing project should be easy and straightforward.&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;h2 id=&#34;lack-of-clear-guidelines&#34;&gt;&lt;a href=&#34;#lack-of-clear-guidelines&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Lack of Clear Guidelines
 &lt;/h2&gt;&lt;p&gt;Finally, I had a look at the projects that &lt;em&gt;did&lt;/em&gt; have a CI/CD pipeline. They were working fine, but I could clearly see that they lacked a common vision. Some of them used the same formatter (black), but they not always used the same line-length. Some included a testing stage, some didn&amp;rsquo;t. Not only did this led to projects not having the same code quality and compliance, I also thought that this could potentially led to confusion for a newcomer, not knowing which standard to use.&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;&lt;strong&gt;Lesson learned: people should use the same CI/CD pipeline to ensure everyone follows the same guidelines (and we should ensure these guidelines are documented somewhere).&lt;/strong&gt;&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Lesson learned: people should use the same CI/CD pipeline to ensure everyone follows the same guidelines (and we should ensure these guidelines are documented somewhere).&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;h1 id=&#34;the-global-vision&#34;&gt;&lt;a href=&#34;#the-global-vision&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;The Global Vision
 &lt;/h1&gt;&lt;p&gt;After reviewing what could go wrong, it is now important to think of a solution that could address all of these, while following the company&amp;rsquo;s best practices, and using the tools at our disposal.&lt;/p&gt;
 &lt;h2 id=&#34;formatting&#34;&gt;&lt;a href=&#34;#formatting&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Formatting

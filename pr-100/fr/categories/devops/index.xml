@@ -125,7 +125,8 @@
     &gt;jq&lt;/a&gt; est un outil formidable pour manipuler du JSON en ligne de commande. Ici, on l&amp;rsquo;utilise pour extraire proprement la liste des ARN des ressources trouvées (vous pouvez vous en passer, mais pourquoi se compliquer la vie ?).&lt;/li&gt;
 &lt;/ul&gt;
 &lt;blockquote&gt;
-&lt;p&gt;Eh attends une minute ! Dans la console, tu nous montres trois ressources, et là il n&amp;rsquo;y en a plus qu&amp;rsquo;une ! Elle est où l&amp;rsquo;arnaque ?&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;Eh attends une minute ! Dans la console, tu nous montres trois ressources, et là il n&amp;rsquo;y en a plus qu&amp;rsquo;une ! Elle est où l&amp;rsquo;arnaque ?&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;p&gt;Habilement remarqué ! Il faut savoir que lorsque vous faites votre appel à l&amp;rsquo;API, vous utilisez une &lt;strong&gt;region par défaut&lt;/strong&gt;. Or, si vous avez des ressources dans diverses régions, il faudra le spécifier. Ainsi, si l&amp;rsquo;on ajoute &lt;code&gt;--region us-east-1&lt;/code&gt; juste avant le pipe jq, on obtient bien nos deux ressources manquantes.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
@@ -647,7 +648,8 @@
 &lt;/div&gt;&lt;p&gt;Ensuite, je récupère une version extended d&amp;rsquo;Hugo directement depuis la release GitHub, ici la version v0.142.0. Je l&amp;rsquo;installe et build mon site en lançant la commande &lt;code&gt;hugo&lt;/code&gt;.&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;Cette étape pourrait être simplifiée avec l&amp;rsquo;utilisation de l&amp;rsquo;actions &lt;a class=&#34;link&#34; href=&#34;https://github.com/peaceiris/actions-hugo&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;peaceiris/actions-hugo&lt;/a&gt;&lt;/p&gt;&lt;/blockquote&gt;
+    &gt;peaceiris/actions-hugo&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;p&gt;Enfin, j&amp;rsquo;utilise l&amp;rsquo;actions &lt;a class=&#34;link&#34; href=&#34;https://github.com/jakejarvis/s3-sync-action&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;jakejarvis/s3-sync-action&lt;/a&gt; (je me rends compte en écrivant cet article que cette actions a été archivée quelques jours plus tôt, aïe ! &amp;ndash; je rajouterai un edit plus tard pour parler d&amp;rsquo;une alternative) pour déplacer mon blog vers mon bucket S3.&lt;/p&gt;
 &lt;p&gt;Bien sûr, il vous faudra stocker vos credentials au niveau de votre repository GitHub pour autoriser cette opération vers AWS, mais rien de bien sorcier !&lt;/p&gt;
@@ -751,19 +753,23 @@
 &lt;h2 id=&#34;manque-de-permissions&#34;&gt;&lt;a href=&#34;#manque-de-permissions&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Manque de permissions
 &lt;/h2&gt;&lt;p&gt;La première chose que j&amp;rsquo;ai réalisée, c&amp;rsquo;est que tous les développeurs n&amp;rsquo;avaient pas le même niveau d&amp;rsquo;accès à notre instance Jenkins. Tandis que certains pouvaient créer de nouvelles pipelines pour leurs projets, d&amp;rsquo;autres ne le pouvaient pas. Dans les grandes entreprises, ce genre de scénario n&amp;rsquo;est pas rare.&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;&lt;strong&gt;Leçon apprise : un manque de permissions ne devrait pas être un obstacle pour utiliser une pipeline CI/CD.&lt;/strong&gt;&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Leçon apprise : un manque de permissions ne devrait pas être un obstacle pour utiliser une pipeline CI/CD.&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;h2 id=&#34;manque-de-connaissances&#34;&gt;&lt;a href=&#34;#manque-de-connaissances&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Manque de connaissances
 &lt;/h2&gt;&lt;p&gt;Lorsque les développeurs avaient la possibilité de créer un pipeline, certains ne le faisaient pas, simplement parce qu&amp;rsquo;ils n&amp;rsquo;avaient pas les connaissances nécessaires. Il faut préciser que notre entreprise utilise une instance Jenkins comme outil officiel de CI/CD. Cet outil, bien qu&amp;rsquo;ayant fait ses preuves, reste pour le moins difficile d&amp;rsquo;usage, notamment pour les jeunes développeurs qui sont souvent familiers avec d&amp;rsquo;autres outils CI/CD (comme GitHub Actions ou CircleCI). De plus, nous n&amp;rsquo;avions pas de documentation claire sur le processus à suivre pour créer une nouvelle pipeline. Ainsi certains développeurs, de peur de casser quelque chose, préféraient ne pas prendre de risques en évitant de toucher à Jenkins.&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;&lt;strong&gt;Leçon apprise : nous devons nous assurer que les personnes sans connaissances sur Jenkins puissent utiliser un pipeline CI/CD.&lt;/strong&gt;&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Leçon apprise : nous devons nous assurer que les personnes sans connaissances sur Jenkins puissent utiliser un pipeline CI/CD.&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;h2 id=&#34;manque-de-temps&#34;&gt;&lt;a href=&#34;#manque-de-temps&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Manque de temps
 &lt;/h2&gt;&lt;p&gt;Mettre en place une pipeline CI/CD au début d&amp;rsquo;un projet demande du temps, chose qui peut être négligée par les chefs de projets qui veulent expédier un produit aussi rapidement que possible. De plus, il est parfois difficile de quantifier le retour sur investissement d’une pipeline CI/CD. Et si cela est difficile à prouver comme étant bénéfique pour l’entreprise, cela finit dans la boîte &amp;ldquo;on s&amp;rsquo;en occupera plus tard&amp;rdquo;. Et nous savons tous que les tâches qui finissent dans cette boîte ne verront plus jamais la lumière du jour.&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;&lt;strong&gt;Leçon apprise : la mise en place d’une pipeline CI/CD doit être rapide et simple.&lt;/strong&gt;&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Leçon apprise : la mise en place d’une pipeline CI/CD doit être rapide et simple.&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;h2 id=&#34;manque-de-guidelines-claires&#34;&gt;&lt;a href=&#34;#manque-de-guidelines-claires&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Manque de guidelines claires
 &lt;/h2&gt;&lt;p&gt;Enfin, j&amp;rsquo;ai jeté un œil aux projets qui &lt;em&gt;eux&lt;/em&gt; avaient une pipeline CI/CD. Ils fonctionnaient bien, mais je pouvais clairement voir qu&amp;rsquo;ils manquaient d&amp;rsquo;une vision commune. Certains utilisaient le même formateur de code (black), mais pas toujours avec la même longueur de ligne. Certains incluaient une étape de test, d&amp;rsquo;autres non. Nous avions donc des projets n&amp;rsquo;ayant pas la même qualité et conformité de code. Et cela pouvait potentiellement créer de la confusion pour un nouveau développeur, ne sachant pas quel standard suivre.&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;&lt;strong&gt;Leçon apprise : des guidelines claires de CI/CD doivent être mises en place.&lt;/strong&gt;&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Leçon apprise : des guidelines claires de CI/CD doivent être mises en place.&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;h1 id=&#34;la-vision-globale&#34;&gt;&lt;a href=&#34;#la-vision-globale&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;La vision globale
 &lt;/h1&gt;&lt;p&gt;Après avoir analysé ce qui pouvait poser problème, il est maintenant important de penser à une solution qui puisse résoudre tous ces points, tout en respectant les meilleures pratiques de l&amp;rsquo;entreprise et en utilisant les outils à notre disposition.&lt;/p&gt;
 &lt;h2 id=&#34;formatting&#34;&gt;&lt;a href=&#34;#formatting&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Formatting

@@ -584,7 +584,8 @@
 &lt;/div&gt;&lt;p&gt;Then, I&amp;rsquo;m retrieving an extended version of Hugo straight from the GitHub release (here the v0.142.0). I&amp;rsquo;m installing it and build my blog using the &lt;code&gt;hugo&lt;/code&gt; command.&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;This step could be simplified using the &lt;a class=&#34;link&#34; href=&#34;https://github.com/peaceiris/actions-hugo&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;peaceiris/actions-hugo&lt;/a&gt; actions&lt;/p&gt;&lt;/blockquote&gt;
+    &gt;peaceiris/actions-hugo&lt;/a&gt; actions&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;p&gt;Finally, I&amp;rsquo;m using the &lt;a class=&#34;link&#34; href=&#34;https://github.com/jakejarvis/s3-sync-action&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;jakejarvis/s3-sync-action&lt;/a&gt; actions (I realized while writing this post that this action has been archived a couple of days before, ouch! &amp;ndash; I&amp;rsquo;ll add an edit later to mention an alternative) to move my blog&amp;rsquo;s files into my S3 bucket.&lt;/p&gt;
 &lt;p&gt;Of course, you&amp;rsquo;ll have to store some credentials in your GitHub repository so that your GitHub Actions can be authorized to use AWS, but nothing too crazy.&lt;/p&gt;

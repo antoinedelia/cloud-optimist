@@ -24,7 +24,8 @@
 &lt;blockquote&gt;
 &lt;p&gt;For simplicity, I won&amp;rsquo;t go into the details of &lt;a class=&#34;link&#34; href=&#34;https://docs.aws.amazon.com/lambda/latest/dg/lambda-extensions.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;Lambda Extensions&lt;/a&gt; and &lt;a class=&#34;link&#34; href=&#34;https://docs.aws.amazon.com/lambda/latest/dg/snapstart.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;Lambda SnapStart&lt;/a&gt;.&lt;/p&gt;&lt;/blockquote&gt;
+    &gt;Lambda SnapStart&lt;/a&gt;.&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;p&gt;It consists of three main phases:&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;&lt;strong&gt;INIT:&lt;/strong&gt; This is the &amp;ldquo;cold start&amp;rdquo; phase. When a new instance of your function needs to be created to handle a request, Lambda prepares the environment. This phase lasts a maximum of 10 seconds.&lt;/li&gt;
@@ -51,7 +52,8 @@
 &lt;/ul&gt;
 &lt;p&gt;The key takeaway here is that the &lt;code&gt;INIT&lt;/code&gt; phase only occurs during a &lt;em&gt;cold start&lt;/em&gt;. If a request arrives while an execution environment is already &amp;ldquo;warm&amp;rdquo; (ready and reused), this phase is skipped, and execution goes directly to the &lt;code&gt;INVOKE&lt;/code&gt; phase. This is called a &amp;ldquo;warm start,&amp;rdquo; which is much faster.&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;AWS doesn&amp;rsquo;t disclose its logic for transitioning a Lambda from &amp;lsquo;warm&amp;rsquo; to &amp;lsquo;cold&amp;rsquo;.&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;AWS doesn&amp;rsquo;t disclose its logic for transitioning a Lambda from &amp;lsquo;warm&amp;rsquo; to &amp;lsquo;cold&amp;rsquo;.&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;h1 id=&#34;the-billing-change-in-detail&#34;&gt;&lt;a href=&#34;#the-billing-change-in-detail&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;The Billing Change in Detail
 &lt;/h1&gt;&lt;p&gt;Currently, &lt;a class=&#34;link&#34; href=&#34;https://aws.amazon.com/lambda/pricing/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;Lambda billing&lt;/a&gt; is based on two factors:&lt;/p&gt;
@@ -349,7 +351,8 @@
 &lt;/div&gt;
 &lt;/div&gt;&lt;blockquote&gt;
 &lt;p&gt;Keep in mind that CloudWatch Logs Insights is billed at $0.005 per GB of data scanned (&lt;a class=&#34;link&#34; href=&#34;https://aws.amazon.com/cloudwatch/pricing/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;source&lt;/a&gt;). Adjust the query time range to limit costs.&lt;/p&gt;&lt;/blockquote&gt;
+    &gt;source&lt;/a&gt;). Adjust the query time range to limit costs.&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;p&gt;Just run this query on your Lambda log groups (using the &lt;code&gt;/aws/lambda&lt;/code&gt; prefix or specific function prefixes), and you&amp;rsquo;ll get a result like this:&lt;/p&gt;
 &lt;table&gt;
   &lt;thead&gt;

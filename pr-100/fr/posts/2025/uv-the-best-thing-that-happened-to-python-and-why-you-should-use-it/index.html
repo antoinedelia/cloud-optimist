@@ -6,7 +6,7 @@
 
 <link rel='canonical' href='https://antoinedelia.github.io/cloud-optimist/pr-100/fr/posts/2025/uv-the-best-thing-that-happened-to-python-and-why-you-should-use-it/'>
 
-<link rel="stylesheet" href="/cloud-optimist/pr-100/scss/style.min.663803bebe609202d5b39d848f2d7c2dc8b598a2d879efa079fa88893d29c49c.css"><meta property='og:title' content="uv : La meilleure chose qui soit arrivée à Python - et pourquoi vous devriez l'utiliser">
+<link rel="stylesheet" href="/cloud-optimist/pr-100/scss/style.min.6a692fd055deae459f2a9767f57f3855ba80cafd5041317f24f7360f6ca47cdf.css"><meta property='og:title' content="uv : La meilleure chose qui soit arrivée à Python - et pourquoi vous devriez l'utiliser">
 <meta property='og:description' content="Introduction Python est sûrement mon langage de programmation préféré. Sa simplicité permet en un rien de temps de développer des scripts, des backends, voire même des sites internet, sans pour autant se faire des nœuds au cerveau.\nMais il y a toujours eu une chose qui me déplaisait chez Python : ses outils de packaging. Pendant longtemps, je me suis tenu à l&rsquo;écart de tous ces outils comme Poetry, car bien franchement, je n&rsquo;y comprenais rien !\n">
 <meta property='og:url' content='https://antoinedelia.github.io/cloud-optimist/pr-100/fr/posts/2025/uv-the-best-thing-that-happened-to-python-and-why-you-should-use-it/'>
 <meta property='og:site_name' content='The Cloud Optimist'>
@@ -460,7 +460,8 @@
     >ruff</a>), uv est présenté comme un installateur et résolveur de paquets Python &ldquo;extrêmement rapide&rdquo;. Cet outil est ce qu&rsquo;on pourrait appeler un <strong>game-changer</strong> : une fois que vous y avez goûté, impossible de revenir en arrière !</p>
 <p>Alors, qu&rsquo;est-ce que <strong>uv</strong> a de si spécial ? Pourquoi cet engouement ? C&rsquo;est ce que nous allons décortiquer ensemble. Accrochez-vous, vous pourriez bien avoir un nouveau coup de foudre !</p>
 <blockquote>
-<p>Ce guide se base sur mon expérience avec uv et les exemples ont été testés avec la version 0.7.3. Selon votre configuration, notamment derrière certains proxys d&rsquo;entreprise, vous pourriez avoir besoin d&rsquo;ajouter l&rsquo;option <code>--native-tls</code> à certaines commandes uv si vous rencontrez des soucis de connexion SSL.)</p></blockquote>
+<p>Ce guide se base sur mon expérience avec uv et les exemples ont été testés avec la version 0.7.3. Selon votre configuration, notamment derrière certains proxys d&rsquo;entreprise, vous pourriez avoir besoin d&rsquo;ajouter l&rsquo;option <code>--native-tls</code> à certaines commandes uv si vous rencontrez des soucis de connexion SSL.)</p>
+</blockquote>
 <h1 id="uv-cest-quoi-au-juste-"><a href="#uv-cest-quoi-au-juste-" class="header-anchor"></a>uv, c&rsquo;est quoi au juste ?
 </h1><p>En quelques mots, uv est un outil en ligne de commande qui ambitionne de remplacer pip, pip-tools, venv, pyenv, et même une partie de virtualenv et pipx, tout en étant beaucoup, <em>beaucoup</em> plus rapide. Oui, rien que ça !</p>
 <p>Comme nombre de nouveaux outils à la mode, il est écrit en Rust. Pardon, je devrais dire, il est écrit en ✨ <em>Rust</em> ✨. Ce qui explique en grande partie ses performances fulgurantes.</p>
@@ -658,7 +659,8 @@
 </div></details>
 <p>Au lieu d&rsquo;ajouter vos dépendances à la main, vous pouvez maintenant utiliser <code>uv add &lt;package_name&gt;</code>, et celui-ci sera ajouté à votre <code>pyproject.toml</code>.</p>
 <blockquote>
-<p>Attention cependant, car certains outils externes se basent toujours sur un fichier <code>requirements.txt</code>. Vous aurez donc peut-être besoin de lancer la commande <code>uv pip compile -o requirements.txt</code> dans votre pipeline CI/CD.</p></blockquote>
+<p>Attention cependant, car certains outils externes se basent toujours sur un fichier <code>requirements.txt</code>. Vous aurez donc peut-être besoin de lancer la commande <code>uv pip compile -o requirements.txt</code> dans votre pipeline CI/CD.</p>
+</blockquote>
 <h3 id="environnement-virtuel"><a href="#environnement-virtuel" class="header-anchor"></a>Environnement virtuel
 </h3><p>Comme moi, vous aviez peut-être l&rsquo;habitude d&rsquo;utiliser la commande <code>source .venv/bin/activate</code> pour activer votre environnement virtuel. Avec uv, c&rsquo;est un peu différent. Votre <code>.venv</code> sera toujours créé, mais en utilisant uv, il se mettra par défaut dans votre environnement virtuel. Prenons un exemple.</p>
 <p>Là où à l&rsquo;époque vous auriez dû faire ce genre de commandes pour lancer votre script.</p>
@@ -767,7 +769,8 @@
 </span></span></code></pre></td></tr></table>
 </div>
 </div><blockquote>
-<p>Comme je vous l&rsquo;expliquais un peu plus haut, les versions de Python installées par uv ne sont pas disponibles &ldquo;globalement&rdquo; sur votre système via la simple commande <code>python</code>. Pour les utiliser, il faut passer par <code>uv run --python &lt;version&gt;</code>, ou les activer dans un environnement virtuel créé avec cette version spécifique.</p></blockquote>
+<p>Comme je vous l&rsquo;expliquais un peu plus haut, les versions de Python installées par uv ne sont pas disponibles &ldquo;globalement&rdquo; sur votre système via la simple commande <code>python</code>. Pour les utiliser, il faut passer par <code>uv run --python &lt;version&gt;</code>, ou les activer dans un environnement virtuel créé avec cette version spécifique.</p>
+</blockquote>
 <h1 id="uvx-pour-exécuter-des-packages-à-la-volée"><a href="#uvx-pour-ex%c3%a9cuter-des-packages-%c3%a0-la-vol%c3%a9e" class="header-anchor"></a>uvx pour exécuter des packages à la volée
 </h1><p>Vous connaissez peut-être <a class="link" href="https://docs.npmjs.com/cli/v8/commands/npx"  target="_blank" rel="noopener"
     >npx</a> dans le monde JavaScript ? uvx (le shortcut de <code>uv tool run</code>) est l&rsquo;équivalent proposé par uv. Il permet d&rsquo;exécuter une commande CLI Python (comme ruff, black, ipython, etc.) dans un environnement temporaire avec les dépendances spécifiées, sans polluer votre projet ou votre système.</p>
@@ -832,7 +835,8 @@
 </span></span></code></pre></td></tr></table>
 </div>
 </div><blockquote>
-<p>⚠️ Très important : La première fois que vous ajoutez une dépendance, uv va générer un fichier <code>uv.lock</code>. Ce fichier contient les versions exactes de toutes vos dépendances (directes et indirectes) qui ont été résolues. Ce fichier <code>uv.lock</code> est crucial et DOIT être commité dans votre repository GitHub. Il garantit que les versions de vos paquets soient les mêmes pour tout le monde, selon votre environnement de travail.</p></blockquote>
+<p>⚠️ Très important : La première fois que vous ajoutez une dépendance, uv va générer un fichier <code>uv.lock</code>. Ce fichier contient les versions exactes de toutes vos dépendances (directes et indirectes) qui ont été résolues. Ce fichier <code>uv.lock</code> est crucial et DOIT être commité dans votre repository GitHub. Il garantit que les versions de vos paquets soient les mêmes pour tout le monde, selon votre environnement de travail.</p>
+</blockquote>
 <p>Une fois vos dépendances (notamment de dev) ajoutées, vous pouvez les utiliser avec <code>uv run</code> :</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -904,7 +908,8 @@
 <li>Une fois toutes les dépendances migrées, vous pouvez supprimer vos anciens fichiers <code>requirements.txt</code>.</li>
 </ol>
 <blockquote>
-<p>Si vous utilisiez d&rsquo;autres outils comme Poetry, il existe des outils de migration (comme par exemple : <code>uvx migrate-to-uv</code>).</p></blockquote>
+<p>Si vous utilisiez d&rsquo;autres outils comme Poetry, il existe des outils de migration (comme par exemple : <code>uvx migrate-to-uv</code>).</p>
+</blockquote>
 <p>Et voilà, votre projet est propulsé par uv !</p>
 <h2 id="rejoindre-un-projet-qui-utilise-déjà-uv"><a href="#rejoindre-un-projet-qui-utilise-d%c3%a9j%c3%a0-uv" class="header-anchor"></a>Rejoindre un projet qui utilise déjà uv
 </h2><p>Si vous clonez un projet qui est déjà géré par uv (il devrait donc y avoir un <code>pyproject.toml</code> et un <code>uv.lock</code>), la mise en place est d&rsquo;une simplicité enfantine. Vous n&rsquo;avez qu&rsquo;à lancer :</p>

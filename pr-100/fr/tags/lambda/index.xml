@@ -24,7 +24,8 @@
 &lt;blockquote&gt;
 &lt;p&gt;Pour simplifier la lecture, je ne rentrerai pas dans les détails des &lt;a class=&#34;link&#34; href=&#34;https://docs.aws.amazon.com/lambda/latest/dg/lambda-extensions.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;Lambda Extensions&lt;/a&gt; et de &lt;a class=&#34;link&#34; href=&#34;https://docs.aws.amazon.com/lambda/latest/dg/snapstart.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;Lambda SnapStart&lt;/a&gt;.&lt;/p&gt;&lt;/blockquote&gt;
+    &gt;Lambda SnapStart&lt;/a&gt;.&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;p&gt;Cela se compose de trois phases principales :&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;&lt;strong&gt;INIT :&lt;/strong&gt; C&amp;rsquo;est l&amp;rsquo;étape du &amp;ldquo;démarrage à froid&amp;rdquo; ou cold start. Quand une nouvelle instance de votre fonction doit être créée pour répondre à une requête, Lambda prépare le terrain. Cette phase dure au maximum 10 secondes.&lt;/li&gt;
@@ -51,7 +52,8 @@
 &lt;/ul&gt;
 &lt;p&gt;Le point clé à retenir de tout cela, c&amp;rsquo;est que la phase &lt;code&gt;INIT&lt;/code&gt; ne se produit que lors d&amp;rsquo;un démarrage &lt;em&gt;à froid&lt;/em&gt; (ce fameux cold start). Si une requête arrive alors qu&amp;rsquo;un environnement d&amp;rsquo;exécution est déjà &amp;ldquo;chaud&amp;rdquo; (prêt et réutilisé), cette phase est sautée, et on passe directement à l&amp;rsquo;&lt;code&gt;INVOKE&lt;/code&gt;. C&amp;rsquo;est ce qu&amp;rsquo;on appelle un &amp;ldquo;démarrage à chaud&amp;rdquo; (warm start), qui est bien plus rapide.&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;AWS ne communique pas sur son calcul pour passer une Lambda &amp;ldquo;warm&amp;rdquo; à &amp;ldquo;cold&amp;rdquo;.&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;AWS ne communique pas sur son calcul pour passer une Lambda &amp;ldquo;warm&amp;rdquo; à &amp;ldquo;cold&amp;rdquo;.&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;h1 id=&#34;le-changement-de-facturation-en-détail&#34;&gt;&lt;a href=&#34;#le-changement-de-facturation-en-d%c3%a9tail&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Le changement de facturation en détail
 &lt;/h1&gt;&lt;p&gt;Actuellement, &lt;a class=&#34;link&#34; href=&#34;https://aws.amazon.com/lambda/pricing/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;la facturation des Lambdas&lt;/a&gt; repose sur deux éléments :&lt;/p&gt;
@@ -333,7 +335,8 @@
 &lt;/div&gt;
 &lt;/div&gt;&lt;blockquote&gt;
 &lt;p&gt;Gardez en mémoire que CloudWatch Logs Insights vous est facturé $0.005 par GB de data scanné (&lt;a class=&#34;link&#34; href=&#34;https://aws.amazon.com/cloudwatch/pricing/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;source&lt;/a&gt;)&lt;/p&gt;&lt;/blockquote&gt;
+    &gt;source&lt;/a&gt;)&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;p&gt;Plus qu&amp;rsquo;à lancer cette requête sur vos Lambdas (en utilisant le prefix &lt;code&gt;/aws/lambda&lt;/code&gt;), et vous obtiendrez le résultat suivant :&lt;/p&gt;
 &lt;table&gt;
   &lt;thead&gt;

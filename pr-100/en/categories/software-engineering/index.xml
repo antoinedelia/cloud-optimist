@@ -22,7 +22,8 @@
     &gt;ruff&lt;/a&gt;), uv is presented as an &amp;ldquo;extremely fast&amp;rdquo; Python package installer and resolver. This tool is what you might call a &lt;strong&gt;game-changer&lt;/strong&gt;: once you&amp;rsquo;ve tried it, there&amp;rsquo;s no going back!&lt;/p&gt;
 &lt;p&gt;So, what&amp;rsquo;s so special about &lt;strong&gt;uv&lt;/strong&gt;? Why all the excitement? That&amp;rsquo;s what we&amp;rsquo;re going to break down together. Hold on tight, you might just fall in love!&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;This guide is based on my experience with uv, and the examples were tested with version 0.7.3. Depending on your configuration, especially behind certain corporate proxies, you might need to add the &lt;code&gt;--native-tls&lt;/code&gt; option to some uv commands if you encounter SSL connection issues.&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;This guide is based on my experience with uv, and the examples were tested with version 0.7.3. Depending on your configuration, especially behind certain corporate proxies, you might need to add the &lt;code&gt;--native-tls&lt;/code&gt; option to some uv commands if you encounter SSL connection issues.&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;h1 id=&#34;uv-what-is-it-exactly&#34;&gt;&lt;a href=&#34;#uv-what-is-it-exactly&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;uv, what is it exactly?
 &lt;/h1&gt;&lt;p&gt;In a nutshell, uv is a command-line tool that aims to replace pip, pip-tools, venv, pyenv, and even parts of virtualenv and pipx, while being much, &lt;em&gt;much&lt;/em&gt; faster. Yes, all of that!&lt;/p&gt;
 &lt;p&gt;Like many trendy new tools, it&amp;rsquo;s written in Rust. Sorry, I should say, it&amp;rsquo;s written in ✨ &lt;em&gt;Rust&lt;/em&gt; ✨. This largely explains its lightning-fast performance.&lt;/p&gt;
@@ -220,7 +221,8 @@
 &lt;/div&gt;&lt;/details&gt;
 &lt;p&gt;Instead of adding your dependencies manually, you can now use &lt;code&gt;uv add &amp;lt;package_name&amp;gt;&lt;/code&gt;, and it will be added to your &lt;code&gt;pyproject.toml&lt;/code&gt;.&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;Be careful though, as some external tools still rely on a &lt;code&gt;requirements.txt&lt;/code&gt; file. You might therefore need to run the command &lt;code&gt;uv pip compile -o requirements.txt&lt;/code&gt; in your CI/CD pipeline.&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;Be careful though, as some external tools still rely on a &lt;code&gt;requirements.txt&lt;/code&gt; file. You might therefore need to run the command &lt;code&gt;uv pip compile -o requirements.txt&lt;/code&gt; in your CI/CD pipeline.&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;h3 id=&#34;virtual-environment&#34;&gt;&lt;a href=&#34;#virtual-environment&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Virtual Environment
 &lt;/h3&gt;&lt;p&gt;Like me, you might have been used to using the command &lt;code&gt;source .venv/bin/activate&lt;/code&gt; to activate your virtual environment. With uv, it&amp;rsquo;s a bit different. Your &lt;code&gt;.venv&lt;/code&gt; will still be created, but by using uv, it will default to your virtual environment. Let&amp;rsquo;s take an example.&lt;/p&gt;
 &lt;p&gt;Where previously you would have had to do these kinds of commands to run your script:&lt;/p&gt;
@@ -329,7 +331,8 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;blockquote&gt;
-&lt;p&gt;As I explained a little earlier, Python versions installed by uv are not &amp;ldquo;globally&amp;rdquo; available on your system via the simple python command. To use them, you must go through &lt;code&gt;uv run --python &amp;lt;version&amp;gt;&lt;/code&gt;, or activate them in a virtual environment created with that specific version.&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;As I explained a little earlier, Python versions installed by uv are not &amp;ldquo;globally&amp;rdquo; available on your system via the simple python command. To use them, you must go through &lt;code&gt;uv run --python &amp;lt;version&amp;gt;&lt;/code&gt;, or activate them in a virtual environment created with that specific version.&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;h1 id=&#34;uvx-for-running-packages-on-the-fly&#34;&gt;&lt;a href=&#34;#uvx-for-running-packages-on-the-fly&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;uvx for Running Packages on the Fly
 &lt;/h1&gt;&lt;p&gt;You might be familiar with &lt;a class=&#34;link&#34; href=&#34;https://docs.npmjs.com/cli/v8/commands/npx&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;npx&lt;/a&gt; in the JavaScript world? uvx (the shortcut for &lt;code&gt;uv tool run&lt;/code&gt;) is the equivalent offered by uv. It allows you to run a Python CLI command (like ruff, black, ipython, etc.) in a temporary environment with the specified dependencies, without polluting your project or your system.&lt;/p&gt;
@@ -394,7 +397,8 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;blockquote&gt;
-&lt;p&gt;⚠️ Very important: The first time you add a dependency, uv will generate a &lt;code&gt;uv.lock&lt;/code&gt; file. This file contains the exact versions of all your dependencies (direct and indirect) that were resolved. This &lt;code&gt;uv.lock&lt;/code&gt; file is crucial and MUST be committed to your GitHub repository. It ensures that the versions of your packages are the same for everyone, according to your working environment.&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;⚠️ Very important: The first time you add a dependency, uv will generate a &lt;code&gt;uv.lock&lt;/code&gt; file. This file contains the exact versions of all your dependencies (direct and indirect) that were resolved. This &lt;code&gt;uv.lock&lt;/code&gt; file is crucial and MUST be committed to your GitHub repository. It ensures that the versions of your packages are the same for everyone, according to your working environment.&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;p&gt;Once your dependencies (especially dev dependencies) are added, you can use them with &lt;code&gt;uv run&lt;/code&gt;:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
@@ -466,7 +470,8 @@
 &lt;li&gt;Once all dependencies are migrated, you can delete your old requirements files.&lt;/li&gt;
 &lt;/ol&gt;
 &lt;blockquote&gt;
-&lt;p&gt;If you were using other tools like Poetry, migration tools exist (such as: &lt;code&gt;uvx migrate-to-uv&lt;/code&gt;).&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;If you were using other tools like Poetry, migration tools exist (such as: &lt;code&gt;uvx migrate-to-uv&lt;/code&gt;).&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;p&gt;And there you have it, your project is powered by uv!&lt;/p&gt;
 &lt;h2 id=&#34;joining-a-project-that-already-uses-uv&#34;&gt;&lt;a href=&#34;#joining-a-project-that-already-uses-uv&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Joining a Project That Already Uses uv
 &lt;/h2&gt;&lt;p&gt;If you clone a project that is already managed by uv (so it should have a &lt;code&gt;pyproject.toml&lt;/code&gt; and a &lt;code&gt;uv.lock&lt;/code&gt;), setting it up is incredibly simple. You just need to run:&lt;/p&gt;
@@ -606,19 +611,23 @@
 &lt;h2 id=&#34;lack-of-permissions&#34;&gt;&lt;a href=&#34;#lack-of-permissions&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Lack of Permissions
 &lt;/h2&gt;&lt;p&gt;The first thing that I realized, is that not all developers had the same level of access to our Jenkins instance. So while some were able to create new pipelines for their projects, some couldn&amp;rsquo;t. In large organizations, it is not uncommon to have this kind of scenario.&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;&lt;strong&gt;Lesson learned: a lack of permissions should not be a drawback to use a CI/CD pipeline.&lt;/strong&gt;&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Lesson learned: a lack of permissions should not be a drawback to use a CI/CD pipeline.&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;h2 id=&#34;lack-of-knowledge&#34;&gt;&lt;a href=&#34;#lack-of-knowledge&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Lack of Knowledge
 &lt;/h2&gt;&lt;p&gt;When people had the ability to create a pipeline, some did not, as they simply did not have the proper knowledge to do so. Here, I need to mention that our company uses a Jenkins instance, so developers familiar with other CI/CD tools (e.g., GitHub Actions, CircleCI) could not fully transfer these knowledge to Jenkins. Moreover, we did not have a clear documentation on the process to follow to create a new pipeline, so beginners, fearing to break something, would simply do not take the risk to mess with it.&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;&lt;strong&gt;Lesson learned: we should ensure people without proper Jenkins knowledge can use a CI/CD pipeline.&lt;/strong&gt;&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Lesson learned: we should ensure people without proper Jenkins knowledge can use a CI/CD pipeline.&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;h2 id=&#34;lack-of-time&#34;&gt;&lt;a href=&#34;#lack-of-time&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Lack of Time
 &lt;/h2&gt;&lt;p&gt;It takes effort to put in place a CI/CD at the beginning of a project, something that might be overlooked by managers that want to ship a product as fast as possible. Moreover, it is sometimes difficult to quantify the return on investment of putting in place a CI/CD pipeline. And if it is difficult to prove this can bring business value, it will end up in the &amp;ldquo;we&amp;rsquo;ll deal with this later&amp;rdquo; box. And we know all too well that the tasks that end up in this box will never see the light of day again.&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;&lt;strong&gt;Lesson learned: setting up a CI/CD pipeline for a new or existing project should be easy and straightforward.&lt;/strong&gt;&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Lesson learned: setting up a CI/CD pipeline for a new or existing project should be easy and straightforward.&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;h2 id=&#34;lack-of-clear-guidelines&#34;&gt;&lt;a href=&#34;#lack-of-clear-guidelines&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Lack of Clear Guidelines
 &lt;/h2&gt;&lt;p&gt;Finally, I had a look at the projects that &lt;em&gt;did&lt;/em&gt; have a CI/CD pipeline. They were working fine, but I could clearly see that they lacked a common vision. Some of them used the same formatter (black), but they not always used the same line-length. Some included a testing stage, some didn&amp;rsquo;t. Not only did this led to projects not having the same code quality and compliance, I also thought that this could potentially led to confusion for a newcomer, not knowing which standard to use.&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;&lt;strong&gt;Lesson learned: people should use the same CI/CD pipeline to ensure everyone follows the same guidelines (and we should ensure these guidelines are documented somewhere).&lt;/strong&gt;&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Lesson learned: people should use the same CI/CD pipeline to ensure everyone follows the same guidelines (and we should ensure these guidelines are documented somewhere).&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;h1 id=&#34;the-global-vision&#34;&gt;&lt;a href=&#34;#the-global-vision&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;The Global Vision
 &lt;/h1&gt;&lt;p&gt;After reviewing what could go wrong, it is now important to think of a solution that could address all of these, while following the company&amp;rsquo;s best practices, and using the tools at our disposal.&lt;/p&gt;
 &lt;h2 id=&#34;formatting&#34;&gt;&lt;a href=&#34;#formatting&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Formatting
@@ -818,11 +827,13 @@
 &lt;p&gt;&lt;strong&gt;The first thing to do is of course to blame it on the computer.&lt;/strong&gt; I mean, you know what you&amp;rsquo;re doing, there is no way you wrote something the wrong way. It&amp;rsquo;s probably this damn laptop which is making you look like a fool again. But the truth is hard to swallow.&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;The machine does exactly what you tell it to do.&lt;/p&gt;
-&lt;p&gt;&amp;ndash; &lt;cite&gt;Bill Gates, probably&lt;/cite&gt;&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;&amp;ndash; &lt;cite&gt;Bill Gates, probably&lt;/cite&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;p&gt;Like it or not, your computer is dumb. It will mindlessly retrieve the information you provided and execute them. &lt;strong&gt;And if it fails, it is, without a doubt, your fault.&lt;/strong&gt; I know the pain, trust me. But don&amp;rsquo;t worry too much, it happened to every one of us, and at the end of the day, everything will be fine.&lt;/p&gt;
 &lt;p&gt;Now, it is all up to you. You know that you did something wrong, yet are unable to find what.So what&amp;rsquo;s next? Should look up answers on StackOverflow? Resign of your position as you clearly are not good enough for this job? The answer is simple.&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;The first step when you are stuck, is to ask the wisdom of the duck.&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;The first step when you are stuck, is to ask the wisdom of the duck.&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;p&gt;I know what you&amp;rsquo;re thinking right now: &lt;em&gt;What are you smoking and where can I get some?&lt;/em&gt; But trust me, this whole duck thing is not an hallucination, it is THE best way to help you.&lt;/p&gt;
 &lt;p&gt;Don&amp;rsquo;t worry though, you won&amp;rsquo;t need to drive to the nearest farm and steal a duck to apply this advice. In our case, a rubber duck is what we need.&lt;/p&gt;
 &lt;p&gt;Once you get your hands on one and place it on your desk, the only thing left is to talk to him. Go ahead, don&amp;rsquo;t be shy and explain to him what&amp;rsquo;s happening with your code.&lt;/p&gt;
@@ -833,11 +844,13 @@
 &lt;blockquote&gt;
 &lt;p&gt;In describing what the code is supposed to do and observing what it actually does, any incongruity between these two becomes apparent.&lt;/p&gt;
 &lt;p&gt;&amp;ndash; &lt;cite&gt; &lt;a class=&#34;link&#34; href=&#34;https://www.sjbaker.org/humor/cardboard_dog.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;Stephen J. Baker&lt;/a&gt;&lt;/cite&gt;&lt;/p&gt;&lt;/blockquote&gt;
+    &gt;Stephen J. Baker&lt;/a&gt;&lt;/cite&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;p&gt;So next time you&amp;rsquo;re stuck on something, don&amp;rsquo;t bother your co-workers, save your internet data and simply ask the duck!&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;If you wish to learn more on this method, I strongly suggest having a look at the website behind this post&amp;rsquo;s inspiration. &lt;cite&gt; &lt;a class=&#34;link&#34; href=&#34;https://rubberduckdebugging.com/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;https://rubberduckdebugging.com/&lt;/a&gt;&lt;/cite&gt;&lt;/p&gt;&lt;/blockquote&gt;
+    &gt;https://rubberduckdebugging.com/&lt;/a&gt;&lt;/cite&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
 </description>
         </item>
         <item>
@@ -854,7 +867,8 @@
 &lt;p&gt;That&amp;rsquo;s when the &lt;strong&gt;FizzBuzz&lt;/strong&gt; test comes into play.&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;This post was inspired by &lt;a class=&#34;link&#34; href=&#34;https://www.youtube.com/watch?v=QPZ0pIK_wsc&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;Tom Scott&amp;rsquo;s video&lt;/a&gt; that I strongly suggest you to have a look at if this topic interests you.&lt;/p&gt;&lt;/blockquote&gt;
+    &gt;Tom Scott&amp;rsquo;s video&lt;/a&gt; that I strongly suggest you to have a look at if this topic interests you.&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;p&gt;The idea behind FizzBuzz is straight-forward. You need to count out loud numbers starting at 1 until you reach 100. But, if the number is a multiple of 3, you have to say the word &amp;ldquo;Fizz&amp;rdquo; instead. In the same way, if the number is a multiple of 5, you have to say the word &amp;ldquo;Buzz&amp;rdquo;. Now you might be thinking: &amp;ldquo;Then what am I supposed to do when it is a multiple of both 3 and 5?&amp;rdquo;. Well, you would simply have to say &amp;ldquo;FizzBuzz&amp;rdquo;. &lt;em&gt;Roll credits&lt;/em&gt;.&lt;/p&gt;
 &lt;p&gt;By reading this simple test, you might wonder why this should be used, as it appears that even an intern could solve it quite easily. Well, that&amp;rsquo;s what I thought too, until I ran across &lt;a class=&#34;link&#34; href=&#34;https://blog.codinghorror.com/why-cant-programmers-program/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;Jeff Atwood&amp;rsquo;s post on this subject&lt;/a&gt;, stating that he was surprised how this problem actually gave a lot of troubles to candidates, even senior ones.&lt;/p&gt;

@@ -20,7 +20,8 @@
 &lt;p&gt;That&amp;rsquo;s when the &lt;strong&gt;FizzBuzz&lt;/strong&gt; test comes into play.&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;This post was inspired by &lt;a class=&#34;link&#34; href=&#34;https://www.youtube.com/watch?v=QPZ0pIK_wsc&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;Tom Scott&amp;rsquo;s video&lt;/a&gt; that I strongly suggest you to have a look at if this topic interests you.&lt;/p&gt;&lt;/blockquote&gt;
+    &gt;Tom Scott&amp;rsquo;s video&lt;/a&gt; that I strongly suggest you to have a look at if this topic interests you.&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;p&gt;The idea behind FizzBuzz is straight-forward. You need to count out loud numbers starting at 1 until you reach 100. But, if the number is a multiple of 3, you have to say the word &amp;ldquo;Fizz&amp;rdquo; instead. In the same way, if the number is a multiple of 5, you have to say the word &amp;ldquo;Buzz&amp;rdquo;. Now you might be thinking: &amp;ldquo;Then what am I supposed to do when it is a multiple of both 3 and 5?&amp;rdquo;. Well, you would simply have to say &amp;ldquo;FizzBuzz&amp;rdquo;. &lt;em&gt;Roll credits&lt;/em&gt;.&lt;/p&gt;
 &lt;p&gt;By reading this simple test, you might wonder why this should be used, as it appears that even an intern could solve it quite easily. Well, that&amp;rsquo;s what I thought too, until I ran across &lt;a class=&#34;link&#34; href=&#34;https://blog.codinghorror.com/why-cant-programmers-program/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;Jeff Atwood&amp;rsquo;s post on this subject&lt;/a&gt;, stating that he was surprised how this problem actually gave a lot of troubles to candidates, even senior ones.&lt;/p&gt;

@@ -22,19 +22,23 @@
 &lt;h2 id=&#34;manque-de-permissions&#34;&gt;&lt;a href=&#34;#manque-de-permissions&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Manque de permissions
 &lt;/h2&gt;&lt;p&gt;La première chose que j&amp;rsquo;ai réalisée, c&amp;rsquo;est que tous les développeurs n&amp;rsquo;avaient pas le même niveau d&amp;rsquo;accès à notre instance Jenkins. Tandis que certains pouvaient créer de nouvelles pipelines pour leurs projets, d&amp;rsquo;autres ne le pouvaient pas. Dans les grandes entreprises, ce genre de scénario n&amp;rsquo;est pas rare.&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;&lt;strong&gt;Leçon apprise : un manque de permissions ne devrait pas être un obstacle pour utiliser une pipeline CI/CD.&lt;/strong&gt;&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Leçon apprise : un manque de permissions ne devrait pas être un obstacle pour utiliser une pipeline CI/CD.&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;h2 id=&#34;manque-de-connaissances&#34;&gt;&lt;a href=&#34;#manque-de-connaissances&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Manque de connaissances
 &lt;/h2&gt;&lt;p&gt;Lorsque les développeurs avaient la possibilité de créer un pipeline, certains ne le faisaient pas, simplement parce qu&amp;rsquo;ils n&amp;rsquo;avaient pas les connaissances nécessaires. Il faut préciser que notre entreprise utilise une instance Jenkins comme outil officiel de CI/CD. Cet outil, bien qu&amp;rsquo;ayant fait ses preuves, reste pour le moins difficile d&amp;rsquo;usage, notamment pour les jeunes développeurs qui sont souvent familiers avec d&amp;rsquo;autres outils CI/CD (comme GitHub Actions ou CircleCI). De plus, nous n&amp;rsquo;avions pas de documentation claire sur le processus à suivre pour créer une nouvelle pipeline. Ainsi certains développeurs, de peur de casser quelque chose, préféraient ne pas prendre de risques en évitant de toucher à Jenkins.&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;&lt;strong&gt;Leçon apprise : nous devons nous assurer que les personnes sans connaissances sur Jenkins puissent utiliser un pipeline CI/CD.&lt;/strong&gt;&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Leçon apprise : nous devons nous assurer que les personnes sans connaissances sur Jenkins puissent utiliser un pipeline CI/CD.&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;h2 id=&#34;manque-de-temps&#34;&gt;&lt;a href=&#34;#manque-de-temps&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Manque de temps
 &lt;/h2&gt;&lt;p&gt;Mettre en place une pipeline CI/CD au début d&amp;rsquo;un projet demande du temps, chose qui peut être négligée par les chefs de projets qui veulent expédier un produit aussi rapidement que possible. De plus, il est parfois difficile de quantifier le retour sur investissement d’une pipeline CI/CD. Et si cela est difficile à prouver comme étant bénéfique pour l’entreprise, cela finit dans la boîte &amp;ldquo;on s&amp;rsquo;en occupera plus tard&amp;rdquo;. Et nous savons tous que les tâches qui finissent dans cette boîte ne verront plus jamais la lumière du jour.&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;&lt;strong&gt;Leçon apprise : la mise en place d’une pipeline CI/CD doit être rapide et simple.&lt;/strong&gt;&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Leçon apprise : la mise en place d’une pipeline CI/CD doit être rapide et simple.&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;h2 id=&#34;manque-de-guidelines-claires&#34;&gt;&lt;a href=&#34;#manque-de-guidelines-claires&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Manque de guidelines claires
 &lt;/h2&gt;&lt;p&gt;Enfin, j&amp;rsquo;ai jeté un œil aux projets qui &lt;em&gt;eux&lt;/em&gt; avaient une pipeline CI/CD. Ils fonctionnaient bien, mais je pouvais clairement voir qu&amp;rsquo;ils manquaient d&amp;rsquo;une vision commune. Certains utilisaient le même formateur de code (black), mais pas toujours avec la même longueur de ligne. Certains incluaient une étape de test, d&amp;rsquo;autres non. Nous avions donc des projets n&amp;rsquo;ayant pas la même qualité et conformité de code. Et cela pouvait potentiellement créer de la confusion pour un nouveau développeur, ne sachant pas quel standard suivre.&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;&lt;strong&gt;Leçon apprise : des guidelines claires de CI/CD doivent être mises en place.&lt;/strong&gt;&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Leçon apprise : des guidelines claires de CI/CD doivent être mises en place.&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;h1 id=&#34;la-vision-globale&#34;&gt;&lt;a href=&#34;#la-vision-globale&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;La vision globale
 &lt;/h1&gt;&lt;p&gt;Après avoir analysé ce qui pouvait poser problème, il est maintenant important de penser à une solution qui puisse résoudre tous ces points, tout en respectant les meilleures pratiques de l&amp;rsquo;entreprise et en utilisant les outils à notre disposition.&lt;/p&gt;
 &lt;h2 id=&#34;formatting&#34;&gt;&lt;a href=&#34;#formatting&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Formatting

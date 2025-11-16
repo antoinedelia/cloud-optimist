@@ -20,7 +20,8 @@
 &lt;p&gt;C&amp;rsquo;est là qu&amp;rsquo;intervient le test &lt;strong&gt;FizzBuzz&lt;/strong&gt;.&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;Cet article a été inspiré par la vidéo de &lt;a class=&#34;link&#34; href=&#34;https://www.youtube.com/watch?v=QPZ0pIK_wsc&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;Tom Scott&lt;/a&gt; que je vous recommande vivement de regarder si ce sujet vous intéresse.&lt;/p&gt;&lt;/blockquote&gt;
+    &gt;Tom Scott&lt;/a&gt; que je vous recommande vivement de regarder si ce sujet vous intéresse.&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;p&gt;L&amp;rsquo;idée de FizzBuzz est simple. Vous devez énumérer les nombres à haute voix en commençant par 1 jusqu&amp;rsquo;à 100. Mais, si le nombre est un multiple de 3, vous devez dire &amp;ldquo;Fizz&amp;rdquo; à la place. De même, si le nombre est un multiple de 5, vous devez dire &amp;ldquo;Buzz&amp;rdquo;. Maintenant, vous vous demandez peut-être : &amp;ldquo;Que faire si c&amp;rsquo;est un multiple de 3 et de 5 ?&amp;rdquo;. Eh bien, vous devrez simplement dire &amp;ldquo;FizzBuzz&amp;rdquo;. &lt;em&gt;Générique de fin&lt;/em&gt;.&lt;/p&gt;
 &lt;p&gt;En lisant ce test simple, vous pourriez vous demander pourquoi il devrait être utilisé, car à première vue, même un stagiaire pourrait le résoudre assez facilement. Eh bien, c&amp;rsquo;est ce que je pensais aussi, jusqu&amp;rsquo;à ce que je tombe sur &lt;a class=&#34;link&#34; href=&#34;https://blog.codinghorror.com/why-cant-programmers-program/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;l&amp;rsquo;article de Jeff Atwood à ce sujet&lt;/a&gt;, où il explique être surpris de voir que ce problème donnait beaucoup de mal à des candidats, seniors compris.&lt;/p&gt;

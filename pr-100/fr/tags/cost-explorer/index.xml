@@ -125,7 +125,8 @@
     &gt;jq&lt;/a&gt; est un outil formidable pour manipuler du JSON en ligne de commande. Ici, on l&amp;rsquo;utilise pour extraire proprement la liste des ARN des ressources trouvées (vous pouvez vous en passer, mais pourquoi se compliquer la vie ?).&lt;/li&gt;
 &lt;/ul&gt;
 &lt;blockquote&gt;
-&lt;p&gt;Eh attends une minute ! Dans la console, tu nous montres trois ressources, et là il n&amp;rsquo;y en a plus qu&amp;rsquo;une ! Elle est où l&amp;rsquo;arnaque ?&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;Eh attends une minute ! Dans la console, tu nous montres trois ressources, et là il n&amp;rsquo;y en a plus qu&amp;rsquo;une ! Elle est où l&amp;rsquo;arnaque ?&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;p&gt;Habilement remarqué ! Il faut savoir que lorsque vous faites votre appel à l&amp;rsquo;API, vous utilisez une &lt;strong&gt;region par défaut&lt;/strong&gt;. Or, si vous avez des ressources dans diverses régions, il faudra le spécifier. Ainsi, si l&amp;rsquo;on ajoute &lt;code&gt;--region us-east-1&lt;/code&gt; juste avant le pipe jq, on obtient bien nos deux ressources manquantes.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;

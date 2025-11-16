@@ -6,7 +6,7 @@
 
 <link rel='canonical' href='https://antoinedelia.github.io/cloud-optimist/pr-100/fr/posts/2025/aws-lambdas-init-phase-to-be-billed-soon-should-we-be-alarmed/'>
 
-<link rel="stylesheet" href="/cloud-optimist/pr-100/scss/style.min.663803bebe609202d5b39d848f2d7c2dc8b598a2d879efa079fa88893d29c49c.css"><meta property='og:title' content="AWS Lambda : La phase d'INIT devient payante - faut-il s'alarmer ?">
+<link rel="stylesheet" href="/cloud-optimist/pr-100/scss/style.min.6a692fd055deae459f2a9767f57f3855ba80cafd5041317f24f7360f6ca47cdf.css"><meta property='og:title' content="AWS Lambda : La phase d'INIT devient payante - faut-il s'alarmer ?">
 <meta property='og:description' content="Introduction Ah, les Lambdas. Probablement le service AWS que j&rsquo;affectionne le plus ! En moins de temps qu&rsquo;il ne faut pour le dire, elles permettent de créer un petit script ou carrément un backend API hosté dans le Cloud, et tout cela à moindre coût avec le &ldquo;pay as you go&rdquo;. Mais cela serait-il trop beau pour être vrai ?\nIl y a quelques jours, AWS a annoncé une modification dans la manière dont la phase d&rsquo;initialisation des Lambdas est facturée. À partir du 1er août 2025, cette phase sera systématiquement incluse dans le calcul de la durée facturée, et ce, pour toutes les Lambdas.\n">
 <meta property='og:url' content='https://antoinedelia.github.io/cloud-optimist/pr-100/fr/posts/2025/aws-lambdas-init-phase-to-be-billed-soon-should-we-be-alarmed/'>
 <meta property='og:site_name' content='The Cloud Optimist'>
@@ -453,7 +453,8 @@
 <blockquote>
 <p>Pour simplifier la lecture, je ne rentrerai pas dans les détails des <a class="link" href="https://docs.aws.amazon.com/lambda/latest/dg/lambda-extensions.html"  target="_blank" rel="noopener"
     >Lambda Extensions</a> et de <a class="link" href="https://docs.aws.amazon.com/lambda/latest/dg/snapstart.html"  target="_blank" rel="noopener"
-    >Lambda SnapStart</a>.</p></blockquote>
+    >Lambda SnapStart</a>.</p>
+</blockquote>
 <p>Cela se compose de trois phases principales :</p>
 <ol>
 <li><strong>INIT :</strong> C&rsquo;est l&rsquo;étape du &ldquo;démarrage à froid&rdquo; ou cold start. Quand une nouvelle instance de votre fonction doit être créée pour répondre à une requête, Lambda prépare le terrain. Cette phase dure au maximum 10 secondes.</li>
@@ -480,7 +481,8 @@
 </ul>
 <p>Le point clé à retenir de tout cela, c&rsquo;est que la phase <code>INIT</code> ne se produit que lors d&rsquo;un démarrage <em>à froid</em> (ce fameux cold start). Si une requête arrive alors qu&rsquo;un environnement d&rsquo;exécution est déjà &ldquo;chaud&rdquo; (prêt et réutilisé), cette phase est sautée, et on passe directement à l&rsquo;<code>INVOKE</code>. C&rsquo;est ce qu&rsquo;on appelle un &ldquo;démarrage à chaud&rdquo; (warm start), qui est bien plus rapide.</p>
 <blockquote>
-<p>AWS ne communique pas sur son calcul pour passer une Lambda &ldquo;warm&rdquo; à &ldquo;cold&rdquo;.</p></blockquote>
+<p>AWS ne communique pas sur son calcul pour passer une Lambda &ldquo;warm&rdquo; à &ldquo;cold&rdquo;.</p>
+</blockquote>
 <h1 id="le-changement-de-facturation-en-détail"><a href="#le-changement-de-facturation-en-d%c3%a9tail" class="header-anchor"></a>Le changement de facturation en détail
 </h1><p>Actuellement, <a class="link" href="https://aws.amazon.com/lambda/pricing/"  target="_blank" rel="noopener"
     >la facturation des Lambdas</a> repose sur deux éléments :</p>
@@ -762,7 +764,8 @@
 </div>
 </div><blockquote>
 <p>Gardez en mémoire que CloudWatch Logs Insights vous est facturé $0.005 par GB de data scanné (<a class="link" href="https://aws.amazon.com/cloudwatch/pricing/"  target="_blank" rel="noopener"
-    >source</a>)</p></blockquote>
+    >source</a>)</p>
+</blockquote>
 <p>Plus qu&rsquo;à lancer cette requête sur vos Lambdas (en utilisant le prefix <code>/aws/lambda</code>), et vous obtiendrez le résultat suivant :</p>
 <div class="table-wrapper"><table>
   <thead>

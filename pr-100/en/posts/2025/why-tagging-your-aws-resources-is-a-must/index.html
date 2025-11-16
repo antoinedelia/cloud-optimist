@@ -6,7 +6,7 @@
 
 <link rel='canonical' href='https://antoinedelia.github.io/cloud-optimist/pr-100/en/posts/2025/why-tagging-your-aws-resources-is-a-must/'>
 
-<link rel="stylesheet" href="/cloud-optimist/pr-100/scss/style.min.663803bebe609202d5b39d848f2d7c2dc8b598a2d879efa079fa88893d29c49c.css"><meta property='og:title' content="Why Tagging your AWS Resources is a Must?">
+<link rel="stylesheet" href="/cloud-optimist/pr-100/scss/style.min.6a692fd055deae459f2a9767f57f3855ba80cafd5041317f24f7360f6ca47cdf.css"><meta property='og:title' content="Why Tagging your AWS Resources is a Must?">
 <meta property='og:description' content="Introduction The more services we deploy on AWS, the easier it is to get lost. At first, we know all the services we use by heart, the number of Lambdas or EC2 instances running. But little by little, it&rsquo;s easy to feel overwhelmed, especially when different projects pile up. Quickly finding which resources belong to which project, or identifying those that weren&rsquo;t properly cleaned up after a PoC, can quickly become a headache. And that&rsquo;s without even mentioning cost visibility! Fortunately, there&rsquo;s a simple yet incredibly powerful practice: tagging.\n">
 <meta property='og:url' content='https://antoinedelia.github.io/cloud-optimist/pr-100/en/posts/2025/why-tagging-your-aws-resources-is-a-must/'>
 <meta property='og:site_name' content='The Cloud Optimist'>
@@ -558,7 +558,8 @@ A good tagging strategy allows you to, among other things:</p>
     >jq</a> is a wonderful tool for manipulating JSON on the command line. Here, we use it to cleanly extract the list of ARNs of the found resources (you can do without it, but why make life difficult?).</li>
 </ul>
 <blockquote>
-<p>Hey, wait a minute! In the console, you show us three resources, and now there&rsquo;s only one! Where&rsquo;s the catch?</p></blockquote>
+<p>Hey, wait a minute! In the console, you show us three resources, and now there&rsquo;s only one! Where&rsquo;s the catch?</p>
+</blockquote>
 <p>Well spotted! You should know that when you make your API call, you are using <strong>a default region</strong>. However, if you have resources in various regions, you will need to specify it. Thus, if we add <code>--region us-east-1</code> just before the jq pipe, we indeed get our two missing resources.</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">

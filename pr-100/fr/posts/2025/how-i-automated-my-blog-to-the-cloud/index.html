@@ -6,7 +6,7 @@
 
 <link rel='canonical' href='https://antoinedelia.github.io/cloud-optimist/pr-100/fr/posts/2025/how-i-automated-my-blog-to-the-cloud/'>
 
-<link rel="stylesheet" href="/cloud-optimist/pr-100/scss/style.min.663803bebe609202d5b39d848f2d7c2dc8b598a2d879efa079fa88893d29c49c.css"><meta property='og:title' content="Comment j'ai automatisé la création de mon blog dans le Cloud">
+<link rel="stylesheet" href="/cloud-optimist/pr-100/scss/style.min.6a692fd055deae459f2a9767f57f3855ba80cafd5041317f24f7360f6ca47cdf.css"><meta property='og:title' content="Comment j'ai automatisé la création de mon blog dans le Cloud">
 <meta property='og:description' content="Le commencement et la fin Quand j&rsquo;ai envisagé de créer un blog pour la première fois, j&rsquo;étais encore étudiant dans mon école d&rsquo;ingénieurs. Et le monde des sites internets et des blogs était encore quelque chose de nouveau pour moi. Et lorsque je me suis finalement lancé dans l&rsquo;aventure du blogging, c&rsquo;est tout naturellement que je me suis tourné vers ce qui semblait être la meilleure solution à l&rsquo;époque : WordPress.\n">
 <meta property='og:url' content='https://antoinedelia.github.io/cloud-optimist/pr-100/fr/posts/2025/how-i-automated-my-blog-to-the-cloud/'>
 <meta property='og:site_name' content='The Cloud Optimist'>
@@ -887,7 +887,8 @@
 </div><p>Ensuite, je récupère une version extended d&rsquo;Hugo directement depuis la release GitHub, ici la version v0.142.0. Je l&rsquo;installe et build mon site en lançant la commande <code>hugo</code>.</p>
 <blockquote>
 <p>Cette étape pourrait être simplifiée avec l&rsquo;utilisation de l&rsquo;actions <a class="link" href="https://github.com/peaceiris/actions-hugo"  target="_blank" rel="noopener"
-    >peaceiris/actions-hugo</a></p></blockquote>
+    >peaceiris/actions-hugo</a></p>
+</blockquote>
 <p>Enfin, j&rsquo;utilise l&rsquo;actions <a class="link" href="https://github.com/jakejarvis/s3-sync-action"  target="_blank" rel="noopener"
     >jakejarvis/s3-sync-action</a> (je me rends compte en écrivant cet article que cette actions a été archivée quelques jours plus tôt, aïe ! &ndash; je rajouterai un edit plus tard pour parler d&rsquo;une alternative) pour déplacer mon blog vers mon bucket S3.</p>
 <p>Bien sûr, il vous faudra stocker vos credentials au niveau de votre repository GitHub pour autoriser cette opération vers AWS, mais rien de bien sorcier !</p>

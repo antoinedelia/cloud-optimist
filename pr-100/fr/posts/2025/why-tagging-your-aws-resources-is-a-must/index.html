@@ -6,7 +6,7 @@
 
 <link rel='canonical' href='https://antoinedelia.github.io/cloud-optimist/pr-100/fr/posts/2025/why-tagging-your-aws-resources-is-a-must/'>
 
-<link rel="stylesheet" href="/cloud-optimist/pr-100/scss/style.min.663803bebe609202d5b39d848f2d7c2dc8b598a2d879efa079fa88893d29c49c.css"><meta property='og:title' content="Pourquoi taguer vos ressources AWS est indispensable ?">
+<link rel="stylesheet" href="/cloud-optimist/pr-100/scss/style.min.6a692fd055deae459f2a9767f57f3855ba80cafd5041317f24f7360f6ca47cdf.css"><meta property='og:title' content="Pourquoi taguer vos ressources AWS est indispensable ?">
 <meta property='og:description' content="Introduction Plus on déploie de services sur AWS, plus on commence à s&rsquo;y perdre. Au début, on connaît par coeur tous les services qu&rsquo;on utilise, le nombre de Lambdas ou d&rsquo;EC2 qui sont lancées. Mais petit à petit, il est facile de ne plus savoir où donner de la tête, surtout lorsque différents projets s&rsquo;accumulent. Retrouver rapidement quelles ressources appartiennent à quel projet, ou identifier celles qui n&rsquo;ont pas été correctement nettoyées après un PoC, tout cela peut vite devenir un casse-tête. Et c&rsquo;est sans parler de la vision des coûts !\n">
 <meta property='og:url' content='https://antoinedelia.github.io/cloud-optimist/pr-100/fr/posts/2025/why-tagging-your-aws-resources-is-a-must/'>
 <meta property='og:site_name' content='The Cloud Optimist'>
@@ -558,7 +558,8 @@
     >jq</a> est un outil formidable pour manipuler du JSON en ligne de commande. Ici, on l&rsquo;utilise pour extraire proprement la liste des ARN des ressources trouvées (vous pouvez vous en passer, mais pourquoi se compliquer la vie ?).</li>
 </ul>
 <blockquote>
-<p>Eh attends une minute ! Dans la console, tu nous montres trois ressources, et là il n&rsquo;y en a plus qu&rsquo;une ! Elle est où l&rsquo;arnaque ?</p></blockquote>
+<p>Eh attends une minute ! Dans la console, tu nous montres trois ressources, et là il n&rsquo;y en a plus qu&rsquo;une ! Elle est où l&rsquo;arnaque ?</p>
+</blockquote>
 <p>Habilement remarqué ! Il faut savoir que lorsque vous faites votre appel à l&rsquo;API, vous utilisez une <strong>region par défaut</strong>. Or, si vous avez des ressources dans diverses régions, il faudra le spécifier. Ainsi, si l&rsquo;on ajoute <code>--region us-east-1</code> juste avant le pipe jq, on obtient bien nos deux ressources manquantes.</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">

@@ -435,7 +435,8 @@
 &lt;/div&gt;&lt;p&gt;Ensuite, je récupère une version extended d&amp;rsquo;Hugo directement depuis la release GitHub, ici la version v0.142.0. Je l&amp;rsquo;installe et build mon site en lançant la commande &lt;code&gt;hugo&lt;/code&gt;.&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;Cette étape pourrait être simplifiée avec l&amp;rsquo;utilisation de l&amp;rsquo;actions &lt;a class=&#34;link&#34; href=&#34;https://github.com/peaceiris/actions-hugo&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;peaceiris/actions-hugo&lt;/a&gt;&lt;/p&gt;&lt;/blockquote&gt;
+    &gt;peaceiris/actions-hugo&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;p&gt;Enfin, j&amp;rsquo;utilise l&amp;rsquo;actions &lt;a class=&#34;link&#34; href=&#34;https://github.com/jakejarvis/s3-sync-action&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;jakejarvis/s3-sync-action&lt;/a&gt; (je me rends compte en écrivant cet article que cette actions a été archivée quelques jours plus tôt, aïe ! &amp;ndash; je rajouterai un edit plus tard pour parler d&amp;rsquo;une alternative) pour déplacer mon blog vers mon bucket S3.&lt;/p&gt;
 &lt;p&gt;Bien sûr, il vous faudra stocker vos credentials au niveau de votre repository GitHub pour autoriser cette opération vers AWS, mais rien de bien sorcier !&lt;/p&gt;

@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="en-US" dir="ltr">
     <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="If you&rsquo;re juggling multiple AWS accounts, or even just a single account with different users, you know that access management can quickly become a real headache. Creating individual IAM users in every account, managing their permissions, ensuring everyone is using MFA&hellip; Phew, just thinking about it is enough to give you cold sweats! But what if I told you there is an elegant, centralized, and much more secure solution to handle all of this? Ladies and Gentlemen, let me introduce you to IAM Identity Center!\n">
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="Introduction If you&rsquo;re juggling multiple AWS accounts, or even just a single account with different users, you know that access management can quickly become a real headache. Creating individual IAM users in every account, managing their permissions, ensuring everyone is using MFA&hellip; Phew, just thinking about it is enough to give you cold sweats! But what if I told you there is an elegant, centralized, and much more secure solution to handle all of this? Ladies and Gentlemen, let me introduce you to IAM Identity Center!\n">
 <title>How and Why to Set Up AWS IAM Identity Center on Your AWS Account</title>
 
 <link rel='canonical' href='https://antoinedelia.github.io/cloud-optimist/pr-100/en/posts/2025/how-and-why-to-set-up-aws-iam-identity-center-on-your-aws-account/'>
 
 <link rel="stylesheet" href="/cloud-optimist/pr-100/scss/style.min.6a692fd055deae459f2a9767f57f3855ba80cafd5041317f24f7360f6ca47cdf.css"><meta property='og:title' content="How and Why to Set Up AWS IAM Identity Center on Your AWS Account">
-<meta property='og:description' content="If you&rsquo;re juggling multiple AWS accounts, or even just a single account with different users, you know that access management can quickly become a real headache. Creating individual IAM users in every account, managing their permissions, ensuring everyone is using MFA&hellip; Phew, just thinking about it is enough to give you cold sweats! But what if I told you there is an elegant, centralized, and much more secure solution to handle all of this? Ladies and Gentlemen, let me introduce you to IAM Identity Center!\n">
+<meta property='og:description' content="Introduction If you&rsquo;re juggling multiple AWS accounts, or even just a single account with different users, you know that access management can quickly become a real headache. Creating individual IAM users in every account, managing their permissions, ensuring everyone is using MFA&hellip; Phew, just thinking about it is enough to give you cold sweats! But what if I told you there is an elegant, centralized, and much more secure solution to handle all of this? Ladies and Gentlemen, let me introduce you to IAM Identity Center!\n">
 <meta property='og:url' content='https://antoinedelia.github.io/cloud-optimist/pr-100/en/posts/2025/how-and-why-to-set-up-aws-iam-identity-center-on-your-aws-account/'>
 <meta property='og:site_name' content='The Cloud Optimist'>
-<meta property='og:type' content='article'><meta property='article:section' content='Posts' /><meta property='article:tag' content='IAM' /><meta property='article:tag' content='AWS' /><meta property='article:published_time' content='2025-11-25T07:30:00&#43;02:00'/><meta property='article:modified_time' content='2025-11-25T07:30:00&#43;02:00'/><meta property='og:image' content='https://antoinedelia.github.io/cloud-optimist/pr-100/fr/posts/2025/how-and-why-to-set-up-aws-iam-identity-center-on-your-aws-account/iam-identity-center.jpg' />
+<meta property='og:type' content='article'><meta property='article:section' content='Posts' /><meta property='article:tag' content='IAM' /><meta property='article:tag' content='AWS' /><meta property='article:published_time' content='2025-11-19T07:30:00&#43;02:00'/><meta property='article:modified_time' content='2025-11-19T07:30:00&#43;02:00'/><meta property='og:image' content='https://antoinedelia.github.io/cloud-optimist/pr-100/fr/posts/2025/how-and-why-to-set-up-aws-iam-identity-center-on-your-aws-account/iam-identity-center.jpg' />
 <meta name="twitter:title" content="How and Why to Set Up AWS IAM Identity Center on Your AWS Account">
-<meta name="twitter:description" content="If you&rsquo;re juggling multiple AWS accounts, or even just a single account with different users, you know that access management can quickly become a real headache. Creating individual IAM users in every account, managing their permissions, ensuring everyone is using MFA&hellip; Phew, just thinking about it is enough to give you cold sweats! But what if I told you there is an elegant, centralized, and much more secure solution to handle all of this? Ladies and Gentlemen, let me introduce you to IAM Identity Center!\n"><meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:description" content="Introduction If you&rsquo;re juggling multiple AWS accounts, or even just a single account with different users, you know that access management can quickly become a real headache. Creating individual IAM users in every account, managing their permissions, ensuring everyone is using MFA&hellip; Phew, just thinking about it is enough to give you cold sweats! But what if I told you there is an elegant, centralized, and much more secure solution to handle all of this? Ladies and Gentlemen, let me introduce you to IAM Identity Center!\n"><meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:image" content='https://antoinedelia.github.io/cloud-optimist/pr-100/fr/posts/2025/how-and-why-to-set-up-aws-iam-identity-center-on-your-aws-account/iam-identity-center.jpg' />
     <link rel="shortcut icon" href="/favicon.ico" />
 
@@ -313,6 +313,7 @@
         <div class="widget--toc">
             <nav id="TableOfContents">
   <ol>
+    <li><a href="#introduction">Introduction</a></li>
     <li><a href="#iam-identity-center-whats-the-deal">IAM Identity Center: What&rsquo;s the Deal?</a></li>
     <li><a href="#the-benefits-of-iam-identity-center">The Benefits of IAM Identity Center</a></li>
     <li><a href="#getting-started-with-iam-identity-center">Getting Started with IAM Identity Center</a></li>
@@ -379,7 +380,7 @@
   <path d="M3 11h16" />
   <path d="M18 16.496v1.504l1 1" />
 </svg>
-                <time class="article-time--published">Nov 25, 2025</time>
+                <time class="article-time--published">Nov 19, 2025</time>
             </div>
         
 
@@ -428,7 +429,8 @@
     <section class="article-content">
     
     
-    <p>If you&rsquo;re juggling multiple AWS accounts, or even just a single account with different users, you know that access management can quickly become a <strong>real headache</strong>. Creating individual IAM users in every account, managing their permissions, ensuring everyone is using MFA&hellip; Phew, just thinking about it is enough to give you cold sweats! But what if I told you there is an elegant, centralized, and much more secure solution to handle all of this? Ladies and Gentlemen, let me introduce you to <strong>IAM Identity Center</strong>!</p>
+    <h1 id="introduction"><a href="#introduction" class="header-anchor"></a>Introduction
+</h1><p>If you&rsquo;re juggling multiple AWS accounts, or even just a single account with different users, you know that access management can quickly become a <strong>real headache</strong>. Creating individual IAM users in every account, managing their permissions, ensuring everyone is using MFA&hellip; Phew, just thinking about it is enough to give you cold sweats! But what if I told you there is an elegant, centralized, and much more secure solution to handle all of this? Ladies and Gentlemen, let me introduce you to <strong>IAM Identity Center</strong>!</p>
 <p>Ever since I discovered and implemented IAM Identity Center (which some of you might know by its former name, AWS Single Sign-On or AWS SSO), my life as a Cloud admin has changed radically. It&rsquo;s the kind of tool that, once adopted, makes you wonder how you ever lived without it.</p>
 <p>So, what is it exactly, and why is it so great? Let&rsquo;s find out together.</p>
 <h1 id="iam-identity-center-whats-the-deal"><a href="#iam-identity-center-whats-the-deal" class="header-anchor"></a>IAM Identity Center: What&rsquo;s the Deal?

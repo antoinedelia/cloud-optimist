@@ -440,8 +440,8 @@
 </h1><p>Si je suis aussi enthousiaste, c&rsquo;est parce que les bénéfices sont nombreux et significatifs. Pour vous citer les plus importants :</p>
 <ul>
 <li><strong>Single Sign-On (SSO) :</strong> Vos utilisateurs se connectent une seule fois via le portail AWS (ou via votre fournisseur d&rsquo;identité existant si vous en avez un) et accèdent ensuite à tous les comptes et rôles qui leur sont assignés, sans avoir à se ré-authentifier pour chaque compte.</li>
-<li><strong>Gestion Centralisée :</strong> Vous gérez tous vos utilisateurs, groupes et leurs permissions (via des &ldquo;Permission Sets&rdquo;) depuis un seul endroit, même s&rsquo;ils doivent accéder à des dizaines de comptes AWS différents.</li>
-<li><strong>Identifiants Temporaires :</strong> C&rsquo;est l&rsquo;un des points les plus importants ! Lorsque les utilisateurs accèdent à un compte via IAM Identity Center, ils obtiennent des identifiants temporaires à durée de vie limitée. Adieu les Access Keys IAM qui traînent et qui représentent un risque de sécurité majeur.</li>
+<li><strong>Gestion Centralisée :</strong> Vous gérez tous vos utilisateurs, groupes et leurs permissions (via des <em>Permission Sets</em>) depuis un seul endroit, même s&rsquo;ils doivent accéder à des dizaines de comptes AWS différents.</li>
+<li><strong>Identifiants Temporaires :</strong> C&rsquo;est l&rsquo;un des points les plus importants ! Lorsque les utilisateurs accèdent à un compte via IAM Identity Center, ils obtiennent des identifiants temporaires à durée de vie limitée. Adieu les <em>Access Keys</em> IAM qui traînent et qui représentent un risque de sécurité majeur.</li>
 <li><strong>MFA (Multi-Factor Authentication) :</strong> Vous pouvez (et devriez !) imposer l&rsquo;utilisation du MFA directement au niveau de la connexion à IAM Identity Center.</li>
 </ul>
 <p>Si j&rsquo;ai piqué votre curiosité et que vous souhaitez en savoir plus, je vous laisse consulter la <a class="link" href="https://docs.aws.amazon.com/singlesignon/latest/userguide/what-is.html"  target="_blank" rel="noopener"
@@ -449,19 +449,19 @@
 <h1 id="se-lancer-avec-iam-identity-center"><a href="#se-lancer-avec-iam-identity-center" class="header-anchor"></a>Se Lancer avec IAM Identity Center
 </h1><p>Mettre en place IAM Identity Center est étonnamment simple, surtout si vous utilisez l&rsquo;annuaire intégré d&rsquo;Identity Center comme source d&rsquo;identité. Voici les étapes clés pour démarrer :</p>
 <ul>
-<li><strong>Configuration initiale :</strong> Rendez-vous dans la console AWS, et cherchez &ldquo;IAM Identity Center&rdquo;. Attention, choisissez bien votre région AWS pour héberger IAM Identity Center dès le départ, car il est actuellement complexe de changer la région d&rsquo;IAM Identity Center une fois configuré. La configuration initiale est souvent guidée et rapide. Vous choisirez votre source d&rsquo;identité (l&rsquo;annuaire Identity Center, AWS Managed Microsoft AD, ou un fournisseur externe).</li>
+<li><strong>Configuration initiale :</strong> Rendez-vous dans la console AWS, et cherchez <em>IAM Identity Center</em>. Attention, choisissez bien votre région AWS pour héberger IAM Identity Center dès le départ, car il est actuellement complexe de changer la région d&rsquo;IAM Identity Center une fois configuré. La configuration initiale est souvent guidée et rapide. Vous choisirez votre source d&rsquo;identité (l&rsquo;annuaire Identity Center, AWS Managed Microsoft AD, ou un fournisseur externe).</li>
 <li><strong>Création de groupes et d&rsquo;utilisateurs :</strong> Définissez des groupes pertinents pour votre organisation (ex: Developers, Administrators, &hellip;). Créez ensuite vos utilisateurs et assignez-les à ces groupes. Si vous utilisez un IdP externe, cette étape consistera plutôt à synchroniser vos utilisateurs et groupes existants.</li>
-<li><strong>Création des &ldquo;Permission Sets&rdquo; :</strong> Un Permission Set est un ensemble de permissions (similaire à une policy IAM) que vous allez pouvoir réutiliser. Vous pouvez partir de policies managées par AWS (ex: AdministratorAccess, ReadOnlyAccess) ou créer les vôtres.</li>
-<li><strong>Assignation des accès :</strong> C&rsquo;est ici que la magie opère. Vous assignez un groupe (ou un utilisateur) à un ou plusieurs comptes AWS, en leur donnant le droit d&rsquo;utiliser un Permission Set spécifique sur ces comptes. Par exemple, le groupe Developers peut avoir le Permission Set <code>PowerUserAccess</code> sur les comptes AWS de développement.</li>
+<li><strong>Création des <em>Permission Sets</em> :</strong> Un <em>Permission Set</em> est un ensemble de permissions (similaire à une policy IAM) que vous allez pouvoir réutiliser. Vous pouvez partir de policies managées par AWS (ex: <em>AdministratorAccess</em> ou <em>ReadOnlyAccess</em>) ou créer les vôtres.</li>
+<li><strong>Assignation des accès :</strong> C&rsquo;est ici que la magie opère. Vous assignez un groupe (ou un utilisateur) à un ou plusieurs comptes AWS, en leur donnant le droit d&rsquo;utiliser un <em>Permission Set</em> spécifique sur ces comptes. Par exemple, le groupe Developers peut avoir le <em>Permission Set</em> <code>PowerUserAccess</code> sur les comptes AWS de développement.</li>
 <li><strong>Imposer le MFA :</strong> Dans les paramètres d&rsquo;IAM Identity Center, configurez le MFA pour qu&rsquo;il soit obligatoire pour tous vos utilisateurs.</li>
 <li><strong>Partager l&rsquo;URL d&rsquo;accès AWS :</strong> Chaque configuration IAM Identity Center a une URL unique pour le portail d&rsquo;accès (ex: <code>d-xxxxxxxxxx.awsapps.com/start</code>). C&rsquo;est cette URL que vos utilisateurs mettront en favori pour se connecter.</li>
 </ul>
-<p>Une fois connectés au portail, les utilisateurs verront la liste des comptes AWS et des rôles (définis par les Permission Sets) auxquels ils ont accès. Un clic, et ils sont dans la console du compte AWS choisi avec les bonnes permissions ! Ils peuvent aussi obtenir des identifiants temporaires pour la CLI. Mais d&rsquo;ailleurs, comment faire pour se connecter à un compte AWS en CLI via IAM Identity Center ? Voyons ça ensemble !</p>
+<p>Une fois connectés au portail, les utilisateurs verront la liste des comptes AWS et des rôles (définis par les <em>Permission Sets</em>) auxquels ils ont accès. Un clic, et ils sont dans la console du compte AWS choisi avec les bonnes permissions ! Ils peuvent aussi obtenir des identifiants temporaires pour la CLI. Mais d&rsquo;ailleurs, comment faire pour se connecter à un compte AWS en CLI via IAM Identity Center ? Voyons ça ensemble !</p>
 <h1 id="configurer-les-accès-cli"><a href="#configurer-les-acc%c3%a8s-cli" class="header-anchor"></a>Configurer les accès CLI
 </h1><p>La <a class="link" href="https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-sso.html"  target="_blank" rel="noopener"
-    >documentation d&rsquo;AWS pour configurer l&rsquo;authentification CLI avec IAM Identity Center</a> est assez claire, mais je vais tout de même vous décrire les étapes. Je pars du principe que vous avez déjà votre <a class="link" href="https://aws.amazon.com/cli/"  target="_blank" rel="noopener"
-    >AWS CLI</a> d&rsquo;installée.</p>
-<p>La première et <strong>seule</strong> commande à lancer sera la suivante :</p>
+    >documentation d&rsquo;AWS pour configurer l&rsquo;authentification CLI avec IAM Identity Center</a> est assez claire, mais je vais tout de même vous décrire les étapes. Je pars du principe que vous avez déjà installé votre <a class="link" href="https://aws.amazon.com/cli/"  target="_blank" rel="noopener"
+    >AWS CLI</a>.</p>
+<p>La commande pour initier la configuration est la suivante :</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -470,7 +470,7 @@
 <pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">aws configure sso
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>Ensuite, vous allez devoir rentrer quelques informations propre à votre IAM Identity Center. Le plus important étant le &ldquo;SSO start URL&rdquo; (que vous pouvez trouver dans IAM Identity Center sous le nom de &ldquo;AWS access portal URL&rdquo;, URL qui finit par <code>/start</code>). Il faut ensuite rentrer la region dans laquelle se trouve votre configuration, quant au &ldquo;SSO registration scopes&rdquo;, vous pouvez laisser la valeur par défaut.</p>
+</div><p>Ensuite, vous allez devoir rentrer quelques informations propres à votre IAM Identity Center. Le plus important étant le <em>SSO start URL</em> (que vous pouvez trouver dans IAM Identity Center sous le nom de <em>AWS access portal URL</em>, URL qui finit par <code>/start</code>). Il faut ensuite rentrer la région dans laquelle se trouve votre configuration, quant au <em>SSO registration scopes</em>, vous pouvez laisser la valeur par défaut.</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -487,7 +487,7 @@
 </div>
 </div><p>Si tout se passe bien, une fenêtre devrait s&rsquo;ouvrir dans votre navigateur pour valider votre identité. Une fois cela fait, retournez dans votre terminal.</p>
 <p>Dans mon cas, je ne possède qu&rsquo;un seul compte AWS, et IAM Identity Center me le sélectionne par défaut. Mais vous aurez peut-être le choix dans le compte AWS à sélectionner. Idem pour le role.</p>
-<p>Enfin, choisissez un nom de profile à utiliser pour vos futurs appels API. Je vous conseille d&rsquo;utiliser <code>default</code>, ce qui vous permettra de ne pas avoir à rajouter <code>--profile my-aws-profile</code> à la fin de chacune de vos commandes.</p>
+<p>Enfin, choisissez un nom de profil à utiliser pour vos futurs appels API. Je vous conseille d&rsquo;utiliser <code>default</code>, ce qui vous permettra de ne pas avoir à rajouter <code>--profile my-aws-profile</code> à la fin de chacune de vos commandes.</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1

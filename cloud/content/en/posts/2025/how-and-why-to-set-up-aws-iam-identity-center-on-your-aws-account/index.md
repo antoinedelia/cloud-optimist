@@ -7,7 +7,7 @@ tags:
     - IAM
     - AWS
 categories: [ Cloud ]
-image: iam-identity-center.jpeg
+image: iam-identity-center.jpg
 ---
 
 If you're juggling multiple AWS accounts, or even just a single account with different users, you know that access management can quickly become a **real headache**. Creating individual IAM users in every account, managing their permissions, ensuring everyone is using MFA... Phew, just thinking about it is enough to give you cold sweats! But what if I told you there is an elegant, centralized, and much more secure solution to handle all of this? Ladies and Gentlemen, let me introduce you to **IAM Identity Center**!

@@ -456,7 +456,28 @@
 <li><strong>Imposer le MFA :</strong> Dans les paramètres d&rsquo;IAM Identity Center, configurez le MFA pour qu&rsquo;il soit obligatoire pour tous vos utilisateurs.</li>
 <li><strong>Partager l&rsquo;URL d&rsquo;accès AWS :</strong> Chaque configuration IAM Identity Center a une URL unique pour le portail d&rsquo;accès (ex: <code>d-xxxxxxxxxx.awsapps.com/start</code>). C&rsquo;est cette URL que vos utilisateurs mettront en favori pour se connecter.</li>
 </ul>
-<p>Une fois connectés au portail, les utilisateurs verront la liste des comptes AWS et des rôles (définis par les <em>Permission Sets</em>) auxquels ils ont accès. Un clic, et ils sont dans la console du compte AWS choisi avec les bonnes permissions ! Ils peuvent aussi obtenir des identifiants temporaires pour la CLI. Mais d&rsquo;ailleurs, comment faire pour se connecter à un compte AWS en CLI via IAM Identity Center ? Voyons ça ensemble !</p>
+<p><img src="/img/how-and-why-to-set-up-aws-iam-identity-center-on-your-aws-account/aws-iam-identity-center-dashboard.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="AWS IAM Identity Center Dashboard"
+	
+	
+></p>
+<p>Une fois connectés au portail, les utilisateurs verront la liste des comptes AWS et des rôles (définis par les <em>Permission Sets</em>) auxquels ils ont accès. Un clic, et ils sont dans la console du compte AWS choisi avec les bonnes permissions !</p>
+<p><img src="/img/how-and-why-to-set-up-aws-iam-identity-center-on-your-aws-account/aws-iam-identity-center-access-portal.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="AWS IAM Identity Center Access Portal"
+	
+	
+></p>
+<p>Ils peuvent aussi obtenir des identifiants temporaires pour la CLI. Mais d&rsquo;ailleurs, comment faire pour se connecter à un compte AWS en CLI via IAM Identity Center ? Voyons ça ensemble !</p>
 <h1 id="configurer-les-accès-cli"><a href="#configurer-les-acc%c3%a8s-cli" class="header-anchor"></a>Configurer les accès CLI
 </h1><p>La <a class="link" href="https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-sso.html"  target="_blank" rel="noopener"
     >documentation d&rsquo;AWS pour configurer l&rsquo;authentification CLI avec IAM Identity Center</a> est assez claire, mais je vais tout de même vous décrire les étapes. Je pars du principe que vous avez déjà installé votre <a class="link" href="https://aws.amazon.com/cli/"  target="_blank" rel="noopener"

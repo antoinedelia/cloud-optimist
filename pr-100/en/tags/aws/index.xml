@@ -39,7 +39,28 @@
 &lt;li&gt;&lt;strong&gt;Enforcing MFA:&lt;/strong&gt; In the IAM Identity Center settings, configure MFA to be mandatory for all your users.&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;Sharing the AWS Access URL:&lt;/strong&gt; Every IAM Identity Center configuration has a unique URL for the access portal (e.g., &lt;code&gt;d-xxxxxxxxxx.awsapps.com/start&lt;/code&gt;). This is the URL your users will bookmark to log in.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;Once logged into the portal, users will see the list of AWS accounts and roles (defined by the Permission Sets) they have access to. One click, and they are in the console of the chosen AWS account with the right permissions! They can also get temporary credentials for the CLI. But speaking of which, how do you connect to an AWS account via CLI using IAM Identity Center? Let&amp;rsquo;s check it out!&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://antoinedelia.github.io/cloud-optimist/pr-100/img/how-and-why-to-set-up-aws-iam-identity-center-on-your-aws-account/aws-iam-identity-center-dashboard.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;AWS IAM Identity Center Dashboard&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;Once logged into the portal, users will see the list of AWS accounts and roles (defined by the Permission Sets) they have access to. One click, and they are in the console of the chosen AWS account with the right permissions!&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://antoinedelia.github.io/cloud-optimist/pr-100/img/how-and-why-to-set-up-aws-iam-identity-center-on-your-aws-account/aws-iam-identity-center-access-portal.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;AWS IAM Identity Center Access Portal&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;They can also get temporary credentials for the CLI. But speaking of which, how do you connect to an AWS account via CLI using IAM Identity Center? Let&amp;rsquo;s check it out!&lt;/p&gt;
 &lt;h1 id=&#34;configuring-cli-access&#34;&gt;&lt;a href=&#34;#configuring-cli-access&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Configuring CLI Access
 &lt;/h1&gt;&lt;p&gt;The &lt;a class=&#34;link&#34; href=&#34;https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-sso.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;AWS documentation for configuring CLI authentication with IAM Identity Center&lt;/a&gt; is pretty clear, but I&amp;rsquo;ll walk you through the steps anyway. I&amp;rsquo;m assuming you already have your &lt;a class=&#34;link&#34; href=&#34;https://aws.amazon.com/cli/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;

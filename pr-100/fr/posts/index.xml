@@ -39,7 +39,28 @@
 &lt;li&gt;&lt;strong&gt;Imposer le MFA :&lt;/strong&gt; Dans les paramètres d&amp;rsquo;IAM Identity Center, configurez le MFA pour qu&amp;rsquo;il soit obligatoire pour tous vos utilisateurs.&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;Partager l&amp;rsquo;URL d&amp;rsquo;accès AWS :&lt;/strong&gt; Chaque configuration IAM Identity Center a une URL unique pour le portail d&amp;rsquo;accès (ex: &lt;code&gt;d-xxxxxxxxxx.awsapps.com/start&lt;/code&gt;). C&amp;rsquo;est cette URL que vos utilisateurs mettront en favori pour se connecter.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;Une fois connectés au portail, les utilisateurs verront la liste des comptes AWS et des rôles (définis par les &lt;em&gt;Permission Sets&lt;/em&gt;) auxquels ils ont accès. Un clic, et ils sont dans la console du compte AWS choisi avec les bonnes permissions ! Ils peuvent aussi obtenir des identifiants temporaires pour la CLI. Mais d&amp;rsquo;ailleurs, comment faire pour se connecter à un compte AWS en CLI via IAM Identity Center ? Voyons ça ensemble !&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://antoinedelia.github.io/cloud-optimist/pr-100/img/how-and-why-to-set-up-aws-iam-identity-center-on-your-aws-account/aws-iam-identity-center-dashboard.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;AWS IAM Identity Center Dashboard&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;Une fois connectés au portail, les utilisateurs verront la liste des comptes AWS et des rôles (définis par les &lt;em&gt;Permission Sets&lt;/em&gt;) auxquels ils ont accès. Un clic, et ils sont dans la console du compte AWS choisi avec les bonnes permissions !&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://antoinedelia.github.io/cloud-optimist/pr-100/img/how-and-why-to-set-up-aws-iam-identity-center-on-your-aws-account/aws-iam-identity-center-access-portal.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;AWS IAM Identity Center Access Portal&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;Ils peuvent aussi obtenir des identifiants temporaires pour la CLI. Mais d&amp;rsquo;ailleurs, comment faire pour se connecter à un compte AWS en CLI via IAM Identity Center ? Voyons ça ensemble !&lt;/p&gt;
 &lt;h1 id=&#34;configurer-les-accès-cli&#34;&gt;&lt;a href=&#34;#configurer-les-acc%c3%a8s-cli&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Configurer les accès CLI
 &lt;/h1&gt;&lt;p&gt;La &lt;a class=&#34;link&#34; href=&#34;https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-sso.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;documentation d&amp;rsquo;AWS pour configurer l&amp;rsquo;authentification CLI avec IAM Identity Center&lt;/a&gt; est assez claire, mais je vais tout de même vous décrire les étapes. Je pars du principe que vous avez déjà installé votre &lt;a class=&#34;link&#34; href=&#34;https://aws.amazon.com/cli/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;

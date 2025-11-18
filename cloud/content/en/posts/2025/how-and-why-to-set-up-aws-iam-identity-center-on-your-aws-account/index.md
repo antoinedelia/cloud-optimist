@@ -46,7 +46,13 @@ Setting up IAM Identity Center is surprisingly simple, especially if you use the
 * **Enforcing MFA:** In the IAM Identity Center settings, configure MFA to be mandatory for all your users.
 * **Sharing the AWS Access URL:** Every IAM Identity Center configuration has a unique URL for the access portal (e.g., `d-xxxxxxxxxx.awsapps.com/start`). This is the URL your users will bookmark to log in.
 
-Once logged into the portal, users will see the list of AWS accounts and roles (defined by the Permission Sets) they have access to. One click, and they are in the console of the chosen AWS account with the right permissions! They can also get temporary credentials for the CLI. But speaking of which, how do you connect to an AWS account via CLI using IAM Identity Center? Let's check it out!
+![AWS IAM Identity Center Dashboard](/img/how-and-why-to-set-up-aws-iam-identity-center-on-your-aws-account/aws-iam-identity-center-dashboard.png)
+
+Once logged into the portal, users will see the list of AWS accounts and roles (defined by the Permission Sets) they have access to. One click, and they are in the console of the chosen AWS account with the right permissions!
+
+![AWS IAM Identity Center Access Portal](/img/how-and-why-to-set-up-aws-iam-identity-center-on-your-aws-account/aws-iam-identity-center-access-portal.png)
+
+They can also get temporary credentials for the CLI. But speaking of which, how do you connect to an AWS account via CLI using IAM Identity Center? Let's check it out!
 
 # Configuring CLI Access
 

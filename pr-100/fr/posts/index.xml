@@ -8,10 +8,10 @@
         <language>fr-FR</language>
         <lastBuildDate>Tue, 25 Nov 2025 07:30:00 +0200</lastBuildDate><atom:link href="https://antoinedelia.github.io/cloud-optimist/pr-100/fr/posts/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>Comment et pourquoi configurer AWS IAM Identity Center sur votre compte AWS</title>
-        <link>https://antoinedelia.github.io/cloud-optimist/pr-100/fr/posts/2025/how-and-why-setup-iam-identity-center-for-your-aws-account/</link>
+        <link>https://antoinedelia.github.io/cloud-optimist/pr-100/fr/posts/2025/how-and-why-to-set-up-aws-iam-identity-center-on-your-aws-account/</link>
         <pubDate>Tue, 25 Nov 2025 07:30:00 +0200</pubDate>
         
-        <guid>https://antoinedelia.github.io/cloud-optimist/pr-100/fr/posts/2025/how-and-why-setup-iam-identity-center-for-your-aws-account/</guid>
+        <guid>https://antoinedelia.github.io/cloud-optimist/pr-100/fr/posts/2025/how-and-why-to-set-up-aws-iam-identity-center-on-your-aws-account/</guid>
         <description>&lt;img src="https://antoinedelia.github.io/cloud-optimist/pr-100/iam-identity-center.jpeg" alt="Featured image of post Comment et pourquoi configurer AWS IAM Identity Center sur votre compte AWS" /&gt;&lt;p&gt;Si vous jonglez avec plusieurs comptes AWS, ou même un seul compte avec différents utilisateurs, vous savez à quel point la gestion des accès peut devenir un véritable casse-tête. Créer des utilisateurs IAM individuels dans chaque compte, gérer leurs permissions, s&amp;rsquo;assurer que tout le monde utilise le MFA&amp;hellip; Ouf, rien que d&amp;rsquo;y penser, ça peut donner des sueurs froides ! Et si je vous disais qu&amp;rsquo;il existe une solution élégante, centralisée et bien plus sécurisée pour gérer tout ça ? Mesdames et Messieurs, laissez-moi vous présenter &lt;strong&gt;IAM Identity Center&lt;/strong&gt; !&lt;/p&gt;
 &lt;p&gt;Depuis que j&amp;rsquo;ai découvert et mis en place IAM Identity Center (que certains connaissent peut-être sous son ancien nom, AWS Single Sign-On ou AWS SSO), ma vie d&amp;rsquo;administrateur Cloud a radicalement changé. C&amp;rsquo;est le genre d&amp;rsquo;outil qui, une fois adopté, vous fait vous demander comment vous avez pu vivre sans.&lt;/p&gt;
 &lt;p&gt;Alors, qu&amp;rsquo;est-ce que c&amp;rsquo;est exactement, et pourquoi est-ce si génial ? C&amp;rsquo;est ce qu&amp;rsquo;on va voir ensemble.&lt;/p&gt;

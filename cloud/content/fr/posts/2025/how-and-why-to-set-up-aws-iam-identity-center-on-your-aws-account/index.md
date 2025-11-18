@@ -1,14 +1,16 @@
 ---
 title: "Comment et pourquoi configurer AWS IAM Identity Center sur votre compte AWS"
-date: 2025-11-25T07:30:00+02:00
+date: 2025-11-19T07:30:00+02:00
 author: Antoine Delia
-draft: true
+draft: false
 tags:
     - IAM
     - AWS
 categories: [ Cloud ]
 image: iam-identity-center.jpg
 ---
+
+# Introduction
 
 Si vous jonglez avec plusieurs comptes AWS, ou même un seul compte avec différents utilisateurs, vous savez à quel point la gestion des accès peut devenir un véritable casse-tête. Créer des utilisateurs IAM individuels dans chaque compte, gérer leurs permissions, s'assurer que tout le monde utilise le MFA... Ouf, rien que d'y penser, ça peut donner des sueurs froides ! Et si je vous disais qu'il existe une solution élégante, centralisée et bien plus sécurisée pour gérer tout ça ? Mesdames et Messieurs, laissez-moi vous présenter **IAM Identity Center** !
 

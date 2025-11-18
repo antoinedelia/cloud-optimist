@@ -29,8 +29,8 @@ Il vous offre un point d'entrée unique (un portail d'accès web) pour vos utili
 Si je suis aussi enthousiaste, c'est parce que les bénéfices sont nombreux et significatifs. Pour vous citer les plus importants :
 
 * **Single Sign-On (SSO) :** Vos utilisateurs se connectent une seule fois via le portail AWS (ou via votre fournisseur d'identité existant si vous en avez un) et accèdent ensuite à tous les comptes et rôles qui leur sont assignés, sans avoir à se ré-authentifier pour chaque compte.
-* **Gestion Centralisée :** Vous gérez tous vos utilisateurs, groupes et leurs permissions (via des "Permission Sets") depuis un seul endroit, même s'ils doivent accéder à des dizaines de comptes AWS différents.
-* **Identifiants Temporaires :** C'est l'un des points les plus importants ! Lorsque les utilisateurs accèdent à un compte via IAM Identity Center, ils obtiennent des identifiants temporaires à durée de vie limitée. Adieu les Access Keys IAM qui traînent et qui représentent un risque de sécurité majeur.
+* **Gestion Centralisée :** Vous gérez tous vos utilisateurs, groupes et leurs permissions (via des _Permission Sets_) depuis un seul endroit, même s'ils doivent accéder à des dizaines de comptes AWS différents.
+* **Identifiants Temporaires :** C'est l'un des points les plus importants ! Lorsque les utilisateurs accèdent à un compte via IAM Identity Center, ils obtiennent des identifiants temporaires à durée de vie limitée. Adieu les _Access Keys_ IAM qui traînent et qui représentent un risque de sécurité majeur.
 * **MFA (Multi-Factor Authentication) :** Vous pouvez (et devriez !) imposer l'utilisation du MFA directement au niveau de la connexion à IAM Identity Center.
 
 Si j'ai piqué votre curiosité et que vous souhaitez en savoir plus, je vous laisse consulter la [documentation AWS sur IAM Identity Center](https://docs.aws.amazon.com/singlesignon/latest/userguide/what-is.html). Pour ceux qui sont déjà convaincus, continuons ensemble !
@@ -39,25 +39,25 @@ Si j'ai piqué votre curiosité et que vous souhaitez en savoir plus, je vous la
 
 Mettre en place IAM Identity Center est étonnamment simple, surtout si vous utilisez l'annuaire intégré d'Identity Center comme source d'identité. Voici les étapes clés pour démarrer :
 
-* **Configuration initiale :** Rendez-vous dans la console AWS, et cherchez "IAM Identity Center". Attention, choisissez bien votre région AWS pour héberger IAM Identity Center dès le départ, car il est actuellement complexe de changer la région d'IAM Identity Center une fois configuré. La configuration initiale est souvent guidée et rapide. Vous choisirez votre source d'identité (l'annuaire Identity Center, AWS Managed Microsoft AD, ou un fournisseur externe).
+* **Configuration initiale :** Rendez-vous dans la console AWS, et cherchez _IAM Identity Center_. Attention, choisissez bien votre région AWS pour héberger IAM Identity Center dès le départ, car il est actuellement complexe de changer la région d'IAM Identity Center une fois configuré. La configuration initiale est souvent guidée et rapide. Vous choisirez votre source d'identité (l'annuaire Identity Center, AWS Managed Microsoft AD, ou un fournisseur externe).
 * **Création de groupes et d'utilisateurs :** Définissez des groupes pertinents pour votre organisation (ex: Developers, Administrators, ...). Créez ensuite vos utilisateurs et assignez-les à ces groupes. Si vous utilisez un IdP externe, cette étape consistera plutôt à synchroniser vos utilisateurs et groupes existants.
-* **Création des "Permission Sets" :** Un Permission Set est un ensemble de permissions (similaire à une policy IAM) que vous allez pouvoir réutiliser. Vous pouvez partir de policies managées par AWS (ex: AdministratorAccess, ReadOnlyAccess) ou créer les vôtres.
-* **Assignation des accès :** C'est ici que la magie opère. Vous assignez un groupe (ou un utilisateur) à un ou plusieurs comptes AWS, en leur donnant le droit d'utiliser un Permission Set spécifique sur ces comptes. Par exemple, le groupe Developers peut avoir le Permission Set `PowerUserAccess` sur les comptes AWS de développement.
+* **Création des _Permission Sets_ :** Un _Permission Set_ est un ensemble de permissions (similaire à une policy IAM) que vous allez pouvoir réutiliser. Vous pouvez partir de policies managées par AWS (ex: _AdministratorAccess_ ou _ReadOnlyAccess_) ou créer les vôtres.
+* **Assignation des accès :** C'est ici que la magie opère. Vous assignez un groupe (ou un utilisateur) à un ou plusieurs comptes AWS, en leur donnant le droit d'utiliser un _Permission Set_ spécifique sur ces comptes. Par exemple, le groupe Developers peut avoir le _Permission Set_ `PowerUserAccess` sur les comptes AWS de développement.
 * **Imposer le MFA :** Dans les paramètres d'IAM Identity Center, configurez le MFA pour qu'il soit obligatoire pour tous vos utilisateurs.
 * **Partager l'URL d'accès AWS :** Chaque configuration IAM Identity Center a une URL unique pour le portail d'accès (ex: `d-xxxxxxxxxx.awsapps.com/start`). C'est cette URL que vos utilisateurs mettront en favori pour se connecter.
 
-Une fois connectés au portail, les utilisateurs verront la liste des comptes AWS et des rôles (définis par les Permission Sets) auxquels ils ont accès. Un clic, et ils sont dans la console du compte AWS choisi avec les bonnes permissions ! Ils peuvent aussi obtenir des identifiants temporaires pour la CLI. Mais d'ailleurs, comment faire pour se connecter à un compte AWS en CLI via IAM Identity Center ? Voyons ça ensemble !
+Une fois connectés au portail, les utilisateurs verront la liste des comptes AWS et des rôles (définis par les _Permission Sets_) auxquels ils ont accès. Un clic, et ils sont dans la console du compte AWS choisi avec les bonnes permissions ! Ils peuvent aussi obtenir des identifiants temporaires pour la CLI. Mais d'ailleurs, comment faire pour se connecter à un compte AWS en CLI via IAM Identity Center ? Voyons ça ensemble !
 
 # Configurer les accès CLI
 
-La [documentation d'AWS pour configurer l'authentification CLI avec IAM Identity Center](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-sso.html) est assez claire, mais je vais tout de même vous décrire les étapes. Je pars du principe que vous avez déjà votre [AWS CLI](https://aws.amazon.com/cli/) d'installée.
+La [documentation d'AWS pour configurer l'authentification CLI avec IAM Identity Center](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-sso.html) est assez claire, mais je vais tout de même vous décrire les étapes. Je pars du principe que vous avez déjà installé votre [AWS CLI](https://aws.amazon.com/cli/).
 
-La première et **seule** commande à lancer sera la suivante :
+La commande pour initier la configuration est la suivante :
 ```sh
 aws configure sso
 ```
 
-Ensuite, vous allez devoir rentrer quelques informations propre à votre IAM Identity Center. Le plus important étant le "SSO start URL" (que vous pouvez trouver dans IAM Identity Center sous le nom de "AWS access portal URL", URL qui finit par `/start`). Il faut ensuite rentrer la region dans laquelle se trouve votre configuration, quant au "SSO registration scopes", vous pouvez laisser la valeur par défaut.
+Ensuite, vous allez devoir rentrer quelques informations propres à votre IAM Identity Center. Le plus important étant le _SSO start URL_ (que vous pouvez trouver dans IAM Identity Center sous le nom de _AWS access portal URL_, URL qui finit par `/start`). Il faut ensuite rentrer la région dans laquelle se trouve votre configuration, quant au _SSO registration scopes_, vous pouvez laisser la valeur par défaut.
 
 ```sh
 SSO session name (Recommended): default
@@ -70,7 +70,7 @@ Si tout se passe bien, une fenêtre devrait s'ouvrir dans votre navigateur pour 
 
 Dans mon cas, je ne possède qu'un seul compte AWS, et IAM Identity Center me le sélectionne par défaut. Mais vous aurez peut-être le choix dans le compte AWS à sélectionner. Idem pour le role.
 
-Enfin, choisissez un nom de profile à utiliser pour vos futurs appels API. Je vous conseille d'utiliser `default`, ce qui vous permettra de ne pas avoir à rajouter `--profile my-aws-profile` à la fin de chacune de vos commandes.
+Enfin, choisissez un nom de profil à utiliser pour vos futurs appels API. Je vous conseille d'utiliser `default`, ce qui vous permettra de ne pas avoir à rajouter `--profile my-aws-profile` à la fin de chacune de vos commandes.
 
 ```sh
 The only AWS account available to you is: xxxxxxxxxxxx

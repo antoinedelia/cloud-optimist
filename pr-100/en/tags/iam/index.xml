@@ -6,7 +6,106 @@
         <description>Recent content in IAM on The Cloud Optimist</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>en-US</language>
-        <lastBuildDate>Tue, 24 Jun 2025 07:30:00 +0200</lastBuildDate><atom:link href="https://antoinedelia.github.io/cloud-optimist/pr-100/en/tags/iam/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Tue, 25 Nov 2025 07:30:00 +0200</lastBuildDate><atom:link href="https://antoinedelia.github.io/cloud-optimist/pr-100/en/tags/iam/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>How and Why to Set Up AWS IAM Identity Center on Your AWS Account</title>
+        <link>https://antoinedelia.github.io/cloud-optimist/pr-100/en/posts/2025/how-and-why-setup-iam-identity-center-for-your-aws-account/</link>
+        <pubDate>Tue, 25 Nov 2025 07:30:00 +0200</pubDate>
+        
+        <guid>https://antoinedelia.github.io/cloud-optimist/pr-100/en/posts/2025/how-and-why-setup-iam-identity-center-for-your-aws-account/</guid>
+        <description>&lt;img src="https://antoinedelia.github.io/cloud-optimist/pr-100/iam-identity-center.jpeg" alt="Featured image of post How and Why to Set Up AWS IAM Identity Center on Your AWS Account" /&gt;&lt;p&gt;If you&amp;rsquo;re juggling multiple AWS accounts, or even just a single account with different users, you know that access management can quickly become a &lt;strong&gt;real headache&lt;/strong&gt;. Creating individual IAM users in every account, managing their permissions, ensuring everyone is using MFA&amp;hellip; Phew, just thinking about it is enough to give you cold sweats! But what if I told you there is an elegant, centralized, and much more secure solution to handle all of this? Ladies and Gentlemen, let me introduce you to &lt;strong&gt;IAM Identity Center&lt;/strong&gt;!&lt;/p&gt;
+&lt;p&gt;Ever since I discovered and implemented IAM Identity Center (which some of you might know by its former name, AWS Single Sign-On or AWS SSO), my life as a Cloud admin has changed radically. It&amp;rsquo;s the kind of tool that, once adopted, makes you wonder how you ever lived without it.&lt;/p&gt;
+&lt;p&gt;So, what is it exactly, and why is it so great? Let&amp;rsquo;s find out together.&lt;/p&gt;
+&lt;h1 id=&#34;iam-identity-center-whats-the-deal&#34;&gt;&lt;a href=&#34;#iam-identity-center-whats-the-deal&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;IAM Identity Center: What&amp;rsquo;s the Deal?
+&lt;/h1&gt;&lt;p&gt;Simply put, IAM Identity Center is an AWS service that allows you to centrally manage access to all your AWS accounts and Cloud applications. Whether you have a handful of accounts or a sprawling AWS organization with dozens, or even hundreds of accounts, IAM Identity Center is there to simplify the task for you.&lt;/p&gt;
+&lt;p&gt;It offers a single point of entry (a web access portal) for your users, allowing them to access the roles and accounts they are entitled to, all with a single authentication.&lt;/p&gt;
+&lt;h1 id=&#34;the-benefits-of-iam-identity-center&#34;&gt;&lt;a href=&#34;#the-benefits-of-iam-identity-center&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;The Benefits of IAM Identity Center
+&lt;/h1&gt;&lt;p&gt;If I sound enthusiastic, it&amp;rsquo;s because the benefits are numerous and significant. To name the most important ones:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Single Sign-On (SSO):&lt;/strong&gt; Your users log in once via the AWS portal (or via your existing identity provider if you have one) and then access all the accounts and roles assigned to them, without having to re-authenticate for every single account.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Centralized Management:&lt;/strong&gt; You manage all your users, groups, and their permissions (via &amp;ldquo;Permission Sets&amp;rdquo;) from a single place, even if they need to access dozens of different AWS accounts.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Temporary Credentials:&lt;/strong&gt; This is one of the most important points! When users access an account via IAM Identity Center, they obtain temporary credentials with a limited lifespan. Say goodbye to lingering IAM Access Keys that pose a major security risk.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;MFA (Multi-Factor Authentication):&lt;/strong&gt; You can (and should!) enforce the use of MFA directly at the IAM Identity Center login level.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;If I&amp;rsquo;ve piqued your curiosity and you want to know more, check out the &lt;a class=&#34;link&#34; href=&#34;https://docs.aws.amazon.com/singlesignon/latest/userguide/what-is.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;AWS documentation on IAM Identity Center&lt;/a&gt;. For those who are already sold, let&amp;rsquo;s continue!&lt;/p&gt;
+&lt;h1 id=&#34;getting-started-with-iam-identity-center&#34;&gt;&lt;a href=&#34;#getting-started-with-iam-identity-center&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Getting Started with IAM Identity Center
+&lt;/h1&gt;&lt;p&gt;Setting up IAM Identity Center is surprisingly simple, especially if you use the built-in Identity Center directory as your identity source. Here are the key steps to get started:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Initial Configuration:&lt;/strong&gt; Head to the AWS console and search for &amp;ldquo;IAM Identity Center&amp;rdquo;. &lt;strong&gt;Heads up:&lt;/strong&gt; choose your AWS region carefully to host IAM Identity Center right from the start, as it is currently complex to change the IAM Identity Center region once configured. The initial setup is often guided and quick. You will choose your identity source (the Identity Center directory, AWS Managed Microsoft AD, or an external provider).&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Creating Groups and Users:&lt;/strong&gt; Define groups relevant to your organization (e.g., Developers, Administrators, &amp;hellip;). Then create your users and assign them to these groups. If you are using an external IdP, this step will consist of synchronizing your existing users and groups instead.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Creating &amp;ldquo;Permission Sets&amp;rdquo;:&lt;/strong&gt; A Permission Set is a collection of permissions (similar to an IAM policy) that you can reuse. You can start from AWS-managed policies (e.g., AdministratorAccess, ReadOnlyAccess) or create your own.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Assigning Access:&lt;/strong&gt; This is where the magic happens. You assign a group (or a user) to one or more AWS accounts, giving them the right to use a specific Permission Set on those accounts. For example, the Developers group might have the &lt;code&gt;PowerUserAccess&lt;/code&gt; Permission Set on the development AWS accounts.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Enforcing MFA:&lt;/strong&gt; In the IAM Identity Center settings, configure MFA to be mandatory for all your users.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Sharing the AWS Access URL:&lt;/strong&gt; Every IAM Identity Center configuration has a unique URL for the access portal (e.g., &lt;code&gt;d-xxxxxxxxxx.awsapps.com/start&lt;/code&gt;). This is the URL your users will bookmark to log in.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Once logged into the portal, users will see the list of AWS accounts and roles (defined by the Permission Sets) they have access to. One click, and they are in the console of the chosen AWS account with the right permissions! They can also get temporary credentials for the CLI. But speaking of which, how do you connect to an AWS account via CLI using IAM Identity Center? Let&amp;rsquo;s check it out!&lt;/p&gt;
+&lt;h1 id=&#34;configuring-cli-access&#34;&gt;&lt;a href=&#34;#configuring-cli-access&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Configuring CLI Access
+&lt;/h1&gt;&lt;p&gt;The &lt;a class=&#34;link&#34; href=&#34;https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-sso.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;AWS documentation for configuring CLI authentication with IAM Identity Center&lt;/a&gt; is pretty clear, but I&amp;rsquo;ll walk you through the steps anyway. I&amp;rsquo;m assuming you already have your &lt;a class=&#34;link&#34; href=&#34;https://aws.amazon.com/cli/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;AWS CLI&lt;/a&gt; installed.&lt;/p&gt;
+&lt;p&gt;The first and &lt;strong&gt;only&lt;/strong&gt; command to run will be the following:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;aws configure sso
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;Next, you will need to enter some information specific to your IAM Identity Center. The most important being the &amp;ldquo;SSO start URL&amp;rdquo; (which you can find in IAM Identity Center under the name &amp;ldquo;AWS access portal URL&amp;rdquo;, a URL ending in &lt;code&gt;/start&lt;/code&gt;). You then need to enter the region where your configuration is located; as for the &amp;ldquo;SSO registration scopes&amp;rdquo;, you can leave the default value.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;SSO session name &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;Recommended&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;: default
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;SSO start URL &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;None&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;: &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;https://xxxxxxxxxxxx.awsapps.com/start&lt;span class=&#34;o&#34;&gt;](&lt;/span&gt;https://xxxxxxxxxxxx.awsapps.com/start&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;SSO region &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;None&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;: eu-west-1
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;SSO registration scopes &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;sso:account:access&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;If everything goes well, a window should open in your browser to validate your identity. Once that&amp;rsquo;s done, head back to your terminal.&lt;/p&gt;
+&lt;p&gt;In my case, I only have one AWS account, and IAM Identity Center selects it for me by default. But you might have a choice of which AWS account to select. The same goes for the role.&lt;/p&gt;
+&lt;p&gt;Finally, choose a profile name to use for your future API calls. I advise you to use &lt;code&gt;default&lt;/code&gt;, which will allow you to avoid adding &lt;code&gt;--profile my-aws-profile&lt;/code&gt; to the end of every command.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;The only AWS account available to you is: xxxxxxxxxxxx
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Using the account ID xxxxxxxxxxxx
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;The only role available to you is: AdministratorAccess
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Using the role name &lt;span class=&#34;s2&#34;&gt;&amp;#34;AdministratorAccess&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Default client Region &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;None&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;: eu-west-1
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;CLI default output format &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;json &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; not specified&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;None&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;: json
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Profile name &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;AdministratorAccess-xxxxxxxxxxxx&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;: default
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;The AWS CLI is now configured to use the default profile.
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Run the following &lt;span class=&#34;nb&#34;&gt;command&lt;/span&gt; to verify your configuration:
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;aws sts get-caller-identity
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;And there you go, you&amp;rsquo;re all set!&lt;/p&gt;
+&lt;h1 id=&#34;conclusion&#34;&gt;&lt;a href=&#34;#conclusion&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Conclusion
+&lt;/h1&gt;&lt;p&gt;As you might have gathered, I am a big fan of AWS IAM Identity Center. It brings an indispensable layer of security while considerably simplifying access management, whether for administrators or users.&lt;/p&gt;
+&lt;p&gt;It is a true pillar for a well-managed and secure AWS infrastructure. If you aren&amp;rsquo;t using it yet, I strongly encourage you to explore setting it up. It&amp;rsquo;s a minimal time investment for huge gains in security and efficiency.&lt;/p&gt;
+&lt;p&gt;Your infrastructure (and your security teams) will thank you!&lt;/p&gt;
+</description>
+        </item>
+        <item>
         <title>Why Tagging your AWS Resources is a Must?</title>
         <link>https://antoinedelia.github.io/cloud-optimist/pr-100/en/posts/2025/why-tagging-your-aws-resources-is-a-must/</link>
         <pubDate>Tue, 24 Jun 2025 07:30:00 +0200</pubDate>

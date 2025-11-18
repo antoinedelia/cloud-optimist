@@ -1,18 +1,18 @@
 <!DOCTYPE html>
-<html lang="fr-FR" dir="ltr">
+<html lang="en-US" dir="ltr">
     <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="Si vous jonglez avec plusieurs comptes AWS, ou même un seul compte avec différents utilisateurs, vous savez à quel point la gestion des accès peut devenir un véritable casse-tête. Créer des utilisateurs IAM individuels dans chaque compte, gérer leurs permissions, s&rsquo;assurer que tout le monde utilise le MFA&hellip; Ouf, rien que d&rsquo;y penser, ça peut donner des sueurs froides ! Et si je vous disais qu&rsquo;il existe une solution élégante, centralisée et bien plus sécurisée pour gérer tout ça ? Mesdames et Messieurs, laissez-moi vous présenter IAM Identity Center !\n">
-<title>Comment et pourquoi configurer AWS IAM Identity Center sur votre compte AWS</title>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="If you&rsquo;re juggling multiple AWS accounts, or even just a single account with different users, you know that access management can quickly become a real headache. Creating individual IAM users in every account, managing their permissions, ensuring everyone is using MFA&hellip; Phew, just thinking about it is enough to give you cold sweats! But what if I told you there is an elegant, centralized, and much more secure solution to handle all of this? Ladies and Gentlemen, let me introduce you to IAM Identity Center!\n">
+<title>How and Why to Set Up AWS IAM Identity Center on Your AWS Account</title>
 
-<link rel='canonical' href='https://antoinedelia.github.io/cloud-optimist/pr-100/fr/posts/2025/how-and-why-setup-iam-identity-center-for-your-aws-account/'>
+<link rel='canonical' href='https://antoinedelia.github.io/cloud-optimist/pr-100/en/posts/2025/how-and-why-setup-iam-identity-center-for-your-aws-account/'>
 
-<link rel="stylesheet" href="/cloud-optimist/pr-100/scss/style.min.6a692fd055deae459f2a9767f57f3855ba80cafd5041317f24f7360f6ca47cdf.css"><meta property='og:title' content="Comment et pourquoi configurer AWS IAM Identity Center sur votre compte AWS">
-<meta property='og:description' content="Si vous jonglez avec plusieurs comptes AWS, ou même un seul compte avec différents utilisateurs, vous savez à quel point la gestion des accès peut devenir un véritable casse-tête. Créer des utilisateurs IAM individuels dans chaque compte, gérer leurs permissions, s&rsquo;assurer que tout le monde utilise le MFA&hellip; Ouf, rien que d&rsquo;y penser, ça peut donner des sueurs froides ! Et si je vous disais qu&rsquo;il existe une solution élégante, centralisée et bien plus sécurisée pour gérer tout ça ? Mesdames et Messieurs, laissez-moi vous présenter IAM Identity Center !\n">
-<meta property='og:url' content='https://antoinedelia.github.io/cloud-optimist/pr-100/fr/posts/2025/how-and-why-setup-iam-identity-center-for-your-aws-account/'>
+<link rel="stylesheet" href="/cloud-optimist/pr-100/scss/style.min.6a692fd055deae459f2a9767f57f3855ba80cafd5041317f24f7360f6ca47cdf.css"><meta property='og:title' content="How and Why to Set Up AWS IAM Identity Center on Your AWS Account">
+<meta property='og:description' content="If you&rsquo;re juggling multiple AWS accounts, or even just a single account with different users, you know that access management can quickly become a real headache. Creating individual IAM users in every account, managing their permissions, ensuring everyone is using MFA&hellip; Phew, just thinking about it is enough to give you cold sweats! But what if I told you there is an elegant, centralized, and much more secure solution to handle all of this? Ladies and Gentlemen, let me introduce you to IAM Identity Center!\n">
+<meta property='og:url' content='https://antoinedelia.github.io/cloud-optimist/pr-100/en/posts/2025/how-and-why-setup-iam-identity-center-for-your-aws-account/'>
 <meta property='og:site_name' content='The Cloud Optimist'>
 <meta property='og:type' content='article'><meta property='article:section' content='Posts' /><meta property='article:tag' content='IAM' /><meta property='article:tag' content='AWS' /><meta property='article:published_time' content='2025-11-25T07:30:00&#43;02:00'/><meta property='article:modified_time' content='2025-11-25T07:30:00&#43;02:00'/><meta property='og:image' content='https://antoinedelia.github.io/cloud-optimist/pr-100/iam-identity-center.jpeg' />
-<meta name="twitter:title" content="Comment et pourquoi configurer AWS IAM Identity Center sur votre compte AWS">
-<meta name="twitter:description" content="Si vous jonglez avec plusieurs comptes AWS, ou même un seul compte avec différents utilisateurs, vous savez à quel point la gestion des accès peut devenir un véritable casse-tête. Créer des utilisateurs IAM individuels dans chaque compte, gérer leurs permissions, s&rsquo;assurer que tout le monde utilise le MFA&hellip; Ouf, rien que d&rsquo;y penser, ça peut donner des sueurs froides ! Et si je vous disais qu&rsquo;il existe une solution élégante, centralisée et bien plus sécurisée pour gérer tout ça ? Mesdames et Messieurs, laissez-moi vous présenter IAM Identity Center !\n"><meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="How and Why to Set Up AWS IAM Identity Center on Your AWS Account">
+<meta name="twitter:description" content="If you&rsquo;re juggling multiple AWS accounts, or even just a single account with different users, you know that access management can quickly become a real headache. Creating individual IAM users in every account, managing their permissions, ensuring everyone is using MFA&hellip; Phew, just thinking about it is enough to give you cold sweats! But what if I told you there is an elegant, centralized, and much more secure solution to handle all of this? Ladies and Gentlemen, let me introduce you to IAM Identity Center!\n"><meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:image" content='https://antoinedelia.github.io/cloud-optimist/pr-100/iam-identity-center.jpeg' />
     <link rel="shortcut icon" href="/favicon.ico" />
 
@@ -57,7 +57,7 @@
     })();
 </script>
 <div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
-    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Afficher le menu">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
         <span class="hamburger-box">
             <span class="hamburger-inner"></span>
         </span>
@@ -67,7 +67,7 @@
         
             
             <figure class="site-avatar">
-                <a href="/cloud-optimist/pr-100/fr/">
+                <a href="/cloud-optimist/pr-100/en/">
                 
                     
                     
@@ -86,8 +86,8 @@
         
         
         <div class="site-meta">
-            <h1 class="site-name"><a href="/cloud-optimist/pr-100/fr">The Cloud Optimist</a></h1>
-            <h2 class="site-description">Un blog autour des sujets Cloud &amp; DevOps.</h2>
+            <h1 class="site-name"><a href="/cloud-optimist/pr-100/en">The Cloud Optimist</a></h1>
+            <h2 class="site-description">A blog about Cloud &amp; DevOps topics.</h2>
         </div>
     </header><ol class="menu-social">
             
@@ -144,7 +144,7 @@
         
         
         <li >
-            <a href='/cloud-optimist/pr-100/fr' >
+            <a href='/cloud-optimist/pr-100/en' >
                 
                 
                 
@@ -158,13 +158,13 @@
 
 
                 
-                <span>Accueil</span>
+                <span>Home</span>
             </a>
         </li>
         
         
         <li >
-            <a href='/cloud-optimist/pr-100/fr/about/' >
+            <a href='/cloud-optimist/pr-100/en/about/' >
                 
                 
                 
@@ -177,13 +177,13 @@
 
 
                 
-                <span>À Propos</span>
+                <span>About</span>
             </a>
         </li>
         
         
         <li >
-            <a href='/cloud-optimist/pr-100/fr/archives/' >
+            <a href='/cloud-optimist/pr-100/en/archives/' >
                 
                 
                 
@@ -203,7 +203,7 @@
         
         
         <li >
-            <a href='/cloud-optimist/pr-100/fr/search/' >
+            <a href='/cloud-optimist/pr-100/en/search/' >
                 
                 
                 
@@ -216,13 +216,13 @@
 
 
                 
-                <span>Recherche</span>
+                <span>Search</span>
             </a>
         </li>
         
         
         <li >
-            <a href='/cloud-optimist/pr-100/fr/liens/' >
+            <a href='/cloud-optimist/pr-100/en/links/' >
                 
                 
                 
@@ -235,7 +235,7 @@
 
 
                 
-                <span>Liens</span>
+                <span>Links</span>
             </a>
         </li>
         
@@ -256,9 +256,9 @@
 
                             <select name="language" title="language" onchange="window.location.href = this.selectedOptions[0].value">
                                 
-                                    <option value="https://antoinedelia.github.io/cloud-optimist/pr-100/fr/" selected>French</option>
+                                    <option value="https://antoinedelia.github.io/cloud-optimist/pr-100/fr/" >French</option>
                                 
-                                    <option value="https://antoinedelia.github.io/cloud-optimist/pr-100/en/" >English</option>
+                                    <option value="https://antoinedelia.github.io/cloud-optimist/pr-100/en/" selected>English</option>
                                 
                             </select>
                         </li>
@@ -283,7 +283,7 @@
 
 
 
-                        <span>Mode sombre</span>
+                        <span>Dark Mode</span>
                     </li>
                 
             </ol>
@@ -308,15 +308,15 @@
 
 
         </div>
-        <h2 class="widget-title section-title">Table des matières</h2>
+        <h2 class="widget-title section-title">Table of contents</h2>
         
         <div class="widget--toc">
             <nav id="TableOfContents">
   <ol>
-    <li><a href="#iam-identity-center--késako-">IAM Identity Center : Késako ?</a></li>
-    <li><a href="#les-avantages-diam-identity-center">Les avantages d&rsquo;IAM Identity Center</a></li>
-    <li><a href="#se-lancer-avec-iam-identity-center">Se Lancer avec IAM Identity Center</a></li>
-    <li><a href="#configurer-les-accès-cli">Configurer les accès CLI</a></li>
+    <li><a href="#iam-identity-center-whats-the-deal">IAM Identity Center: What&rsquo;s the Deal?</a></li>
+    <li><a href="#the-benefits-of-iam-identity-center">The Benefits of IAM Identity Center</a></li>
+    <li><a href="#getting-started-with-iam-identity-center">Getting Started with IAM Identity Center</a></li>
+    <li><a href="#configuring-cli-access">Configuring CLI Access</a></li>
     <li><a href="#conclusion">Conclusion</a></li>
   </ol>
 </nav>
@@ -332,9 +332,9 @@
     <article class="has-image main-article">
     <header class="article-header">
         <div class="article-image">
-            <a href="/cloud-optimist/pr-100/fr/posts/2025/how-and-why-setup-iam-identity-center-for-your-aws-account/">
+            <a href="/cloud-optimist/pr-100/en/posts/2025/how-and-why-setup-iam-identity-center-for-your-aws-account/">
                 
-                    <img src="/cloud-optimist/pr-100/iam-identity-center.jpeg" loading="lazy" alt="Featured image of post Comment et pourquoi configurer AWS IAM Identity Center sur votre compte AWS" />
+                    <img src="/cloud-optimist/pr-100/iam-identity-center.jpeg" loading="lazy" alt="Featured image of post How and Why to Set Up AWS IAM Identity Center on Your AWS Account" />
                 
             </a>
         </div>
@@ -344,7 +344,7 @@
     
     <header class="article-category">
         
-            <a href="/cloud-optimist/pr-100/fr/categories/cloud/" >
+            <a href="/cloud-optimist/pr-100/en/categories/cloud/" >
                 Cloud
             </a>
         
@@ -353,7 +353,7 @@
 
     <div class="article-title-wrapper">
         <h2 class="article-title">
-            <a href="/cloud-optimist/pr-100/fr/posts/2025/how-and-why-setup-iam-identity-center-for-your-aws-account/">Comment et pourquoi configurer AWS IAM Identity Center sur votre compte AWS</a>
+            <a href="/cloud-optimist/pr-100/en/posts/2025/how-and-why-setup-iam-identity-center-for-your-aws-account/">How and Why to Set Up AWS IAM Identity Center on Your AWS Account</a>
         </h2>
     
         
@@ -375,7 +375,7 @@
   <path d="M3 11h16" />
   <path d="M18 16.496v1.504l1 1" />
 </svg>
-                <time class="article-time--published">25 nov. 2025</time>
+                <time class="article-time--published">Nov 25, 2025</time>
             </div>
         
 
@@ -390,7 +390,7 @@
 
 
                 <time class="article-time--reading">
-                    6 minutes de lecture
+                    6 minute read
                 </time>
             </div>
         
@@ -412,7 +412,7 @@
 
             <div>
                 
-                    <a href="https://antoinedelia.github.io/cloud-optimist/pr-100/en/posts/2025/how-and-why-setup-iam-identity-center-for-your-aws-account/" class="link">English</a>
+                    <a href="https://antoinedelia.github.io/cloud-optimist/pr-100/fr/posts/2025/how-and-why-setup-iam-identity-center-for-your-aws-account/" class="link">French</a>
                 
             </div>
         </footer>
@@ -424,38 +424,38 @@
     <section class="article-content">
     
     
-    <p>Si vous jonglez avec plusieurs comptes AWS, ou même un seul compte avec différents utilisateurs, vous savez à quel point la gestion des accès peut devenir un véritable casse-tête. Créer des utilisateurs IAM individuels dans chaque compte, gérer leurs permissions, s&rsquo;assurer que tout le monde utilise le MFA&hellip; Ouf, rien que d&rsquo;y penser, ça peut donner des sueurs froides ! Et si je vous disais qu&rsquo;il existe une solution élégante, centralisée et bien plus sécurisée pour gérer tout ça ? Mesdames et Messieurs, laissez-moi vous présenter <strong>IAM Identity Center</strong> !</p>
-<p>Depuis que j&rsquo;ai découvert et mis en place IAM Identity Center (que certains connaissent peut-être sous son ancien nom, AWS Single Sign-On ou AWS SSO), ma vie d&rsquo;administrateur Cloud a radicalement changé. C&rsquo;est le genre d&rsquo;outil qui, une fois adopté, vous fait vous demander comment vous avez pu vivre sans.</p>
-<p>Alors, qu&rsquo;est-ce que c&rsquo;est exactement, et pourquoi est-ce si génial ? C&rsquo;est ce qu&rsquo;on va voir ensemble.</p>
-<h1 id="iam-identity-center--késako-"><a href="#iam-identity-center--k%c3%a9sako-" class="header-anchor"></a>IAM Identity Center : Késako ?
-</h1><p>En termes simples, IAM Identity Center est un service AWS qui vous permet de gérer de manière centralisée l&rsquo;accès à tous vos comptes AWS et à vos applications Cloud. Que vous ayez une poignée de comptes ou une organisation AWS tentaculaire avec des dizaines, voire des centaines de comptes, IAM Identity Center est là pour vous simplifier la tâche.</p>
-<p>Il vous offre un point d&rsquo;entrée unique (un portail d&rsquo;accès web) pour vos utilisateurs, leur permettant d&rsquo;accéder aux rôles et aux comptes auxquels ils ont droit, le tout avec une seule authentification.</p>
-<h1 id="les-avantages-diam-identity-center"><a href="#les-avantages-diam-identity-center" class="header-anchor"></a>Les avantages d&rsquo;IAM Identity Center
-</h1><p>Si je suis aussi enthousiaste, c&rsquo;est parce que les bénéfices sont nombreux et significatifs. Pour vous citer les plus importants :</p>
+    <p>If you&rsquo;re juggling multiple AWS accounts, or even just a single account with different users, you know that access management can quickly become a <strong>real headache</strong>. Creating individual IAM users in every account, managing their permissions, ensuring everyone is using MFA&hellip; Phew, just thinking about it is enough to give you cold sweats! But what if I told you there is an elegant, centralized, and much more secure solution to handle all of this? Ladies and Gentlemen, let me introduce you to <strong>IAM Identity Center</strong>!</p>
+<p>Ever since I discovered and implemented IAM Identity Center (which some of you might know by its former name, AWS Single Sign-On or AWS SSO), my life as a Cloud admin has changed radically. It&rsquo;s the kind of tool that, once adopted, makes you wonder how you ever lived without it.</p>
+<p>So, what is it exactly, and why is it so great? Let&rsquo;s find out together.</p>
+<h1 id="iam-identity-center-whats-the-deal"><a href="#iam-identity-center-whats-the-deal" class="header-anchor"></a>IAM Identity Center: What&rsquo;s the Deal?
+</h1><p>Simply put, IAM Identity Center is an AWS service that allows you to centrally manage access to all your AWS accounts and Cloud applications. Whether you have a handful of accounts or a sprawling AWS organization with dozens, or even hundreds of accounts, IAM Identity Center is there to simplify the task for you.</p>
+<p>It offers a single point of entry (a web access portal) for your users, allowing them to access the roles and accounts they are entitled to, all with a single authentication.</p>
+<h1 id="the-benefits-of-iam-identity-center"><a href="#the-benefits-of-iam-identity-center" class="header-anchor"></a>The Benefits of IAM Identity Center
+</h1><p>If I sound enthusiastic, it&rsquo;s because the benefits are numerous and significant. To name the most important ones:</p>
 <ul>
-<li><strong>Single Sign-On (SSO) :</strong> Vos utilisateurs se connectent une seule fois via le portail AWS (ou via votre fournisseur d&rsquo;identité existant si vous en avez un) et accèdent ensuite à tous les comptes et rôles qui leur sont assignés, sans avoir à se ré-authentifier pour chaque compte.</li>
-<li><strong>Gestion Centralisée :</strong> Vous gérez tous vos utilisateurs, groupes et leurs permissions (via des &ldquo;Permission Sets&rdquo;) depuis un seul endroit, même s&rsquo;ils doivent accéder à des dizaines de comptes AWS différents.</li>
-<li><strong>Identifiants Temporaires :</strong> C&rsquo;est l&rsquo;un des points les plus importants ! Lorsque les utilisateurs accèdent à un compte via IAM Identity Center, ils obtiennent des identifiants temporaires à durée de vie limitée. Adieu les Access Keys IAM qui traînent et qui représentent un risque de sécurité majeur.</li>
-<li><strong>MFA (Multi-Factor Authentication) :</strong> Vous pouvez (et devriez !) imposer l&rsquo;utilisation du MFA directement au niveau de la connexion à IAM Identity Center.</li>
+<li><strong>Single Sign-On (SSO):</strong> Your users log in once via the AWS portal (or via your existing identity provider if you have one) and then access all the accounts and roles assigned to them, without having to re-authenticate for every single account.</li>
+<li><strong>Centralized Management:</strong> You manage all your users, groups, and their permissions (via &ldquo;Permission Sets&rdquo;) from a single place, even if they need to access dozens of different AWS accounts.</li>
+<li><strong>Temporary Credentials:</strong> This is one of the most important points! When users access an account via IAM Identity Center, they obtain temporary credentials with a limited lifespan. Say goodbye to lingering IAM Access Keys that pose a major security risk.</li>
+<li><strong>MFA (Multi-Factor Authentication):</strong> You can (and should!) enforce the use of MFA directly at the IAM Identity Center login level.</li>
 </ul>
-<p>Si j&rsquo;ai piqué votre curiosité et que vous souhaitez en savoir plus, je vous laisse consulter la <a class="link" href="https://docs.aws.amazon.com/singlesignon/latest/userguide/what-is.html"  target="_blank" rel="noopener"
-    >documentation AWS sur IAM Identity Center</a>. Pour ceux qui sont déjà convaincus, continuons ensemble !</p>
-<h1 id="se-lancer-avec-iam-identity-center"><a href="#se-lancer-avec-iam-identity-center" class="header-anchor"></a>Se Lancer avec IAM Identity Center
-</h1><p>Mettre en place IAM Identity Center est étonnamment simple, surtout si vous utilisez l&rsquo;annuaire intégré d&rsquo;Identity Center comme source d&rsquo;identité. Voici les étapes clés pour démarrer :</p>
+<p>If I&rsquo;ve piqued your curiosity and you want to know more, check out the <a class="link" href="https://docs.aws.amazon.com/singlesignon/latest/userguide/what-is.html"  target="_blank" rel="noopener"
+    >AWS documentation on IAM Identity Center</a>. For those who are already sold, let&rsquo;s continue!</p>
+<h1 id="getting-started-with-iam-identity-center"><a href="#getting-started-with-iam-identity-center" class="header-anchor"></a>Getting Started with IAM Identity Center
+</h1><p>Setting up IAM Identity Center is surprisingly simple, especially if you use the built-in Identity Center directory as your identity source. Here are the key steps to get started:</p>
 <ul>
-<li><strong>Configuration initiale :</strong> Rendez-vous dans la console AWS, et cherchez &ldquo;IAM Identity Center&rdquo;. Attention, choisissez bien votre région AWS pour héberger IAM Identity Center dès le départ, car il est actuellement complexe de changer la région d&rsquo;IAM Identity Center une fois configuré. La configuration initiale est souvent guidée et rapide. Vous choisirez votre source d&rsquo;identité (l&rsquo;annuaire Identity Center, AWS Managed Microsoft AD, ou un fournisseur externe).</li>
-<li><strong>Création de groupes et d&rsquo;utilisateurs :</strong> Définissez des groupes pertinents pour votre organisation (ex: Developers, Administrators, &hellip;). Créez ensuite vos utilisateurs et assignez-les à ces groupes. Si vous utilisez un IdP externe, cette étape consistera plutôt à synchroniser vos utilisateurs et groupes existants.</li>
-<li><strong>Création des &ldquo;Permission Sets&rdquo; :</strong> Un Permission Set est un ensemble de permissions (similaire à une policy IAM) que vous allez pouvoir réutiliser. Vous pouvez partir de policies managées par AWS (ex: AdministratorAccess, ReadOnlyAccess) ou créer les vôtres.</li>
-<li><strong>Assignation des accès :</strong> C&rsquo;est ici que la magie opère. Vous assignez un groupe (ou un utilisateur) à un ou plusieurs comptes AWS, en leur donnant le droit d&rsquo;utiliser un Permission Set spécifique sur ces comptes. Par exemple, le groupe Developers peut avoir le Permission Set <code>PowerUserAccess</code> sur les comptes AWS de développement.</li>
-<li><strong>Imposer le MFA :</strong> Dans les paramètres d&rsquo;IAM Identity Center, configurez le MFA pour qu&rsquo;il soit obligatoire pour tous vos utilisateurs.</li>
-<li><strong>Partager l&rsquo;URL d&rsquo;accès AWS :</strong> Chaque configuration IAM Identity Center a une URL unique pour le portail d&rsquo;accès (ex: <code>d-xxxxxxxxxx.awsapps.com/start</code>). C&rsquo;est cette URL que vos utilisateurs mettront en favori pour se connecter.</li>
+<li><strong>Initial Configuration:</strong> Head to the AWS console and search for &ldquo;IAM Identity Center&rdquo;. <strong>Heads up:</strong> choose your AWS region carefully to host IAM Identity Center right from the start, as it is currently complex to change the IAM Identity Center region once configured. The initial setup is often guided and quick. You will choose your identity source (the Identity Center directory, AWS Managed Microsoft AD, or an external provider).</li>
+<li><strong>Creating Groups and Users:</strong> Define groups relevant to your organization (e.g., Developers, Administrators, &hellip;). Then create your users and assign them to these groups. If you are using an external IdP, this step will consist of synchronizing your existing users and groups instead.</li>
+<li><strong>Creating &ldquo;Permission Sets&rdquo;:</strong> A Permission Set is a collection of permissions (similar to an IAM policy) that you can reuse. You can start from AWS-managed policies (e.g., AdministratorAccess, ReadOnlyAccess) or create your own.</li>
+<li><strong>Assigning Access:</strong> This is where the magic happens. You assign a group (or a user) to one or more AWS accounts, giving them the right to use a specific Permission Set on those accounts. For example, the Developers group might have the <code>PowerUserAccess</code> Permission Set on the development AWS accounts.</li>
+<li><strong>Enforcing MFA:</strong> In the IAM Identity Center settings, configure MFA to be mandatory for all your users.</li>
+<li><strong>Sharing the AWS Access URL:</strong> Every IAM Identity Center configuration has a unique URL for the access portal (e.g., <code>d-xxxxxxxxxx.awsapps.com/start</code>). This is the URL your users will bookmark to log in.</li>
 </ul>
-<p>Une fois connectés au portail, les utilisateurs verront la liste des comptes AWS et des rôles (définis par les Permission Sets) auxquels ils ont accès. Un clic, et ils sont dans la console du compte AWS choisi avec les bonnes permissions ! Ils peuvent aussi obtenir des identifiants temporaires pour la CLI. Mais d&rsquo;ailleurs, comment faire pour se connecter à un compte AWS en CLI via IAM Identity Center ? Voyons ça ensemble !</p>
-<h1 id="configurer-les-accès-cli"><a href="#configurer-les-acc%c3%a8s-cli" class="header-anchor"></a>Configurer les accès CLI
-</h1><p>La <a class="link" href="https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-sso.html"  target="_blank" rel="noopener"
-    >documentation d&rsquo;AWS pour configurer l&rsquo;authentification CLI avec IAM Identity Center</a> est assez claire, mais je vais tout de même vous décrire les étapes. Je pars du principe que vous avez déjà votre <a class="link" href="https://aws.amazon.com/cli/"  target="_blank" rel="noopener"
-    >AWS CLI</a> d&rsquo;installée.</p>
-<p>La première et <strong>seule</strong> commande à lancer sera la suivante :</p>
+<p>Once logged into the portal, users will see the list of AWS accounts and roles (defined by the Permission Sets) they have access to. One click, and they are in the console of the chosen AWS account with the right permissions! They can also get temporary credentials for the CLI. But speaking of which, how do you connect to an AWS account via CLI using IAM Identity Center? Let&rsquo;s check it out!</p>
+<h1 id="configuring-cli-access"><a href="#configuring-cli-access" class="header-anchor"></a>Configuring CLI Access
+</h1><p>The <a class="link" href="https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-sso.html"  target="_blank" rel="noopener"
+    >AWS documentation for configuring CLI authentication with IAM Identity Center</a> is pretty clear, but I&rsquo;ll walk you through the steps anyway. I&rsquo;m assuming you already have your <a class="link" href="https://aws.amazon.com/cli/"  target="_blank" rel="noopener"
+    >AWS CLI</a> installed.</p>
+<p>The first and <strong>only</strong> command to run will be the following:</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -464,7 +464,7 @@
 <pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">aws configure sso
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>Ensuite, vous allez devoir rentrer quelques informations propre à votre IAM Identity Center. Le plus important étant le &ldquo;SSO start URL&rdquo; (que vous pouvez trouver dans IAM Identity Center sous le nom de &ldquo;AWS access portal URL&rdquo;, URL qui finit par <code>/start</code>). Il faut ensuite rentrer la region dans laquelle se trouve votre configuration, quant au &ldquo;SSO registration scopes&rdquo;, vous pouvez laisser la valeur par défaut.</p>
+</div><p>Next, you will need to enter some information specific to your IAM Identity Center. The most important being the &ldquo;SSO start URL&rdquo; (which you can find in IAM Identity Center under the name &ldquo;AWS access portal URL&rdquo;, a URL ending in <code>/start</code>). You then need to enter the region where your configuration is located; as for the &ldquo;SSO registration scopes&rdquo;, you can leave the default value.</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -474,14 +474,14 @@
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">SSO session name <span class="o">(</span>Recommended<span class="o">)</span>: default
-</span></span><span class="line"><span class="cl">SSO start URL <span class="o">[</span>None<span class="o">]</span>: https://xxxxxxxxxxxx.awsapps.com/start
+</span></span><span class="line"><span class="cl">SSO start URL <span class="o">[</span>None<span class="o">]</span>: <span class="o">[</span>https://xxxxxxxxxxxx.awsapps.com/start<span class="o">](</span>https://xxxxxxxxxxxx.awsapps.com/start<span class="o">)</span>
 </span></span><span class="line"><span class="cl">SSO region <span class="o">[</span>None<span class="o">]</span>: eu-west-1
 </span></span><span class="line"><span class="cl">SSO registration scopes <span class="o">[</span>sso:account:access<span class="o">]</span>:
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>Si tout se passe bien, une fenêtre devrait s&rsquo;ouvrir dans votre navigateur pour valider votre identité. Une fois cela fait, retournez dans votre terminal.</p>
-<p>Dans mon cas, je ne possède qu&rsquo;un seul compte AWS, et IAM Identity Center me le sélectionne par défaut. Mais vous aurez peut-être le choix dans le compte AWS à sélectionner. Idem pour le role.</p>
-<p>Enfin, choisissez un nom de profile à utiliser pour vos futurs appels API. Je vous conseille d&rsquo;utiliser <code>default</code>, ce qui vous permettra de ne pas avoir à rajouter <code>--profile my-aws-profile</code> à la fin de chacune de vos commandes.</p>
+</div><p>If everything goes well, a window should open in your browser to validate your identity. Once that&rsquo;s done, head back to your terminal.</p>
+<p>In my case, I only have one AWS account, and IAM Identity Center selects it for me by default. But you might have a choice of which AWS account to select. The same goes for the role.</p>
+<p>Finally, choose a profile name to use for your future API calls. I advise you to use <code>default</code>, which will allow you to avoid adding <code>--profile my-aws-profile</code> to the end of every command.</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
@@ -510,11 +510,11 @@
 </span></span><span class="line"><span class="cl">aws sts get-caller-identity
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>Et voilà, le tour est joué !</p>
+</div><p>And there you go, you&rsquo;re all set!</p>
 <h1 id="conclusion"><a href="#conclusion" class="header-anchor"></a>Conclusion
-</h1><p>Vous l&rsquo;aurez compris, je suis un grand fan d&rsquo;AWS IAM Identity Center. Il apporte une couche de sécurité indispensable tout en simplifiant considérablement la gestion des accès, que ce soit pour les administrateurs ou pour les utilisateurs.</p>
-<p>C&rsquo;est un véritable pilier pour une infrastructure AWS bien gérée et sécurisée. Si vous ne l&rsquo;utilisez pas encore, je vous encourage vivement à explorer sa mise en place. C&rsquo;est un investissement en temps minime pour des gains en sécurité et en efficacité énormes.</p>
-<p>Votre infrastructure (et vos équipes de sécurité) vous diront merci !</p>
+</h1><p>As you might have gathered, I am a big fan of AWS IAM Identity Center. It brings an indispensable layer of security while considerably simplifying access management, whether for administrators or users.</p>
+<p>It is a true pillar for a well-managed and secure AWS infrastructure. If you aren&rsquo;t using it yet, I strongly encourage you to explore setting it up. It&rsquo;s a minimal time investment for huge gains in security and efficiency.</p>
+<p>Your infrastructure (and your security teams) will thank you!</p>
 
 </section>
 
@@ -523,9 +523,9 @@
     
     <section class="article-tags">
         
-            <a href="/cloud-optimist/pr-100/fr/tags/iam/">IAM</a>
+            <a href="/cloud-optimist/pr-100/en/tags/iam/">IAM</a>
         
-            <a href="/cloud-optimist/pr-100/fr/tags/aws/">AWS</a>
+            <a href="/cloud-optimist/pr-100/en/tags/aws/">AWS</a>
         
     </section>
 
@@ -553,13 +553,13 @@
     
 
 <aside class="related-content--wrapper">
-    <h2 class="section-title">Contenus liés</h2>
+    <h2 class="section-title">Related content</h2>
     <div class="related-content">
         <div class="flex article-list--tile">
             
                 
 <article class="has-image">
-    <a href="/cloud-optimist/pr-100/fr/posts/2025/why-tagging-your-aws-resources-is-a-must/">
+    <a href="/cloud-optimist/pr-100/en/posts/2025/why-tagging-your-aws-resources-is-a-must/">
         
         
             <div class="article-image">
@@ -567,7 +567,7 @@
                         width="250" 
                         height="150" 
                         loading="lazy"
-                        alt="Featured image of post Pourquoi taguer vos ressources AWS est indispensable ?"
+                        alt="Featured image of post Why Tagging your AWS Resources is a Must?"
                         
                         data-hash="md5-&#43;vmLLP8voMRnNvjKQp59cg==">
                 
@@ -575,7 +575,7 @@
         
 
         <div class="article-details">
-            <h2 class="article-title">Pourquoi taguer vos ressources AWS est indispensable ?</h2>
+            <h2 class="article-title">Why Tagging your AWS Resources is a Must?</h2>
         </div>
     </a>
 </article>
@@ -583,7 +583,7 @@
             
                 
 <article class="has-image">
-    <a href="/cloud-optimist/pr-100/fr/posts/2025/on-the-trail-of-the-lost-resource-my-investigation-with-athena-and-cloudtrail/">
+    <a href="/cloud-optimist/pr-100/en/posts/2025/on-the-trail-of-the-lost-resource-my-investigation-with-athena-and-cloudtrail/">
         
         
             <div class="article-image">
@@ -591,7 +591,7 @@
                         width="250" 
                         height="150" 
                         loading="lazy"
-                        alt="Featured image of post Sur la piste de la ressource perdue - Mon enquête avec Athena et CloudTrail"
+                        alt="Featured image of post On The Trail of The Lost Resource - My Investigation With Athena and CloudTrail"
                         
                         data-hash="md5-iL&#43;tulFbuFzpZjRFeKDCCQ==">
                 
@@ -599,7 +599,7 @@
         
 
         <div class="article-details">
-            <h2 class="article-title">Sur la piste de la ressource perdue - Mon enquête avec Athena et CloudTrail</h2>
+            <h2 class="article-title">On The Trail of The Lost Resource - My Investigation With Athena and CloudTrail</h2>
         </div>
     </a>
 </article>
@@ -607,7 +607,7 @@
             
                 
 <article class="has-image">
-    <a href="/cloud-optimist/pr-100/fr/posts/2025/aws-lambdas-init-phase-to-be-billed-soon-should-we-be-alarmed/">
+    <a href="/cloud-optimist/pr-100/en/posts/2025/aws-lambdas-init-phase-to-be-billed-soon-should-we-be-alarmed/">
         
         
             <div class="article-image">
@@ -615,7 +615,7 @@
                         width="250" 
                         height="150" 
                         loading="lazy"
-                        alt="Featured image of post AWS Lambda : La phase d&#39;INIT devient payante - faut-il s&#39;alarmer ?"
+                        alt="Featured image of post AWS Lambda: INIT Phase To Be Billed Soon - Should We Be Alarmed?"
                         
                         data-hash="md5-5nXwRMl1iO3bJrqbDpOY0A==">
                 
@@ -623,7 +623,7 @@
         
 
         <div class="article-details">
-            <h2 class="article-title">AWS Lambda : La phase d&#39;INIT devient payante - faut-il s&#39;alarmer ?</h2>
+            <h2 class="article-title">AWS Lambda: INIT Phase To Be Billed Soon - Should We Be Alarmed?</h2>
         </div>
     </a>
 </article>
@@ -631,15 +631,15 @@
             
                 
 <article class="has-image">
-    <a href="/cloud-optimist/pr-100/fr/posts/2025/how-i-automated-my-blog-to-the-cloud/">
+    <a href="/cloud-optimist/pr-100/en/posts/2025/how-i-automated-my-blog-to-the-cloud/">
         
         
             <div class="article-image">
-                <img src="/cloud-optimist/pr-100/fr/posts/2025/how-i-automated-my-blog-to-the-cloud/automated-blog.f8912fd4b1ac173a63449d8e8f990bda_hu_64c667224eaab470.jpeg" 
+                <img src="/cloud-optimist/pr-100/en/posts/2025/how-i-automated-my-blog-to-the-cloud/automated-blog.f8912fd4b1ac173a63449d8e8f990bda_hu_64c667224eaab470.jpeg" 
                         width="250" 
                         height="150" 
                         loading="lazy"
-                        alt="Featured image of post Comment j&#39;ai automatisé la création de mon blog dans le Cloud"
+                        alt="Featured image of post How I Automated My Blog To The Cloud"
                         
                         data-hash="md5-&#43;JEv1LGsFzpjRJ2Oj5kL2g==">
                 
@@ -647,7 +647,7 @@
         
 
         <div class="article-details">
-            <h2 class="article-title">Comment j&#39;ai automatisé la création de mon blog dans le Cloud</h2>
+            <h2 class="article-title">How I Automated My Blog To The Cloud</h2>
         </div>
     </a>
 </article>
@@ -672,7 +672,7 @@
     data-emit-metadata="1"
     data-input-position="top"
     data-theme="light"
-    data-lang="fr"
+    data-lang="en"
     data-loading=""
     crossorigin="anonymous"
     async
@@ -723,8 +723,8 @@
     </section>
     
     <section class="powerby">
-        Généré avec <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
-        Thème <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.29.0">Stack</a></b> conçu par <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.29.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
     </section>
 </footer>
 

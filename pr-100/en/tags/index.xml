@@ -6,20 +6,28 @@
         <description>Recent content in Tags on The Cloud Optimist</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>en-US</language>
-        <lastBuildDate>Wed, 09 Jul 2025 12:30:00 +0200</lastBuildDate><atom:link href="https://antoinedelia.github.io/cloud-optimist/pr-100/en/tags/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Tue, 25 Nov 2025 07:30:00 +0200</lastBuildDate><atom:link href="https://antoinedelia.github.io/cloud-optimist/pr-100/en/tags/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>AWS</title>
+        <link>https://antoinedelia.github.io/cloud-optimist/pr-100/en/tags/aws/</link>
+        <pubDate>Tue, 25 Nov 2025 07:30:00 +0200</pubDate>
+        
+        <guid>https://antoinedelia.github.io/cloud-optimist/pr-100/en/tags/aws/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>IAM</title>
+        <link>https://antoinedelia.github.io/cloud-optimist/pr-100/en/tags/iam/</link>
+        <pubDate>Tue, 25 Nov 2025 07:30:00 +0200</pubDate>
+        
+        <guid>https://antoinedelia.github.io/cloud-optimist/pr-100/en/tags/iam/</guid>
+        <description></description>
+        </item>
+        <item>
         <title>Athena</title>
         <link>https://antoinedelia.github.io/cloud-optimist/pr-100/en/tags/athena/</link>
         <pubDate>Wed, 09 Jul 2025 12:30:00 +0200</pubDate>
         
         <guid>https://antoinedelia.github.io/cloud-optimist/pr-100/en/tags/athena/</guid>
-        <description></description>
-        </item>
-        <item>
-        <title>AWS</title>
-        <link>https://antoinedelia.github.io/cloud-optimist/pr-100/en/tags/aws/</link>
-        <pubDate>Wed, 09 Jul 2025 12:30:00 +0200</pubDate>
-        
-        <guid>https://antoinedelia.github.io/cloud-optimist/pr-100/en/tags/aws/</guid>
         <description></description>
         </item>
         <item>
@@ -52,14 +60,6 @@
         <pubDate>Tue, 24 Jun 2025 07:30:00 +0200</pubDate>
         
         <guid>https://antoinedelia.github.io/cloud-optimist/pr-100/en/tags/cost-explorer/</guid>
-        <description></description>
-        </item>
-        <item>
-        <title>IAM</title>
-        <link>https://antoinedelia.github.io/cloud-optimist/pr-100/en/tags/iam/</link>
-        <pubDate>Tue, 24 Jun 2025 07:30:00 +0200</pubDate>
-        
-        <guid>https://antoinedelia.github.io/cloud-optimist/pr-100/en/tags/iam/</guid>
         <description></description>
         </item>
         <item>

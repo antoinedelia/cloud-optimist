@@ -29,5 +29,5 @@ Projets et réalisations :
 - Introduction au Serverless : séminaire virtuel (https://www.youtube.com/watch?v=nCGTWbUsfN4)
 - 3 certifications AWS (Architect Associate / Developer Associate / Cloud Practitioner)
 - 1800+ points sur [StackOverflow](https://stackoverflow.com/users/4141606/antoine-delia?tab=profile)
-- Marathon de Toulouse 2024 couru en 04:33:08
+- Marathon de Toulouse 2025 couru en 03:58:44 
 - TOEIC (965/990)

@@ -29,5 +29,5 @@ Projects and achievements:
 - Introduction to Serverless: webinar (https://www.youtube.com/watch?v=nCGTWbUsfN4)
 - 3 AWS certifications (Architect Associate / Developer Associate / Cloud Practitioner)
 - 1800+ points on [StackOverflow](https://stackoverflow.com/users/4141606/antoine-delia?tab=profile)
-- Marathon in Toulouse 2024 achieved in 04:33:08
+- Marathon in Toulouse 2025 achieved in 03:58:44
 - TOEIC (965/990)

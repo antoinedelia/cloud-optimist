@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>Troubleshooting on The Cloud Optimist</title>
+        <link>https://antoinedelia.github.io/cloud-optimist/pr-113/fr/tags/troubleshooting/</link>
+        <description>Recent content in Troubleshooting on The Cloud Optimist</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>fr-FR</language>
+        <lastBuildDate>Wed, 26 Jun 2019 22:49:13 +0200</lastBuildDate><atom:link href="https://antoinedelia.github.io/cloud-optimist/pr-113/fr/tags/troubleshooting/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>La Méthode du Canard en Plastique - pourquoi ça marche ?</title>
+        <link>https://antoinedelia.github.io/cloud-optimist/pr-113/fr/posts/2019/the-rubber-duck-debugging/</link>
+        <pubDate>Wed, 26 Jun 2019 22:49:13 +0200</pubDate>
+        
+        <guid>https://antoinedelia.github.io/cloud-optimist/pr-113/fr/posts/2019/the-rubber-duck-debugging/</guid>
+        <description>&lt;img src="https://antoinedelia.github.io/cloud-optimist/pr-113/fr/posts/2019/the-rubber-duck-debugging/duck.jpg" alt="Featured image of post La Méthode du Canard en Plastique - pourquoi ça marche ?" /&gt;&lt;p&gt;&lt;strong&gt;La programmation est un art complexe.&lt;/strong&gt; Vous êtes un véritable architecte et votre mission est de concevoir, construire, décorer et entretenir une application, un peu comme vous le feriez pour une maison.&lt;/p&gt;
+&lt;p&gt;Cependant, une difficulté émerge : &lt;strong&gt;vous devez communiquer des informations à une machine à travers des langages de programmation pour que tout fonctionne.&lt;/strong&gt; Alors que vous ne parlez pas à vos meubles pour les placer dans votre maison, n&amp;rsquo;est-ce pas ? &lt;em&gt;N&amp;rsquo;est-ce pas ?&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;Cette petite différence est cruciale, car il arrive parfois que vous rencontriez un problème sans savoir pourquoi il est là. Vous avez développé cette chose tellement parfaitement qu&amp;rsquo;elle ne devrait pas échouer. Et pourtant, voilà un bug, et vous ne savez pas pourquoi.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;La première chose à faire est bien évidemment d&amp;rsquo;accuser l&amp;rsquo;ordinateur.&lt;/strong&gt; Après tout, vous savez ce que vous faites, il n&amp;rsquo;y a aucune raison pour que vous ayez écrit quelque chose de travers. C&amp;rsquo;est probablement cet imbécile d&amp;rsquo;ordinateur qui vous fait encore passer pour un idiot. Mais la vérité est difficile à avaler.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;La machine fait exactement ce que vous lui dites de faire.&lt;/p&gt;
+&lt;p&gt;&amp;ndash; &lt;cite&gt;Bill Gates, probablement&lt;/cite&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Que vous le vouliez ou non, votre ordinateur est bête. Il récupère sans réfléchir l&amp;rsquo;information que vous lui fournissez et l&amp;rsquo;exécute. &lt;strong&gt;Et s&amp;rsquo;il échoue, c&amp;rsquo;est sans aucun doute de votre faute.&lt;/strong&gt; Je sais que ça fait mal, croyez-moi. Mais ne vous inquiétez pas trop, cela est arrivé à chacun de nous, et au final, tout le monde s&amp;rsquo;en est sorti.&lt;/p&gt;
+&lt;p&gt;Maintenant, tout dépend de vous. Vous savez que vous avez fait quelque chose de travers, mais vous ne parvenez pas à savoir quoi. Que faire ? Faut-il chercher des réponses sur StackOverflow ? Démissionner de votre poste car vous n&amp;rsquo;êtes clairement pas à la hauteur ? La réponse est simple.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;La première étape quand vous êtes bloqué, est de faire appel à la sagesse du canard.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Je sais ce que vous pensez en ce moment : &lt;em&gt;Qu&amp;rsquo;est-ce que tu es en train de fumer et où puis-je trouver ça ?&lt;/em&gt; Mais croyez-moi, cette histoire de canard n&amp;rsquo;est pas une hallucination, c&amp;rsquo;est même LA meilleure façon de vous aider.&lt;/p&gt;
+&lt;p&gt;Ne vous inquiétez pas cependant, vous n&amp;rsquo;aurez pas besoin de conduire à la ferme la plus proche et voler un canard pour appliquer ce conseil. Dans notre cas, un canard en plastique est tout ce dont nous avons besoin.&lt;/p&gt;
+&lt;p&gt;Une fois que vous en avez un et que vous le placez sur votre bureau, la seule chose qu&amp;rsquo;il vous reste à faire est de lui parler. Allez-y, ne soyez pas timide. Et expliquez-lui ce qui se passe avec votre code.&lt;/p&gt;
+&lt;p&gt;Je préfère vous en parler tout de suite pour que vous ne soyez pas choqué quand vous serez confronté à la vérité, mais le canard ne vous répondra pas. C&amp;rsquo;est déchirant, je sais. Cependant, &lt;strong&gt;il est l&amp;rsquo;auditeur parfait et sa patience est bien au-dessus de celle de n&amp;rsquo;importe quel autre être humain&lt;/strong&gt;, contrairement à vos collègues. De plus, le canard ne jugera jamais vos erreurs. Il est gentil et compréhensif.&lt;/p&gt;
+&lt;p&gt;Et plus vous lui expliquerez vos problèmes, plus vous réaliserez ce qui n&amp;rsquo;allait pas dans votre code. En effet, le fait d&amp;rsquo;expliquer correctement au canard ce que vous tentez de faire mettra en évidence une petite incohérence entre ce que vous avez fait et ce que vous essayez d&amp;rsquo;accomplir. Petit à petit, vous serez bientôt capable de repérer la ligne exacte de code qui causait tous vos problèmes et de la corriger comme un pro.&lt;/p&gt;
+&lt;p&gt;Et c&amp;rsquo;est pour ça que le canard est si utile. Non seulement vous laissez vos collègues travailler en paix, mais cet exercice vous oblige à prendre du recul par rapport à votre code afin de pouvoir l&amp;rsquo;expliquer à quelqu&amp;rsquo;un qui n&amp;rsquo;a aucune idée de ce qui se passe.&lt;/p&gt;
+&lt;p&gt;Cet effort de mettre des mots sur le comportement attendu et ce que vous avez pu accomplir jusqu&amp;rsquo;à présent mettra en lumière toutes les erreurs potentielles que vous auriez pu commettre pendant le développement, des choses qu&amp;rsquo;on ne voit pas quand on passe huit heures à regarder son code sans s&amp;rsquo;arrêter.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;En décrivant ce que le code est censé faire et en observant ce qu&amp;rsquo;il fait réellement, toute incohérence entre ces deux devient apparente.&lt;/p&gt;
+&lt;p&gt;&amp;ndash; &lt;cite&gt; &lt;a class=&#34;link&#34; href=&#34;https://www.sjbaker.org/humor/cardboard_dog.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Stephen J. Baker&lt;/a&gt;&lt;/cite&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Alors, la prochaine fois que vous serez bloqué, ne dérangez pas vos collègues, économisez votre connexion internet et demandez simplement au canard !&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Si vous souhaitez en savoir plus sur cette méthode, je vous conseille vivement de jeter un œil au site qui a inspiré ce billet : &lt;cite&gt; &lt;a class=&#34;link&#34; href=&#34;https://rubberduckdebugging.com/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://rubberduckdebugging.com/&lt;/a&gt;&lt;/cite&gt;.&lt;/p&gt;
+&lt;/blockquote&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>

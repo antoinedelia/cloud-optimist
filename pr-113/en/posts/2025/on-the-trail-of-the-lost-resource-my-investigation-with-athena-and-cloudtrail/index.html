@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="en-US" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="Introduction Recently, I had to play detective in our AWS account.\nA resource was there (a Cognito User Pool), plain as day, but nobody could remember where it came from. And of course, there were no tags to help us (if only they had read my post on why tagging your AWS resources is a must).\nMy mission, should I choose to accept it: find out who created it. The problem? The event was about four months old.\n">
+<title>On The Trail of The Lost Resource - My Investigation With Athena and CloudTrail</title>
+
+<link rel='canonical' href='https://antoinedelia.github.io/cloud-optimist/pr-113/en/posts/2025/on-the-trail-of-the-lost-resource-my-investigation-with-athena-and-cloudtrail/'>
+
+<link rel="stylesheet" href="/cloud-optimist/pr-113/scss/style.min.6a692fd055deae459f2a9767f57f3855ba80cafd5041317f24f7360f6ca47cdf.css"><meta property='og:title' content="On The Trail of The Lost Resource - My Investigation With Athena and CloudTrail">
+<meta property='og:description' content="Introduction Recently, I had to play detective in our AWS account.\nA resource was there (a Cognito User Pool), plain as day, but nobody could remember where it came from. And of course, there were no tags to help us (if only they had read my post on why tagging your AWS resources is a must).\nMy mission, should I choose to accept it: find out who created it. The problem? The event was about four months old.\n">
+<meta property='og:url' content='https://antoinedelia.github.io/cloud-optimist/pr-113/en/posts/2025/on-the-trail-of-the-lost-resource-my-investigation-with-athena-and-cloudtrail/'>
+<meta property='og:site_name' content='The Cloud Optimist'>
+<meta property='og:type' content='article'><meta property='article:section' content='Posts' /><meta property='article:tag' content='AWS' /><meta property='article:tag' content='CloudTrail' /><meta property='article:tag' content='Athena' /><meta property='article:tag' content='S3' /><meta property='article:tag' content='Cognito' /><meta property='article:published_time' content='2025-07-09T12:30:00&#43;02:00'/><meta property='article:modified_time' content='2025-07-09T12:30:00&#43;02:00'/><meta property='og:image' content='https://antoinedelia.github.io/cloud-optimist/pr-113/fr/posts/2025/on-the-trail-of-the-lost-resource-my-investigation-with-athena-and-cloudtrail/aws_lost_resource.jpeg' />
+<meta name="twitter:title" content="On The Trail of The Lost Resource - My Investigation With Athena and CloudTrail">
+<meta name="twitter:description" content="Introduction Recently, I had to play detective in our AWS account.\nA resource was there (a Cognito User Pool), plain as day, but nobody could remember where it came from. And of course, there were no tags to help us (if only they had read my post on why tagging your AWS resources is a must).\nMy mission, should I choose to accept it: find out who created it. The problem? The event was about four months old.\n"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://antoinedelia.github.io/cloud-optimist/pr-113/fr/posts/2025/on-the-trail-of-the-lost-resource-my-investigation-with-athena-and-cloudtrail/aws_lost_resource.jpeg' />
+    <link rel="shortcut icon" href="/favicon.ico" />
+
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-NPENVXWP54"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-NPENVXWP54');
+        }
+      </script>
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/cloud-optimist/pr-113/en/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/cloud-optimist/pr-113/img/avatar_hu_bf2a480adb63282c.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">☁️</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/cloud-optimist/pr-113/en">The Cloud Optimist</a></h1>
+            <h2 class="site-description">A blog about Cloud &amp; DevOps topics.</h2>
+        </div>
+    </header><ol class="menu-social">
+            
+                <li>
+                    <a 
+                        href='https://github.com/antoinedelia/'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://linkedin.com/in/antoinedelia'
+                        target="_blank"
+                        title="LinkedIn"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-brand-linkedin"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M8 11v5" /><path d="M8 8v.01" /><path d="M12 16v-5" /><path d="M16 16v-3a2 2 0 1 0 -4 0" /><path d="M3 7a4 4 0 0 1 4 -4h10a4 4 0 0 1 4 4v10a4 4 0 0 1 -4 4h-10a4 4 0 0 1 -4 -4z" /></svg>
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://stackoverflow.com/users/4141606/antoine-delia?tab=profile'
+                        target="_blank"
+                        title="Stack Overflow"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-brand-stackoverflow"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 17v1a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-1" /><path d="M8 16h8" /><path d="M8.322 12.582l7.956 .836" /><path d="M8.787 9.168l7.826 1.664" /><path d="M10.096 5.764l7.608 2.472" /></svg>
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/cloud-optimist/pr-113/en' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>Home</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/cloud-optimist/pr-113/en/about/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>About</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/cloud-optimist/pr-113/en/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>Archives</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/cloud-optimist/pr-113/en/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>Search</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/cloud-optimist/pr-113/en/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>Links</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+                    
+                        <li id="i18n-switch">  
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                            <select name="language" title="language" onchange="window.location.href = this.selectedOptions[0].value">
+                                
+                                    <option value="https://antoinedelia.github.io/cloud-optimist/pr-113/fr/" >French</option>
+                                
+                                    <option value="https://antoinedelia.github.io/cloud-optimist/pr-113/en/" selected>English</option>
+                                
+                            </select>
+                        </li>
+                    
+                
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>Dark Mode</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">Table of contents</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#introduction">Introduction</a></li>
+    <li><a href="#querying-your-s3-logs-with-athena">Querying your S3 logs with Athena</a></li>
+    <li><a href="#investigation-time-finding-the-information">Investigation Time: Finding the Information</a></li>
+    <li><a href="#the-verdict-and-the-culprit">The Verdict&hellip; and the Culprit</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/cloud-optimist/pr-113/en/posts/2025/on-the-trail-of-the-lost-resource-my-investigation-with-athena-and-cloudtrail/">
+                <img src="/cloud-optimist/pr-113/fr/posts/2025/on-the-trail-of-the-lost-resource-my-investigation-with-athena-and-cloudtrail/aws_lost_resource_hu_c2a70ac72cfbfbc1.jpeg"
+                        srcset="/cloud-optimist/pr-113/fr/posts/2025/on-the-trail-of-the-lost-resource-my-investigation-with-athena-and-cloudtrail/aws_lost_resource_hu_c2a70ac72cfbfbc1.jpeg 800w, /cloud-optimist/pr-113/fr/posts/2025/on-the-trail-of-the-lost-resource-my-investigation-with-athena-and-cloudtrail/aws_lost_resource_hu_2c11f912c62c419d.jpeg 1600w"
+                        width="800" 
+                        height="436" 
+                        loading="lazy"
+                        alt="Featured image of post On The Trail of The Lost Resource - My Investigation With Athena and CloudTrail" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/cloud-optimist/pr-113/en/categories/cloud/" >
+                Cloud
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/cloud-optimist/pr-113/en/posts/2025/on-the-trail-of-the-lost-resource-my-investigation-with-athena-and-cloudtrail/">On The Trail of The Lost Resource - My Investigation With Athena and CloudTrail</a>
+        </h2>
+    
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Jul 09, 2025</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    4 minute read
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+        <footer class="article-translations">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+            <div>
+                
+                    <a href="https://antoinedelia.github.io/cloud-optimist/pr-113/fr/posts/2025/on-the-trail-of-the-lost-resource-my-investigation-with-athena-and-cloudtrail/" class="link">French</a>
+                
+            </div>
+        </footer>
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <h1 id="introduction"><a href="#introduction" class="header-anchor"></a>Introduction
+</h1><p>Recently, I had to play detective in our AWS account.</p>
+<p>A resource was there (a Cognito User Pool), plain as day, but nobody could remember where it came from. And of course, there were no tags to help us (if only they had read <a class="link" href="/en/posts/2025/why-tagging-your-aws-resources-is-a-must/" >my post on why tagging your AWS resources is a must</a>).</p>
+<p>My mission, should I choose to accept it: find out who created it. The problem? The event was about four months old.</p>
+<p>My first instinct was to turn to AWS CloudTrail. And there, I hit my first wall: <a class="link" href="https://docs.aws.amazon.com/awscloudtrail/latest/userguide/view-cloudtrail-events.html#event-history-limitations"  target="_blank" rel="noopener"
+    >the event history is only viewable for the last 90 days</a>. Dead end.</p>
+<p>Luckily, I knew our CloudTrail logs were archived in an S3 bucket. My first thought was to manually download the archives for the right month, unzip dozens of JSON files, and hit <kbd>Ctrl+F</kbd> while praying for a miracle. Let&rsquo;s just say it was neither efficient, pleasant, nor fast.</p>
+<p>So, I wondered if there wasn&rsquo;t a simpler way to search through this pile of logs, and I finally found the perfect solution: <strong>AWS Athena</strong>.</p>
+<h1 id="querying-your-s3-logs-with-athena"><a href="#querying-your-s3-logs-with-athena" class="header-anchor"></a>Querying your S3 logs with Athena
+</h1><p>For those unfamiliar, <a class="link" href="https://docs.aws.amazon.com/athena/latest/ug/what-is.html"  target="_blank" rel="noopener"
+    >AWS Athena</a> is an interactive query service that makes it easy to analyze data directly in Amazon S3 using standard SQL. Basically, you can run queries on files (JSON, CSV, etc.) as if they were in a traditional database. No more downloading anything!</p>
+<p>The idea, then, is to &ldquo;map&rdquo; our CloudTrail logs stored in S3 to a table in Athena. To do this, we use a single <code>CREATE EXTERNAL TABLE</code> query. Following <a class="link" href="https://docs.aws.amazon.com/athena/latest/ug/create-cloudtrail-table-partition-projection.html"  target="_blank" rel="noopener"
+    >the AWS documentation on the subject</a>, I ran the following query in the Athena console.</p>
+<p>This query creates a table and uses a very handy feature called &ldquo;partition projection.&rdquo; This allows Athena to infer the location of the logs based on the date, without having to manually manage partitions. This is very convenient when the structure is standardized, as is the case with AWS CloudTrail.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">CREATE</span><span class="w"> </span><span class="k">EXTERNAL</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">cloudtrail_logs_pp</span><span class="w"> </span><span class="p">(</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">eventversion</span><span class="w"> </span><span class="n">STRING</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">useridentity</span><span class="w"> </span><span class="n">STRUCT</span><span class="o">&lt;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">arn</span><span class="p">:</span><span class="n">STRING</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="o">&gt;</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">eventtime</span><span class="w"> </span><span class="n">STRING</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">eventsource</span><span class="w"> </span><span class="n">STRING</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">eventname</span><span class="w"> </span><span class="n">STRING</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">awsregion</span><span class="w"> </span><span class="n">STRING</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">requestparameters</span><span class="w"> </span><span class="n">STRING</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">responseelements</span><span class="w"> </span><span class="n">STRING</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">additionaleventdata</span><span class="w"> </span><span class="n">STRING</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">requestid</span><span class="w"> </span><span class="n">STRING</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">eventid</span><span class="w"> </span><span class="n">STRING</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">resources</span><span class="w"> </span><span class="nb">ARRAY</span><span class="o">&lt;</span><span class="n">STRUCT</span><span class="o">&lt;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">arn</span><span class="p">:</span><span class="n">STRING</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">accountid</span><span class="p">:</span><span class="n">STRING</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="k">type</span><span class="p">:</span><span class="n">STRING</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="o">&gt;&gt;</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">eventtype</span><span class="w"> </span><span class="n">STRING</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">eventcategory</span><span class="w"> </span><span class="n">STRING</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">PARTITIONED</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="p">(</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="o">`</span><span class="k">timestamp</span><span class="o">`</span><span class="w"> </span><span class="n">string</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">ROW</span><span class="w"> </span><span class="n">FORMAT</span><span class="w"> </span><span class="n">SERDE</span><span class="w"> </span><span class="s1">&#39;org.apache.hive.hcatalog.data.JsonSerDe&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">STORED</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">INPUTFORMAT</span><span class="w"> </span><span class="s1">&#39;com.amazon.emr.cloudtrail.CloudTrailInputFormat&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">OUTPUTFORMAT</span><span class="w"> </span><span class="s1">&#39;org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">LOCATION</span><span class="w"> </span><span class="s1">&#39;s3://BUCKET-NAME/AWSLogs/ACCOUNT-ID/CloudTrail/REGION&#39;</span><span class="w"> </span><span class="c1">-- Replace with your S3 bucket path
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">TBLPROPERTIES</span><span class="w"> </span><span class="p">(</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="s1">&#39;projection.enabled&#39;</span><span class="o">=</span><span class="s1">&#39;true&#39;</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="s1">&#39;projection.timestamp.format&#39;</span><span class="o">=</span><span class="s1">&#39;yyyy/MM/dd&#39;</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="s1">&#39;projection.timestamp.interval&#39;</span><span class="o">=</span><span class="s1">&#39;1&#39;</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="s1">&#39;projection.timestamp.interval.unit&#39;</span><span class="o">=</span><span class="s1">&#39;DAYS&#39;</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="s1">&#39;projection.timestamp.range&#39;</span><span class="o">=</span><span class="s1">&#39;2024/01/01,NOW&#39;</span><span class="p">,</span><span class="w"> </span><span class="c1">-- Replace with your start date
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">    </span><span class="s1">&#39;projection.timestamp.type&#39;</span><span class="o">=</span><span class="s1">&#39;date&#39;</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="s1">&#39;storage.location.template&#39;</span><span class="o">=</span><span class="s1">&#39;s3://BUCKET-NAME/AWSLogs/ACCOUNT-ID/CloudTrail/REGION/${timestamp}&#39;</span><span class="w"> </span><span class="c1">-- Replace with your S3 bucket path
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">)</span><span class="w">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>Warning:</strong> Don&rsquo;t forget to replace the <code>s3://...</code> URLs with the exact path to your S3 bucket where your CloudTrail logs are stored, and to adjust the <code>projection.timestamp.range</code> property to the period you&rsquo;re interested in.</p>
+<h1 id="investigation-time-finding-the-information"><a href="#investigation-time-finding-the-information" class="header-anchor"></a>Investigation Time: Finding the Information
+</h1><p>Once the table is created (which only takes a few seconds), the hardest part is over! My investigation could finally begin.</p>
+<p>I was looking for who had created a Cognito <code>UserPoolClient</code> on a specific date. So my SQL query looked like this:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">eventTime</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">eventName</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">userIdentity</span><span class="p">.</span><span class="n">arn</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">cloudtrail_logs_pp</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHERE</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">timestamp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;2025/02/25&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">AND</span><span class="w"> </span><span class="n">eventName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;CreateUserPoolClient&#39;</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>In just a few seconds, Athena scanned the logs for the requested day and returned the result.</p>
+<p><img src="/img/on-the-trail-of-the-lost-resource-my-investigation-with-athena-and-cloudtrail/running_the_athena_query.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="Athena query to search CloudTrail logs in S3"
+	
+	
+></p>
+<p>I had the exact time, the event, and most importantly, the ARN of the user who performed the action. Mission accomplished!</p>
+<h1 id="the-verdict-and-the-culprit"><a href="#the-verdict-and-the-culprit" class="header-anchor"></a>The Verdict&hellip; and the Culprit
+</h1><p>The funniest part of this story?</p>
+<p>After setting up this solution and finding the information so easily, I discovered that the &ldquo;culprit&rdquo; who had created this resource four months ago&hellip; <strong>was me</strong>. I had completely forgotten!</p>
+<p>Jokes aside, this experience confirmed one thing for me: taking a few minutes to set up Athena on your CloudTrail logs is an incredibly worthwhile investment. You&rsquo;re giving yourself a long-term auditing and search capability that will save you hours of manual searching the day you really need it. Don&rsquo;t be like me; don&rsquo;t wait until you&rsquo;re stuck to set it up!</p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/cloud-optimist/pr-113/en/tags/aws/">AWS</a>
+        
+            <a href="/cloud-optimist/pr-113/en/tags/cloudtrail/">CloudTrail</a>
+        
+            <a href="/cloud-optimist/pr-113/en/tags/athena/">Athena</a>
+        
+            <a href="/cloud-optimist/pr-113/en/tags/s3/">S3</a>
+        
+            <a href="/cloud-optimist/pr-113/en/tags/cognito/">Cognito</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">Related content</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/cloud-optimist/pr-113/en/posts/2025/how-i-automated-my-blog-to-the-cloud/">
+        
+        
+            <div class="article-image">
+                <img src="/cloud-optimist/pr-113/en/posts/2025/how-i-automated-my-blog-to-the-cloud/automated-blog.f8912fd4b1ac173a63449d8e8f990bda_hu_64c667224eaab470.jpeg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post How I Automated My Blog To The Cloud"
+                        
+                        data-hash="md5-&#43;JEv1LGsFzpjRJ2Oj5kL2g==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">How I Automated My Blog To The Cloud</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/cloud-optimist/pr-113/en/posts/2025/how-and-why-to-set-up-aws-iam-identity-center-on-your-aws-account/">
+        
+        
+            <div class="article-image">
+                <img src="/cloud-optimist/pr-113/fr/posts/2025/how-and-why-to-set-up-aws-iam-identity-center-on-your-aws-account/iam-identity-center.58634a6aa2694b3a9318af065fd9faf8_hu_772782832330960.jpg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post How and Why to Set Up AWS IAM Identity Center on Your AWS Account"
+                        
+                        data-hash="md5-WGNKaqJpSzqTGK8GX9n6&#43;A==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">How and Why to Set Up AWS IAM Identity Center on Your AWS Account</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/cloud-optimist/pr-113/en/posts/2025/why-tagging-your-aws-resources-is-a-must/">
+        
+        
+            <div class="article-image">
+                <img src="/cloud-optimist/pr-113/fr/posts/2025/why-tagging-your-aws-resources-is-a-must/aws_tagging.faf98b2cff2fa0c46736f8ca429e7d72_hu_9df4e0bda091116d.jpeg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post Why Tagging your AWS Resources is a Must?"
+                        
+                        data-hash="md5-&#43;vmLLP8voMRnNvjKQp59cg==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Why Tagging your AWS Resources is a Must?</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/cloud-optimist/pr-113/en/posts/2025/aws-lambdas-init-phase-to-be-billed-soon-should-we-be-alarmed/">
+        
+        
+            <div class="article-image">
+                <img src="/cloud-optimist/pr-113/fr/posts/2025/aws-lambdas-init-phase-to-be-billed-soon-should-we-be-alarmed/lambda-init-billing.e675f044c97588eddb26ba9b0e9398d0_hu_bf7c4666c0f5eba.jpeg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post AWS Lambda: INIT Phase To Be Billed Soon - Should We Be Alarmed?"
+                        
+                        data-hash="md5-5nXwRMl1iO3bJrqbDpOY0A==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">AWS Lambda: INIT Phase To Be Billed Soon - Should We Be Alarmed?</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <script
+    src="https://giscus.app/client.js"
+    data-repo="antoinedelia/cloud-optimist"
+    data-repo-id="R_kgDOHWH-Zg"
+    data-category="Comments"
+    data-category-id="DIC_kwDOHWH-Zs4CoHBh"
+    data-mapping="pathname"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="1"
+    data-input-position="top"
+    data-theme="light"
+    data-lang="en"
+    data-loading=""
+    crossorigin="anonymous"
+    async
+></script>
+<script>
+    function setGiscusTheme(theme) {
+        let giscus = document.querySelector("iframe.giscus-frame");
+        if (giscus) {
+            giscus.contentWindow.postMessage(
+                {
+                    giscus: {
+                        setConfig: {
+                            theme: theme,
+                        },
+                    },
+                },
+                "https://giscus.app"
+            );
+        }
+    }
+
+    (function () {
+        addEventListener("message", (e) => {
+            if (event.origin !== "https://giscus.app") return;
+            handler();
+        });
+        window.addEventListener("onColorSchemeChange", handler);
+
+        function handler() {
+            if (document.documentElement.dataset.scheme === "light") {
+                setGiscusTheme('light');
+            } else {
+                setGiscusTheme('dark_dimmed');
+            }
+        }
+    })();
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2022 - 
+        
+        2025 The Cloud Optimist
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.29.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/cloud-optimist/pr-113/ts/main.1e9a3bafd846ced4c345d084b355fb8c7bae75701c338f8a1f8a82c780137826.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

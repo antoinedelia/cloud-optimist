@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>Postmortem on The Cloud Optimist</title>
+        <link>https://antoinedelia.github.io/cloud-optimist/pr-113/fr/tags/postmortem/</link>
+        <description>Recent content in Postmortem on The Cloud Optimist</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>fr-FR</language>
+        <lastBuildDate>Mon, 15 Dec 2025 07:30:00 +0100</lastBuildDate><atom:link href="https://antoinedelia.github.io/cloud-optimist/pr-113/fr/tags/postmortem/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Le jour où j&#39;ai accidentellement supprimé une API, et ce que cela m&#39;a appris sur le DevOps</title>
+        <link>https://antoinedelia.github.io/cloud-optimist/pr-113/fr/posts/2025/the-day-i-accidentally-deleted-an-api-and-what-it-taught-me-about-devops/</link>
+        <pubDate>Mon, 15 Dec 2025 07:30:00 +0100</pubDate>
+        
+        <guid>https://antoinedelia.github.io/cloud-optimist/pr-113/fr/posts/2025/the-day-i-accidentally-deleted-an-api-and-what-it-taught-me-about-devops/</guid>
+        <description>&lt;img src="https://antoinedelia.github.io/cloud-optimist/pr-113/deleted-api.jpeg" alt="Featured image of post Le jour où j&#39;ai accidentellement supprimé une API, et ce que cela m&#39;a appris sur le DevOps" /&gt;&lt;h1 id=&#34;introduction&#34;&gt;&lt;a href=&#34;#introduction&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Introduction
+&lt;/h1&gt;&lt;p&gt;La journée du 4 Avril 2024 avait bien commencé. Un petit café en main, un VS Code en plein ébulition, et de la douce musique électro dans les oreilles, tant de facteurs positifs qui ne pouvaient présager de la catastrophe à venir.&lt;/p&gt;
+&lt;p&gt;Mais laissez-moi vous donner un peu de contexte.&lt;/p&gt;
+&lt;h1 id=&#34;le-contexte&#34;&gt;&lt;a href=&#34;#le-contexte&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Le contexte
+&lt;/h1&gt;&lt;p&gt;Je travaillais alors dans une équipe avec pour but de mettre à disposition une API Gateway globale sur AWS, avec plusieurs endpoints managés par différentes équipes. Concrètement, la mise en place de cette API Gateway était l&amp;rsquo;étape initiale du projet. Cela comprenait un record DNS qui pointait vers cette API, l&amp;rsquo;API Gateway elle-même, ainsi qu&amp;rsquo;un Cognito Authorizer configuré avec plusieurs clients.&lt;/p&gt;
+&lt;p&gt;Une fois cette API prête, des équipes externes pouvaient alors déployer leurs propres endpoints sur cette API. Pour cela, une pipeline CI/CD était mise en place, et via CloudFormation, les endpoints se rattachaient directement à l&amp;rsquo;API déjà créée.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;[!NOTE]&lt;/p&gt;
+&lt;p&gt;Je simplifie au maximum, si des détails techniques vous intéressent, n&amp;rsquo;hésitez pas à me contacter !&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;De mon côté, en plus d&amp;rsquo;être responsable de l&amp;rsquo;infrastrcture globale de l&amp;rsquo;API, il m&amp;rsquo;arrivait de travailler ou de troubleshooter certains services.&lt;/p&gt;
+&lt;h1 id=&#34;le-début-du-drame&#34;&gt;&lt;a href=&#34;#le-d%c3%a9but-du-drame&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Le début du drame
+&lt;/h1&gt;&lt;p&gt;Si vous avez déjà travaillé avec CloudFormation, vous êtes peut-être familier avec le terme &lt;code&gt;UPDATE_ROLLBACK_FAILED&lt;/code&gt;. C&amp;rsquo;est ce qui arrive lorsque vous essayez de mettre à jour une stack CloudFormation, mais que celle-ci a rencontré un problème. Elle essaiera donc de faire un rollback. Mais si ce rollback n&amp;rsquo;aboutit pas, votre stack sera alors en &lt;code&gt;UPDATE_ROLLBACK_FAILED&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Et ce &lt;code&gt;UPDATE_ROLLBACK_FAILED&lt;/code&gt; est bien embêtant, car vous ne pouvez plus relancer de déploiements tant que vous n&amp;rsquo;avez pas résolu le problème.&lt;/p&gt;
+&lt;p&gt;C&amp;rsquo;est exactement ce qui s&amp;rsquo;est passé ce fameux 4 Avril 2024. Un de nos services s&amp;rsquo;est retrouvé dans cet état, et j&amp;rsquo;ai commencé à investiguer le pourquoi du comment.&lt;/p&gt;
+&lt;p&gt;Après quelques minutes, j&amp;rsquo;ai constaté que le problème venait de la resource API elle-même. Sans trop réfléchir, et dans une optique de débloquer le problème rapidemement, je me suis rendu directement sur la console AWS, sur le service API Gateway. J&amp;rsquo;ai cherché la resource en question, et me suis empressé de la supprimer.&lt;/p&gt;
+&lt;p&gt;À ce moment précis, quelque chose de très étrange s&amp;rsquo;est produit. Un comportement innatendu qui m&amp;rsquo;a glacé le sang. Au lieu de me retrouver sur la même page, AWS m&amp;rsquo;a renvoyé sur la page principal du service API Gateway. Cette même page qui liste vos APIs disponible, et qui affichait maintenant le nombre &lt;code&gt;0&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;J&amp;rsquo;ai ainsi réalisé que je n&amp;rsquo;avais pas supprimé la ressource API, mais bien l&amp;rsquo;API Gateway dans sa totalité.&lt;/p&gt;
+&lt;h1 id=&#34;les-détails-dun-échec&#34;&gt;&lt;a href=&#34;#les-d%c3%a9tails-dun-%c3%a9chec&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Les détails d&amp;rsquo;un échec
+&lt;/h1&gt;&lt;p&gt;TBD - Montrer des screenshots de la console AWS API Gateway.&lt;/p&gt;
+&lt;h1 id=&#34;résolution&#34;&gt;&lt;a href=&#34;#r%c3%a9solution&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Résolution
+&lt;/h1&gt;&lt;p&gt;TBD&lt;/p&gt;
+&lt;h1 id=&#34;lessons-learned-et-post-mortem&#34;&gt;&lt;a href=&#34;#lessons-learned-et-post-mortem&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Lessons Learned et Post-Mortem
+&lt;/h1&gt;&lt;p&gt;TBD&lt;/p&gt;
+&lt;h1 id=&#34;conclusion&#34;&gt;&lt;a href=&#34;#conclusion&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Conclusion
+&lt;/h1&gt;&lt;p&gt;TBD&lt;/p&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>

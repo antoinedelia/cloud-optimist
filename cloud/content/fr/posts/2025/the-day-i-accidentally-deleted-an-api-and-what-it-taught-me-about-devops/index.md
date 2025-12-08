@@ -48,7 +48,43 @@ J'ai ainsi réalisé que je n'avais pas supprimé la ressource API, mais bien l'
 
 # Les détails d'un échec
 
-TBD - Montrer des screenshots de la console AWS API Gateway.
+Jamais je n'aurais pensé commettre une telle bêtise. Et j'imagine que vous lisant ces lignes, vous vous disez la même chose.
+
+Car pour se tromper, il fallait le faire !
+
+Laissez-moi vous faire une reconstitution de la scène du crime. Voici ce que j'ai vu au moment où j'ai pris la décision de supprimer une resource de l'API Gateway.
+
+![Vue de la ressource API Gateway](/img/the-day-i-accidentally-deleted-an-api-and-what-it-taught-me-about-devops/api_gateway_view.png)
+
+_Toute ressemblance avec une situation réelle est totalement fortuite_
+
+Dans ma situation, sur quel bouton auriez-vous cliqué ? Facile ! Le bouton _Delete_ juste à droite de la ressource !
+
+Pour ma part (et je ne sais toujours pas ce qui m'a poussé à faire cela), j'ai préféré cliquer sur le bouton _API actions_. Après tout, je voulais en effet faire une action !
+
+Et que se passe-t-il quand on clique sur ce bouton ?
+
+![Menu déroulant du bouton API Actions](/img/the-day-i-accidentally-deleted-an-api-and-what-it-taught-me-about-devops/api_actions.png)
+
+Oula ! De suite, on voit que ce n'est pas du tout ce qu'on veut faire. Mais pensez-vous que cela m'a découragé ? Absolument pas ! J'étais venu pour supprimer une ressource, et quand j'ai vu le mot _Delete_, je n'ai pas réfléchi plus longtemps ! J'aurais dû, car ainsi, j'aurais sûrement vu le mot _API_ juste à côté.
+
+Heureusement, nos amis de chez AWS ont pensé à tout ! Lorsque vous cliquez sur _Delete API_, on va tout de même vous demander si vous êtes bel et bien certain de vouloir supprimer cette API. Un beau message s'affiche, vous indiquant le nom de l'API en question, et vous demandant de taper le mot _confirm_ pour valider cette opération.
+
+![Demande de confirmation de suppression de l'API](/img/the-day-i-accidentally-deleted-an-api-and-what-it-taught-me-about-devops/delete_api_dialog.png)
+
+Tout ça, c'est bien beau, mais les ingénieurs d'AWS ont sous-estimé mon impatience. À ce moment-là, cette demande de confirmation n'était pas une mise en garde, mais un obstacle à mon but de supprimer ma ressource. Ni une ni deux, j'ai entré le mot _confirm_, et validé l'opération.
+
+Voici donc la dernière chose que j'ai vu avant de finalement réaliser l'erreur que j'avais commise.
+
+![L'API a été supprimée avec succès](/img/the-day-i-accidentally-deleted-an-api-and-what-it-taught-me-about-devops/successfully_deleted_api.png)
+
+_Une vision d'horreur_
+
+Je voulais absolument vous retracer ce petit parcours pour vous faire comprendre une chose : vous aurez beau mettre en place toutes les sécurtiés possibles, **vous ne pourrez jamais rien faire contre un individu impatient**, car ce dernier ne saura pas lire vos avertissements.
+
+Alors, la prochaine fois que vous devrez faire une action somme toute innofensive, prenez bien le temps de lire et de vous assurer que vous êtes bel et bien sur le bon chemin.
+
+Cela étant dit, passons maintenant à une étape cruciale : la résolution de cet incident !
 
 # Résolution
 

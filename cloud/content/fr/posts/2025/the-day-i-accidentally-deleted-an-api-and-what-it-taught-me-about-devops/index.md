@@ -6,6 +6,7 @@ draft: true
 tags:
     - S3
     - API Gateway
+    - CloudFormation
     - Cognito
     - Terraform
     - AWS
@@ -88,11 +89,51 @@ Cela étant dit, passons maintenant à une étape cruciale : la résolution de c
 
 # Résolution
 
-TBD
+## Le déclic
+
+Revenons donc sur le moment du drame. Après avoir réalisé ce qui était arrivé, j'ai eu comme un électrochoc, un éclair de génie (aucune poudre blanche n'ayant pourtant été consommée). Je savais maintenant ce que je devais faire : résoudre l'incident, mais surtout, documenter les actions que j'allais entreprendre.
+
+Car quelques semaines plus tôt, je m'étais intéressé à [l'incident GitLab de 2017](https://about.gitlab.com/blog/postmortem-of-database-outage-of-january-31/), celui ayant interrompu le service pendant plusieurs heures, et résultant d'une perte de données pour certains utilisateurs. J'ai ainsi découvert le terme de **Post-Morten**, et leur intérêt dans ce genre de situation. Mais je garde ça pour la prochaine section de cet article.
+
+En attendant, si vous êtes intéressés par ces sujets-là, je vous conseille la très bonne [chaîne Youtube de Kevin Fang](https://www.youtube.com/@kevinfaang/videos) qui je le cite : "lit des postmortems et en fait des vidéos de piètre qualité".
+
+## Rollback, impact, et communication
+
+La première chose que je me suis dite, c'est qu'il était peut-être possible de faire une sorte de rollback directement depuis AWS, et d'ainsi réduire au maximum l'impact sur les utilisateurs. Si j'avais correctement lu le message d'avertissement plus haut, j'aurais tout de suite compris que cela était impossible (mais si je l'avais lu, je n'aurais de toute façon pas été dans cette situation).
+
+N'ayant aucun moyen rapide et simple de revenir en arrière, j'étais maintenant confiant que j'étais face à un véritable incident ayant un impact global. J'ai donc dans un premier temps pris soin de comprendre tous les impacts que cette suppression d'API allait avoir. Dans mon cas, non seulement l'API n'était plus disponible (merci Captain Obvious), mais en plus de cela, aucun nouveau déploiement n'était possible jusqu'à ce que l'API soit de nouveau opérationnelle.
+
+Finalement, j'ai fait en sorte d'avertir toute notre équipe interne de la situation. Ainsi, ils étaient au courant de l'incident en cours, et que j'étais en train de travailler à sa résolution.
+
+## Analyse et découverte de problèmes
+
+Il était maintenant temps de se retrousser les manches et de trouver un moyen de redéployer cette API Gateway.
+
+En premier lieu, je me suis rendu dans le service CloudFormation, car j'avais souvenir que cette API avait été initialement déployée via ce service. J'ai d'abord essayé de mettre à jour la stack, en pensant que cela pourrait faire revenir ma chère API comme par magie.
+
+Évidemment, cela n'allait pas être aussi simple. La mise à jour de cette stack était maintenant impossible, car la suppression manuelle de l'API avait fait rentrer la stack dans un état "hybride" dont elle n'arrivait pas à se sortir.
+
+La mise à jour de cette stack étant impossible, la suite logique était de la supprimer afin de la déployer à nouveau proprement. Et c'est là que les ennuis ont commencé. Cette fameuse stack CloudFormation produisait plusieurs Outputs. Deux de ces outputs étaient nécessaires à toutes les stacks "enfants" qui avaient jusqu'alors déployé leurs endpoints sur cette API. Ainsi, CloudFormation m'interdisait de supprimer ma stack, car elle pourrait impacter toutes les autres.
+
+Après plusieurs minutes de réflexion pour essayer de trouver d'autres alternatives, cette forte interdépendance m'amena à prendre une décision difficile : supprimer toutes les stacks "enfants" de CloudFormation, pour un total de 81 stacks.
+
+Pour couronner le tout, ces stacks "enfants" n'avaient pas de tags identifiables qui auraient pour nous permettre d'automatiser cette suppression. Heureusement, la plupart d'entre elles avaient un nom avec un prefix reconnaissable, ce qui m'a permis de faire un bon coup de ménage sur la plupart d'entre elles.
+
+Je vous ai parlé d'interdépendances ? Parce que ce n'est pas fini ! Certaines stacks avaient déployé des buckets S3. Et devinez quoi ? CloudFormation ne voudra pas supprimer votre stack, si votre bucket S3 n'est pas vide ! Et bien sûr, 14 stacks se sont retrouvées dans l'état `DELETE_FAILED` à cause de cela. Heureusement, le problème se résoud assez facilement : après avoir fait un backup de chaque bucket, il suffit de les vider et de relancer la suppression de la stack.
+
+## Déploiement de l'API : Le bout du tunnel ?
+
+Étant venu à bout de toutes ces interdépendances, il était maintenant temps de supprimer la stack CloudFormation de l'API Gateway, et de la déployer à nouveau.
+
+La suppression se passa sans plus de problème (Dieu merci), mais évidemment, cela ne fût pas le cas pour sa création.
+
+Déjà, parlons de la stack elle-même. Un fichier YML existait dans un repo GitHub, mais celui-ci n'avait pas été mis à jour depuis des lustres, et je savais que je ferai mieux d'utiliser la définition de la stack présente dans CloudFormation (et oui, je l'ai quand même gardée, pas fou le gars).
+
+Mais comme vous pouvez l'imaginer,
 
 # Lessons Learned et Post-Mortem
 
-TBD
+TBD - dire que c'était une API de DEV, donc ouf !
 
 # Conclusion
 

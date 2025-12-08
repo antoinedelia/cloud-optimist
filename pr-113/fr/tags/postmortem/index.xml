@@ -31,7 +31,61 @@
 &lt;p&gt;À ce moment précis, quelque chose de très étrange s&amp;rsquo;est produit. Un comportement innatendu qui m&amp;rsquo;a glacé le sang. Au lieu de me retrouver sur la même page, AWS m&amp;rsquo;a renvoyé sur la page principal du service API Gateway. Cette même page qui liste vos APIs disponible, et qui affichait maintenant le nombre &lt;code&gt;0&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;J&amp;rsquo;ai ainsi réalisé que je n&amp;rsquo;avais pas supprimé la ressource API, mais bien l&amp;rsquo;API Gateway dans sa totalité.&lt;/p&gt;
 &lt;h1 id=&#34;les-détails-dun-échec&#34;&gt;&lt;a href=&#34;#les-d%c3%a9tails-dun-%c3%a9chec&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Les détails d&amp;rsquo;un échec
-&lt;/h1&gt;&lt;p&gt;TBD - Montrer des screenshots de la console AWS API Gateway.&lt;/p&gt;
+&lt;/h1&gt;&lt;p&gt;Jamais je n&amp;rsquo;aurais pensé commettre une telle bêtise. Et j&amp;rsquo;imagine que vous lisant ces lignes, vous vous disez la même chose.&lt;/p&gt;
+&lt;p&gt;Car pour se tromper, il fallait le faire !&lt;/p&gt;
+&lt;p&gt;Laissez-moi vous faire une reconstitution de la scène du crime. Voici ce que j&amp;rsquo;ai vu au moment où j&amp;rsquo;ai pris la décision de supprimer une resource de l&amp;rsquo;API Gateway.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://antoinedelia.github.io/cloud-optimist/pr-113/img/the-day-i-accidentally-deleted-an-api-and-what-it-taught-me-about-devops/api_gateway_view.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Vue de la ressource API Gateway&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Toute ressemblance avec une situation réelle est totalement fortuite&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;Dans ma situation, sur quel bouton auriez-vous cliqué ? Facile ! Le bouton &lt;em&gt;Delete&lt;/em&gt; juste à droite de la ressource !&lt;/p&gt;
+&lt;p&gt;Pour ma part (et je ne sais toujours pas ce qui m&amp;rsquo;a poussé à faire cela), j&amp;rsquo;ai préféré cliquer sur le bouton &lt;em&gt;API actions&lt;/em&gt;. Après tout, je voulais en effet faire une action !&lt;/p&gt;
+&lt;p&gt;Et que se passe-t-il quand on clique sur ce bouton ?&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://antoinedelia.github.io/cloud-optimist/pr-113/img/the-day-i-accidentally-deleted-an-api-and-what-it-taught-me-about-devops/api_actions.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Menu déroulant du bouton API Actions&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;Oula ! De suite, on voit que ce n&amp;rsquo;est pas du tout ce qu&amp;rsquo;on veut faire. Mais pensez-vous que cela m&amp;rsquo;a découragé ? Absolument pas ! J&amp;rsquo;étais venu pour supprimer une ressource, et quand j&amp;rsquo;ai vu le mot &lt;em&gt;Delete&lt;/em&gt;, je n&amp;rsquo;ai pas réfléchi plus longtemps ! J&amp;rsquo;aurais dû, car ainsi, j&amp;rsquo;aurais sûrement vu le mot &lt;em&gt;API&lt;/em&gt; juste à côté.&lt;/p&gt;
+&lt;p&gt;Heureusement, nos amis de chez AWS ont pensé à tout ! Lorsque vous cliquez sur &lt;em&gt;Delete API&lt;/em&gt;, on va tout de même vous demander si vous êtes bel et bien certain de vouloir supprimer cette API. Un beau message s&amp;rsquo;affiche, vous indiquant le nom de l&amp;rsquo;API en question, et vous demandant de taper le mot &lt;em&gt;confirm&lt;/em&gt; pour valider cette opération.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://antoinedelia.github.io/cloud-optimist/pr-113/img/the-day-i-accidentally-deleted-an-api-and-what-it-taught-me-about-devops/delete_api_dialog.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Demande de confirmation de suppression de l’API&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;Tout ça, c&amp;rsquo;est bien beau, mais les ingénieurs d&amp;rsquo;AWS ont sous-estimé mon impatience. À ce moment-là, cette demande de confirmation n&amp;rsquo;était pas une mise en garde, mais un obstacle à mon but de supprimer ma ressource. Ni une ni deux, j&amp;rsquo;ai entré le mot &lt;em&gt;confirm&lt;/em&gt;, et validé l&amp;rsquo;opération.&lt;/p&gt;
+&lt;p&gt;Voici donc la dernière chose que j&amp;rsquo;ai vu avant de finalement réaliser l&amp;rsquo;erreur que j&amp;rsquo;avais commise.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://antoinedelia.github.io/cloud-optimist/pr-113/img/the-day-i-accidentally-deleted-an-api-and-what-it-taught-me-about-devops/successfully_deleted_api.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;L’API a été supprimée avec succès&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Une vision d&amp;rsquo;horreur&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;Je voulais absolument vous retracer ce petit parcours pour vous faire comprendre une chose : vous aurez beau mettre en place toutes les sécurtiés possibles, &lt;strong&gt;vous ne pourrez jamais rien faire contre un individu impatient&lt;/strong&gt;, car ce dernier ne saura pas lire vos avertissements.&lt;/p&gt;
+&lt;p&gt;Alors, la prochaine fois que vous devrez faire une action somme toute innofensive, prenez bien le temps de lire et de vous assurer que vous êtes bel et bien sur le bon chemin.&lt;/p&gt;
+&lt;p&gt;Cela étant dit, passons maintenant à une étape cruciale : la résolution de cet incident !&lt;/p&gt;
 &lt;h1 id=&#34;résolution&#34;&gt;&lt;a href=&#34;#r%c3%a9solution&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Résolution
 &lt;/h1&gt;&lt;p&gt;TBD&lt;/p&gt;
 &lt;h1 id=&#34;lessons-learned-et-post-mortem&#34;&gt;&lt;a href=&#34;#lessons-learned-et-post-mortem&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Lessons Learned et Post-Mortem

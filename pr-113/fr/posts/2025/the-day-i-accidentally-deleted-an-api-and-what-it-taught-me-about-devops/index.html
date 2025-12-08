@@ -404,7 +404,7 @@
 
 
                 <time class="article-time--reading">
-                    3 minutes de lecture
+                    4 minutes de lecture
                 </time>
             </div>
         
@@ -438,7 +438,61 @@
 <p>À ce moment précis, quelque chose de très étrange s&rsquo;est produit. Un comportement innatendu qui m&rsquo;a glacé le sang. Au lieu de me retrouver sur la même page, AWS m&rsquo;a renvoyé sur la page principal du service API Gateway. Cette même page qui liste vos APIs disponible, et qui affichait maintenant le nombre <code>0</code>.</p>
 <p>J&rsquo;ai ainsi réalisé que je n&rsquo;avais pas supprimé la ressource API, mais bien l&rsquo;API Gateway dans sa totalité.</p>
 <h1 id="les-détails-dun-échec"><a href="#les-d%c3%a9tails-dun-%c3%a9chec" class="header-anchor"></a>Les détails d&rsquo;un échec
-</h1><p>TBD - Montrer des screenshots de la console AWS API Gateway.</p>
+</h1><p>Jamais je n&rsquo;aurais pensé commettre une telle bêtise. Et j&rsquo;imagine que vous lisant ces lignes, vous vous disez la même chose.</p>
+<p>Car pour se tromper, il fallait le faire !</p>
+<p>Laissez-moi vous faire une reconstitution de la scène du crime. Voici ce que j&rsquo;ai vu au moment où j&rsquo;ai pris la décision de supprimer une resource de l&rsquo;API Gateway.</p>
+<p><img src="/img/the-day-i-accidentally-deleted-an-api-and-what-it-taught-me-about-devops/api_gateway_view.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="Vue de la ressource API Gateway"
+	
+	
+></p>
+<p><em>Toute ressemblance avec une situation réelle est totalement fortuite</em></p>
+<p>Dans ma situation, sur quel bouton auriez-vous cliqué ? Facile ! Le bouton <em>Delete</em> juste à droite de la ressource !</p>
+<p>Pour ma part (et je ne sais toujours pas ce qui m&rsquo;a poussé à faire cela), j&rsquo;ai préféré cliquer sur le bouton <em>API actions</em>. Après tout, je voulais en effet faire une action !</p>
+<p>Et que se passe-t-il quand on clique sur ce bouton ?</p>
+<p><img src="/img/the-day-i-accidentally-deleted-an-api-and-what-it-taught-me-about-devops/api_actions.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="Menu déroulant du bouton API Actions"
+	
+	
+></p>
+<p>Oula ! De suite, on voit que ce n&rsquo;est pas du tout ce qu&rsquo;on veut faire. Mais pensez-vous que cela m&rsquo;a découragé ? Absolument pas ! J&rsquo;étais venu pour supprimer une ressource, et quand j&rsquo;ai vu le mot <em>Delete</em>, je n&rsquo;ai pas réfléchi plus longtemps ! J&rsquo;aurais dû, car ainsi, j&rsquo;aurais sûrement vu le mot <em>API</em> juste à côté.</p>
+<p>Heureusement, nos amis de chez AWS ont pensé à tout ! Lorsque vous cliquez sur <em>Delete API</em>, on va tout de même vous demander si vous êtes bel et bien certain de vouloir supprimer cette API. Un beau message s&rsquo;affiche, vous indiquant le nom de l&rsquo;API en question, et vous demandant de taper le mot <em>confirm</em> pour valider cette opération.</p>
+<p><img src="/img/the-day-i-accidentally-deleted-an-api-and-what-it-taught-me-about-devops/delete_api_dialog.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="Demande de confirmation de suppression de l’API"
+	
+	
+></p>
+<p>Tout ça, c&rsquo;est bien beau, mais les ingénieurs d&rsquo;AWS ont sous-estimé mon impatience. À ce moment-là, cette demande de confirmation n&rsquo;était pas une mise en garde, mais un obstacle à mon but de supprimer ma ressource. Ni une ni deux, j&rsquo;ai entré le mot <em>confirm</em>, et validé l&rsquo;opération.</p>
+<p>Voici donc la dernière chose que j&rsquo;ai vu avant de finalement réaliser l&rsquo;erreur que j&rsquo;avais commise.</p>
+<p><img src="/img/the-day-i-accidentally-deleted-an-api-and-what-it-taught-me-about-devops/successfully_deleted_api.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="L’API a été supprimée avec succès"
+	
+	
+></p>
+<p><em>Une vision d&rsquo;horreur</em></p>
+<p>Je voulais absolument vous retracer ce petit parcours pour vous faire comprendre une chose : vous aurez beau mettre en place toutes les sécurtiés possibles, <strong>vous ne pourrez jamais rien faire contre un individu impatient</strong>, car ce dernier ne saura pas lire vos avertissements.</p>
+<p>Alors, la prochaine fois que vous devrez faire une action somme toute innofensive, prenez bien le temps de lire et de vous assurer que vous êtes bel et bien sur le bon chemin.</p>
+<p>Cela étant dit, passons maintenant à une étape cruciale : la résolution de cet incident !</p>
 <h1 id="résolution"><a href="#r%c3%a9solution" class="header-anchor"></a>Résolution
 </h1><p>TBD</p>
 <h1 id="lessons-learned-et-post-mortem"><a href="#lessons-learned-et-post-mortem" class="header-anchor"></a>Lessons Learned et Post-Mortem

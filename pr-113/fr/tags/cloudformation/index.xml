@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
-        <title>Postmortem on The Cloud Optimist</title>
-        <link>https://antoinedelia.github.io/cloud-optimist/pr-113/fr/tags/postmortem/</link>
-        <description>Recent content in Postmortem on The Cloud Optimist</description>
+        <title>CloudFormation on The Cloud Optimist</title>
+        <link>https://antoinedelia.github.io/cloud-optimist/pr-113/fr/tags/cloudformation/</link>
+        <description>Recent content in CloudFormation on The Cloud Optimist</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>fr-FR</language>
-        <lastBuildDate>Mon, 15 Dec 2025 07:30:00 +0100</lastBuildDate><atom:link href="https://antoinedelia.github.io/cloud-optimist/pr-113/fr/tags/postmortem/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Mon, 15 Dec 2025 07:30:00 +0100</lastBuildDate><atom:link href="https://antoinedelia.github.io/cloud-optimist/pr-113/fr/tags/cloudformation/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>Le jour où j&#39;ai accidentellement supprimé une API, et ce que cela m&#39;a appris sur le DevOps</title>
         <link>https://antoinedelia.github.io/cloud-optimist/pr-113/fr/posts/2025/the-day-i-accidentally-deleted-an-api-and-what-it-taught-me-about-devops/</link>
         <pubDate>Mon, 15 Dec 2025 07:30:00 +0100</pubDate>

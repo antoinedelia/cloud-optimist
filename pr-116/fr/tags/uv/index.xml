@@ -1,0 +1,722 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>Uv on The Cloud Optimist</title>
+        <link>https://antoinedelia.github.io/cloud-optimist/pr-116/fr/tags/uv/</link>
+        <description>Recent content in Uv on The Cloud Optimist</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>fr-FR</language>
+        <lastBuildDate>Mon, 26 May 2025 07:30:00 +0200</lastBuildDate><atom:link href="https://antoinedelia.github.io/cloud-optimist/pr-116/fr/tags/uv/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>uv : La meilleure chose qui soit arrivée à Python - et pourquoi vous devriez l&#39;utiliser</title>
+        <link>https://antoinedelia.github.io/cloud-optimist/pr-116/fr/posts/2025/uv-the-best-thing-that-happened-to-python-and-why-you-should-use-it/</link>
+        <pubDate>Mon, 26 May 2025 07:30:00 +0200</pubDate>
+        
+        <guid>https://antoinedelia.github.io/cloud-optimist/pr-116/fr/posts/2025/uv-the-best-thing-that-happened-to-python-and-why-you-should-use-it/</guid>
+        <description>&lt;img src="https://antoinedelia.github.io/cloud-optimist/pr-116/fr/posts/2025/uv-the-best-thing-that-happened-to-python-and-why-you-should-use-it/uv.jpg" alt="Featured image of post uv : La meilleure chose qui soit arrivée à Python - et pourquoi vous devriez l&#39;utiliser" /&gt;&lt;h1 id=&#34;introduction&#34;&gt;&lt;a href=&#34;#introduction&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Introduction
+&lt;/h1&gt;&lt;p&gt;Python est sûrement mon langage de programmation préféré. Sa simplicité permet en un rien de temps de développer des scripts, des backends, voire même des sites internet, sans pour autant se faire des nœuds au cerveau.&lt;/p&gt;
+&lt;p&gt;Mais il y a toujours eu une chose qui me déplaisait chez Python : ses outils de packaging. Pendant longtemps, je me suis tenu à l&amp;rsquo;écart de tous ces outils comme Poetry, car bien franchement, je n&amp;rsquo;y comprenais rien !&lt;/p&gt;
+&lt;p&gt;Et puis, j&amp;rsquo;ai fait une découverte qui, non seulement m&amp;rsquo;a montré que packager son code Python est une tâche toute simple, mais qui en plus a complètement changé toutes mes habitudes.&lt;/p&gt;
+&lt;p&gt;Je veux parler de &lt;a class=&#34;link&#34; href=&#34;https://docs.astral.sh/uv&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;&lt;strong&gt;uv&lt;/strong&gt;&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Créé par la même équipe talentueuse de chez Astral (qui nous avait déjà régalé avec leur outil &lt;a class=&#34;link&#34; href=&#34;https://astral.sh/ruff&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;ruff&lt;/a&gt;), uv est présenté comme un installateur et résolveur de paquets Python &amp;ldquo;extrêmement rapide&amp;rdquo;. Cet outil est ce qu&amp;rsquo;on pourrait appeler un &lt;strong&gt;game-changer&lt;/strong&gt; : une fois que vous y avez goûté, impossible de revenir en arrière !&lt;/p&gt;
+&lt;p&gt;Alors, qu&amp;rsquo;est-ce que &lt;strong&gt;uv&lt;/strong&gt; a de si spécial ? Pourquoi cet engouement ? C&amp;rsquo;est ce que nous allons décortiquer ensemble. Accrochez-vous, vous pourriez bien avoir un nouveau coup de foudre !&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Ce guide se base sur mon expérience avec uv et les exemples ont été testés avec la version 0.7.3. Selon votre configuration, notamment derrière certains proxys d&amp;rsquo;entreprise, vous pourriez avoir besoin d&amp;rsquo;ajouter l&amp;rsquo;option &lt;code&gt;--native-tls&lt;/code&gt; à certaines commandes uv si vous rencontrez des soucis de connexion SSL.)&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h1 id=&#34;uv-cest-quoi-au-juste-&#34;&gt;&lt;a href=&#34;#uv-cest-quoi-au-juste-&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;uv, c&amp;rsquo;est quoi au juste ?
+&lt;/h1&gt;&lt;p&gt;En quelques mots, uv est un outil en ligne de commande qui ambitionne de remplacer pip, pip-tools, venv, pyenv, et même une partie de virtualenv et pipx, tout en étant beaucoup, &lt;em&gt;beaucoup&lt;/em&gt; plus rapide. Oui, rien que ça !&lt;/p&gt;
+&lt;p&gt;Comme nombre de nouveaux outils à la mode, il est écrit en Rust. Pardon, je devrais dire, il est écrit en ✨ &lt;em&gt;Rust&lt;/em&gt; ✨. Ce qui explique en grande partie ses performances fulgurantes.&lt;/p&gt;
+&lt;h2 id=&#34;préambule&#34;&gt;&lt;a href=&#34;#pr%c3%a9ambule&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Préambule
+&lt;/h2&gt;&lt;p&gt;Avant de nous lancer tête la première dans uv et son fonctionnement, j&amp;rsquo;aimerais en premier lieu vous indiquer la façon dont uv gère les dépendances, les environnements virtuels, et l&amp;rsquo;installation des versions de Python. Cela m&amp;rsquo;a plutôt dérouté la première fois que j&amp;rsquo;y ai été confronté, et je pense donc qu&amp;rsquo;il est important de le mentionner avant toute chose.&lt;/p&gt;
+&lt;h3 id=&#34;gestion-des-dépendances&#34;&gt;&lt;a href=&#34;#gestion-des-d%c3%a9pendances&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Gestion des dépendances
+&lt;/h3&gt;&lt;p&gt;uv base toute sa configuration sur votre fichier &lt;code&gt;pyproject.toml&lt;/code&gt;. Si vous aviez l&amp;rsquo;habitude d&amp;rsquo;utiliser un &lt;code&gt;requirements.txt&lt;/code&gt; par exemple, sachez que uv l&amp;rsquo;ignorera complètement.&lt;/p&gt;
+&lt;p&gt;Comme je suis sympa, je vous mets ici un gist d&amp;rsquo;un template de &lt;code&gt;pyproject.toml&lt;/code&gt; que j&amp;rsquo;utilise à chaque fois pour démarrer un nouveau projet Python.&lt;/p&gt;
+&lt;details&gt;
+    &lt;summary&gt;pyproject.toml&lt;/summary&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;16
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;17
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;18
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;19
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;20
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;21
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;22
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;23
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;24
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;25
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;26
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;27
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;28
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;29
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;30
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;31
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;32
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;33
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;34
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;35
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;36
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;37
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;38
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;39
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;40
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;41
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;42
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;43
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;44
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;45
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;46
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;47
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;48
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;49
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;50
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;51
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;52
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;53
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;54
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;55
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;56
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;57
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;58
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;59
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;60
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;61
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;62
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;63
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;64
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;65
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;66
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;67
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;68
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;69
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;70
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;71
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;72
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;73
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;74
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;75
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;76
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;77
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;78
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;79
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;80
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;81
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;82
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;83
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;84
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;85
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;86
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;87
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;88
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;89
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-toml&#34; data-lang=&#34;toml&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;project&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;name&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;project-name&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;version&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;0.1.0&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;description&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;Project description&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;readme&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;README.md&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;requires-python&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;&amp;gt;=3.12&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;[[&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;tool&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;uv&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;index&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;name&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;votre-index&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;url&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;https://mon-artifactory.corp/api/pypi/mon-repo-virtual&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;publish-url&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;https://mon-artifactory.corp/api/pypi/mon-repo-local&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;default&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;true&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;tool&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;ruff&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c&#34;&gt;# Exclude common directories that are typically not part of the source code or are generated by tools.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;exclude&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;s2&#34;&gt;&amp;#34;.bzr&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;s2&#34;&gt;&amp;#34;.cache&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;s2&#34;&gt;&amp;#34;.direnv&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;s2&#34;&gt;&amp;#34;.eggs&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;s2&#34;&gt;&amp;#34;.git&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;s2&#34;&gt;&amp;#34;.git-rewrite&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;s2&#34;&gt;&amp;#34;.hg&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;s2&#34;&gt;&amp;#34;.mypy_cache&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;s2&#34;&gt;&amp;#34;.nox&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;s2&#34;&gt;&amp;#34;.pants.d&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;s2&#34;&gt;&amp;#34;.pytype&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;s2&#34;&gt;&amp;#34;.ruff_cache&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;s2&#34;&gt;&amp;#34;.svn&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;s2&#34;&gt;&amp;#34;.tox&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;s2&#34;&gt;&amp;#34;.venv&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;s2&#34;&gt;&amp;#34;__pypackages__&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;s2&#34;&gt;&amp;#34;_build&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;s2&#34;&gt;&amp;#34;buck-out&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;s2&#34;&gt;&amp;#34;build&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;s2&#34;&gt;&amp;#34;dist&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;s2&#34;&gt;&amp;#34;node_modules&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;s2&#34;&gt;&amp;#34;venv&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c&#34;&gt;# Set the maximum line length to 127 characters.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;line-length&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;127&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c&#34;&gt;# Define the number of spaces used for indentation, aligning with Black&amp;#39;s style.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;indent-width&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;4&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c&#34;&gt;# The minimum Python version to target, e.g., when considering automatic code upgrades,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c&#34;&gt;# like rewriting type annotations&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;target-version&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;py312&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;tool&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;ruff&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;lint&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c&#34;&gt;# Enable Pyflakes (F) and a subset of the pycodestyle (E) codes by default.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c&#34;&gt;# pycodestyle warnings (W)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c&#34;&gt;# Activate Security Rules (S) to replace bandit&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c&#34;&gt;# Enable the isort rules (I) to replace isort&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c&#34;&gt;# flake8-bugbear (B)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c&#34;&gt;# flake8-simplify (SIM)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;select&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;F&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;E4&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;E7&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;E9&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;W&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;S&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;I&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;B&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;SIM&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;PGH004&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;ignore&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[]&lt;/span&gt; &lt;span class=&#34;c&#34;&gt;# List any rules to be ignored, currently empty.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c&#34;&gt;# Allow auto-fixing of all enabled rules when using the `--fix` option.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;fixable&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;ALL&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;unfixable&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[]&lt;/span&gt; &lt;span class=&#34;c&#34;&gt;# Specify rules that cannot be auto-fixed, if any.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c&#34;&gt;# Define a regex pattern for allowed unused variables (typically underscore-prefixed).&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;dummy-variable-rgx&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;tool&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;ruff&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;format&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c&#34;&gt;# Enforce double quotes for strings, following Black&amp;#39;s style.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;quote-style&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;double&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c&#34;&gt;# Use spaces for indentation, in line with Black&amp;#39;s formatting style.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;indent-style&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;space&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c&#34;&gt;# Keep magic trailing commas, a feature of Black&amp;#39;s formatting.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;skip-magic-trailing-comma&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;false&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c&#34;&gt;# Automatically detect and use the appropriate line ending style.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;line-ending&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;auto&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c&#34;&gt;# Update this with your package name or directory to be scanned by pytest-cov&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;tool&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;pytest&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;ini_options&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;addopts&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;-s --no-header --cov=src --cov-fail-under=50&amp;#34;&lt;/span&gt; &lt;span class=&#34;c&#34;&gt;# force cmd flags&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;testpaths&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt; &lt;span class=&#34;c&#34;&gt;# what directories contain tests&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;s2&#34;&gt;&amp;#34;tests&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;pythonpath&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt; &lt;span class=&#34;c&#34;&gt;# what to add to the python path&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;s2&#34;&gt;&amp;#34;.&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/details&gt;
+&lt;p&gt;Au lieu d&amp;rsquo;ajouter vos dépendances à la main, vous pouvez maintenant utiliser &lt;code&gt;uv add &amp;lt;package_name&amp;gt;&lt;/code&gt;, et celui-ci sera ajouté à votre &lt;code&gt;pyproject.toml&lt;/code&gt;.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Attention cependant, car certains outils externes se basent toujours sur un fichier &lt;code&gt;requirements.txt&lt;/code&gt;. Vous aurez donc peut-être besoin de lancer la commande &lt;code&gt;uv pip compile -o requirements.txt&lt;/code&gt; dans votre pipeline CI/CD.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&#34;environnement-virtuel&#34;&gt;&lt;a href=&#34;#environnement-virtuel&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Environnement virtuel
+&lt;/h3&gt;&lt;p&gt;Comme moi, vous aviez peut-être l&amp;rsquo;habitude d&amp;rsquo;utiliser la commande &lt;code&gt;source .venv/bin/activate&lt;/code&gt; pour activer votre environnement virtuel. Avec uv, c&amp;rsquo;est un peu différent. Votre &lt;code&gt;.venv&lt;/code&gt; sera toujours créé, mais en utilisant uv, il se mettra par défaut dans votre environnement virtuel. Prenons un exemple.&lt;/p&gt;
+&lt;p&gt;Là où à l&amp;rsquo;époque vous auriez dû faire ce genre de commandes pour lancer votre script.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;python -m venv .venv
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;source&lt;/span&gt; .venv/bin/activate
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;pip install requests
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;python main.py
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;Désormais, uv enlève la gestion de l&amp;rsquo;environnement virtuel de votre travail. Ainsi, les commandes ci-dessus seront remplacées par celles-ci.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;uv add requests
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;uv run main.py
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;Lorsque vous ajoutez un nouveau paquet à votre projet (avec la commande &lt;code&gt;uv add&lt;/code&gt;), uv se charge automatiquement de créer un environnement virtuel s&amp;rsquo;il n&amp;rsquo;existe pas déjà.&lt;/p&gt;
+&lt;p&gt;Ensuite, en lançant votre script via &lt;code&gt;uv run&lt;/code&gt;, uv se mettra automatiquement dans votre environnement virtuel.&lt;/p&gt;
+&lt;h3 id=&#34;installation-de-python&#34;&gt;&lt;a href=&#34;#installation-de-python&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Installation de Python
+&lt;/h3&gt;&lt;p&gt;Vous utilisiez peut-être pyenv pour installer vos différentes versions de Python. Avec uv, tout cela est de l&amp;rsquo;histoire ancienne !&lt;/p&gt;
+&lt;p&gt;Lorsque vous souhaitez lancer un projet avec une version de Python bien spécifique, vous avez plusieurs moyens de faire :&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Utiliser le fichier &lt;code&gt;.python-version&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Créer un environnement virtuel : &lt;code&gt;uv venv --python 3.11.6&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Lancer une version de Python spécifique : &lt;code&gt;uvx python@3.12&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Ce que vous devez retenir, c&amp;rsquo;est que uv ne s&amp;rsquo;appuie pas sur une version globale de Python installée, mais essaiera toujours d&amp;rsquo;utiliser la version spécifique à votre projet.&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;Bon, je crois que vous en savez assez pour commencer votre initiation. Allons-y !&lt;/p&gt;
+&lt;h1 id=&#34;installation&#34;&gt;&lt;a href=&#34;#installation&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Installation
+&lt;/h1&gt;&lt;p&gt;L&amp;rsquo;installation de uv est un jeu d&amp;rsquo;enfant. Vous avez plusieurs options, choisissez celle qui vous convient le mieux (n&amp;rsquo;hésitez pas à consulter la &lt;a class=&#34;link&#34; href=&#34;https://docs.astral.sh/uv/getting-started/installation/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;documentation officielle sur son installation&lt;/a&gt; si besoin) :&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;8
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# Sur macOS et Linux - je vous recommande d&amp;#39;utiliser cela si possible&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;curl -LsSf https://astral.sh/uv/install.sh &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; sh
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# Sur Windows (avec PowerShell)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;powershell -c &lt;span class=&#34;s2&#34;&gt;&amp;#34;irm https://astral.sh/uv/install.ps1 | iex&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# Avec pip (si vous avez déjà un environnement Python)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;pip install uv
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;Une fois installé, vous pouvez le mettre à jour très simplement :&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;uv self update
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;Et voilà, uv est prêt à l&amp;rsquo;emploi !&lt;/p&gt;
+&lt;h1 id=&#34;gérer-les-versions-de-python-avec-uv&#34;&gt;&lt;a href=&#34;#g%c3%a9rer-les-versions-de-python-avec-uv&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Gérer les versions de Python avec uv
+&lt;/h1&gt;&lt;p&gt;Une des fonctionnalités sympathiques de uv est sa capacité à installer des versions spécifiques de Python. Plus besoin de passer par le site officiel Python, de jongler avec pyenv ou d&amp;rsquo;autres outils.&lt;/p&gt;
+&lt;p&gt;Pour installer la dernière version stable de Python :&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;uv python install
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;Besoin d&amp;rsquo;une version particulière ? Pas de problème :&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# Installer Python 3.9&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;uv python install 3.9
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;Vous pouvez ensuite utiliser cette version pour exécuter un script :&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;uv run --python 3.9 python mon_script.py
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;blockquote&gt;
+&lt;p&gt;Comme je vous l&amp;rsquo;expliquais un peu plus haut, les versions de Python installées par uv ne sont pas disponibles &amp;ldquo;globalement&amp;rdquo; sur votre système via la simple commande &lt;code&gt;python&lt;/code&gt;. Pour les utiliser, il faut passer par &lt;code&gt;uv run --python &amp;lt;version&amp;gt;&lt;/code&gt;, ou les activer dans un environnement virtuel créé avec cette version spécifique.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h1 id=&#34;uvx-pour-exécuter-des-packages-à-la-volée&#34;&gt;&lt;a href=&#34;#uvx-pour-ex%c3%a9cuter-des-packages-%c3%a0-la-vol%c3%a9e&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;uvx pour exécuter des packages à la volée
+&lt;/h1&gt;&lt;p&gt;Vous connaissez peut-être &lt;a class=&#34;link&#34; href=&#34;https://docs.npmjs.com/cli/v8/commands/npx&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;npx&lt;/a&gt; dans le monde JavaScript ? uvx (le shortcut de &lt;code&gt;uv tool run&lt;/code&gt;) est l&amp;rsquo;équivalent proposé par uv. Il permet d&amp;rsquo;exécuter une commande CLI Python (comme ruff, black, ipython, etc.) dans un environnement temporaire avec les dépendances spécifiées, sans polluer votre projet ou votre système.&lt;/p&gt;
+&lt;p&gt;Par exemple, pour lancer une version spécifique de ruff :&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;uvx --python 3.12 ruff@0.9.6 check main.py
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;Ou pour lancer ipython avec requests disponible temporairement :&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;uvx --with requests -p 3.13 ipython
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;Extrêmement pratique pour des one-shots ou pour tester des outils !&lt;/p&gt;
+&lt;h1 id=&#34;la-gestion-des-projets-avec-uv&#34;&gt;&lt;a href=&#34;#la-gestion-des-projets-avec-uv&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;La gestion des projets avec uv
+&lt;/h1&gt;&lt;p&gt;Bon, toutes ces commandes, c&amp;rsquo;est très sympa, mais j&amp;rsquo;imagine que vous vous demandez comment intégrer uv dans un nouveau projet, ou dans un projet existant.&lt;/p&gt;
+&lt;p&gt;Laissez-moi donc vous montrer toute la puissance de uv pour créer et gérer un projet Python.&lt;/p&gt;
+&lt;h2 id=&#34;démarrer-un-nouveau-projet&#34;&gt;&lt;a href=&#34;#d%c3%a9marrer-un-nouveau-projet&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Démarrer un nouveau projet
+&lt;/h2&gt;&lt;p&gt;Pour initialiser un nouveau projet avec uv :&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;uv init
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;Cette commande va créer quelques fichiers pour vous :&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;.python-version&lt;/code&gt; : Spécifie la version de Python à utiliser pour ce projet (par exemple, &lt;code&gt;3.11&lt;/code&gt;).&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;main.py&lt;/code&gt; : Un fichier Python d&amp;rsquo;exemple.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;pyproject.toml&lt;/code&gt; : Le fichier central pour la configuration de votre projet, y compris ses dépendances. C&amp;rsquo;est le standard moderne en Python.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Maintenant, voyons comment gérer nos dépendances.&lt;/p&gt;
+&lt;p&gt;Avec uv, le &lt;code&gt;pyproject.toml&lt;/code&gt; devient votre source de vérité pour les dépendances.&lt;/p&gt;
+&lt;p&gt;Pour ajouter une nouvelle dépendance à votre projet :&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;uv add requests
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;Pour ajouter une dépendance de développement (uniquement pour le dev, comme ruff ou pytest) :&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;uv add ruff --dev
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;uv add pytest --dev
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;blockquote&gt;
+&lt;p&gt;⚠️ Très important : La première fois que vous ajoutez une dépendance, uv va générer un fichier &lt;code&gt;uv.lock&lt;/code&gt;. Ce fichier contient les versions exactes de toutes vos dépendances (directes et indirectes) qui ont été résolues. Ce fichier &lt;code&gt;uv.lock&lt;/code&gt; est crucial et DOIT être commité dans votre repository GitHub. Il garantit que les versions de vos paquets soient les mêmes pour tout le monde, selon votre environnement de travail.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Une fois vos dépendances (notamment de dev) ajoutées, vous pouvez les utiliser avec &lt;code&gt;uv run&lt;/code&gt; :&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;uv run ruff format .
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;uv run pytest
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;Pour supprimer un paquet :&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# Pour une dépendance normale&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;uv remove requests
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# Pour une dépendance de développement (notez le --group dev)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;uv remove ruff --group dev
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;Dans le cas où vous utiliseriez uv en entreprise avec un index privé, vous pouvez aussi configurer cela !&lt;/p&gt;
+&lt;p&gt;Par défaut, uv utilise PyPI. Si vous travaillez dans un environnement d&amp;rsquo;entreprise (avec un Artifactory ou un autre index privé), vous pouvez configurer uv pour l&amp;rsquo;utiliser via le fichier &lt;code&gt;pyproject.toml&lt;/code&gt;.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-toml&#34; data-lang=&#34;toml&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;[[&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;tool&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;uv&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;index&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;name&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;votre-index&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;url&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;https://mon-artifactory.corp/api/pypi/mon-repo-virtual&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;publish-url&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;https://mon-artifactory.corp/api/pypi/mon-repo-local&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;default&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;true&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;Ensuite, vous pouvez par exemple exporter des variables d&amp;rsquo;environnement pour vous authentifier.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# Les variables d&amp;#39;environnement doivent respecter le format suivant : UV_INDEX_{name}_USERNAME&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# où {name} est le nom de l&amp;#39;index que vous avez défini dans votre fichier pyproject.toml&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;export&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;UV_INDEX_VOTRE_INDEX_USERNAME&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;delia, antoine&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;export&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;UV_INDEX_VOTRE_INDEX_PASSWORD&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;cmVmdG**************************FJUjNw&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;N&amp;rsquo;hésitez pas à consulter la &lt;a class=&#34;link&#34; href=&#34;https://docs.astral.sh/uv/configuration/indexes/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;documentation uv sur les index&lt;/a&gt; pour plus de détails.&lt;/p&gt;
+&lt;h2 id=&#34;migrer-un-projet-existant-vers-uv&#34;&gt;&lt;a href=&#34;#migrer-un-projet-existant-vers-uv&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Migrer un projet existant vers uv
+&lt;/h2&gt;&lt;p&gt;Vous avez un projet avec un bon vieux &lt;code&gt;requirements.txt&lt;/code&gt; ? La migration est assez simple :&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Si vous n&amp;rsquo;avez pas de &lt;code&gt;pyproject.toml&lt;/code&gt;, créez-en un (n&amp;rsquo;hésitez pas à utiliser celui fourni plus haut).&lt;/li&gt;
+&lt;li&gt;Lancez les commandes suivantes pour ajouter vos requirements dans votre pyproject.toml : &lt;code&gt;uv add -r requirements.txt&lt;/code&gt; et &lt;code&gt;uv add --dev -r requirements-dev.txt&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Une fois toutes les dépendances migrées, vous pouvez supprimer vos anciens fichiers &lt;code&gt;requirements.txt&lt;/code&gt;.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Si vous utilisiez d&amp;rsquo;autres outils comme Poetry, il existe des outils de migration (comme par exemple : &lt;code&gt;uvx migrate-to-uv&lt;/code&gt;).&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Et voilà, votre projet est propulsé par uv !&lt;/p&gt;
+&lt;h2 id=&#34;rejoindre-un-projet-qui-utilise-déjà-uv&#34;&gt;&lt;a href=&#34;#rejoindre-un-projet-qui-utilise-d%c3%a9j%c3%a0-uv&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Rejoindre un projet qui utilise déjà uv
+&lt;/h2&gt;&lt;p&gt;Si vous clonez un projet qui est déjà géré par uv (il devrait donc y avoir un &lt;code&gt;pyproject.toml&lt;/code&gt; et un &lt;code&gt;uv.lock&lt;/code&gt;), la mise en place est d&amp;rsquo;une simplicité enfantine. Vous n&amp;rsquo;avez qu&amp;rsquo;à lancer :&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;uv sync
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;Cette commande magique va lire le fichier &lt;code&gt;uv.lock&lt;/code&gt; et installer &lt;em&gt;exactement&lt;/em&gt; les mêmes versions de tous les paquets qui y sont listés. N&amp;rsquo;est-ce pas beau tout ça ?&lt;/p&gt;
+&lt;h1 id=&#34;build-et-publier-votre-projet&#34;&gt;&lt;a href=&#34;#build-et-publier-votre-projet&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Build et publier votre projet
+&lt;/h1&gt;&lt;p&gt;uv ne s&amp;rsquo;arrête pas là et propose aussi des commandes pour le build et la publication.&lt;/p&gt;
+&lt;p&gt;Pour construire votre package :&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;uv build
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;Pour publier sur PyPI (ou un index privé) :&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;uv publish
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# Pour un index privé, vous pourriez avoir besoin de spécifier l&amp;#39;URL (sauf si déjà spécifiée dans votre pyproject.toml)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# uv publish --repository-url https://mon-artifactory.corp/api/pypi/mon-repo-local&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;Et pour tester rapidement si votre package fraîchement buildé s&amp;rsquo;installe et s&amp;rsquo;importe correctement :&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# Remplacez &amp;lt;MON_PACKAGE&amp;gt; par le nom de votre paquet&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;uv run --with &amp;lt;MON_PACKAGE&amp;gt;-&amp;lt;VERSION&amp;gt;.whl --no-project --python -c &lt;span class=&#34;s2&#34;&gt;&amp;#34;import &amp;lt;MON_PACKAGE&amp;gt;&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;Et voilà ! Vous avez publié votre package en un clin d&amp;rsquo;oeil !&lt;/p&gt;
+&lt;h1 id=&#34;nettoyer-votre-cache&#34;&gt;&lt;a href=&#34;#nettoyer-votre-cache&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Nettoyer votre cache
+&lt;/h1&gt;&lt;p&gt;Avec le temps, uv (tout comme pip) accumule un cache de paquets téléchargés. Alors certes, cela permet rapidement d&amp;rsquo;installer vos dépendances sur plusieurs projets, mais à la longue, cela pourrait prendre pas mal de place sur votre ordinateur. Pour le nettoyer, il suffit de lancer la commande suivante :&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;uv cache clean
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h1 id=&#34;conclusion&#34;&gt;&lt;a href=&#34;#conclusion&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Conclusion
+&lt;/h1&gt;&lt;p&gt;Vous l&amp;rsquo;aurez compris, uv n&amp;rsquo;est pas juste &amp;ldquo;encore un autre gestionnaire de paquets&amp;rdquo;. &lt;strong&gt;C&amp;rsquo;est une véritable bouffée d&amp;rsquo;air frais dans l&amp;rsquo;écosystème Python.&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;La vitesse :&lt;/strong&gt; C&amp;rsquo;est le premier argument qui frappe lorsqu&amp;rsquo;on l&amp;rsquo;utilise. Les installations, les résolutions, tout est incroyablement plus rapide que pip. Sur de gros projets, le gain de temps est phénoménal.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;L&amp;rsquo;unification :&lt;/strong&gt; uv regroupe des fonctionnalités qui nécessitaient auparavant plusieurs outils (pip, venv, pip-tools, voire pyenv pour des besoins basiques). Avoir une seule interface cohérente simplifie grandement le workflow.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;La conformité :&lt;/strong&gt; Les développeurs d&amp;rsquo;uv basent tous leurs choix sur les guidelines Python (ces fameux PEP). Vous pouvez donc être sûr que votre &lt;code&gt;pyproject.toml&lt;/code&gt; respecte les standards modernes de packaging Python.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;La fiabilité :&lt;/strong&gt; Le système de lockfile (&lt;code&gt;uv.lock&lt;/code&gt;) assure des builds reproductibles, un point essentiel pour le travail en équipe et l&amp;rsquo;intégration continue.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Depuis que j&amp;rsquo;utilise uv, mes interactions avec la gestion des dépendances Python sont devenues plus rapides, plus simples et plus agréables. &lt;strong&gt;C&amp;rsquo;est le genre d&amp;rsquo;outil qui, une fois adopté, vous fait vous demander comment vous faisiez avant.&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Alors, si vous cherchez à moderniser votre utilisation de Python et à gagner en productivité (et en sérénité !), je ne peux que vous encourager à donner sa chance à uv. L&amp;rsquo;essayer, c&amp;rsquo;est très souvent l&amp;rsquo;adopter !&lt;/p&gt;
+&lt;h1 id=&#34;références&#34;&gt;&lt;a href=&#34;#r%c3%a9f%c3%a9rences&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Références
+&lt;/h1&gt;&lt;ul&gt;
+&lt;li&gt;Documentation officielle uv : &lt;a class=&#34;link&#34; href=&#34;https://docs.astral.sh/uv&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://docs.astral.sh/uv&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Repo GitHub uv : &lt;a class=&#34;link&#34; href=&#34;https://github.com/astral-sh/uv&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://github.com/astral-sh/uv&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.bitecode.dev/p/a-year-of-uv-pros-cons-and-should&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;A year of uv: pros, cons, and should you switch? (bitecode.dev)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.bitecode.dev/p/uv-tricks&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;uv tricks (bitecode.dev)&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1 id=&#34;bonus--uv-cheatsheet&#34;&gt;&lt;a href=&#34;#bonus--uv-cheatsheet&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Bonus : uv cheatsheet
+&lt;/h1&gt;&lt;p&gt;Je vous mets ici une liste de commandes uv ultra pratiques. Une sorte de cheatsheet si vous préférez. N&amp;rsquo;hésitez pas à revenir la consulter au besoin !&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;16
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;17
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# Update uv&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;uv self update
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# Run a script with a specific Python version&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;uv run --python 3.12.3 main.py
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# Quickly run a tool with a specific version&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;uvx --python 3.12 ruff@0.9.6 check
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# Quickly run ipython with requests installed&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;uvx --with requests -p 3.13 ipython
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# Update your project&amp;#39;s version&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;uv version --bump &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;major/minor/patch&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# Clean the cache&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;uv cache clean
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description>
+        </item>
+        <item>
+        <title>Comment mettre en place une stratégie CI/CD pour onboarder plus de 100 projets Python en moins d&#39;une minute</title>
+        <link>https://antoinedelia.github.io/cloud-optimist/pr-116/fr/posts/2025/how-we-built-a-cicd-strategy-that-onboards-100-python-projects-in-under-a-minute/</link>
+        <pubDate>Sun, 19 Jan 2025 16:45:00 +0200</pubDate>
+        
+        <guid>https://antoinedelia.github.io/cloud-optimist/pr-116/fr/posts/2025/how-we-built-a-cicd-strategy-that-onboards-100-python-projects-in-under-a-minute/</guid>
+        <description>&lt;img src="https://antoinedelia.github.io/cloud-optimist/pr-116/fr/posts/2025/how-we-built-a-cicd-strategy-that-onboards-100-python-projects-in-under-a-minute/ci-cd-strategy.jpeg" alt="Featured image of post Comment mettre en place une stratégie CI/CD pour onboarder plus de 100 projets Python en moins d&#39;une minute" /&gt;&lt;p&gt;Nous savons tous que les pipelines CI/CD sont importantes. Il semble même impossible d&amp;rsquo;imaginer un monde où l’on déploie un projet en production sans vérifier la qualité de son code et sans s&amp;rsquo;assurer que des tests ont été effectués. De plus, pour permettre aux développeurs de se concentrer sur le développement, tout cela devrait être automatisé.&lt;/p&gt;
+&lt;p&gt;Eh bien, les choses ne sont pas toujours aussi simples.&lt;/p&gt;
+&lt;p&gt;Aujourd&amp;rsquo;hui, je vais vous partager comment nous sommes passés de l&amp;rsquo;absence de stratégie CI/CD à l&amp;rsquo;intégration de plus de 100 projets Python en moins d&amp;rsquo;une minute.&lt;/p&gt;
+&lt;h1 id=&#34;la-réalité&#34;&gt;&lt;a href=&#34;#la-r%c3%a9alit%c3%a9&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;La réalité
+&lt;/h1&gt;&lt;p&gt;Lorsque j&amp;rsquo;ai rejoint mon entreprise actuelle, j&amp;rsquo;ai constaté que nous gérions un grand nombre de projets Python. Mais quand j&amp;rsquo;ai essayé de vérifier la CI/CD de ces projets, c’était un peu le bazar. Certains projets avaient une configuration CI/CD, mais pas beaucoup. Et ceux qui en avaient une n’utilisaient pas les mêmes règles pour vérifier la conformité du code. Il était clair que la mise en place d’une CI/CD pour chaque projet était traitée comme un effort de dernier recours. Et, pour être honnête, cela se comprend.&lt;/p&gt;
+&lt;p&gt;En effet, bien que les pipelines CI/CD soient largement reconnues pour leur efficacité, leur mise en place s&amp;rsquo;avère souvent difficile.&lt;/p&gt;
+&lt;p&gt;Mais je savais que nous pouvions changer cela d&amp;rsquo;une manière ou d&amp;rsquo;une autre. Avant de sauter dans une stratégie à mettre en place, je voulais comprendre ce qui avait empêché cette mise en place en premier lieu.&lt;/p&gt;
+&lt;h2 id=&#34;manque-de-permissions&#34;&gt;&lt;a href=&#34;#manque-de-permissions&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Manque de permissions
+&lt;/h2&gt;&lt;p&gt;La première chose que j&amp;rsquo;ai réalisée, c&amp;rsquo;est que tous les développeurs n&amp;rsquo;avaient pas le même niveau d&amp;rsquo;accès à notre instance Jenkins. Tandis que certains pouvaient créer de nouvelles pipelines pour leurs projets, d&amp;rsquo;autres ne le pouvaient pas. Dans les grandes entreprises, ce genre de scénario n&amp;rsquo;est pas rare.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Leçon apprise : un manque de permissions ne devrait pas être un obstacle pour utiliser une pipeline CI/CD.&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&#34;manque-de-connaissances&#34;&gt;&lt;a href=&#34;#manque-de-connaissances&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Manque de connaissances
+&lt;/h2&gt;&lt;p&gt;Lorsque les développeurs avaient la possibilité de créer un pipeline, certains ne le faisaient pas, simplement parce qu&amp;rsquo;ils n&amp;rsquo;avaient pas les connaissances nécessaires. Il faut préciser que notre entreprise utilise une instance Jenkins comme outil officiel de CI/CD. Cet outil, bien qu&amp;rsquo;ayant fait ses preuves, reste pour le moins difficile d&amp;rsquo;usage, notamment pour les jeunes développeurs qui sont souvent familiers avec d&amp;rsquo;autres outils CI/CD (comme GitHub Actions ou CircleCI). De plus, nous n&amp;rsquo;avions pas de documentation claire sur le processus à suivre pour créer une nouvelle pipeline. Ainsi certains développeurs, de peur de casser quelque chose, préféraient ne pas prendre de risques en évitant de toucher à Jenkins.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Leçon apprise : nous devons nous assurer que les personnes sans connaissances sur Jenkins puissent utiliser un pipeline CI/CD.&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&#34;manque-de-temps&#34;&gt;&lt;a href=&#34;#manque-de-temps&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Manque de temps
+&lt;/h2&gt;&lt;p&gt;Mettre en place une pipeline CI/CD au début d&amp;rsquo;un projet demande du temps, chose qui peut être négligée par les chefs de projets qui veulent expédier un produit aussi rapidement que possible. De plus, il est parfois difficile de quantifier le retour sur investissement d’une pipeline CI/CD. Et si cela est difficile à prouver comme étant bénéfique pour l’entreprise, cela finit dans la boîte &amp;ldquo;on s&amp;rsquo;en occupera plus tard&amp;rdquo;. Et nous savons tous que les tâches qui finissent dans cette boîte ne verront plus jamais la lumière du jour.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Leçon apprise : la mise en place d’une pipeline CI/CD doit être rapide et simple.&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&#34;manque-de-guidelines-claires&#34;&gt;&lt;a href=&#34;#manque-de-guidelines-claires&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Manque de guidelines claires
+&lt;/h2&gt;&lt;p&gt;Enfin, j&amp;rsquo;ai jeté un œil aux projets qui &lt;em&gt;eux&lt;/em&gt; avaient une pipeline CI/CD. Ils fonctionnaient bien, mais je pouvais clairement voir qu&amp;rsquo;ils manquaient d&amp;rsquo;une vision commune. Certains utilisaient le même formateur de code (black), mais pas toujours avec la même longueur de ligne. Certains incluaient une étape de test, d&amp;rsquo;autres non. Nous avions donc des projets n&amp;rsquo;ayant pas la même qualité et conformité de code. Et cela pouvait potentiellement créer de la confusion pour un nouveau développeur, ne sachant pas quel standard suivre.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Leçon apprise : des guidelines claires de CI/CD doivent être mises en place.&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h1 id=&#34;la-vision-globale&#34;&gt;&lt;a href=&#34;#la-vision-globale&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;La vision globale
+&lt;/h1&gt;&lt;p&gt;Après avoir analysé ce qui pouvait poser problème, il est maintenant important de penser à une solution qui puisse résoudre tous ces points, tout en respectant les meilleures pratiques de l&amp;rsquo;entreprise et en utilisant les outils à notre disposition.&lt;/p&gt;
+&lt;h2 id=&#34;formatting&#34;&gt;&lt;a href=&#34;#formatting&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Formatting
+&lt;/h2&gt;&lt;p&gt;La première étape serait d&amp;rsquo;utiliser un formateur pour s&amp;rsquo;assurer que chaque ligne de code dans notre base de code soit uniforme. Cela permet d’éviter que nous ayons des standards de code différents à travers nos projets.&lt;/p&gt;
+&lt;p&gt;Auparavant, nous utilisions &lt;code&gt;black&lt;/code&gt; comme formateur. Mais après avoir entendu beaucoup de bien sur le nouvel outil à la mode, nous avons décidé de passer à &lt;code&gt;ruff&lt;/code&gt;, offrant les mêmes avantages que &lt;code&gt;black&lt;/code&gt;, mais avec une exécution plus rapide (entre autres).&lt;/p&gt;
+&lt;h2 id=&#34;linting&#34;&gt;&lt;a href=&#34;#linting&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Linting
+&lt;/h2&gt;&lt;p&gt;L&amp;rsquo;étape suivante serait d&amp;rsquo;utiliser un linter pour détecter les problèmes potentiels dans notre code. Cela nous permet d&amp;rsquo;éviter la complexité dans notre code, ainsi que de repérer les mauvaises pratiques ou les problèmes de sécurité.&lt;/p&gt;
+&lt;p&gt;Dans le passé, j’utilisais beaucoup &lt;code&gt;flake8&lt;/code&gt;. Mais étant donné que nous utilisions déjà &lt;code&gt;ruff&lt;/code&gt;, et que celui-ci peut également agir comme un linter, la question ne se posait plus.&lt;/p&gt;
+&lt;p&gt;Il existe de nombreuses règles que &lt;code&gt;ruff&lt;/code&gt; peut appliquer. Nous avons décidé d&amp;rsquo;en utiliser certaines par défaut, tout en laissant une certaine liberté aux développeurs selon les projets.&lt;/p&gt;
+&lt;h2 id=&#34;tests-unitaires&#34;&gt;&lt;a href=&#34;#tests-unitaires&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Tests unitaires
+&lt;/h2&gt;&lt;p&gt;Les tests sont une partie critique du développement de tout projet. Ils assurent que nous livrons un code de qualité en production, tout en nous permettant de nous assurer que notre code fonctionnera correctement.&lt;/p&gt;
+&lt;p&gt;Nous avons décidé d’utiliser &lt;code&gt;pytest&lt;/code&gt; pour exécuter ces tests. Le répertoire de code par défaut devrait s&amp;rsquo;appeler &lt;code&gt;src&lt;/code&gt;, et tous les tests devraient être dans un dossier &lt;code&gt;tests&lt;/code&gt;, avec des fichiers préfixés par &lt;code&gt;test_&lt;/code&gt;.&lt;/p&gt;
+&lt;h2 id=&#34;code-coverage&#34;&gt;&lt;a href=&#34;#code-coverage&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Code Coverage
+&lt;/h2&gt;&lt;p&gt;Étroitement liée aux tests unitaires, le code coverage nous permet de savoir jusqu&amp;rsquo;où notre code a été testé. Cela peut nous indiquer rapidement si nous avons suffisamment testé notre code, ainsi que nous indiquer les lignes restantes à couvrir.&lt;/p&gt;
+&lt;p&gt;Comme nous utilisions &lt;code&gt;pytest&lt;/code&gt;, nous avons décidé d&amp;rsquo;utiliser &lt;code&gt;pytest-cov&lt;/code&gt; pour générer un coverage report, car il s&amp;rsquo;intègre parfaitement avec &lt;code&gt;pytest&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Nous avons fixé le seuil de couverture minimale à 50 %. En dessous, cela risquerait de négliger des portions importantes du code, tandis qu’au-dessus, cela pourrait décourager les développeurs d&amp;rsquo;écrire les tests nécessaires.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://antoinedelia.github.io/cloud-optimist/pr-116/img/how-we-built-a-cicd-strategy-that-onboards-100-python-projects-in-under-a-minute/detailed-view-of-the-code-coverage-step.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Detailed view of the code coverage step&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h2 id=&#34;jenkins-organization-folders&#34;&gt;&lt;a href=&#34;#jenkins-organization-folders&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Jenkins Organization Folders
+&lt;/h2&gt;&lt;p&gt;Les étapes de notre futur pipeline étaient prêtes. Il nous restait à trouver un moyen d&amp;rsquo;appliquer globalement cette pipeline à nos repositories Python. J’ai alors cherché un moyen de le faire facilement via Jenkins.&lt;/p&gt;
+&lt;p&gt;C’est là que je suis tombé sur les &lt;a class=&#34;link&#34; href=&#34;https://www.jenkins.io/doc/book/using/best-practices/#use-organization-folders&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Organization Folders&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Les Organization Folders sont conçus pour des scénarios comme le nôtre : scanner automatiquement une organisation (comme une organisation GitHub), filtrer les repositories que vous voulez et appliquer une pipeline Jenkins à ces derniers.&lt;/p&gt;
+&lt;p&gt;Dans notre exemple, nous pouvons rechercher tous les repositories avec le topic &amp;ldquo;python&amp;rdquo; et les identifier comme projets Python. Ils seront alors automatiquement build par Jenkins. Si un nouveau repository est créé avec ce topic, il sera également pris en charge par Jenkins.&lt;/p&gt;
+&lt;p&gt;Ainsi, en moins de 5 secondes, votre projet peut être intégré, sans avoir à le créer dans Jenkins. Tout est fait automatiquement pour que vous puissiez vous concentrer sur votre code.&lt;/p&gt;
+&lt;h2 id=&#34;exemples-et-documentation&#34;&gt;&lt;a href=&#34;#exemples-et-documentation&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Exemples et documentation
+&lt;/h2&gt;&lt;p&gt;Tout cela était génial, mais je redoutais un dernier obstacle. Que se passerait-il si les développeurs essayaient cette pipeline CI/CD, tout ça pour se rendre compte que leur projet ne passaient pas ces étapes ? Sans documentation claire pour résoudre ces problèmes, ils abandonneraient ou essaieraient de corriger ces erreurs plus tard, ce qui détruirait notre objectif initial.&lt;/p&gt;
+&lt;p&gt;Je savais donc que pour embarquer les gens dans ce processus, il fallait fournir une documentation claire avec des exemples concrets, pour qu&amp;rsquo;ils puissent avoir les clés pour résoudre ces erreurs.&lt;/p&gt;
+&lt;p&gt;En particulier pour l&amp;rsquo;étape des tests unitaires, car je ne sais que trop bien que cela représente une tâche décourageante à démarrer. J’ai donc préparé un projet à l&amp;rsquo;avance avec des tests unitaires déjà prêts. N&amp;rsquo;importe qui pouvait ainsi s&amp;rsquo;en inspirer, ou direcement recopier certaines parties complexes (par exemple, le mock des appels API boto3).&lt;/p&gt;
+&lt;p&gt;La dernière étape serait de faire une présentation sur tout ce que je viens d&amp;rsquo;évoquer. Cela était essentiel pour expliquer et donner du sens à ce projet, pour que les développeurs comprennent réellement l&amp;rsquo;intérêt de tout cela, tout en s’assurant qu&amp;rsquo;ils aient toutes les clés pour être autonomes. Enfin, cela serait également l&amp;rsquo;occasion de répondre à de nombreuses questions, et assurer que tout le monde comprenne le fonctionnement de cette nouvelle pipeline.&lt;/p&gt;
+&lt;h1 id=&#34;ce-que-nous-avons-aujourdhui&#34;&gt;&lt;a href=&#34;#ce-que-nous-avons-aujourdhui&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Ce que nous avons aujourd&amp;rsquo;hui
+&lt;/h1&gt;&lt;p&gt;Du point de vue d’un développeur, tout ce qu&amp;rsquo;il doit faire pour ajouter une pipeline CI/CD à son projet Python est d’ajouter le topic &lt;code&gt;python&lt;/code&gt; à son repository et de s&amp;rsquo;assurer qu&amp;rsquo;un fichier &lt;code&gt;pyproject.toml&lt;/code&gt; est bien créé à la racine du projet.&lt;/p&gt;
+&lt;p&gt;Ces deux exigences permettent à Jenkins de savoir quels projets il doit prendre en compte. Le fichier &lt;code&gt;pyproject.toml&lt;/code&gt; est en effet indispensable pour les étapes de &lt;code&gt;ruff&lt;/code&gt; dans la pipeline.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://antoinedelia.github.io/cloud-optimist/pr-116/img/how-we-built-a-cicd-strategy-that-onboards-100-python-projects-in-under-a-minute/two-simple-steps-to-get-onboarded-with-cicd-pipelines.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Two simple steps to get onboarded with CI/CD pipelines&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;Une fois cela fait, le projet Python vérifiera maintenant les problèmes de formatage, les erreurs de linting, la validation des tests unitaires et la couverture du code.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://antoinedelia.github.io/cloud-optimist/pr-116/img/how-we-built-a-cicd-strategy-that-onboards-100-python-projects-in-under-a-minute/jenkins-python-cicd-pipeline.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Jenkins Python CI/CD pipeline&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;Au final, nous pouvons maintenant mettre en place des pipelines CI/CD en moins d&amp;rsquo;une minute, que ce soit pour un nouveau projet ou un projet existant !&lt;/p&gt;
+&lt;h1 id=&#34;quelques-défauts&#34;&gt;&lt;a href=&#34;#quelques-d%c3%a9fauts&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Quelques défauts
+&lt;/h1&gt;&lt;p&gt;Bien que cela simplifie beaucoup de choses, il reste encore des améliorations possibles.&lt;/p&gt;
+&lt;h2 id=&#34;la-pipeline-ne-peut-pas-être-imposée&#34;&gt;&lt;a href=&#34;#la-pipeline-ne-peut-pas-%c3%aatre-impos%c3%a9e&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;La pipeline ne peut pas être imposée
+&lt;/h2&gt;&lt;p&gt;Actuellement, cette pipeline CI/CD ne peut pas être imposée, car les développeurs peuvent simplement retirer le topic &lt;code&gt;python&lt;/code&gt;. Et bien que cela soit acceptable au début (car nous ne voulons pas bloquer les développeurs dans leur travail), l&amp;rsquo;objectif reste de s’assurer que nous appliquons les mêmes bonnes pratiques à tous les projets Python.&lt;/p&gt;
+&lt;p&gt;Cela pourrait être résolu à l&amp;rsquo;avenir par l&amp;rsquo;utilisation des &lt;a class=&#34;link&#34; href=&#34;https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets/about-rulesets&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;GitHub Rulesets&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Ces règles fonctionnent à peu près de la même manière que les règles de protection des branches, sauf que vous définissez ces règles au niveau de votre organisation GitHub.&lt;/p&gt;
+&lt;p&gt;De cette manière, nous pourrions protéger nos branches principales pour tous nos repositories qui matchent à des &amp;ldquo;custom properties&amp;rdquo; et ainsi exiger qu&amp;rsquo;ils valident leur pipeline CI/CD avant de pouvoir merger.&lt;/p&gt;
+&lt;h2 id=&#34;les-étapes-de-la-pipeline-peuvent-être-ignorées&#34;&gt;&lt;a href=&#34;#les-%c3%a9tapes-de-la-pipeline-peuvent-%c3%aatre-ignor%c3%a9es&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Les étapes de la pipeline peuvent être ignorées
+&lt;/h2&gt;&lt;p&gt;Le fichier &lt;code&gt;pyproject.toml&lt;/code&gt; est utilisé pour dire à &lt;code&gt;ruff&lt;/code&gt; quel format il doit appliquer ou quelles règles suivre.&lt;/p&gt;
+&lt;p&gt;Et comme nous utilisons actuellement le &lt;code&gt;pyproject.toml&lt;/code&gt; dans chaque repository, un développeur pourrait simplement enlever ces règles, contournant ainsi toutes les directives que nous essayions d&amp;rsquo;appliquer au départ.&lt;/p&gt;
+&lt;p&gt;Encore une fois, bien que nous permettions cela pour l&amp;rsquo;instant afin de prendre en compte les nombreuses corrections à apporter, à terme, nous aimerions vouloir empêcher cela.&lt;/p&gt;
+&lt;p&gt;Nous pourrions soit utiliser un fichier &lt;code&gt;pyproject.toml&lt;/code&gt; commun et fixe, soit l’ajouter dans le fichier &lt;code&gt;CODEOWNERS&lt;/code&gt; de GitHub pour nous assurer qu&amp;rsquo;il ne puisse être modifié sans une approbation stricte.&lt;/p&gt;
+&lt;h1 id=&#34;et-après-&#34;&gt;&lt;a href=&#34;#et-apr%c3%a8s-&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Et après ?
+&lt;/h1&gt;&lt;p&gt;Avec tout cela en place, nous pouvons maintenant penser à l’évolution de cette pipeline.&lt;/p&gt;
+&lt;p&gt;Par exemple, notre entreprise dispose d’une instance SonarQube. Nous serions intéressés d’ajouter une étape qui pourrait analyser chaque projet à la recherche de mauvaises pratiques.&lt;/p&gt;
+&lt;p&gt;Nous explorons aussi l’utilisation de &lt;code&gt;mkdocs&lt;/code&gt;, pour que les projets puissent partager un style commun pour la documentation.&lt;/p&gt;
+&lt;p&gt;Et une de mes évolutions préférées, nous pourrions explorer l’utilisation de &lt;code&gt;uv&lt;/code&gt; pour installer les dépendances, car il est beaucoup plus rapide que ce bon vieux pip !&lt;/p&gt;
+&lt;p&gt;Vous avez également peut-être remarqué que, bien que j&amp;rsquo;aie parlé de CI/CD tout au long de cet article, à aucun moment nous avons parlé d&amp;rsquo;une étape qui, eh bien, &lt;strong&gt;déploie&lt;/strong&gt; quelque chose (ce qui nous laisse avec une pipeline CI). Nous réfléchissons déjà à un moyen de build/deploy des packages Python vers notre gestionnaire de dépôt Artifactory, ce qui en ferait enfin une vraie pipeline CI/CD !&lt;/p&gt;
+&lt;p&gt;Enfin, nous n’avons abordé que Python dans cet article, mais la même logique pourrait s&amp;rsquo;appliquer à d&amp;rsquo;autres types de projets. Par exemple, nous travaillons également sur une pipeline CI/CD pour Terraform.&lt;/p&gt;
+&lt;h1 id=&#34;conclusion&#34;&gt;&lt;a href=&#34;#conclusion&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Conclusion
+&lt;/h1&gt;&lt;p&gt;En abordant les problèmes de permissions, les lacunes en matière de connaissances Jenkins et l&amp;rsquo;absence de guidelignes, nous avons construit une stratégie CI/CD unifiée qui prend désormais en charge plus de 100 projets Python. Cela prouve qu’avec la bonne approche, l&amp;rsquo;automatisation est réalisable pour toute organisation.&lt;/p&gt;
+&lt;p&gt;Cela a été un long mais enrichissant parcours !&lt;/p&gt;
+&lt;p&gt;J&amp;rsquo;espère que cet article a montré la valeur des pipelines CI/CD, vous a aidé à comprendre ce qui pourrait empêcher son application et vous a donné quelques idées sur la manière de mettre en place une stratégie similaire dans votre organisation !&lt;/p&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>Categories on The Cloud Optimist</title>
+        <link>https://antoinedelia.github.io/cloud-optimist/pr-116/en/categories/</link>
+        <description>Recent content in Categories on The Cloud Optimist</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>en-US</language>
+        <lastBuildDate>Wed, 19 Nov 2025 07:30:00 +0200</lastBuildDate><atom:link href="https://antoinedelia.github.io/cloud-optimist/pr-116/en/categories/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Cloud</title>
+        <link>https://antoinedelia.github.io/cloud-optimist/pr-116/en/categories/cloud/</link>
+        <pubDate>Wed, 19 Nov 2025 07:30:00 +0200</pubDate>
+        
+        <guid>https://antoinedelia.github.io/cloud-optimist/pr-116/en/categories/cloud/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>DevOps</title>
+        <link>https://antoinedelia.github.io/cloud-optimist/pr-116/en/categories/devops/</link>
+        <pubDate>Tue, 24 Jun 2025 07:30:00 +0200</pubDate>
+        
+        <guid>https://antoinedelia.github.io/cloud-optimist/pr-116/en/categories/devops/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>FinOps</title>
+        <link>https://antoinedelia.github.io/cloud-optimist/pr-116/en/categories/finops/</link>
+        <pubDate>Tue, 24 Jun 2025 07:30:00 +0200</pubDate>
+        
+        <guid>https://antoinedelia.github.io/cloud-optimist/pr-116/en/categories/finops/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>Software Engineering</title>
+        <link>https://antoinedelia.github.io/cloud-optimist/pr-116/en/categories/software-engineering/</link>
+        <pubDate>Mon, 26 May 2025 07:30:00 +0200</pubDate>
+        
+        <guid>https://antoinedelia.github.io/cloud-optimist/pr-116/en/categories/software-engineering/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>Blog</title>
+        <link>https://antoinedelia.github.io/cloud-optimist/pr-116/en/categories/blog/</link>
+        <pubDate>Tue, 04 Mar 2025 07:30:00 +0100</pubDate>
+        
+        <guid>https://antoinedelia.github.io/cloud-optimist/pr-116/en/categories/blog/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>CI/CD</title>
+        <link>https://antoinedelia.github.io/cloud-optimist/pr-116/en/categories/ci/cd/</link>
+        <pubDate>Tue, 04 Mar 2025 07:30:00 +0100</pubDate>
+        
+        <guid>https://antoinedelia.github.io/cloud-optimist/pr-116/en/categories/ci/cd/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>Infrastructure as Code</title>
+        <link>https://antoinedelia.github.io/cloud-optimist/pr-116/en/categories/infrastructure-as-code/</link>
+        <pubDate>Tue, 04 Mar 2025 07:30:00 +0100</pubDate>
+        
+        <guid>https://antoinedelia.github.io/cloud-optimist/pr-116/en/categories/infrastructure-as-code/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>Productivity</title>
+        <link>https://antoinedelia.github.io/cloud-optimist/pr-116/en/categories/productivity/</link>
+        <pubDate>Wed, 26 Jun 2019 22:49:13 +0200</pubDate>
+        
+        <guid>https://antoinedelia.github.io/cloud-optimist/pr-116/en/categories/productivity/</guid>
+        <description></description>
+        </item>
+        
+    </channel>
+</rss>

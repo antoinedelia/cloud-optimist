@@ -20,6 +20,9 @@ jobs:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       AWS_REGION: 'eu-west-1'
+      TF_VAR_base_domain_name: 'antoinedelia.fr'
+      TF_VAR_domain_name: 'cloud.antoinedelia.fr'
+      TF_VAR_bucket_name: ${{ secrets.AWS_S3_BUCKET }}
 
     steps:
     - uses: actions/checkout@v4

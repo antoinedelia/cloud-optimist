@@ -17,8 +17,6 @@ jobs:
         working-directory: terraform
 
     env:
-      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       AWS_REGION: 'eu-west-1'
       TF_VAR_base_domain_name: 'antoinedelia.fr'
       TF_VAR_domain_name: 'cloud.antoinedelia.fr'
@@ -32,6 +30,12 @@ jobs:
         filters: |
           terraform:
             - 'terraform/**'
+
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v5
+      with:
+        role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+        aws-region: ${{ env.AWS_REGION }}
     
     # Install the latest version of Terraform CLI
     - name: Setup Terraform

@@ -6,20 +6,36 @@
         <description>Recent content in Tags on The Cloud Optimist</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>fr-FR</language>
-        <lastBuildDate>Mon, 15 Dec 2025 07:30:00 +0100</lastBuildDate><atom:link href="https://antoinedelia.github.io/cloud-optimist/pr-113/fr/tags/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Wed, 17 Dec 2025 07:30:00 +0200</lastBuildDate><atom:link href="https://antoinedelia.github.io/cloud-optimist/pr-113/fr/tags/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>AWS</title>
+        <link>https://antoinedelia.github.io/cloud-optimist/pr-113/fr/tags/aws/</link>
+        <pubDate>Wed, 17 Dec 2025 07:30:00 +0200</pubDate>
+        
+        <guid>https://antoinedelia.github.io/cloud-optimist/pr-113/fr/tags/aws/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>S3</title>
+        <link>https://antoinedelia.github.io/cloud-optimist/pr-113/fr/tags/s3/</link>
+        <pubDate>Wed, 17 Dec 2025 07:30:00 +0200</pubDate>
+        
+        <guid>https://antoinedelia.github.io/cloud-optimist/pr-113/fr/tags/s3/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>Terraform</title>
+        <link>https://antoinedelia.github.io/cloud-optimist/pr-113/fr/tags/terraform/</link>
+        <pubDate>Wed, 17 Dec 2025 07:30:00 +0200</pubDate>
+        
+        <guid>https://antoinedelia.github.io/cloud-optimist/pr-113/fr/tags/terraform/</guid>
+        <description></description>
+        </item>
+        <item>
         <title>API Gateway</title>
         <link>https://antoinedelia.github.io/cloud-optimist/pr-113/fr/tags/api-gateway/</link>
         <pubDate>Mon, 15 Dec 2025 07:30:00 +0100</pubDate>
         
         <guid>https://antoinedelia.github.io/cloud-optimist/pr-113/fr/tags/api-gateway/</guid>
-        <description></description>
-        </item>
-        <item>
-        <title>AWS</title>
-        <link>https://antoinedelia.github.io/cloud-optimist/pr-113/fr/tags/aws/</link>
-        <pubDate>Mon, 15 Dec 2025 07:30:00 +0100</pubDate>
-        
-        <guid>https://antoinedelia.github.io/cloud-optimist/pr-113/fr/tags/aws/</guid>
         <description></description>
         </item>
         <item>
@@ -44,22 +60,6 @@
         <pubDate>Mon, 15 Dec 2025 07:30:00 +0100</pubDate>
         
         <guid>https://antoinedelia.github.io/cloud-optimist/pr-113/fr/tags/postmortem/</guid>
-        <description></description>
-        </item>
-        <item>
-        <title>S3</title>
-        <link>https://antoinedelia.github.io/cloud-optimist/pr-113/fr/tags/s3/</link>
-        <pubDate>Mon, 15 Dec 2025 07:30:00 +0100</pubDate>
-        
-        <guid>https://antoinedelia.github.io/cloud-optimist/pr-113/fr/tags/s3/</guid>
-        <description></description>
-        </item>
-        <item>
-        <title>Terraform</title>
-        <link>https://antoinedelia.github.io/cloud-optimist/pr-113/fr/tags/terraform/</link>
-        <pubDate>Mon, 15 Dec 2025 07:30:00 +0100</pubDate>
-        
-        <guid>https://antoinedelia.github.io/cloud-optimist/pr-113/fr/tags/terraform/</guid>
         <description></description>
         </item>
         <item>

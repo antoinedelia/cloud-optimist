@@ -6,12 +6,20 @@
         <description>Recent content in Categories on The Cloud Optimist</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>en-US</language>
-        <lastBuildDate>Wed, 19 Nov 2025 07:30:00 +0200</lastBuildDate><atom:link href="https://antoinedelia.github.io/cloud-optimist/pr-113/en/categories/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Wed, 17 Dec 2025 07:30:00 +0200</lastBuildDate><atom:link href="https://antoinedelia.github.io/cloud-optimist/pr-113/en/categories/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>Cloud</title>
         <link>https://antoinedelia.github.io/cloud-optimist/pr-113/en/categories/cloud/</link>
-        <pubDate>Wed, 19 Nov 2025 07:30:00 +0200</pubDate>
+        <pubDate>Wed, 17 Dec 2025 07:30:00 +0200</pubDate>
         
         <guid>https://antoinedelia.github.io/cloud-optimist/pr-113/en/categories/cloud/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>Infrastructure as Code</title>
+        <link>https://antoinedelia.github.io/cloud-optimist/pr-113/en/categories/infrastructure-as-code/</link>
+        <pubDate>Wed, 17 Dec 2025 07:30:00 +0200</pubDate>
+        
+        <guid>https://antoinedelia.github.io/cloud-optimist/pr-113/en/categories/infrastructure-as-code/</guid>
         <description></description>
         </item>
         <item>
@@ -52,14 +60,6 @@
         <pubDate>Tue, 04 Mar 2025 07:30:00 +0100</pubDate>
         
         <guid>https://antoinedelia.github.io/cloud-optimist/pr-113/en/categories/ci/cd/</guid>
-        <description></description>
-        </item>
-        <item>
-        <title>Infrastructure as Code</title>
-        <link>https://antoinedelia.github.io/cloud-optimist/pr-113/en/categories/infrastructure-as-code/</link>
-        <pubDate>Tue, 04 Mar 2025 07:30:00 +0100</pubDate>
-        
-        <guid>https://antoinedelia.github.io/cloud-optimist/pr-113/en/categories/infrastructure-as-code/</guid>
         <description></description>
         </item>
         <item>

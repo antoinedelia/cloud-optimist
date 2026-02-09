@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="en-US" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="Introduction When I first started using Terraform (specifically for deploying my blog), I turned to Terraform Cloud (this name was later changed to HCP Terraform).\nTerraform and the State If you know a little bit about Terraform, you are likely familiar with the term State. This effectively corresponds to the current state of your infrastructure and allows Terraform to know what changes to expect if you modify your Terraform files. This State is represented by a file: terraform.tfstate.\n">
+<title>How to migrate your State from Terraform Cloud to AWS S3?</title>
+
+<link rel='canonical' href='https://antoinedelia.github.io/cloud-optimist/pr-113/en/posts/2025/moving-away-from-terraform-cloud/'>
+
+<link rel="stylesheet" href="/cloud-optimist/pr-113/scss/style.min.6a692fd055deae459f2a9767f57f3855ba80cafd5041317f24f7360f6ca47cdf.css"><meta property='og:title' content="How to migrate your State from Terraform Cloud to AWS S3?">
+<meta property='og:description' content="Introduction When I first started using Terraform (specifically for deploying my blog), I turned to Terraform Cloud (this name was later changed to HCP Terraform).\nTerraform and the State If you know a little bit about Terraform, you are likely familiar with the term State. This effectively corresponds to the current state of your infrastructure and allows Terraform to know what changes to expect if you modify your Terraform files. This State is represented by a file: terraform.tfstate.\n">
+<meta property='og:url' content='https://antoinedelia.github.io/cloud-optimist/pr-113/en/posts/2025/moving-away-from-terraform-cloud/'>
+<meta property='og:site_name' content='The Cloud Optimist'>
+<meta property='og:type' content='article'><meta property='article:section' content='Posts' /><meta property='article:tag' content='AWS' /><meta property='article:tag' content='S3' /><meta property='article:tag' content='Terraform' /><meta property='article:published_time' content='2025-12-17T07:30:00&#43;02:00'/><meta property='article:modified_time' content='2025-12-17T07:30:00&#43;02:00'/><meta property='og:image' content='https://antoinedelia.github.io/cloud-optimist/pr-113/fr/posts/2025/moving-away-from-terraform-cloud/terraform.png' />
+<meta name="twitter:title" content="How to migrate your State from Terraform Cloud to AWS S3?">
+<meta name="twitter:description" content="Introduction When I first started using Terraform (specifically for deploying my blog), I turned to Terraform Cloud (this name was later changed to HCP Terraform).\nTerraform and the State If you know a little bit about Terraform, you are likely familiar with the term State. This effectively corresponds to the current state of your infrastructure and allows Terraform to know what changes to expect if you modify your Terraform files. This State is represented by a file: terraform.tfstate.\n"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://antoinedelia.github.io/cloud-optimist/pr-113/fr/posts/2025/moving-away-from-terraform-cloud/terraform.png' />
+    <link rel="shortcut icon" href="/favicon.ico" />
+
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-NPENVXWP54"></script>
+      <script>
+        var doNotTrack = false;
+        if ( true ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-NPENVXWP54');
+        }
+      </script>
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/cloud-optimist/pr-113/en/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/cloud-optimist/pr-113/img/avatar_hu_6376077d4e00194.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">☁️</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/cloud-optimist/pr-113/en">The Cloud Optimist</a></h1>
+            <h2 class="site-description">A blog about Cloud &amp; DevOps topics.</h2>
+        </div>
+    </header><ol class="menu-social">
+            
+                <li>
+                    <a 
+                        href='https://github.com/antoinedelia/'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://linkedin.com/in/antoinedelia'
+                        target="_blank"
+                        title="LinkedIn"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-brand-linkedin"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M8 11v5" /><path d="M8 8v.01" /><path d="M12 16v-5" /><path d="M16 16v-3a2 2 0 1 0 -4 0" /><path d="M3 7a4 4 0 0 1 4 -4h10a4 4 0 0 1 4 4v10a4 4 0 0 1 -4 4h-10a4 4 0 0 1 -4 -4z" /></svg>
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://stackoverflow.com/users/4141606/antoine-delia?tab=profile'
+                        target="_blank"
+                        title="Stack Overflow"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-brand-stackoverflow"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 17v1a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-1" /><path d="M8 16h8" /><path d="M8.322 12.582l7.956 .836" /><path d="M8.787 9.168l7.826 1.664" /><path d="M10.096 5.764l7.608 2.472" /></svg>
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/cloud-optimist/pr-113/en' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>Home</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/cloud-optimist/pr-113/en/about/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>About</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/cloud-optimist/pr-113/en/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>Archives</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/cloud-optimist/pr-113/en/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>Search</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/cloud-optimist/pr-113/en/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>Links</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+                    
+                        <li id="i18n-switch">  
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                            <select name="language" title="language" onchange="window.location.href = this.selectedOptions[0].value">
+                                
+                                    <option value="https://antoinedelia.github.io/cloud-optimist/pr-113/fr/" >French</option>
+                                
+                                    <option value="https://antoinedelia.github.io/cloud-optimist/pr-113/en/" selected>English</option>
+                                
+                            </select>
+                        </li>
+                    
+                
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>Dark Mode</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">Table of contents</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#introduction">Introduction</a></li>
+    <li><a href="#terraform-and-the-state">Terraform and the State</a></li>
+    <li><a href="#the-end-of-terraform-cloud">The End of Terraform Cloud</a></li>
+    <li><a href="#an-alternative-for-storing-your-states">An alternative for storing your states</a></li>
+    <li><a href="#migrating-the-state-to-s3">Migrating the State to S3</a></li>
+    <li><a href="#conclusion">Conclusion</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/cloud-optimist/pr-113/en/posts/2025/moving-away-from-terraform-cloud/">
+                <img src="/cloud-optimist/pr-113/fr/posts/2025/moving-away-from-terraform-cloud/terraform_hu_563d9b6059ec9c29.png"
+                        srcset="/cloud-optimist/pr-113/fr/posts/2025/moving-away-from-terraform-cloud/terraform_hu_563d9b6059ec9c29.png 800w, /cloud-optimist/pr-113/fr/posts/2025/moving-away-from-terraform-cloud/terraform_hu_4feef1b9c93504a8.png 1600w"
+                        width="800" 
+                        height="447" 
+                        loading="lazy"
+                        alt="Featured image of post How to migrate your State from Terraform Cloud to AWS S3?" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/cloud-optimist/pr-113/en/categories/cloud/" >
+                Cloud
+            </a>
+        
+            <a href="/cloud-optimist/pr-113/en/categories/infrastructure-as-code/" >
+                Infrastructure as Code
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/cloud-optimist/pr-113/en/posts/2025/moving-away-from-terraform-cloud/">How to migrate your State from Terraform Cloud to AWS S3?</a>
+        </h2>
+    
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Dec 17, 2025</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    4 minute read
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+        <footer class="article-translations">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+            <div>
+                
+                    <a href="https://antoinedelia.github.io/cloud-optimist/pr-113/fr/posts/2025/moving-away-from-terraform-cloud/" class="link">French</a>
+                
+            </div>
+        </footer>
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <h1 id="introduction"><a href="#introduction" class="header-anchor"></a>Introduction
+</h1><p>When I first started using Terraform (specifically for <a class="link" href="/en/posts/2025/how-i-automated-my-blog-to-the-cloud/" >deploying my blog</a>), I turned to <strong>Terraform Cloud</strong> (this name was later changed to HCP Terraform).</p>
+<h1 id="terraform-and-the-state"><a href="#terraform-and-the-state" class="header-anchor"></a>Terraform and the State
+</h1><p>If you know a little bit about Terraform, you are likely familiar with the term <a class="link" href="https://developer.hashicorp.com/terraform/language/state"  target="_blank" rel="noopener"
+    ><em>State</em></a>. This effectively corresponds to the current state of your infrastructure and allows Terraform to know what changes to expect if you modify your Terraform files. This <em>State</em> is represented by a file: <strong>terraform.tfstate</strong>.</p>
+<p>By default, Terraform stores this file locally on your machine, but it recommends using a <em>backend storage</em> (read: &ldquo;store this file somewhere else, for crying out loud!&rdquo;).</p>
+<p>Obviously, Terraform first suggests the HashiCorp solution: Terraform Cloud. By creating an account, you can use their backend to store your state files for free. Naturally, that is exactly what I did a few years ago.</p>
+<h1 id="the-end-of-terraform-cloud"><a href="#the-end-of-terraform-cloud" class="header-anchor"></a>The End of Terraform Cloud
+</h1><p>Until this week, when I received this email from HashiCorp.</p>
+<p><img src="/img/moving-away-from-terraform-cloud/terraform-mail-free-plan-expiration.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="Terraform email announcing the end of the Terraform Cloud Free plan"
+	
+	
+></p>
+<p>Ouch! We should have seen it coming—all good things must come to an end! The free option from back then will soon cease to exist, so I have to make a choice: upgrade my HashiCorp &ldquo;plan,&rdquo; or store my states elsewhere.</p>
+<p>Looking more closely at <a class="link" href="https://developer.hashicorp.com/terraform/cloud-docs/overview"  target="_blank" rel="noopener"
+    >their current offers</a>, HashiCorp still proposes a free version, though it is limited in the number of resources that can be deployed (500 currently). It&rsquo;s a fairly generous offer, but not knowing how it might evolve, I&rsquo;ve decided to move my States once and for all.</p>
+<p>Farewell, Terraform Cloud!</p>
+<h1 id="an-alternative-for-storing-your-states"><a href="#an-alternative-for-storing-your-states" class="header-anchor"></a>An alternative for storing your states
+</h1><p>Fortunately for me, there are plenty of ways to store a Terraform state, thanks to <a class="link" href="https://developer.hashicorp.com/terraform/language/state/remote"  target="_blank" rel="noopener"
+    >Remote State</a>.</p>
+<p>To put it simply, you just need to tell Terraform where your state file will be stored. We use the <a class="link" href="https://developer.hashicorp.com/terraform/language/backend"  target="_blank" rel="noopener"
+    ><code>backend</code> block</a> to do this.</p>
+<p>There are quite a few options, but since I have an AWS account where I deploy all my resources, I naturally gravitated towards the S3 backend.</p>
+<p>Here is an example of how to configure an S3 backend with Terraform:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-terraform" data-lang="terraform"><span class="line"><span class="cl"><span class="nx">terraform</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">backend</span> <span class="s2">&#34;s3&#34;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">bucket</span> <span class="o">=</span> <span class="s2">&#34;mybucket&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">key</span>    <span class="o">=</span> <span class="s2">&#34;path/to/my/key/terraform.tfstate&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">region</span> <span class="o">=</span> <span class="s2">&#34;eu-west-1&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Now that we have an alternative, it&rsquo;s time to start the migration!</p>
+<h1 id="migrating-the-state-to-s3"><a href="#migrating-the-state-to-s3" class="header-anchor"></a>Migrating the State to S3
+</h1><p>I&rsquo;ll use the migration of the state I use to deploy this blog as an example.</p>
+<p>Currently, if we look at <a class="link" href="https://github.com/antoinedelia/cloud-optimist/blob/4f8f95c177c490e3383c8b554e8d8ca4b3df249b/.github/workflows/main.yml#L28-L33"  target="_blank" rel="noopener"
+    >my deployment GitHub Actions workflow</a>, we can see that I authenticate to my Terraform Cloud account using a token. That part will no longer be necessary (at least for the credentials; the Terraform CLI will still need to be initialized).</p>
+<p>Next, we need to create an S3 bucket to hold the future state files.</p>
+<p>Finally, I&rsquo;ll need to add a <code>backend</code> block to my project to tell Terraform to stop using Terraform Cloud and start using S3 when accessing the state.</p>
+<p>Hold on, we aren&rsquo;t done yet! If I leave this bucket empty, the next time I try to deploy my blog, Terraform will look for a state that&hellip; doesn&rsquo;t exist! It will assume that no resources have been deployed to my AWS account yet. Consequently, Terraform will try to recreate resources that already exist.</p>
+<p>The last step, therefore, is to retrieve the state file for my blog project and move it into my S3 bucket.</p>
+<p><img src="/img/moving-away-from-terraform-cloud/downloading_terraform_state.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="Downloading the Terraform State from Terraform Cloud"
+	
+	
+></p>
+<p>I then need to ensure that the information I provided in the <code>backend</code> block matches reality.</p>
+<p>Once everything is ready, it&rsquo;s time to test and deploy!</p>
+<p>I intentionally omitted a few steps in this migration (migrating workspace variables, using GitHub Secrets for the S3 bucket name, adding AWS credentials to GitHub Actions, etc.) to keep this article concise. If you want to see more, check out the <a class="link" href="https://github.com/antoinedelia/cloud-optimist/pull/116"  target="_blank" rel="noopener"
+    >Pull Request I opened</a> to perform this migration.</p>
+<p>If everything went according to plan, you should see the phrase <code>No changes. Your infrastructure matches the configuration.</code> appear during your <code>terraform plan</code>!</p>
+<h1 id="conclusion"><a href="#conclusion" class="header-anchor"></a>Conclusion
+</h1><p>It&rsquo;s always a pain to perform migrations on existing infrastructure. But with a little time and some willpower, it&rsquo;s the kind of task that ultimately only takes a few hours.</p>
+<p>So, don&rsquo;t wait until the last minute—dive in!</p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/cloud-optimist/pr-113/en/tags/aws/">AWS</a>
+        
+            <a href="/cloud-optimist/pr-113/en/tags/s3/">S3</a>
+        
+            <a href="/cloud-optimist/pr-113/en/tags/terraform/">Terraform</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">Related content</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/cloud-optimist/pr-113/en/posts/2025/how-i-automated-my-blog-to-the-cloud/">
+        
+        
+            <div class="article-image">
+                <img src="/cloud-optimist/pr-113/en/posts/2025/how-i-automated-my-blog-to-the-cloud/automated-blog.f8912fd4b1ac173a63449d8e8f990bda_hu_fdc7790acf3e0832.jpeg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post How I Automated My Blog To The Cloud"
+                        
+                        data-hash="md5-&#43;JEv1LGsFzpjRJ2Oj5kL2g==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">How I Automated My Blog To The Cloud</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/cloud-optimist/pr-113/en/posts/2025/on-the-trail-of-the-lost-resource-my-investigation-with-athena-and-cloudtrail/">
+        
+        
+            <div class="article-image">
+                <img src="/cloud-optimist/pr-113/fr/posts/2025/on-the-trail-of-the-lost-resource-my-investigation-with-athena-and-cloudtrail/aws_lost_resource.88bfadba515bb85ce966344578a0c209_hu_fbb6a0adc329b98a.jpeg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post On The Trail of The Lost Resource - My Investigation With Athena and CloudTrail"
+                        
+                        data-hash="md5-iL&#43;tulFbuFzpZjRFeKDCCQ==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">On The Trail of The Lost Resource - My Investigation With Athena and CloudTrail</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/cloud-optimist/pr-113/en/posts/2025/how-and-why-to-set-up-aws-iam-identity-center-on-your-aws-account/">
+        
+        
+            <div class="article-image">
+                <img src="/cloud-optimist/pr-113/fr/posts/2025/how-and-why-to-set-up-aws-iam-identity-center-on-your-aws-account/iam-identity-center.58634a6aa2694b3a9318af065fd9faf8_hu_5f5b7e1e2ec78ce9.jpg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post How and Why to Set Up AWS IAM Identity Center on Your AWS Account"
+                        
+                        data-hash="md5-WGNKaqJpSzqTGK8GX9n6&#43;A==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">How and Why to Set Up AWS IAM Identity Center on Your AWS Account</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/cloud-optimist/pr-113/en/posts/2025/why-tagging-your-aws-resources-is-a-must/">
+        
+        
+            <div class="article-image">
+                <img src="/cloud-optimist/pr-113/fr/posts/2025/why-tagging-your-aws-resources-is-a-must/aws_tagging.faf98b2cff2fa0c46736f8ca429e7d72_hu_524924c87bbefd0.jpeg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post Why Tagging your AWS Resources is a Must?"
+                        
+                        data-hash="md5-&#43;vmLLP8voMRnNvjKQp59cg==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Why Tagging your AWS Resources is a Must?</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/cloud-optimist/pr-113/en/posts/2025/aws-lambdas-init-phase-to-be-billed-soon-should-we-be-alarmed/">
+        
+        
+            <div class="article-image">
+                <img src="/cloud-optimist/pr-113/fr/posts/2025/aws-lambdas-init-phase-to-be-billed-soon-should-we-be-alarmed/lambda-init-billing.e675f044c97588eddb26ba9b0e9398d0_hu_f2824c984daacf07.jpeg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post AWS Lambda: INIT Phase To Be Billed Soon - Should We Be Alarmed?"
+                        
+                        data-hash="md5-5nXwRMl1iO3bJrqbDpOY0A==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">AWS Lambda: INIT Phase To Be Billed Soon - Should We Be Alarmed?</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <script
+    src="https://giscus.app/client.js"
+    data-repo="antoinedelia/cloud-optimist"
+    data-repo-id="R_kgDOHWH-Zg"
+    data-category="Comments"
+    data-category-id="DIC_kwDOHWH-Zs4CoHBh"
+    data-mapping="pathname"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="1"
+    data-input-position="top"
+    data-theme="light"
+    data-lang="en"
+    data-loading=""
+    crossorigin="anonymous"
+    async
+></script>
+<script>
+    function setGiscusTheme(theme) {
+        let giscus = document.querySelector("iframe.giscus-frame");
+        if (giscus) {
+            giscus.contentWindow.postMessage(
+                {
+                    giscus: {
+                        setConfig: {
+                            theme: theme,
+                        },
+                    },
+                },
+                "https://giscus.app"
+            );
+        }
+    }
+
+    (function () {
+        addEventListener("message", (e) => {
+            if (event.origin !== "https://giscus.app") return;
+            handler();
+        });
+        window.addEventListener("onColorSchemeChange", handler);
+
+        function handler() {
+            if (document.documentElement.dataset.scheme === "light") {
+                setGiscusTheme('light');
+            } else {
+                setGiscusTheme('dark_dimmed');
+            }
+        }
+    })();
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2022 - 
+        
+        2026 The Cloud Optimist
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.29.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/cloud-optimist/pr-113/ts/main.1e9a3bafd846ced4c345d084b355fb8c7bae75701c338f8a1f8a82c780137826.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

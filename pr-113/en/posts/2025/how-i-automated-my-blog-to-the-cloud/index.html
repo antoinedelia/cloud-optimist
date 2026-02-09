@@ -19,7 +19,7 @@
       <script async src="https://www.googletagmanager.com/gtag/js?id=G-NPENVXWP54"></script>
       <script>
         var doNotTrack = false;
-        if ( false ) {
+        if ( true ) {
           var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
           var doNotTrack = (dnt == "1" || dnt == "yes");
         }
@@ -73,7 +73,7 @@
                     
                     
                         
-                        <img src="/cloud-optimist/pr-113/img/avatar_hu_bf2a480adb63282c.png" width="300"
+                        <img src="/cloud-optimist/pr-113/img/avatar_hu_6376077d4e00194.png" width="300"
                             height="300" class="site-logo" loading="lazy" alt="Avatar">
                     
                 
@@ -353,8 +353,8 @@
     <header class="article-header">
         <div class="article-image">
             <a href="/cloud-optimist/pr-113/en/posts/2025/how-i-automated-my-blog-to-the-cloud/">
-                <img src="/cloud-optimist/pr-113/en/posts/2025/how-i-automated-my-blog-to-the-cloud/automated-blog_hu_7594974bbac2daa1.jpeg"
-                        srcset="/cloud-optimist/pr-113/en/posts/2025/how-i-automated-my-blog-to-the-cloud/automated-blog_hu_7594974bbac2daa1.jpeg 800w, /cloud-optimist/pr-113/en/posts/2025/how-i-automated-my-blog-to-the-cloud/automated-blog_hu_5f38d27d988af5e4.jpeg 1600w"
+                <img src="/cloud-optimist/pr-113/en/posts/2025/how-i-automated-my-blog-to-the-cloud/automated-blog_hu_baa904945ed90dec.jpeg"
+                        srcset="/cloud-optimist/pr-113/en/posts/2025/how-i-automated-my-blog-to-the-cloud/automated-blog_hu_baa904945ed90dec.jpeg 800w, /cloud-optimist/pr-113/en/posts/2025/how-i-automated-my-blog-to-the-cloud/automated-blog_hu_34cbbcf41285b8e.jpeg 1600w"
                         width="800" 
                         height="457" 
                         loading="lazy"
@@ -669,13 +669,13 @@
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-yml" data-lang="yml"><span class="line"><span class="cl"><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;Build and Deploy&#39;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">on</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">on</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">push</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">branches</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="l">master</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">pull_request</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">jobs</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">jobs</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">build-and-deploy</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;Build &amp; Deploy&#39;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">runs-on</span><span class="p">:</span><span class="w"> </span><span class="l">ubuntu-latest</span><span class="w">
@@ -925,7 +925,7 @@
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-terraform" data-lang="terraform"><span class="line"><span class="cl"><span class="c1"># The default configuration: all resources starting with `aws_` will use this provider
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kr">provider</span> <span class="s2">&#34;aws&#34;</span> <span class="p">{</span>
+</span></span></span><span class="line"><span class="cl"><span class="kr">provider</span> <span class="s2">&#34;aws&#34;</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">  <span class="nx">region</span> <span class="o">=</span> <span class="s2">&#34;eu-west-1&#34;</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span><span class="line"><span class="cl">
@@ -941,7 +941,7 @@
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="kr">resource</span> <span class="s2">&#34;aws_acm_certificate&#34;</span> <span class="s2">&#34;cert&#34;</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">  <span class="nx">provider</span>                  <span class="o">=</span> <span class="nx">aws</span><span class="p">.</span><span class="nx">us_east_1</span><span class="c1">  # Will be deployed in us-east-1
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="nx">domain_name</span>               <span class="o">=</span> <span class="nb">var</span><span class="p">.</span><span class="nx">domain_name</span>
+</span></span></span><span class="line"><span class="cl">  <span class="nx">domain_name</span>               <span class="o">=</span> <span class="nb">var</span><span class="p">.</span><span class="nx">domain_name</span>
 </span></span><span class="line"><span class="cl">  <span class="nx">subject_alternative_names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&#34;*.</span><span class="si">${</span><span class="nb">var</span><span class="p">.</span><span class="nx">domain_name</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">]</span>
 </span></span><span class="line"><span class="cl">  <span class="nx">validation_method</span>         <span class="o">=</span> <span class="s2">&#34;DNS&#34;</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
@@ -1032,11 +1032,35 @@
             
                 
 <article class="has-image">
+    <a href="/cloud-optimist/pr-113/en/posts/2025/moving-away-from-terraform-cloud/">
+        
+        
+            <div class="article-image">
+                <img src="/cloud-optimist/pr-113/fr/posts/2025/moving-away-from-terraform-cloud/terraform.2fa57ebedda97c363d569e24f36f30b9_hu_81831211380bf81b.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post How to migrate your State from Terraform Cloud to AWS S3?"
+                        
+                        data-hash="md5-L6V&#43;vt2pfDY9Vp4k828wuQ==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">How to migrate your State from Terraform Cloud to AWS S3?</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
     <a href="/cloud-optimist/pr-113/en/posts/2025/why-tagging-your-aws-resources-is-a-must/">
         
         
             <div class="article-image">
-                <img src="/cloud-optimist/pr-113/fr/posts/2025/why-tagging-your-aws-resources-is-a-must/aws_tagging.faf98b2cff2fa0c46736f8ca429e7d72_hu_9df4e0bda091116d.jpeg" 
+                <img src="/cloud-optimist/pr-113/fr/posts/2025/why-tagging-your-aws-resources-is-a-must/aws_tagging.faf98b2cff2fa0c46736f8ca429e7d72_hu_524924c87bbefd0.jpeg" 
                         width="250" 
                         height="150" 
                         loading="lazy"
@@ -1060,7 +1084,7 @@
         
         
             <div class="article-image">
-                <img src="/cloud-optimist/pr-113/fr/posts/2025/on-the-trail-of-the-lost-resource-my-investigation-with-athena-and-cloudtrail/aws_lost_resource.88bfadba515bb85ce966344578a0c209_hu_7977f93aa0287fd4.jpeg" 
+                <img src="/cloud-optimist/pr-113/fr/posts/2025/on-the-trail-of-the-lost-resource-my-investigation-with-athena-and-cloudtrail/aws_lost_resource.88bfadba515bb85ce966344578a0c209_hu_fbb6a0adc329b98a.jpeg" 
                         width="250" 
                         height="150" 
                         loading="lazy"
@@ -1084,7 +1108,7 @@
         
         
             <div class="article-image">
-                <img src="/cloud-optimist/pr-113/en/posts/2025/how-we-built-a-cicd-strategy-that-onboards-100-python-projects-in-under-a-minute/ci-cd-strategy.4bfd0d2defa14a08bf1ba9f713764379_hu_45c21de14ec7648a.jpeg" 
+                <img src="/cloud-optimist/pr-113/en/posts/2025/how-we-built-a-cicd-strategy-that-onboards-100-python-projects-in-under-a-minute/ci-cd-strategy.4bfd0d2defa14a08bf1ba9f713764379_hu_532ad2ab6e5b3ec2.jpeg" 
                         width="250" 
                         height="150" 
                         loading="lazy"
@@ -1108,7 +1132,7 @@
         
         
             <div class="article-image">
-                <img src="/cloud-optimist/pr-113/fr/posts/2025/how-and-why-to-set-up-aws-iam-identity-center-on-your-aws-account/iam-identity-center.58634a6aa2694b3a9318af065fd9faf8_hu_772782832330960.jpg" 
+                <img src="/cloud-optimist/pr-113/fr/posts/2025/how-and-why-to-set-up-aws-iam-identity-center-on-your-aws-account/iam-identity-center.58634a6aa2694b3a9318af065fd9faf8_hu_5f5b7e1e2ec78ce9.jpg" 
                         width="250" 
                         height="150" 
                         loading="lazy"
@@ -1121,30 +1145,6 @@
 
         <div class="article-details">
             <h2 class="article-title">How and Why to Set Up AWS IAM Identity Center on Your AWS Account</h2>
-        </div>
-    </a>
-</article>
-
-            
-                
-<article class="has-image">
-    <a href="/cloud-optimist/pr-113/en/posts/2025/aws-lambdas-init-phase-to-be-billed-soon-should-we-be-alarmed/">
-        
-        
-            <div class="article-image">
-                <img src="/cloud-optimist/pr-113/fr/posts/2025/aws-lambdas-init-phase-to-be-billed-soon-should-we-be-alarmed/lambda-init-billing.e675f044c97588eddb26ba9b0e9398d0_hu_bf7c4666c0f5eba.jpeg" 
-                        width="250" 
-                        height="150" 
-                        loading="lazy"
-                        alt="Featured image of post AWS Lambda: INIT Phase To Be Billed Soon - Should We Be Alarmed?"
-                        
-                        data-hash="md5-5nXwRMl1iO3bJrqbDpOY0A==">
-                
-            </div>
-        
-
-        <div class="article-details">
-            <h2 class="article-title">AWS Lambda: INIT Phase To Be Billed Soon - Should We Be Alarmed?</h2>
         </div>
     </a>
 </article>
@@ -1216,7 +1216,7 @@
         
             2022 - 
         
-        2025 The Cloud Optimist
+        2026 The Cloud Optimist
     </section>
     
     <section class="powerby">

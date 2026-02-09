@@ -129,12 +129,74 @@ La suppression se passa sans plus de problème (Dieu merci), mais évidemment, c
 
 Déjà, parlons de la stack elle-même. Un fichier YML existait dans un repo GitHub, mais celui-ci n'avait pas été mis à jour depuis des lustres, et je savais que je ferai mieux d'utiliser la définition de la stack présente dans CloudFormation (et oui, je l'ai quand même gardée, pas fou le gars).
 
-Mais comme vous pouvez l'imaginer,
+Cette stack ne déployait pas uniquement l'API Gateway, mais plusieurs ressources AWS (je ne rentrerai pas dans les détails du pourquoi nous avions besoin de ces ressources dans cet article), dont des Lambdas. Ces dernières se basaient encore sur Python 3.7, mais dont [il était impossible de se servir pour créer de nouvelles Lambdas](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtimes-deprecated). Heureusement, un petit upgrade en Python 3.12 sera suffisant pour qu'AWS nous laisse tranquille.
 
-# Lessons Learned et Post-Mortem
+Et, à ma grande surprise, la stack se déployait maintenant sans souci !
 
-TBD - dire que c'était une API de DEV, donc ouf !
+Mais je vous la fait courte, il restait encore du pain sur la planche ! En effet, la stack CloudFormation manquait plusieurs ressources critiques à la bonne execution de notre API. Des ressources qui avaient été crées à la main dans AWS directement, faisant fi de toute bonne pratique d'Infrastructure as Code (*pleure en Terraform*). Dans un souci de rétablissement du service le plus rapidement possible (on est DevOps, ou on ne l'est pas !), ces ressources seront donc créées une nouvelle fois à la main.
+
+Pour finir, plusieurs composants clés faisaient référence à l'ARN de l'ancienne API en dur. Il fallait ainsi faire tout un travail d'archéologie pour trouver tous les endroits où une mise à jour vers la nouvelle API s'imposait.
+
+Finalement, après plusieurs heures de troubleshooting, l'API était de nouveau opérationelle, et les développeurs pouvaient à nouveau déployer leurs projets.
+
+**Cet incident aura démarré le 4 avril 2024 à 15h24, et se sera conclut le 5 avril 2024 à 08h46.**
+
+# Post-Mortem et Lessons Learned
+
+Pendant cet incident, j'ai réalisé une prise de note intensive sur les actions menées. J'avais déjà entendu parler du principe de Post-Mortem, et je pensais que cet incident serait le parfait candidat.
+
+Si vous ignorez le principe d'un Post-Mortem, il agit comme un document retraçant les étapes de résolution d'un incident, couvrant les impacts, et la root cause, mais surtout — et à mon sens le plus intéressant — comporte une section appellée **Lessons Learned**. Cette section, si vous la prenez au sérieux, sera votre meilleure alliée pour construire une architecture plus robuste et plus durable.
+
+Concrètement, vous allez notez dans cette section trois points clés : ce qui s'est bien passé, ce qui s'est mal passé, et là où vous avez eu de la chance. Et surtout, **soyez honnêtes** ! Même si certains points vous paraissent bêtes, ou vous font passer pour un incompétent (et je vous dis ça alors que j'ai manuellement supprimé une API, donc prenez-le avec légèreté), le but n'est pas de pointer du doigt (ce qu'on appelle aussi la blameless culture), mais de comprendre les failles dans notre système, afin de les améliorer. Comme cité dans le livre SRE de Google : « The cost of failure is education. » [Source](https://sre.google/sre-book/postmortem-culture/)
+
+Cela vous paraît peut-être encore un peu flou, alors laissez-moi vous montrer mes lessons learned de cet incident.
+
+## What went well
+Pendant cet incident, deux choses se sont bien passées.
+
+D'abord, la résolution s'est faite par un membre de l'équipe qui connaissait en profondeur cette architecture, ce qui a permis de comprendre rapidement ce qui devait être remis en place pour restaurer le service.
+
+Enfin, il y a eu une bonne communication tout au long de cet incident. Lorsque le problème s'est présenté, il n'a pas essayé d'être dissimulé, et des mises à jour fréquentes ont été annoncées pour avertir de l'avancement de sa résolution. C'est un point très important, car non seulement vous donnez de la visibilité sur vos actions, mais par la communication, vous pouvez aussi acquérir des informations utiles à la résolution de votre incident (un collègue pourra par exemple vous pointer vers une documentation dont vous n'avez pas connaissance, ou vous donner un coup si nécessaire).
+
+## What went wrong
+Ici, c'est la partie qui fait mal. Comme je vous l'ai dit, il faut ravaler sa fierté, et mettre en lumière tout ce qui aurait pu être mieux exécuté.
+
+Pour cet incident, quatre choses ne se sont pas bien passées.
+
+Pour commencer, l'infrastrucutre de cette API n'était non seulement pas consolidée dans un seul et même fichier (ou dossier), mais était en plus disséminée dans plusieurs repos GitHub. Il était ainsi très compliqué d'avoir une vue d'ensemble de ce qui était nécessaire au bon fonctionnement de cette API.
+
+Ensuite, un gros problème résidait dans ce qu'on appelle le **drift**. Ce sont toutes les différences que vous avez entre votre infrastructure réelle, et votre infrastructure telle qu'elle est définie dans votre code. Idéallement, aucune modification manuelle ne doit avoit lieu, et tout doit passer par votre fichier d'Infrastructure as Code. Si cela avait était le cas, un simple redéploiement aurait permi une remise en service instantanée.
+
+Un autre problème résidait dans la forte interdépendance de toutes les ressources. Beaucoup par exemple se basaient sur un output de la stack CloudFormation. Si vous enlevez cette stack, vous enlevez ainsi la possibilité de déployer la suite de votre infrastructure.
+
+Enfin, l'identification des ressources liées à notre infrastructure était difficile. Notre stack déployait les ressources sans aucun tag associé, ce qui rendait compliqué la recherche de toutes les ressources nécessaires à notre API.
+
+## Where we got lucky
+Cette partie peut ressembler à du positif, mais il n'en est rien ! Car vous allez ici parler des élément qui se sont bien passés, mais UNIQUEMENT car vous avez eu de la chance. Comprenez qu'à tout moment, cela aurait pû être un autre point à mettre dans la catégorie "What went wrong". Donc soyez heureux pour cette fois, mais ne baissez pas votre garde pour autant !
+
+Pour cet incident, trois choses se sont bien passées par chance.
+
+Tout d'abord, l'incident a été immédiatement identifié (c'est au moins l'avantage quand on fait une boulette pareille). Mais cela aurait pû être bien pire ! Car si cette API avait été supprimée par tout autre moyen (un script d'automatisation par exemple), nous n'avions aucun monitoring en place capable de nous prévenir d'une telle chose.
+
+Ensuite, il se trouve que la personne qui a supprimé cette API avait une excellente connaissance du projet et de l'infrastructure (je parle de moi oui, il faut bien s'envoyer quelques fleurs). Cela a permis de très vite enchaîner sur la résolution de l'incident, mais cela aurait pu se passer autrement.
+
+Enfin, cette API était en fait notre API de dev. L'API de prod, elle, allait très bien (détail que j'ai volontairement gardé pour la fin, il paraît que c'est du storytelling). Alors certes, l'impact fût minime, mais l'incident aurait tout de même pû arriver en production, avec les mêmes problématiques de remise en service. Et cela aurait pû coûter bien plus cher.
+
+## Préparer le futur
+
+Maintenant que vous avez pu lister les problèmes rencontrés lors de la résolution de cet incident, en tant que bon DevOps, vous vous devez d'en tirer les leçons. Notez bien tout ce qui pourrait être amélioré, mais surtout, fixez-vous un plan ! Sinon, ce ne seront que de vastes phrases sans utilité.
+
+> Tout objectif sans plan n'est qu'un souhait. — Antoine de Saint-Exupéry
+
+Dans mon cas, les trois leçons clés ont été les suivantes :
+* Consolidation de l'Infrastructure as Code : tout doit pouvoir être déployé en un clin d'oeil. C'est un chantier que je serai amené à compléter dans les mois qui suivirent (mais cette histoire, c'est pour une prochaine fois).
+* Amélioration du monitoring et de l'alerting : si cet incident devait de nouveau arriver, il nous faut être averti rapidement afin de réagir en vitesse.
+* Documentation plus claire et cohérente : n'importe quel membre de l'équipe doit pouvoir faire face à un tel incident, et cela commence par une documentation fiable et compréhensible.
+
+Toutes ces leçons seront ensuite trackées en tant qu'issues GitHub, et je m'appliquerai à les compléter dans les mois qui suivirent (mais cette histoire, c'est pour une prochaine fois).
 
 # Conclusion
 
-TBD
+Vous l'aurez compris, un accident ça arrive. L'essentiel est qu'il soit bénéfique pour vous, et l'ensemble de votre organisation. Servez-vous en comme d'une opportunité d'apprendre et de consolider des failles qui n'était jusqu'alors pas détectées (certaines entreprises s'amusent d'ailleurs même à [volontairement créer ce chaos](https://en.wikipedia.org/wiki/Chaos_engineering)).
+
+Merci de m'avoir lu jusqu'au bout ! Je vous laisse ici, car j'ai d'autres infrastructures à supprimer !

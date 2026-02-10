@@ -13,6 +13,7 @@
         
         <guid>https://antoinedelia.github.io/cloud-optimist/pr-113/en/posts/2025/the-day-i-accidentally-deleted-an-api-and-what-it-taught-me-about-devops/</guid>
         <description>&lt;img src="https://antoinedelia.github.io/cloud-optimist/pr-113/deleted-api.jpeg" alt="Featured image of post The Day I Accidentally Deleted An Api and What It Taught Me About Devops" /&gt;&lt;p&gt;April 4, 2024, had started off so well. A hot coffee in hand, VS Code humming with activity, and smooth electronic music in my ears—all the ingredients for a perfect day that surely couldn&amp;rsquo;t foreshadow the coming disaster.&lt;/p&gt;
+&lt;p&gt;Today, I&amp;rsquo;d like to tell you how a seemingly quiet day became a defining moment in my DevOps career!&lt;/p&gt;
 &lt;h1 id=&#34;incident&#34;&gt;&lt;a href=&#34;#incident&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Incident
 &lt;/h1&gt;&lt;h2 id=&#34;the-context&#34;&gt;&lt;a href=&#34;#the-context&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;The Context
 &lt;/h2&gt;&lt;p&gt;At the time, I was working in a team tasked with providing a global API Gateway on AWS, featuring several endpoints managed by different teams. Specifically, setting up this API Gateway was the initial phase of the project. It included a DNS record pointing to the API, the API Gateway itself, and a Cognito Authorizer configured with several clients.&lt;/p&gt;

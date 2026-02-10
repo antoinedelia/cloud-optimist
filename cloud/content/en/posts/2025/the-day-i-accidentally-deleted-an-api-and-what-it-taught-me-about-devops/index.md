@@ -17,6 +17,8 @@ image: deleted-api.jpeg
 
 April 4, 2024, had started off so well. A hot coffee in hand, VS Code humming with activity, and smooth electronic music in my ears—all the ingredients for a perfect day that surely couldn't foreshadow the coming disaster.
 
+Today, I'd like to tell you how a seemingly quiet day became a defining moment in my DevOps career!
+
 # Incident
 
 ## The Context

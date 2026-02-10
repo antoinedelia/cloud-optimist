@@ -17,6 +17,8 @@ image: deleted-api.jpeg
 
 La journée du 4 avril 2024 avait bien commencé. Un petit café en main, un VS Code en plein ébullition, et de la douce musique électro dans les oreilles, tant de facteurs positifs qui ne pouvaient présager de la catastrophe à venir.
 
+Aujourd'hui, j'aimerai vous raconter comment une journée en apparence tranquille est devenue un moment marquant de ma carrière de DevOps !
+
 
 # Incident
 
@@ -136,7 +138,7 @@ Pour finir, plusieurs composants clés faisaient référence à l'ARN de l'ancie
 
 Finalement, après plusieurs heures de troubleshooting, l'API était de nouveau opérationnelle, et les développeurs pouvaient à nouveau déployer leurs projets.
 
-**Cet incident aura démarré le 4 avril 2024 à 15h24, et se sera conclut le 5 avril 2024 à 08h46.**
+**Cet incident aura démarré le 4 avril 2024 à 15h24 et se sera conclu le 5 avril 2024 à 08h46.**
 
 # Post-Mortem et Lessons Learned
 

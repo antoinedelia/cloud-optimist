@@ -6,18 +6,50 @@
         <description>Recent content in Tags on The Cloud Optimist</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>en-US</language>
-        <lastBuildDate>Wed, 17 Dec 2025 07:30:00 +0200</lastBuildDate><atom:link href="https://antoinedelia.github.io/cloud-optimist/pr-113/en/tags/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Thu, 12 Feb 2026 07:30:00 +0100</lastBuildDate><atom:link href="https://antoinedelia.github.io/cloud-optimist/pr-113/en/tags/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>API Gateway</title>
+        <link>https://antoinedelia.github.io/cloud-optimist/pr-113/en/tags/api-gateway/</link>
+        <pubDate>Thu, 12 Feb 2026 07:30:00 +0100</pubDate>
+        
+        <guid>https://antoinedelia.github.io/cloud-optimist/pr-113/en/tags/api-gateway/</guid>
+        <description></description>
+        </item>
+        <item>
         <title>AWS</title>
         <link>https://antoinedelia.github.io/cloud-optimist/pr-113/en/tags/aws/</link>
-        <pubDate>Wed, 17 Dec 2025 07:30:00 +0200</pubDate>
+        <pubDate>Thu, 12 Feb 2026 07:30:00 +0100</pubDate>
         
         <guid>https://antoinedelia.github.io/cloud-optimist/pr-113/en/tags/aws/</guid>
         <description></description>
         </item>
         <item>
+        <title>CloudFormation</title>
+        <link>https://antoinedelia.github.io/cloud-optimist/pr-113/en/tags/cloudformation/</link>
+        <pubDate>Thu, 12 Feb 2026 07:30:00 +0100</pubDate>
+        
+        <guid>https://antoinedelia.github.io/cloud-optimist/pr-113/en/tags/cloudformation/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>Cognito</title>
+        <link>https://antoinedelia.github.io/cloud-optimist/pr-113/en/tags/cognito/</link>
+        <pubDate>Thu, 12 Feb 2026 07:30:00 +0100</pubDate>
+        
+        <guid>https://antoinedelia.github.io/cloud-optimist/pr-113/en/tags/cognito/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>Postmortem</title>
+        <link>https://antoinedelia.github.io/cloud-optimist/pr-113/en/tags/postmortem/</link>
+        <pubDate>Thu, 12 Feb 2026 07:30:00 +0100</pubDate>
+        
+        <guid>https://antoinedelia.github.io/cloud-optimist/pr-113/en/tags/postmortem/</guid>
+        <description></description>
+        </item>
+        <item>
         <title>S3</title>
         <link>https://antoinedelia.github.io/cloud-optimist/pr-113/en/tags/s3/</link>
-        <pubDate>Wed, 17 Dec 2025 07:30:00 +0200</pubDate>
+        <pubDate>Thu, 12 Feb 2026 07:30:00 +0100</pubDate>
         
         <guid>https://antoinedelia.github.io/cloud-optimist/pr-113/en/tags/s3/</guid>
         <description></description>
@@ -25,7 +57,7 @@
         <item>
         <title>Terraform</title>
         <link>https://antoinedelia.github.io/cloud-optimist/pr-113/en/tags/terraform/</link>
-        <pubDate>Wed, 17 Dec 2025 07:30:00 +0200</pubDate>
+        <pubDate>Thu, 12 Feb 2026 07:30:00 +0100</pubDate>
         
         <guid>https://antoinedelia.github.io/cloud-optimist/pr-113/en/tags/terraform/</guid>
         <description></description>
@@ -52,14 +84,6 @@
         <pubDate>Wed, 09 Jul 2025 12:30:00 +0200</pubDate>
         
         <guid>https://antoinedelia.github.io/cloud-optimist/pr-113/en/tags/cloudtrail/</guid>
-        <description></description>
-        </item>
-        <item>
-        <title>Cognito</title>
-        <link>https://antoinedelia.github.io/cloud-optimist/pr-113/en/tags/cognito/</link>
-        <pubDate>Wed, 09 Jul 2025 12:30:00 +0200</pubDate>
-        
-        <guid>https://antoinedelia.github.io/cloud-optimist/pr-113/en/tags/cognito/</guid>
         <description></description>
         </item>
         <item>

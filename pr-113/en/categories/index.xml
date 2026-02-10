@@ -6,28 +6,36 @@
         <description>Recent content in Categories on The Cloud Optimist</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>en-US</language>
-        <lastBuildDate>Wed, 17 Dec 2025 07:30:00 +0200</lastBuildDate><atom:link href="https://antoinedelia.github.io/cloud-optimist/pr-113/en/categories/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Thu, 12 Feb 2026 07:30:00 +0100</lastBuildDate><atom:link href="https://antoinedelia.github.io/cloud-optimist/pr-113/en/categories/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>CI/CD</title>
+        <link>https://antoinedelia.github.io/cloud-optimist/pr-113/en/categories/ci/cd/</link>
+        <pubDate>Thu, 12 Feb 2026 07:30:00 +0100</pubDate>
+        
+        <guid>https://antoinedelia.github.io/cloud-optimist/pr-113/en/categories/ci/cd/</guid>
+        <description></description>
+        </item>
+        <item>
         <title>Cloud</title>
         <link>https://antoinedelia.github.io/cloud-optimist/pr-113/en/categories/cloud/</link>
-        <pubDate>Wed, 17 Dec 2025 07:30:00 +0200</pubDate>
+        <pubDate>Thu, 12 Feb 2026 07:30:00 +0100</pubDate>
         
         <guid>https://antoinedelia.github.io/cloud-optimist/pr-113/en/categories/cloud/</guid>
         <description></description>
         </item>
         <item>
-        <title>Infrastructure as Code</title>
-        <link>https://antoinedelia.github.io/cloud-optimist/pr-113/en/categories/infrastructure-as-code/</link>
-        <pubDate>Wed, 17 Dec 2025 07:30:00 +0200</pubDate>
+        <title>DevOps</title>
+        <link>https://antoinedelia.github.io/cloud-optimist/pr-113/en/categories/devops/</link>
+        <pubDate>Thu, 12 Feb 2026 07:30:00 +0100</pubDate>
         
-        <guid>https://antoinedelia.github.io/cloud-optimist/pr-113/en/categories/infrastructure-as-code/</guid>
+        <guid>https://antoinedelia.github.io/cloud-optimist/pr-113/en/categories/devops/</guid>
         <description></description>
         </item>
         <item>
-        <title>DevOps</title>
-        <link>https://antoinedelia.github.io/cloud-optimist/pr-113/en/categories/devops/</link>
-        <pubDate>Tue, 24 Jun 2025 07:30:00 +0200</pubDate>
+        <title>Infrastructure as Code</title>
+        <link>https://antoinedelia.github.io/cloud-optimist/pr-113/en/categories/infrastructure-as-code/</link>
+        <pubDate>Thu, 12 Feb 2026 07:30:00 +0100</pubDate>
         
-        <guid>https://antoinedelia.github.io/cloud-optimist/pr-113/en/categories/devops/</guid>
+        <guid>https://antoinedelia.github.io/cloud-optimist/pr-113/en/categories/infrastructure-as-code/</guid>
         <description></description>
         </item>
         <item>
@@ -52,14 +60,6 @@
         <pubDate>Tue, 04 Mar 2025 07:30:00 +0100</pubDate>
         
         <guid>https://antoinedelia.github.io/cloud-optimist/pr-113/en/categories/blog/</guid>
-        <description></description>
-        </item>
-        <item>
-        <title>CI/CD</title>
-        <link>https://antoinedelia.github.io/cloud-optimist/pr-113/en/categories/ci/cd/</link>
-        <pubDate>Tue, 04 Mar 2025 07:30:00 +0100</pubDate>
-        
-        <guid>https://antoinedelia.github.io/cloud-optimist/pr-113/en/categories/ci/cd/</guid>
         <description></description>
         </item>
         <item>

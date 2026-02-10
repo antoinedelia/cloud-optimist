@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="fr-FR" dir="ltr">
     <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="Introduction La journée du 4 Avril 2024 avait bien commencé. Un petit café en main, un VS Code en plein ébulition, et de la douce musique électro dans les oreilles, tant de facteurs positifs qui ne pouvaient présager de la catastrophe à venir.\nMais laissez-moi vous donner un peu de contexte.\nLe contexte Je travaillais alors dans une équipe avec pour but de mettre à disposition une API Gateway globale sur AWS, avec plusieurs endpoints managés par différentes équipes. Concrètement, la mise en place de cette API Gateway était l&rsquo;étape initiale du projet. Cela comprenait un record DNS qui pointait vers cette API, l&rsquo;API Gateway elle-même, ainsi qu&rsquo;un Cognito Authorizer configuré avec plusieurs clients.\n">
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="La journée du 4 avril 2024 avait bien commencé. Un petit café en main, un VS Code en plein ébullition, et de la douce musique électro dans les oreilles, tant de facteurs positifs qui ne pouvaient présager de la catastrophe à venir.\nIncident Le contexte Je travaillais alors dans une équipe avec pour but de mettre à disposition une API Gateway globale sur AWS, avec plusieurs endpoints managés par différentes équipes. Concrètement, la mise en place de cette API Gateway était l&rsquo;étape initiale du projet. Cela comprenait un record DNS qui pointait vers cette API, l&rsquo;API Gateway elle-même, ainsi qu&rsquo;un Cognito Authorizer configuré avec plusieurs clients.\n">
 <title>Le jour où j&#39;ai accidentellement supprimé une API, et ce que cela m&#39;a appris sur le DevOps</title>
 
 <link rel='canonical' href='https://antoinedelia.github.io/cloud-optimist/pr-113/fr/posts/2025/the-day-i-accidentally-deleted-an-api-and-what-it-taught-me-about-devops/'>
 
 <link rel="stylesheet" href="/cloud-optimist/pr-113/scss/style.min.6a692fd055deae459f2a9767f57f3855ba80cafd5041317f24f7360f6ca47cdf.css"><meta property='og:title' content="Le jour où j'ai accidentellement supprimé une API, et ce que cela m'a appris sur le DevOps">
-<meta property='og:description' content="Introduction La journée du 4 Avril 2024 avait bien commencé. Un petit café en main, un VS Code en plein ébulition, et de la douce musique électro dans les oreilles, tant de facteurs positifs qui ne pouvaient présager de la catastrophe à venir.\nMais laissez-moi vous donner un peu de contexte.\nLe contexte Je travaillais alors dans une équipe avec pour but de mettre à disposition une API Gateway globale sur AWS, avec plusieurs endpoints managés par différentes équipes. Concrètement, la mise en place de cette API Gateway était l&rsquo;étape initiale du projet. Cela comprenait un record DNS qui pointait vers cette API, l&rsquo;API Gateway elle-même, ainsi qu&rsquo;un Cognito Authorizer configuré avec plusieurs clients.\n">
+<meta property='og:description' content="La journée du 4 avril 2024 avait bien commencé. Un petit café en main, un VS Code en plein ébullition, et de la douce musique électro dans les oreilles, tant de facteurs positifs qui ne pouvaient présager de la catastrophe à venir.\nIncident Le contexte Je travaillais alors dans une équipe avec pour but de mettre à disposition une API Gateway globale sur AWS, avec plusieurs endpoints managés par différentes équipes. Concrètement, la mise en place de cette API Gateway était l&rsquo;étape initiale du projet. Cela comprenait un record DNS qui pointait vers cette API, l&rsquo;API Gateway elle-même, ainsi qu&rsquo;un Cognito Authorizer configuré avec plusieurs clients.\n">
 <meta property='og:url' content='https://antoinedelia.github.io/cloud-optimist/pr-113/fr/posts/2025/the-day-i-accidentally-deleted-an-api-and-what-it-taught-me-about-devops/'>
 <meta property='og:site_name' content='The Cloud Optimist'>
-<meta property='og:type' content='article'><meta property='article:section' content='Posts' /><meta property='article:tag' content='S3' /><meta property='article:tag' content='API Gateway' /><meta property='article:tag' content='CloudFormation' /><meta property='article:tag' content='Cognito' /><meta property='article:tag' content='Terraform' /><meta property='article:tag' content='AWS' /><meta property='article:tag' content='Postmortem' /><meta property='article:published_time' content='2025-12-15T07:30:00&#43;01:00'/><meta property='article:modified_time' content='2025-12-15T07:30:00&#43;01:00'/><meta property='og:image' content='https://antoinedelia.github.io/cloud-optimist/pr-113/deleted-api.jpeg' />
+<meta property='og:type' content='article'><meta property='article:section' content='Posts' /><meta property='article:tag' content='S3' /><meta property='article:tag' content='API Gateway' /><meta property='article:tag' content='CloudFormation' /><meta property='article:tag' content='Cognito' /><meta property='article:tag' content='Terraform' /><meta property='article:tag' content='AWS' /><meta property='article:tag' content='Postmortem' /><meta property='article:published_time' content='2026-02-12T07:30:00&#43;01:00'/><meta property='article:modified_time' content='2026-02-12T07:30:00&#43;01:00'/><meta property='og:image' content='https://antoinedelia.github.io/cloud-optimist/pr-113/deleted-api.jpeg' />
 <meta name="twitter:title" content="Le jour où j'ai accidentellement supprimé une API, et ce que cela m'a appris sur le DevOps">
-<meta name="twitter:description" content="Introduction La journée du 4 Avril 2024 avait bien commencé. Un petit café en main, un VS Code en plein ébulition, et de la douce musique électro dans les oreilles, tant de facteurs positifs qui ne pouvaient présager de la catastrophe à venir.\nMais laissez-moi vous donner un peu de contexte.\nLe contexte Je travaillais alors dans une équipe avec pour but de mettre à disposition une API Gateway globale sur AWS, avec plusieurs endpoints managés par différentes équipes. Concrètement, la mise en place de cette API Gateway était l&rsquo;étape initiale du projet. Cela comprenait un record DNS qui pointait vers cette API, l&rsquo;API Gateway elle-même, ainsi qu&rsquo;un Cognito Authorizer configuré avec plusieurs clients.\n"><meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:description" content="La journée du 4 avril 2024 avait bien commencé. Un petit café en main, un VS Code en plein ébullition, et de la douce musique électro dans les oreilles, tant de facteurs positifs qui ne pouvaient présager de la catastrophe à venir.\nIncident Le contexte Je travaillais alors dans une équipe avec pour but de mettre à disposition une API Gateway globale sur AWS, avec plusieurs endpoints managés par différentes équipes. Concrètement, la mise en place de cette API Gateway était l&rsquo;étape initiale du projet. Cela comprenait un record DNS qui pointait vers cette API, l&rsquo;API Gateway elle-même, ainsi qu&rsquo;un Cognito Authorizer configuré avec plusieurs clients.\n"><meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:image" content='https://antoinedelia.github.io/cloud-optimist/pr-113/deleted-api.jpeg' />
     <link rel="shortcut icon" href="/favicon.ico" />
 
@@ -313,10 +313,13 @@
         <div class="widget--toc">
             <nav id="TableOfContents">
   <ol>
-    <li><a href="#introduction">Introduction</a></li>
-    <li><a href="#le-contexte">Le contexte</a></li>
-    <li><a href="#le-début-du-drame">Le début du drame</a></li>
-    <li><a href="#les-détails-dun-échec">Les détails d&rsquo;un échec</a></li>
+    <li><a href="#incident">Incident</a>
+      <ol>
+        <li><a href="#le-contexte">Le contexte</a></li>
+        <li><a href="#le-début-du-drame">Le début du drame</a></li>
+        <li><a href="#les-détails-dun-échec">Les détails d&rsquo;un échec</a></li>
+      </ol>
+    </li>
     <li><a href="#résolution">Résolution</a>
       <ol>
         <li><a href="#le-déclic">Le déclic</a></li>
@@ -403,7 +406,7 @@
   <path d="M3 11h16" />
   <path d="M18 16.496v1.504l1 1" />
 </svg>
-                <time class="article-time--published">15 déc. 2025</time>
+                <time class="article-time--published">12 févr. 2026</time>
             </div>
         
 
@@ -426,6 +429,25 @@
     
 
     
+        <footer class="article-translations">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+            <div>
+                
+                    <a href="https://antoinedelia.github.io/cloud-optimist/pr-113/en/posts/2025/the-day-i-accidentally-deleted-an-api-and-what-it-taught-me-about-devops/" class="link">English</a>
+                
+            </div>
+        </footer>
+    
 </div>
 
 </header>
@@ -433,28 +455,26 @@
     <section class="article-content">
     
     
-    <h1 id="introduction"><a href="#introduction" class="header-anchor"></a>Introduction
-</h1><p>La journée du 4 Avril 2024 avait bien commencé. Un petit café en main, un VS Code en plein ébulition, et de la douce musique électro dans les oreilles, tant de facteurs positifs qui ne pouvaient présager de la catastrophe à venir.</p>
-<p>Mais laissez-moi vous donner un peu de contexte.</p>
-<h1 id="le-contexte"><a href="#le-contexte" class="header-anchor"></a>Le contexte
-</h1><p>Je travaillais alors dans une équipe avec pour but de mettre à disposition une API Gateway globale sur AWS, avec plusieurs endpoints managés par différentes équipes. Concrètement, la mise en place de cette API Gateway était l&rsquo;étape initiale du projet. Cela comprenait un record DNS qui pointait vers cette API, l&rsquo;API Gateway elle-même, ainsi qu&rsquo;un Cognito Authorizer configuré avec plusieurs clients.</p>
+    <p>La journée du 4 avril 2024 avait bien commencé. Un petit café en main, un VS Code en plein ébullition, et de la douce musique électro dans les oreilles, tant de facteurs positifs qui ne pouvaient présager de la catastrophe à venir.</p>
+<h1 id="incident"><a href="#incident" class="header-anchor"></a>Incident
+</h1><h2 id="le-contexte"><a href="#le-contexte" class="header-anchor"></a>Le contexte
+</h2><p>Je travaillais alors dans une équipe avec pour but de mettre à disposition une API Gateway globale sur AWS, avec plusieurs endpoints managés par différentes équipes. Concrètement, la mise en place de cette API Gateway était l&rsquo;étape initiale du projet. Cela comprenait un record DNS qui pointait vers cette API, l&rsquo;API Gateway elle-même, ainsi qu&rsquo;un Cognito Authorizer configuré avec plusieurs clients.</p>
 <p>Une fois cette API prête, des équipes externes pouvaient alors déployer leurs propres endpoints sur cette API. Pour cela, une pipeline CI/CD était mise en place, et via CloudFormation, les endpoints se rattachaient directement à l&rsquo;API déjà créée.</p>
 <blockquote>
-<p>[!NOTE]</p>
 <p>Je simplifie au maximum, si des détails techniques vous intéressent, n&rsquo;hésitez pas à me contacter !</p>
 </blockquote>
 <p>De mon côté, en plus d&rsquo;être responsable de l&rsquo;infrastrcture globale de l&rsquo;API, il m&rsquo;arrivait de travailler ou de troubleshooter certains services.</p>
-<h1 id="le-début-du-drame"><a href="#le-d%c3%a9but-du-drame" class="header-anchor"></a>Le début du drame
-</h1><p>Si vous avez déjà travaillé avec CloudFormation, vous êtes peut-être familier avec le terme <code>UPDATE_ROLLBACK_FAILED</code>. C&rsquo;est ce qui arrive lorsque vous essayez de mettre à jour une stack CloudFormation, mais que celle-ci a rencontré un problème. Elle essaiera donc de faire un rollback. Mais si ce rollback n&rsquo;aboutit pas, votre stack sera alors en <code>UPDATE_ROLLBACK_FAILED</code>.</p>
+<h2 id="le-début-du-drame"><a href="#le-d%c3%a9but-du-drame" class="header-anchor"></a>Le début du drame
+</h2><p>Si vous avez déjà travaillé avec CloudFormation, vous êtes peut-être familier avec le terme <code>UPDATE_ROLLBACK_FAILED</code>. C&rsquo;est ce qui arrive lorsque vous essayez de mettre à jour une stack CloudFormation, mais que celle-ci a rencontré un problème. Elle essaiera donc de faire un rollback. Mais si ce rollback n&rsquo;aboutit pas, votre stack sera alors en <code>UPDATE_ROLLBACK_FAILED</code>.</p>
 <p>Et ce <code>UPDATE_ROLLBACK_FAILED</code> est bien embêtant, car vous ne pouvez plus relancer de déploiements tant que vous n&rsquo;avez pas résolu le problème.</p>
 <p>C&rsquo;est exactement ce qui s&rsquo;est passé ce fameux 4 Avril 2024. Un de nos services s&rsquo;est retrouvé dans cet état, et j&rsquo;ai commencé à investiguer le pourquoi du comment.</p>
-<p>Après quelques minutes, j&rsquo;ai constaté que le problème venait de la resource API elle-même. Sans trop réfléchir, et dans une optique de débloquer le problème rapidemement, je me suis rendu directement sur la console AWS, sur le service API Gateway. J&rsquo;ai cherché la resource en question, et me suis empressé de la supprimer.</p>
-<p>À ce moment précis, quelque chose de très étrange s&rsquo;est produit. Un comportement innatendu qui m&rsquo;a glacé le sang. Au lieu de me retrouver sur la même page, AWS m&rsquo;a renvoyé sur la page principal du service API Gateway. Cette même page qui liste vos APIs disponible, et qui affichait maintenant le nombre <code>0</code>.</p>
+<p>Après quelques minutes, j&rsquo;ai constaté que le problème venait de la ressource API elle-même. Sans trop réfléchir, et dans une optique de débloquer le problème rapidement, je me suis rendu directement sur la console AWS, sur le service API Gateway. J&rsquo;ai cherché la ressource en question, et me suis empressé de la supprimer.</p>
+<p>À ce moment précis, quelque chose de très étrange s&rsquo;est produit. Un comportement inattendu qui m&rsquo;a glacé le sang. Au lieu de me retrouver sur la même page, AWS m&rsquo;a renvoyé sur la page principale du service API Gateway. Cette même page qui liste vos APIs disponibles, et qui affichait maintenant le nombre <code>0</code>.</p>
 <p>J&rsquo;ai ainsi réalisé que je n&rsquo;avais pas supprimé la ressource API, mais bien l&rsquo;API Gateway dans sa totalité.</p>
-<h1 id="les-détails-dun-échec"><a href="#les-d%c3%a9tails-dun-%c3%a9chec" class="header-anchor"></a>Les détails d&rsquo;un échec
-</h1><p>Jamais je n&rsquo;aurais pensé commettre une telle bêtise. Et j&rsquo;imagine que vous lisant ces lignes, vous vous disez la même chose.</p>
+<h2 id="les-détails-dun-échec"><a href="#les-d%c3%a9tails-dun-%c3%a9chec" class="header-anchor"></a>Les détails d&rsquo;un échec
+</h2><p>Jamais je n&rsquo;aurais pensé commettre une telle bêtise. Et j&rsquo;imagine que vous lisant ces lignes, vous vous dites la même chose.</p>
 <p>Car pour se tromper, il fallait le faire !</p>
-<p>Laissez-moi vous faire une reconstitution de la scène du crime. Voici ce que j&rsquo;ai vu au moment où j&rsquo;ai pris la décision de supprimer une resource de l&rsquo;API Gateway.</p>
+<p>Laissez-moi vous faire une reconstitution de la scène du crime. Voici ce que j&rsquo;ai vu au moment où j&rsquo;ai pris la décision de supprimer une ressource de l&rsquo;API Gateway.</p>
 <p><img src="/img/the-day-i-accidentally-deleted-an-api-and-what-it-taught-me-about-devops/api_gateway_view.png"
 	
 	
@@ -492,7 +512,7 @@
 	
 ></p>
 <p>Tout ça, c&rsquo;est bien beau, mais les ingénieurs d&rsquo;AWS ont sous-estimé mon impatience. À ce moment-là, cette demande de confirmation n&rsquo;était pas une mise en garde, mais un obstacle à mon but de supprimer ma ressource. Ni une ni deux, j&rsquo;ai entré le mot <em>confirm</em>, et validé l&rsquo;opération.</p>
-<p>Voici donc la dernière chose que j&rsquo;ai vu avant de finalement réaliser l&rsquo;erreur que j&rsquo;avais commise.</p>
+<p>Voici donc la dernière chose que j&rsquo;ai vue avant de finalement réaliser l&rsquo;erreur que j&rsquo;avais commise.</p>
 <p><img src="/img/the-day-i-accidentally-deleted-an-api-and-what-it-taught-me-about-devops/successfully_deleted_api.png"
 	
 	
@@ -504,8 +524,8 @@
 	
 ></p>
 <p><em>Une vision d&rsquo;horreur</em></p>
-<p>Je voulais absolument vous retracer ce petit parcours pour vous faire comprendre une chose : vous aurez beau mettre en place toutes les sécurtiés possibles, <strong>vous ne pourrez jamais rien faire contre un individu impatient</strong>, car ce dernier ne saura pas lire vos avertissements.</p>
-<p>Alors, la prochaine fois que vous devrez faire une action somme toute innofensive, prenez bien le temps de lire et de vous assurer que vous êtes bel et bien sur le bon chemin.</p>
+<p>Je voulais absolument vous retracer ce petit parcours pour vous faire comprendre une chose : vous aurez beau mettre en place toutes les sécurités possibles, <strong>vous ne pourrez jamais rien faire contre un individu impatient</strong>, car ce dernier ne saura pas lire vos avertissements.</p>
+<p>Alors, la prochaine fois que vous devrez faire une action somme toute inoffensive, prenez bien le temps de lire et de vous assurer que vous êtes bel et bien sur le bon chemin.</p>
 <p>Cela étant dit, passons maintenant à une étape cruciale : la résolution de cet incident !</p>
 <h1 id="résolution"><a href="#r%c3%a9solution" class="header-anchor"></a>Résolution
 </h1><h2 id="le-déclic"><a href="#le-d%c3%a9clic" class="header-anchor"></a>Le déclic
@@ -524,34 +544,37 @@
 <p>Évidemment, cela n&rsquo;allait pas être aussi simple. La mise à jour de cette stack était maintenant impossible, car la suppression manuelle de l&rsquo;API avait fait rentrer la stack dans un état &ldquo;hybride&rdquo; dont elle n&rsquo;arrivait pas à se sortir.</p>
 <p>La mise à jour de cette stack étant impossible, la suite logique était de la supprimer afin de la déployer à nouveau proprement. Et c&rsquo;est là que les ennuis ont commencé. Cette fameuse stack CloudFormation produisait plusieurs Outputs. Deux de ces outputs étaient nécessaires à toutes les stacks &ldquo;enfants&rdquo; qui avaient jusqu&rsquo;alors déployé leurs endpoints sur cette API. Ainsi, CloudFormation m&rsquo;interdisait de supprimer ma stack, car elle pourrait impacter toutes les autres.</p>
 <p>Après plusieurs minutes de réflexion pour essayer de trouver d&rsquo;autres alternatives, cette forte interdépendance m&rsquo;amena à prendre une décision difficile : supprimer toutes les stacks &ldquo;enfants&rdquo; de CloudFormation, pour un total de 81 stacks.</p>
-<p>Pour couronner le tout, ces stacks &ldquo;enfants&rdquo; n&rsquo;avaient pas de tags identifiables qui auraient pour nous permettre d&rsquo;automatiser cette suppression. Heureusement, la plupart d&rsquo;entre elles avaient un nom avec un prefix reconnaissable, ce qui m&rsquo;a permis de faire un bon coup de ménage sur la plupart d&rsquo;entre elles.</p>
-<p>Je vous ai parlé d&rsquo;interdépendances ? Parce que ce n&rsquo;est pas fini ! Certaines stacks avaient déployé des buckets S3. Et devinez quoi ? CloudFormation ne voudra pas supprimer votre stack, si votre bucket S3 n&rsquo;est pas vide ! Et bien sûr, 14 stacks se sont retrouvées dans l&rsquo;état <code>DELETE_FAILED</code> à cause de cela. Heureusement, le problème se résoud assez facilement : après avoir fait un backup de chaque bucket, il suffit de les vider et de relancer la suppression de la stack.</p>
+<p>Pour couronner le tout, ces stacks &ldquo;enfants&rdquo; n&rsquo;avaient pas de tags identifiables qui auraient pu nous permettre d&rsquo;automatiser cette suppression. Heureusement, la plupart d&rsquo;entre elles avaient un nom avec un préfixe reconnaissable, ce qui m&rsquo;a permis de faire un bon coup de ménage sur la plupart d&rsquo;entre elles.</p>
+<p>Je vous ai parlé d&rsquo;interdépendances ? Parce que ce n&rsquo;est pas fini ! Certaines stacks avaient déployé des buckets S3. Et devinez quoi ? CloudFormation ne voudra pas supprimer votre stack, si votre bucket S3 n&rsquo;est pas vide ! Et bien sûr, 14 stacks se sont retrouvées dans l&rsquo;état <code>DELETE_FAILED</code> à cause de cela. Heureusement, le problème se résout assez facilement : après avoir fait un backup de chaque bucket, il suffit de les vider et de relancer la suppression de la stack.</p>
 <h2 id="déploiement-de-lapi--le-bout-du-tunnel-"><a href="#d%c3%a9ploiement-de-lapi--le-bout-du-tunnel-" class="header-anchor"></a>Déploiement de l&rsquo;API : Le bout du tunnel ?
 </h2><p>Étant venu à bout de toutes ces interdépendances, il était maintenant temps de supprimer la stack CloudFormation de l&rsquo;API Gateway, et de la déployer à nouveau.</p>
 <p>La suppression se passa sans plus de problème (Dieu merci), mais évidemment, cela ne fût pas le cas pour sa création.</p>
-<p>Déjà, parlons de la stack elle-même. Un fichier YML existait dans un repo GitHub, mais celui-ci n&rsquo;avait pas été mis à jour depuis des lustres, et je savais que je ferai mieux d&rsquo;utiliser la définition de la stack présente dans CloudFormation (et oui, je l&rsquo;ai quand même gardée, pas fou le gars).</p>
-<p>Cette stack ne déployait pas uniquement l&rsquo;API Gateway, mais plusieurs ressources AWS (je ne rentrerai pas dans les détails du pourquoi nous avions besoin de ces ressources dans cet article), dont des Lambdas. Ces dernières se basaient encore sur Python 3.7, mais dont <a class="link" href="https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtimes-deprecated"  target="_blank" rel="noopener"
+<p>Déjà, parlons de la stack elle-même. Un fichier YML existait dans un repo GitHub, mais celui-ci n&rsquo;avait pas été mis à jour depuis des lustres, et je savais que je ferais mieux d&rsquo;utiliser la définition de la stack présente dans CloudFormation (et oui, je l&rsquo;ai quand même gardée, pas fou le gars).</p>
+<p>Cette stack ne déployait pas uniquement l&rsquo;API Gateway, mais plusieurs ressources AWS (je ne rentrerai pas dans les détails du pourquoi nous avions besoin de ces ressources dans cet article), dont des Lambdas. Ces dernières se basaient encore sur Python 3.7, version avec laquelle <a class="link" href="https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtimes-deprecated"  target="_blank" rel="noopener"
     >il était impossible de se servir pour créer de nouvelles Lambdas</a>. Heureusement, un petit upgrade en Python 3.12 sera suffisant pour qu&rsquo;AWS nous laisse tranquille.</p>
 <p>Et, à ma grande surprise, la stack se déployait maintenant sans souci !</p>
-<p>Mais je vous la fait courte, il restait encore du pain sur la planche ! En effet, la stack CloudFormation manquait plusieurs ressources critiques à la bonne execution de notre API. Des ressources qui avaient été crées à la main dans AWS directement, faisant fi de toute bonne pratique d&rsquo;Infrastructure as Code (<em>pleure en Terraform</em>). Dans un souci de rétablissement du service le plus rapidement possible (on est DevOps, ou on ne l&rsquo;est pas !), ces ressources seront donc créées une nouvelle fois à la main.</p>
+<p>Mais je vous la fait courte, il restait encore du pain sur la planche ! En effet, il manquait à la stack CloudFormation plusieurs ressources critiques à la bonne exécution de notre API. Des ressources qui avaient été créées à la main dans AWS directement, faisant fi de toute bonne pratique d&rsquo;Infrastructure as Code (<em>pleure en Terraform</em>). Dans un souci de rétablissement du service le plus rapidement possible (on est DevOps, ou on ne l&rsquo;est pas !), ces ressources seront donc créées une nouvelle fois à la main.</p>
 <p>Pour finir, plusieurs composants clés faisaient référence à l&rsquo;ARN de l&rsquo;ancienne API en dur. Il fallait ainsi faire tout un travail d&rsquo;archéologie pour trouver tous les endroits où une mise à jour vers la nouvelle API s&rsquo;imposait.</p>
-<p>Finalement, après plusieurs heures de troubleshooting, l&rsquo;API était de nouveau opérationelle, et les développeurs pouvaient à nouveau déployer leurs projets.</p>
+<p>Finalement, après plusieurs heures de troubleshooting, l&rsquo;API était de nouveau opérationnelle, et les développeurs pouvaient à nouveau déployer leurs projets.</p>
 <p><strong>Cet incident aura démarré le 4 avril 2024 à 15h24, et se sera conclut le 5 avril 2024 à 08h46.</strong></p>
 <h1 id="post-mortem-et-lessons-learned"><a href="#post-mortem-et-lessons-learned" class="header-anchor"></a>Post-Mortem et Lessons Learned
 </h1><p>Pendant cet incident, j&rsquo;ai réalisé une prise de note intensive sur les actions menées. J&rsquo;avais déjà entendu parler du principe de Post-Mortem, et je pensais que cet incident serait le parfait candidat.</p>
 <p>Si vous ignorez le principe d&rsquo;un Post-Mortem, il agit comme un document retraçant les étapes de résolution d&rsquo;un incident, couvrant les impacts, et la root cause, mais surtout — et à mon sens le plus intéressant — comporte une section appellée <strong>Lessons Learned</strong>. Cette section, si vous la prenez au sérieux, sera votre meilleure alliée pour construire une architecture plus robuste et plus durable.</p>
-<p>Concrètement, vous allez notez dans cette section trois points clés : ce qui s&rsquo;est bien passé, ce qui s&rsquo;est mal passé, et là où vous avez eu de la chance. Et surtout, <strong>soyez honnêtes</strong> ! Même si certains points vous paraissent bêtes, ou vous font passer pour un incompétent (et je vous dis ça alors que j&rsquo;ai manuellement supprimé une API, donc prenez-le avec légèreté), le but n&rsquo;est pas de pointer du doigt (ce qu&rsquo;on appelle aussi la blameless culture), mais de comprendre les failles dans notre système, afin de les améliorer. Comme cité dans le livre SRE de Google : « The cost of failure is education. » <a class="link" href="https://sre.google/sre-book/postmortem-culture/"  target="_blank" rel="noopener"
-    >Source</a></p>
+<p>Concrètement, vous allez noter dans cette section trois points clés : ce qui s&rsquo;est bien passé, ce qui s&rsquo;est mal passé, et là où vous avez eu de la chance. Et surtout, <strong>soyez honnêtes</strong> ! Même si certains points vous paraissent bêtes, ou vous font passer pour un incompétent (et je vous dis ça alors que j&rsquo;ai manuellement supprimé une API, donc prenez-le avec légèreté), le but n&rsquo;est pas de pointer du doigt (ce qu&rsquo;on appelle aussi la blameless culture), mais de comprendre les failles dans notre système, afin de les améliorer.</p>
+<blockquote>
+<p>« The cost of failure is education. » — Devin Carraway (<a class="link" href="https://sre.google/sre-book/postmortem-culture/"  target="_blank" rel="noopener"
+    >Source</a>)</p>
+</blockquote>
 <p>Cela vous paraît peut-être encore un peu flou, alors laissez-moi vous montrer mes lessons learned de cet incident.</p>
 <h2 id="what-went-well"><a href="#what-went-well" class="header-anchor"></a>What went well
 </h2><p>Pendant cet incident, deux choses se sont bien passées.</p>
 <p>D&rsquo;abord, la résolution s&rsquo;est faite par un membre de l&rsquo;équipe qui connaissait en profondeur cette architecture, ce qui a permis de comprendre rapidement ce qui devait être remis en place pour restaurer le service.</p>
-<p>Enfin, il y a eu une bonne communication tout au long de cet incident. Lorsque le problème s&rsquo;est présenté, il n&rsquo;a pas essayé d&rsquo;être dissimulé, et des mises à jour fréquentes ont été annoncées pour avertir de l&rsquo;avancement de sa résolution. C&rsquo;est un point très important, car non seulement vous donnez de la visibilité sur vos actions, mais par la communication, vous pouvez aussi acquérir des informations utiles à la résolution de votre incident (un collègue pourra par exemple vous pointer vers une documentation dont vous n&rsquo;avez pas connaissance, ou vous donner un coup si nécessaire).</p>
+<p>Enfin, il y a eu une bonne communication tout au long de cet incident. Lorsque le problème s&rsquo;est présenté, il n&rsquo;a pas essayé d&rsquo;être dissimulé, et des mises à jour fréquentes ont été annoncées pour avertir de l&rsquo;avancement de sa résolution. C&rsquo;est un point très important, car non seulement vous donnez de la visibilité sur vos actions, mais par la communication, vous pouvez aussi acquérir des informations utiles à la résolution de votre incident (un collègue pourra par exemple vous pointer vers une documentation dont vous n&rsquo;avez pas connaissance, ou vous donner un coup de main si nécessaire).</p>
 <h2 id="what-went-wrong"><a href="#what-went-wrong" class="header-anchor"></a>What went wrong
 </h2><p>Ici, c&rsquo;est la partie qui fait mal. Comme je vous l&rsquo;ai dit, il faut ravaler sa fierté, et mettre en lumière tout ce qui aurait pu être mieux exécuté.</p>
 <p>Pour cet incident, quatre choses ne se sont pas bien passées.</p>
 <p>Pour commencer, l&rsquo;infrastrucutre de cette API n&rsquo;était non seulement pas consolidée dans un seul et même fichier (ou dossier), mais était en plus disséminée dans plusieurs repos GitHub. Il était ainsi très compliqué d&rsquo;avoir une vue d&rsquo;ensemble de ce qui était nécessaire au bon fonctionnement de cette API.</p>
-<p>Ensuite, un gros problème résidait dans ce qu&rsquo;on appelle le <strong>drift</strong>. Ce sont toutes les différences que vous avez entre votre infrastructure réelle, et votre infrastructure telle qu&rsquo;elle est définie dans votre code. Idéallement, aucune modification manuelle ne doit avoit lieu, et tout doit passer par votre fichier d&rsquo;Infrastructure as Code. Si cela avait était le cas, un simple redéploiement aurait permi une remise en service instantanée.</p>
+<p>Ensuite, un gros problème résidait dans ce qu&rsquo;on appelle le <strong>drift</strong>. Ce sont toutes les différences que vous avez entre votre infrastructure réelle, et votre infrastructure telle qu&rsquo;elle est définie dans votre code. Idéalement, aucune modification manuelle ne doit avoit lieu, et tout doit passer par votre fichier d&rsquo;Infrastructure as Code. Si cela avait était le cas, un simple redéploiement aurait permi une remise en service instantanée.</p>
 <p>Un autre problème résidait dans la forte interdépendance de toutes les ressources. Beaucoup par exemple se basaient sur un output de la stack CloudFormation. Si vous enlevez cette stack, vous enlevez ainsi la possibilité de déployer la suite de votre infrastructure.</p>
 <p>Enfin, l&rsquo;identification des ressources liées à notre infrastructure était difficile. Notre stack déployait les ressources sans aucun tag associé, ce qui rendait compliqué la recherche de toutes les ressources nécessaires à notre API.</p>
 <h2 id="where-we-got-lucky"><a href="#where-we-got-lucky" class="header-anchor"></a>Where we got lucky
@@ -563,7 +586,7 @@
 <h2 id="préparer-le-futur"><a href="#pr%c3%a9parer-le-futur" class="header-anchor"></a>Préparer le futur
 </h2><p>Maintenant que vous avez pu lister les problèmes rencontrés lors de la résolution de cet incident, en tant que bon DevOps, vous vous devez d&rsquo;en tirer les leçons. Notez bien tout ce qui pourrait être amélioré, mais surtout, fixez-vous un plan ! Sinon, ce ne seront que de vastes phrases sans utilité.</p>
 <blockquote>
-<p>Tout objectif sans plan n&rsquo;est qu&rsquo;un souhait. — Antoine de Saint-Exupéry</p>
+<p>« Tout objectif sans plan n&rsquo;est qu&rsquo;un souhait. » — Antoine de Saint-Exupéry</p>
 </blockquote>
 <p>Dans mon cas, les trois leçons clés ont été les suivantes :</p>
 <ul>

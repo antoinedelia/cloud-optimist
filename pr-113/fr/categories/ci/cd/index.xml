@@ -12,7 +12,7 @@
         <pubDate>Thu, 12 Feb 2026 07:30:00 +0100</pubDate>
         
         <guid>https://antoinedelia.github.io/cloud-optimist/pr-113/fr/posts/2025/the-day-i-accidentally-deleted-an-api-and-what-it-taught-me-about-devops/</guid>
-        <description>&lt;img src="https://antoinedelia.github.io/cloud-optimist/pr-113/deleted-api.png" alt="Featured image of post Le jour où j&#39;ai accidentellement supprimé une API, et ce que cela m&#39;a appris sur le DevOps" /&gt;&lt;p&gt;La journée du 4 avril 2024 avait bien commencé. Un petit café en main, un VS Code en plein ébullition, et de la douce musique électro dans les oreilles, tant de facteurs positifs qui ne pouvaient présager de la catastrophe à venir.&lt;/p&gt;
+        <description>&lt;img src="https://antoinedelia.github.io/cloud-optimist/pr-113/fr/posts/2025/the-day-i-accidentally-deleted-an-api-and-what-it-taught-me-about-devops/deleted_api.png" alt="Featured image of post Le jour où j&#39;ai accidentellement supprimé une API, et ce que cela m&#39;a appris sur le DevOps" /&gt;&lt;p&gt;La journée du 4 avril 2024 avait bien commencé. Un petit café en main, un VS Code en plein ébullition, et de la douce musique électro dans les oreilles, tant de facteurs positifs qui ne pouvaient présager de la catastrophe à venir.&lt;/p&gt;
 &lt;p&gt;Aujourd&amp;rsquo;hui, j&amp;rsquo;aimerai vous raconter comment une journée en apparence tranquille est devenue un moment marquant de ma carrière de DevOps !&lt;/p&gt;
 &lt;h1 id=&#34;incident&#34;&gt;&lt;a href=&#34;#incident&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Incident
 &lt;/h1&gt;&lt;h2 id=&#34;le-contexte&#34;&gt;&lt;a href=&#34;#le-contexte&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Le contexte

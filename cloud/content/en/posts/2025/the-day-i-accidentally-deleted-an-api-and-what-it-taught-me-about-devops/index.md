@@ -12,7 +12,7 @@ tags:
     - AWS
     - Postmortem
 categories: [ Infrastructure as Code, DevOps, CI/CD, Cloud ]
-image: deleted-api.jpeg
+image: deleted-api.png
 ---
 
 April 4, 2024, had started off so well. A hot coffee in hand, VS Code humming with activity, and smooth electronic music in my ears—all the ingredients for a perfect day that surely couldn't foreshadow the coming disaster.

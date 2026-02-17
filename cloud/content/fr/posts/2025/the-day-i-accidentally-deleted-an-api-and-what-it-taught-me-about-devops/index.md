@@ -1,8 +1,8 @@
 ---
 title: "Le jour où j'ai accidentellement supprimé une API, et ce que cela m'a appris sur le DevOps"
-date: 2026-02-12T07:30:00+01:00
+date: 2026-02-17T07:30:00+01:00
 author: Antoine Delia
-draft: true
+draft: false
 tags:
     - S3
     - API Gateway
@@ -19,6 +19,7 @@ La journée du 4 avril 2024 avait bien commencé. Un petit café en main, un VS 
 
 Aujourd'hui, j'aimerai vous raconter comment une journée en apparence tranquille est devenue un moment marquant de ma carrière de DevOps !
 
+![Le calme avant la tempête](/img/the-day-i-accidentally-deleted-an-api-and-what-it-taught-me-about-devops/calm_before_storm.png)
 
 # Incident
 
@@ -38,7 +39,7 @@ Si vous avez déjà travaillé avec CloudFormation, vous êtes peut-être famili
 
 Et ce `UPDATE_ROLLBACK_FAILED` est bien embêtant, car vous ne pouvez plus relancer de déploiements tant que vous n'avez pas résolu le problème.
 
-C'est exactement ce qui s'est passé ce fameux 4 Avril 2024. Un de nos services s'est retrouvé dans cet état, et j'ai commencé à investiguer le pourquoi du comment.
+C'est exactement ce qui s'est passé ce fameux 4 avril 2024. Un de nos services s'est retrouvé dans cet état, et j'ai commencé à investiguer le pourquoi du comment.
 
 Après quelques minutes, j'ai constaté que le problème venait de la ressource API elle-même. Sans trop réfléchir, et dans une optique de débloquer le problème rapidement, je me suis rendu directement sur la console AWS, sur le service API Gateway. J'ai cherché la ressource en question, et me suis empressé de la supprimer.
 

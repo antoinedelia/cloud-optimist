@@ -73,6 +73,9 @@ jobs:
     name: '[Hugo] Build & Deploy'
     runs-on: ubuntu-latest
     needs: terraform
+    permissions:
+      id-token: write
+      contents: read
     defaults:
       run:
         shell: bash

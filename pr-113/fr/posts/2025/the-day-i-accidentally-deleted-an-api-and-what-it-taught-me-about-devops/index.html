@@ -10,7 +10,7 @@
 <meta property='og:description' content="La journée du 4 avril 2024 avait bien commencé. Un petit café en main, un VS Code en plein ébullition, et de la douce musique électro dans les oreilles, tant de facteurs positifs qui ne pouvaient présager de la catastrophe à venir.\nAujourd&rsquo;hui, j&rsquo;aimerai vous raconter comment une journée en apparence tranquille est devenue un moment marquant de ma carrière de DevOps !\nIncident Le contexte Je travaillais alors dans une équipe avec pour but de mettre à disposition une API Gateway globale sur AWS, avec plusieurs endpoints managés par différentes équipes. Concrètement, la mise en place de cette API Gateway était l&rsquo;étape initiale du projet. Cela comprenait un record DNS qui pointait vers cette API, l&rsquo;API Gateway elle-même, ainsi qu&rsquo;un Cognito Authorizer configuré avec plusieurs clients.\n">
 <meta property='og:url' content='https://antoinedelia.github.io/cloud-optimist/pr-113/fr/posts/2025/the-day-i-accidentally-deleted-an-api-and-what-it-taught-me-about-devops/'>
 <meta property='og:site_name' content='The Cloud Optimist'>
-<meta property='og:type' content='article'><meta property='article:section' content='Posts' /><meta property='article:tag' content='S3' /><meta property='article:tag' content='API Gateway' /><meta property='article:tag' content='CloudFormation' /><meta property='article:tag' content='Cognito' /><meta property='article:tag' content='Terraform' /><meta property='article:tag' content='AWS' /><meta property='article:tag' content='Postmortem' /><meta property='article:published_time' content='2026-02-12T07:30:00&#43;01:00'/><meta property='article:modified_time' content='2026-02-12T07:30:00&#43;01:00'/><meta property='og:image' content='https://antoinedelia.github.io/cloud-optimist/pr-113/fr/posts/2025/the-day-i-accidentally-deleted-an-api-and-what-it-taught-me-about-devops/deleted_api.png' />
+<meta property='og:type' content='article'><meta property='article:section' content='Posts' /><meta property='article:tag' content='S3' /><meta property='article:tag' content='API Gateway' /><meta property='article:tag' content='CloudFormation' /><meta property='article:tag' content='Cognito' /><meta property='article:tag' content='Terraform' /><meta property='article:tag' content='AWS' /><meta property='article:tag' content='Postmortem' /><meta property='article:published_time' content='2026-02-17T07:30:00&#43;01:00'/><meta property='article:modified_time' content='2026-02-17T07:30:00&#43;01:00'/><meta property='og:image' content='https://antoinedelia.github.io/cloud-optimist/pr-113/fr/posts/2025/the-day-i-accidentally-deleted-an-api-and-what-it-taught-me-about-devops/deleted_api.png' />
 <meta name="twitter:title" content="Le jour où j'ai accidentellement supprimé une API, et ce que cela m'a appris sur le DevOps">
 <meta name="twitter:description" content="La journée du 4 avril 2024 avait bien commencé. Un petit café en main, un VS Code en plein ébullition, et de la douce musique électro dans les oreilles, tant de facteurs positifs qui ne pouvaient présager de la catastrophe à venir.\nAujourd&rsquo;hui, j&rsquo;aimerai vous raconter comment une journée en apparence tranquille est devenue un moment marquant de ma carrière de DevOps !\nIncident Le contexte Je travaillais alors dans une équipe avec pour but de mettre à disposition une API Gateway globale sur AWS, avec plusieurs endpoints managés par différentes équipes. Concrètement, la mise en place de cette API Gateway était l&rsquo;étape initiale du projet. Cela comprenait un record DNS qui pointait vers cette API, l&rsquo;API Gateway elle-même, ainsi qu&rsquo;un Cognito Authorizer configuré avec plusieurs clients.\n"><meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:image" content='https://antoinedelia.github.io/cloud-optimist/pr-113/fr/posts/2025/the-day-i-accidentally-deleted-an-api-and-what-it-taught-me-about-devops/deleted_api.png' />
@@ -410,7 +410,7 @@
   <path d="M3 11h16" />
   <path d="M18 16.496v1.504l1 1" />
 </svg>
-                <time class="article-time--published">12 févr. 2026</time>
+                <time class="article-time--published">17 févr. 2026</time>
             </div>
         
 
@@ -461,6 +461,16 @@
     
     <p>La journée du 4 avril 2024 avait bien commencé. Un petit café en main, un VS Code en plein ébullition, et de la douce musique électro dans les oreilles, tant de facteurs positifs qui ne pouvaient présager de la catastrophe à venir.</p>
 <p>Aujourd&rsquo;hui, j&rsquo;aimerai vous raconter comment une journée en apparence tranquille est devenue un moment marquant de ma carrière de DevOps !</p>
+<p><img src="/img/the-day-i-accidentally-deleted-an-api-and-what-it-taught-me-about-devops/calm_before_storm.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="Le calme avant la tempête"
+	
+	
+></p>
 <h1 id="incident"><a href="#incident" class="header-anchor"></a>Incident
 </h1><h2 id="le-contexte"><a href="#le-contexte" class="header-anchor"></a>Le contexte
 </h2><p>Je travaillais alors dans une équipe avec pour but de mettre à disposition une API Gateway globale sur AWS, avec plusieurs endpoints managés par différentes équipes. Concrètement, la mise en place de cette API Gateway était l&rsquo;étape initiale du projet. Cela comprenait un record DNS qui pointait vers cette API, l&rsquo;API Gateway elle-même, ainsi qu&rsquo;un Cognito Authorizer configuré avec plusieurs clients.</p>
@@ -472,7 +482,7 @@
 <h2 id="le-début-du-drame"><a href="#le-d%c3%a9but-du-drame" class="header-anchor"></a>Le début du drame
 </h2><p>Si vous avez déjà travaillé avec CloudFormation, vous êtes peut-être familier avec le terme <code>UPDATE_ROLLBACK_FAILED</code>. C&rsquo;est ce qui arrive lorsque vous essayez de mettre à jour une stack CloudFormation, mais que celle-ci a rencontré un problème. Elle essaiera donc de faire un rollback. Mais si ce rollback n&rsquo;aboutit pas, votre stack sera alors en <code>UPDATE_ROLLBACK_FAILED</code>.</p>
 <p>Et ce <code>UPDATE_ROLLBACK_FAILED</code> est bien embêtant, car vous ne pouvez plus relancer de déploiements tant que vous n&rsquo;avez pas résolu le problème.</p>
-<p>C&rsquo;est exactement ce qui s&rsquo;est passé ce fameux 4 Avril 2024. Un de nos services s&rsquo;est retrouvé dans cet état, et j&rsquo;ai commencé à investiguer le pourquoi du comment.</p>
+<p>C&rsquo;est exactement ce qui s&rsquo;est passé ce fameux 4 avril 2024. Un de nos services s&rsquo;est retrouvé dans cet état, et j&rsquo;ai commencé à investiguer le pourquoi du comment.</p>
 <p>Après quelques minutes, j&rsquo;ai constaté que le problème venait de la ressource API elle-même. Sans trop réfléchir, et dans une optique de débloquer le problème rapidement, je me suis rendu directement sur la console AWS, sur le service API Gateway. J&rsquo;ai cherché la ressource en question, et me suis empressé de la supprimer.</p>
 <p>À ce moment précis, quelque chose de très étrange s&rsquo;est produit. Un comportement inattendu qui m&rsquo;a glacé le sang. Au lieu de me retrouver sur la même page, AWS m&rsquo;a renvoyé sur la page principale du service API Gateway. Cette même page qui liste vos APIs disponibles, et qui affichait maintenant le nombre <code>0</code>.</p>
 <p>J&rsquo;ai ainsi réalisé que je n&rsquo;avais pas supprimé la ressource API, mais bien l&rsquo;API Gateway dans sa totalité.</p>

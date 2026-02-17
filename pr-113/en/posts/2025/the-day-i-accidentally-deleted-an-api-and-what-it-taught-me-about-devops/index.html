@@ -10,7 +10,7 @@
 <meta property='og:description' content="April 4, 2024, had started off so well. A hot coffee in hand, VS Code humming with activity, and smooth electronic music in my ears—all the ingredients for a perfect day that surely couldn&rsquo;t foreshadow the coming disaster.\nToday, I&rsquo;d like to tell you how a seemingly quiet day became a defining moment in my DevOps career!\nIncident The Context At the time, I was working in a team tasked with providing a global API Gateway on AWS, featuring several endpoints managed by different teams. Specifically, setting up this API Gateway was the initial phase of the project. It included a DNS record pointing to the API, the API Gateway itself, and a Cognito Authorizer configured with several clients.\n">
 <meta property='og:url' content='https://antoinedelia.github.io/cloud-optimist/pr-113/en/posts/2025/the-day-i-accidentally-deleted-an-api-and-what-it-taught-me-about-devops/'>
 <meta property='og:site_name' content='The Cloud Optimist'>
-<meta property='og:type' content='article'><meta property='article:section' content='Posts' /><meta property='article:tag' content='S3' /><meta property='article:tag' content='API Gateway' /><meta property='article:tag' content='CloudFormation' /><meta property='article:tag' content='Cognito' /><meta property='article:tag' content='Terraform' /><meta property='article:tag' content='AWS' /><meta property='article:tag' content='Postmortem' /><meta property='article:published_time' content='2026-02-12T07:30:00&#43;01:00'/><meta property='article:modified_time' content='2026-02-12T07:30:00&#43;01:00'/><meta property='og:image' content='https://antoinedelia.github.io/cloud-optimist/pr-113/fr/posts/2025/the-day-i-accidentally-deleted-an-api-and-what-it-taught-me-about-devops/deleted_api.png' />
+<meta property='og:type' content='article'><meta property='article:section' content='Posts' /><meta property='article:tag' content='S3' /><meta property='article:tag' content='API Gateway' /><meta property='article:tag' content='CloudFormation' /><meta property='article:tag' content='Cognito' /><meta property='article:tag' content='Terraform' /><meta property='article:tag' content='AWS' /><meta property='article:tag' content='Postmortem' /><meta property='article:published_time' content='2026-02-17T07:30:00&#43;01:00'/><meta property='article:modified_time' content='2026-02-17T07:30:00&#43;01:00'/><meta property='og:image' content='https://antoinedelia.github.io/cloud-optimist/pr-113/fr/posts/2025/the-day-i-accidentally-deleted-an-api-and-what-it-taught-me-about-devops/deleted_api.png' />
 <meta name="twitter:title" content="The Day I Accidentally Deleted An Api and What It Taught Me About Devops">
 <meta name="twitter:description" content="April 4, 2024, had started off so well. A hot coffee in hand, VS Code humming with activity, and smooth electronic music in my ears—all the ingredients for a perfect day that surely couldn&rsquo;t foreshadow the coming disaster.\nToday, I&rsquo;d like to tell you how a seemingly quiet day became a defining moment in my DevOps career!\nIncident The Context At the time, I was working in a team tasked with providing a global API Gateway on AWS, featuring several endpoints managed by different teams. Specifically, setting up this API Gateway was the initial phase of the project. It included a DNS record pointing to the API, the API Gateway itself, and a Cognito Authorizer configured with several clients.\n"><meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:image" content='https://antoinedelia.github.io/cloud-optimist/pr-113/fr/posts/2025/the-day-i-accidentally-deleted-an-api-and-what-it-taught-me-about-devops/deleted_api.png' />
@@ -410,7 +410,7 @@
   <path d="M3 11h16" />
   <path d="M18 16.496v1.504l1 1" />
 </svg>
-                <time class="article-time--published">Feb 12, 2026</time>
+                <time class="article-time--published">Feb 17, 2026</time>
             </div>
         
 
@@ -461,6 +461,16 @@
     
     <p>April 4, 2024, had started off so well. A hot coffee in hand, VS Code humming with activity, and smooth electronic music in my ears—all the ingredients for a perfect day that surely couldn&rsquo;t foreshadow the coming disaster.</p>
 <p>Today, I&rsquo;d like to tell you how a seemingly quiet day became a defining moment in my DevOps career!</p>
+<p><img src="/img/the-day-i-accidentally-deleted-an-api-and-what-it-taught-me-about-devops/calm_before_storm.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="Calm before the storm"
+	
+	
+></p>
 <h1 id="incident"><a href="#incident" class="header-anchor"></a>Incident
 </h1><h2 id="the-context"><a href="#the-context" class="header-anchor"></a>The Context
 </h2><p>At the time, I was working in a team tasked with providing a global API Gateway on AWS, featuring several endpoints managed by different teams. Specifically, setting up this API Gateway was the initial phase of the project. It included a DNS record pointing to the API, the API Gateway itself, and a Cognito Authorizer configured with several clients.</p>

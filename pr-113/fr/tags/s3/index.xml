@@ -6,14 +6,24 @@
         <description>Recent content in S3 on The Cloud Optimist</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>fr-FR</language>
-        <lastBuildDate>Thu, 12 Feb 2026 07:30:00 +0100</lastBuildDate><atom:link href="https://antoinedelia.github.io/cloud-optimist/pr-113/fr/tags/s3/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Tue, 17 Feb 2026 07:30:00 +0100</lastBuildDate><atom:link href="https://antoinedelia.github.io/cloud-optimist/pr-113/fr/tags/s3/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>Le jour où j&#39;ai accidentellement supprimé une API, et ce que cela m&#39;a appris sur le DevOps</title>
         <link>https://antoinedelia.github.io/cloud-optimist/pr-113/fr/posts/2025/the-day-i-accidentally-deleted-an-api-and-what-it-taught-me-about-devops/</link>
-        <pubDate>Thu, 12 Feb 2026 07:30:00 +0100</pubDate>
+        <pubDate>Tue, 17 Feb 2026 07:30:00 +0100</pubDate>
         
         <guid>https://antoinedelia.github.io/cloud-optimist/pr-113/fr/posts/2025/the-day-i-accidentally-deleted-an-api-and-what-it-taught-me-about-devops/</guid>
         <description>&lt;img src="https://antoinedelia.github.io/cloud-optimist/pr-113/fr/posts/2025/the-day-i-accidentally-deleted-an-api-and-what-it-taught-me-about-devops/deleted_api.png" alt="Featured image of post Le jour où j&#39;ai accidentellement supprimé une API, et ce que cela m&#39;a appris sur le DevOps" /&gt;&lt;p&gt;La journée du 4 avril 2024 avait bien commencé. Un petit café en main, un VS Code en plein ébullition, et de la douce musique électro dans les oreilles, tant de facteurs positifs qui ne pouvaient présager de la catastrophe à venir.&lt;/p&gt;
 &lt;p&gt;Aujourd&amp;rsquo;hui, j&amp;rsquo;aimerai vous raconter comment une journée en apparence tranquille est devenue un moment marquant de ma carrière de DevOps !&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://antoinedelia.github.io/cloud-optimist/pr-113/img/the-day-i-accidentally-deleted-an-api-and-what-it-taught-me-about-devops/calm_before_storm.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Le calme avant la tempête&#34;
+	
+	
+&gt;&lt;/p&gt;
 &lt;h1 id=&#34;incident&#34;&gt;&lt;a href=&#34;#incident&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Incident
 &lt;/h1&gt;&lt;h2 id=&#34;le-contexte&#34;&gt;&lt;a href=&#34;#le-contexte&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Le contexte
 &lt;/h2&gt;&lt;p&gt;Je travaillais alors dans une équipe avec pour but de mettre à disposition une API Gateway globale sur AWS, avec plusieurs endpoints managés par différentes équipes. Concrètement, la mise en place de cette API Gateway était l&amp;rsquo;étape initiale du projet. Cela comprenait un record DNS qui pointait vers cette API, l&amp;rsquo;API Gateway elle-même, ainsi qu&amp;rsquo;un Cognito Authorizer configuré avec plusieurs clients.&lt;/p&gt;
@@ -25,7 +35,7 @@
 &lt;h2 id=&#34;le-début-du-drame&#34;&gt;&lt;a href=&#34;#le-d%c3%a9but-du-drame&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Le début du drame
 &lt;/h2&gt;&lt;p&gt;Si vous avez déjà travaillé avec CloudFormation, vous êtes peut-être familier avec le terme &lt;code&gt;UPDATE_ROLLBACK_FAILED&lt;/code&gt;. C&amp;rsquo;est ce qui arrive lorsque vous essayez de mettre à jour une stack CloudFormation, mais que celle-ci a rencontré un problème. Elle essaiera donc de faire un rollback. Mais si ce rollback n&amp;rsquo;aboutit pas, votre stack sera alors en &lt;code&gt;UPDATE_ROLLBACK_FAILED&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;Et ce &lt;code&gt;UPDATE_ROLLBACK_FAILED&lt;/code&gt; est bien embêtant, car vous ne pouvez plus relancer de déploiements tant que vous n&amp;rsquo;avez pas résolu le problème.&lt;/p&gt;
-&lt;p&gt;C&amp;rsquo;est exactement ce qui s&amp;rsquo;est passé ce fameux 4 Avril 2024. Un de nos services s&amp;rsquo;est retrouvé dans cet état, et j&amp;rsquo;ai commencé à investiguer le pourquoi du comment.&lt;/p&gt;
+&lt;p&gt;C&amp;rsquo;est exactement ce qui s&amp;rsquo;est passé ce fameux 4 avril 2024. Un de nos services s&amp;rsquo;est retrouvé dans cet état, et j&amp;rsquo;ai commencé à investiguer le pourquoi du comment.&lt;/p&gt;
 &lt;p&gt;Après quelques minutes, j&amp;rsquo;ai constaté que le problème venait de la ressource API elle-même. Sans trop réfléchir, et dans une optique de débloquer le problème rapidement, je me suis rendu directement sur la console AWS, sur le service API Gateway. J&amp;rsquo;ai cherché la ressource en question, et me suis empressé de la supprimer.&lt;/p&gt;
 &lt;p&gt;À ce moment précis, quelque chose de très étrange s&amp;rsquo;est produit. Un comportement inattendu qui m&amp;rsquo;a glacé le sang. Au lieu de me retrouver sur la même page, AWS m&amp;rsquo;a renvoyé sur la page principale du service API Gateway. Cette même page qui liste vos APIs disponibles, et qui affichait maintenant le nombre &lt;code&gt;0&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;J&amp;rsquo;ai ainsi réalisé que je n&amp;rsquo;avais pas supprimé la ressource API, mais bien l&amp;rsquo;API Gateway dans sa totalité.&lt;/p&gt;

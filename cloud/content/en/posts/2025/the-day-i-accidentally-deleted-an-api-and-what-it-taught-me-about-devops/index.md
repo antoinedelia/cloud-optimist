@@ -51,7 +51,7 @@ I realized then that I hadn't deleted a specific resource *within* the API, but 
 
 I never thought I’d make such a rookie mistake. And I imagine as you read this, you’re thinking the same thing.
 
-Because to get it that wrong, you really have to try!
+Because to get it that wrong, **you really have to try!**
 
 Let me reconstruct the crime scene for you. Here is what I saw when I decided to delete a resource from the API Gateway.
 
@@ -113,13 +113,13 @@ First, I went to the CloudFormation service, remembering that this API was origi
 
 Obviously, it wasn't going to be that simple. Updating the stack was impossible because the manual deletion had put the stack into a "hybrid" state that it couldn't reconcile.
 
-Since updating was out of the question, the logical next step was to delete the stack and redeploy it from scratch. That’s when the real trouble started. This CloudFormation stack produced several Outputs. Two of these were required by "child" stacks that had deployed their endpoints on the API. Consequently, CloudFormation blocked me from deleting the stack because it would break all the others.
+Since updating was out of the question, the logical next step was to delete the stack and redeploy it from scratch. That’s when the real trouble started. This CloudFormation stack produced several Outputs. **Two of these were required by "child" stacks** that had deployed their endpoints on the API. Consequently, CloudFormation blocked me from deleting the stack because it would break all the others.
 
 After brainstorming alternatives, this heavy interdependence led me to a tough decision: I had to delete all the "child" stacks in CloudFormation—a total of 81 stacks.
 
 To make matters worse, these child stacks didn't have identifiable tags that would have allowed us to automate the cleanup. Fortunately, most of them used a recognizable name prefix, which allowed me to clear out the bulk of them manually.
 
-Did I mention interdependencies? Because we're not done! Some stacks had deployed S3 buckets. And guess what? CloudFormation won't delete a stack if the S3 bucket isn't empty. Naturally, 14 stacks got stuck in `DELETE_FAILED`. Luckily, the fix is straightforward: back up each bucket, empty it, and retry the stack deletion.
+Did I mention **interdependencies**? Because we're not done! Some stacks had deployed S3 buckets. And guess what? CloudFormation won't delete a stack if the S3 bucket isn't empty. Naturally, 14 stacks got stuck in `DELETE_FAILED`. Luckily, the fix is straightforward: back up each bucket, empty it, and retry the stack deletion.
 
 ## Deploying the API: Light at the End of the Tunnel?
 
@@ -127,7 +127,7 @@ Having finally cleared the web of interdependencies, it was time to delete the o
 
 The deletion went smoothly (thank God), but—naturally—the creation did not.
 
-First, the stack itself. A YML file existed in a GitHub repo, but it hadn't been updated in ages. I knew I was better off using the stack definition stored within CloudFormation (and yes, I had saved a copy—I'm not that crazy).
+First, the stack itself. A YML file existed in a GitHub repo, but **it hadn't been updated in ages**. I knew I was better off using the stack definition stored within CloudFormation (and yes, I had saved a copy—I'm not that crazy).
 
 This stack didn't just deploy the API Gateway; it handled several AWS resources, including Lambdas. These Lambdas were still running on Python 3.7, a version that [AWS no longer allows for creating new Lambdas](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtimes-deprecated). Fortunately, a quick upgrade to Python 3.12 was enough to satisfy the AWS gods.
 
@@ -143,7 +143,7 @@ Ultimately, after several hours of troubleshooting, the API was back up and runn
 
 # Post-Mortem and Lessons Learned
 
-Throughout the incident, I took intensive notes on every action taken. Having heard of the Post-Mortem principle, I knew this incident was the perfect candidate.
+Throughout the incident, I took intensive notes on every action taken. Having heard of the **Post-Mortem** principle, I knew this incident was the perfect candidate.
 
 If you're unfamiliar with the concept, a Post-Mortem is a document that retraces the steps of an incident, its impact, and its root cause. But most importantly—and most interestingly—it includes a **Lessons Learned** section. If you take this part seriously, it will be your best ally in building a more robust architecture.
 
@@ -154,35 +154,35 @@ In this section, you note three key points: what went well, what went wrong, and
 This might still feel a bit abstract, so let me share my lessons learned from this incident.
 
 ## What went well
-Two things went well during this incident.
+**Two things went well** during this incident.
 
-First, the resolution was handled by a team member who knew the architecture inside out. This allowed for a quick understanding of what needed to be restored to get the service back online.
+First, the resolution was handled by **a team member who knew the architecture inside out**. This allowed for a quick understanding of what needed to be restored to get the service back online.
 
-Second, there was excellent communication throughout. When the problem occurred, there was no attempt to hide it. Frequent updates were shared to report on progress. This is crucial—not only does it provide visibility, but communication often leads to helpful tips (like a colleague pointing you toward documentation you didn't know existed).
+Second, there was **excellent communication throughout**. When the problem occurred, there was no attempt to hide it. Frequent updates were shared to report on progress. This is crucial—not only does it provide visibility, but communication often leads to helpful tips (like a colleague pointing you toward documentation you didn't know existed).
 
 ## What went wrong
 This is the part that hurts. As I mentioned, you have to swallow your pride and highlight everything that could have been handled better.
 
-For this incident, four things went wrong.
+For this incident, **four things went wrong**.
 
-To start, the API infrastructure wasn't consolidated in a single file or folder; it was scattered across multiple GitHub repos. This made it very difficult to get a bird's-eye view of everything required for the API to function.
+To start, **the API infrastructure wasn't consolidated in a single file or folder**; it was scattered across multiple GitHub repos. This made it very difficult to get a bird's-eye view of everything required for the API to function.
 
 Next, there was a major issue with **drift**. This refers to the differences between your actual infrastructure and how it’s defined in your code. Ideally, no manual changes should ever occur, and everything should go through your IaC files. Had this been the case, a simple redeployment would have restored the service instantly.
 
-Another issue was the heavy interdependence between resources. Many relied on CloudFormation stack outputs. Removing the parent stack essentially crippled the ability to manage the rest of the infrastructure.
+Another issue was **the heavy interdependence between resources**. Many relied on CloudFormation stack outputs. Removing the parent stack essentially crippled the ability to manage the rest of the infrastructure.
 
-Finally, identifying resources tied to our infrastructure was difficult. Our stack deployed resources without any associated tags, making it a scavenger hunt to find every piece of the puzzle.
+Finally, identifying resources tied to our infrastructure was difficult. **Our stack deployed resources without any associated tags**, making it a scavenger hunt to find every piece of the puzzle.
 
 ## Where we got lucky
 This might sound positive, but it isn't! This category covers things that went well *only* because of luck. Realize that at any moment, these could have been in the "What went wrong" column. Be glad this time, but don't let your guard down!
 
-In this case, we got lucky in three ways.
+In this case, **we got lucky in three ways**.
 
-First, the incident was identified immediately (that’s the one perk of making a massive blunder yourself). But it could have been much worse! If the API had been deleted via an automated script, we had no monitoring in place to alert us.
+First, the incident was **identified immediately** (that’s the one perk of making a massive blunder yourself). But it could have been much worse! If the API had been deleted via an automated script, we had no monitoring in place to alert us.
 
 Second, the person who deleted the API had deep knowledge of the project (yes, I'm talking about myself—I have to give myself *some* credit). This allowed for an immediate transition into resolution mode, but it could have been someone else who was totally lost.
 
-Finally, this was our "Dev" API. The Production API was perfectly fine (a detail I intentionally saved for the end—you know, for the storytelling). So while the impact was minimal, the same incident could have happened in Prod with the same recovery nightmares. And that would have been much more expensive.
+Finally, **this was our "Dev" API**. The Production API was perfectly fine (a detail I intentionally saved for the end—you know, for the storytelling). So while the impact was minimal, the same incident could have happened in Prod with the same recovery nightmares. And that would have been much more expensive.
 
 ## Preparing for the Future
 

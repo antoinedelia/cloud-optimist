@@ -6,6 +6,13 @@ on:
     - master
     paths: ['cloud/**', 'terraform/**']
   pull_request:
+  workflow_dispatch:
+    inputs:
+      force_deploy:
+        description: 'Force a new deployment, ignoring path filters'
+        required: true
+        type: boolean
+        default: false
 
 jobs:
   terraform:
@@ -47,7 +54,7 @@ jobs:
 
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
     - name: Terraform Init
-      if: steps.filter.outputs.terraform == 'true'
+      if: steps.filter.outputs.terraform == 'true' || github.event.inputs.force_deploy == 'true'
       run: |
         terraform init \
           -backend-config="bucket=${{ secrets.S3_TERRAFORM_BUCKET }}" \
@@ -55,18 +62,18 @@ jobs:
 
     # Checks that all Terraform configuration files adhere to a canonical format
     - name: Terraform Format
-      if: steps.filter.outputs.terraform == 'true'
+      if: steps.filter.outputs.terraform == 'true' || github.event.inputs.force_deploy == 'true'
       run: terraform fmt -check
 
     # Generates an execution plan for Terraform
     - name: Terraform Plan
-      if: steps.filter.outputs.terraform == 'true'
+      if: steps.filter.outputs.terraform == 'true' || github.event.inputs.force_deploy == 'true'
       run: terraform plan
 
       # On push to master, build or change infrastructure according to Terraform configuration files
       # Note: It is recommended to set up a required "strict" status check in your repository for "Terraform Cloud". See the documentation on "strict" required status checks for more information: https://help.github.com/en/github/administering-a-repository/types-of-required-status-checks
     - name: Terraform Apply
-      if: steps.filter.outputs.terraform == 'true' && github.ref == 'refs/heads/master' && github.event_name == 'push'
+      if: (steps.filter.outputs.terraform == 'true' || github.event.inputs.force_deploy == 'true') && github.ref == 'refs/heads/master' && github.event_name == 'push'
       run: terraform apply -auto-approve
 
   hugo:
@@ -97,7 +104,7 @@ jobs:
         extended: true
 
     - name: Build
-      if: steps.filter.outputs.web == 'true'
+      if: steps.filter.outputs.web == 'true' || github.event.inputs.force_deploy == 'true'
       run: hugo
 
     - name: Configure AWS credentials
@@ -112,11 +119,11 @@ jobs:
         aws sts get-caller-identity
 
     - name: Sync directory to S3
-      if: steps.filter.outputs.web == 'true' && github.ref == 'refs/heads/master' && github.event_name == 'push'
+      if: (steps.filter.outputs.web == 'true' || github.event.inputs.force_deploy == 'true') && github.ref == 'refs/heads/master' && github.event_name == 'push'
       run: |
         aws s3 sync ./cloud/public s3://${{ secrets.AWS_S3_BUCKET }} --delete
 
     - name: Invalidate cache for CloudFront distribution
-      if: steps.filter.outputs.web == 'true' && github.ref == 'refs/heads/master' && github.event_name == 'push'
+      if: (steps.filter.outputs.web == 'true' || github.event.inputs.force_deploy == 'true') && github.ref == 'refs/heads/master' && github.event_name == 'push'
       run: |
         for id in $(aws cloudfront list-distributions --query "DistributionList.Items[*].{id:Id,origin:Origins.Items[0].Id}[?origin=='${{ secrets.AWS_S3_BUCKET }}'].id" --output text);do aws cloudfront create-invalidation --distribution-id $id --paths "/*";done;

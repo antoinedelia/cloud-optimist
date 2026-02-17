@@ -121,7 +121,7 @@ jobs:
     - name: Sync directory to S3
       if: (steps.filter.outputs.web == 'true' || github.event.inputs.force_deploy == 'true') && github.ref == 'refs/heads/master' && (github.event_name == 'push' || github.event.inputs.force_deploy == 'true')
       run: |
-        aws s3 sync ./cloud/public s3://${{ secrets.AWS_S3_BUCKET }} --delete
+        aws s3 sync public s3://${{ secrets.AWS_S3_BUCKET }} --delete
 
     - name: Invalidate cache for CloudFront distribution
       if: (steps.filter.outputs.web == 'true' || github.event.inputs.force_deploy == 'true') && github.ref == 'refs/heads/master' && (github.event_name == 'push' || github.event.inputs.force_deploy == 'true')

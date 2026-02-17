@@ -488,7 +488,7 @@
 <p>I realized then that I hadn&rsquo;t deleted a specific resource <em>within</em> the API, but the entire API Gateway itself.</p>
 <h2 id="anatomy-of-a-failure"><a href="#anatomy-of-a-failure" class="header-anchor"></a>Anatomy of a Failure
 </h2><p>I never thought I’d make such a rookie mistake. And I imagine as you read this, you’re thinking the same thing.</p>
-<p>Because to get it that wrong, you really have to try!</p>
+<p>Because to get it that wrong, <strong>you really have to try!</strong></p>
 <p>Let me reconstruct the crime scene for you. Here is what I saw when I decided to delete a resource from the API Gateway.</p>
 <p><img src="/img/the-day-i-accidentally-deleted-an-api-and-what-it-taught-me-about-devops/api_gateway_view.png"
 	
@@ -557,14 +557,14 @@
 </h2><p>It was time to roll up my sleeves and find a way to redeploy the API Gateway.</p>
 <p>First, I went to the CloudFormation service, remembering that this API was originally deployed through it. I tried updating the stack, hoping it would bring my dear API back like magic.</p>
 <p>Obviously, it wasn&rsquo;t going to be that simple. Updating the stack was impossible because the manual deletion had put the stack into a &ldquo;hybrid&rdquo; state that it couldn&rsquo;t reconcile.</p>
-<p>Since updating was out of the question, the logical next step was to delete the stack and redeploy it from scratch. That’s when the real trouble started. This CloudFormation stack produced several Outputs. Two of these were required by &ldquo;child&rdquo; stacks that had deployed their endpoints on the API. Consequently, CloudFormation blocked me from deleting the stack because it would break all the others.</p>
+<p>Since updating was out of the question, the logical next step was to delete the stack and redeploy it from scratch. That’s when the real trouble started. This CloudFormation stack produced several Outputs. <strong>Two of these were required by &ldquo;child&rdquo; stacks</strong> that had deployed their endpoints on the API. Consequently, CloudFormation blocked me from deleting the stack because it would break all the others.</p>
 <p>After brainstorming alternatives, this heavy interdependence led me to a tough decision: I had to delete all the &ldquo;child&rdquo; stacks in CloudFormation—a total of 81 stacks.</p>
 <p>To make matters worse, these child stacks didn&rsquo;t have identifiable tags that would have allowed us to automate the cleanup. Fortunately, most of them used a recognizable name prefix, which allowed me to clear out the bulk of them manually.</p>
-<p>Did I mention interdependencies? Because we&rsquo;re not done! Some stacks had deployed S3 buckets. And guess what? CloudFormation won&rsquo;t delete a stack if the S3 bucket isn&rsquo;t empty. Naturally, 14 stacks got stuck in <code>DELETE_FAILED</code>. Luckily, the fix is straightforward: back up each bucket, empty it, and retry the stack deletion.</p>
+<p>Did I mention <strong>interdependencies</strong>? Because we&rsquo;re not done! Some stacks had deployed S3 buckets. And guess what? CloudFormation won&rsquo;t delete a stack if the S3 bucket isn&rsquo;t empty. Naturally, 14 stacks got stuck in <code>DELETE_FAILED</code>. Luckily, the fix is straightforward: back up each bucket, empty it, and retry the stack deletion.</p>
 <h2 id="deploying-the-api-light-at-the-end-of-the-tunnel"><a href="#deploying-the-api-light-at-the-end-of-the-tunnel" class="header-anchor"></a>Deploying the API: Light at the End of the Tunnel?
 </h2><p>Having finally cleared the web of interdependencies, it was time to delete the original API Gateway stack and redeploy it.</p>
 <p>The deletion went smoothly (thank God), but—naturally—the creation did not.</p>
-<p>First, the stack itself. A YML file existed in a GitHub repo, but it hadn&rsquo;t been updated in ages. I knew I was better off using the stack definition stored within CloudFormation (and yes, I had saved a copy—I&rsquo;m not that crazy).</p>
+<p>First, the stack itself. A YML file existed in a GitHub repo, but <strong>it hadn&rsquo;t been updated in ages</strong>. I knew I was better off using the stack definition stored within CloudFormation (and yes, I had saved a copy—I&rsquo;m not that crazy).</p>
 <p>This stack didn&rsquo;t just deploy the API Gateway; it handled several AWS resources, including Lambdas. These Lambdas were still running on Python 3.7, a version that <a class="link" href="https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtimes-deprecated"  target="_blank" rel="noopener"
     >AWS no longer allows for creating new Lambdas</a>. Fortunately, a quick upgrade to Python 3.12 was enough to satisfy the AWS gods.</p>
 <p>And, to my surprise, the stack finally deployed without a hitch!</p>
@@ -573,7 +573,7 @@
 <p>Ultimately, after several hours of troubleshooting, the API was back up and running, and developers could resume their deployments.</p>
 <p><strong>The incident began on April 4, 2024, at 3:24 PM and was resolved on April 5, 2024, at 8:46 AM.</strong></p>
 <h1 id="post-mortem-and-lessons-learned"><a href="#post-mortem-and-lessons-learned" class="header-anchor"></a>Post-Mortem and Lessons Learned
-</h1><p>Throughout the incident, I took intensive notes on every action taken. Having heard of the Post-Mortem principle, I knew this incident was the perfect candidate.</p>
+</h1><p>Throughout the incident, I took intensive notes on every action taken. Having heard of the <strong>Post-Mortem</strong> principle, I knew this incident was the perfect candidate.</p>
 <p>If you&rsquo;re unfamiliar with the concept, a Post-Mortem is a document that retraces the steps of an incident, its impact, and its root cause. But most importantly—and most interestingly—it includes a <strong>Lessons Learned</strong> section. If you take this part seriously, it will be your best ally in building a more robust architecture.</p>
 <p>In this section, you note three key points: what went well, what went wrong, and where you got lucky. And above all, <strong>be honest!</strong> Even if some points seem silly or make you look incompetent (and I’m saying this as the guy who manually deleted an API, so take it with a grain of salt), the goal isn&rsquo;t to point fingers (the &ldquo;blameless culture&rdquo;). It’s about understanding the flaws in the system so we can fix them.</p>
 <blockquote>
@@ -582,22 +582,22 @@
 </blockquote>
 <p>This might still feel a bit abstract, so let me share my lessons learned from this incident.</p>
 <h2 id="what-went-well"><a href="#what-went-well" class="header-anchor"></a>What went well
-</h2><p>Two things went well during this incident.</p>
-<p>First, the resolution was handled by a team member who knew the architecture inside out. This allowed for a quick understanding of what needed to be restored to get the service back online.</p>
-<p>Second, there was excellent communication throughout. When the problem occurred, there was no attempt to hide it. Frequent updates were shared to report on progress. This is crucial—not only does it provide visibility, but communication often leads to helpful tips (like a colleague pointing you toward documentation you didn&rsquo;t know existed).</p>
+</h2><p><strong>Two things went well</strong> during this incident.</p>
+<p>First, the resolution was handled by <strong>a team member who knew the architecture inside out</strong>. This allowed for a quick understanding of what needed to be restored to get the service back online.</p>
+<p>Second, there was <strong>excellent communication throughout</strong>. When the problem occurred, there was no attempt to hide it. Frequent updates were shared to report on progress. This is crucial—not only does it provide visibility, but communication often leads to helpful tips (like a colleague pointing you toward documentation you didn&rsquo;t know existed).</p>
 <h2 id="what-went-wrong"><a href="#what-went-wrong" class="header-anchor"></a>What went wrong
 </h2><p>This is the part that hurts. As I mentioned, you have to swallow your pride and highlight everything that could have been handled better.</p>
-<p>For this incident, four things went wrong.</p>
-<p>To start, the API infrastructure wasn&rsquo;t consolidated in a single file or folder; it was scattered across multiple GitHub repos. This made it very difficult to get a bird&rsquo;s-eye view of everything required for the API to function.</p>
+<p>For this incident, <strong>four things went wrong</strong>.</p>
+<p>To start, <strong>the API infrastructure wasn&rsquo;t consolidated in a single file or folder</strong>; it was scattered across multiple GitHub repos. This made it very difficult to get a bird&rsquo;s-eye view of everything required for the API to function.</p>
 <p>Next, there was a major issue with <strong>drift</strong>. This refers to the differences between your actual infrastructure and how it’s defined in your code. Ideally, no manual changes should ever occur, and everything should go through your IaC files. Had this been the case, a simple redeployment would have restored the service instantly.</p>
-<p>Another issue was the heavy interdependence between resources. Many relied on CloudFormation stack outputs. Removing the parent stack essentially crippled the ability to manage the rest of the infrastructure.</p>
-<p>Finally, identifying resources tied to our infrastructure was difficult. Our stack deployed resources without any associated tags, making it a scavenger hunt to find every piece of the puzzle.</p>
+<p>Another issue was <strong>the heavy interdependence between resources</strong>. Many relied on CloudFormation stack outputs. Removing the parent stack essentially crippled the ability to manage the rest of the infrastructure.</p>
+<p>Finally, identifying resources tied to our infrastructure was difficult. <strong>Our stack deployed resources without any associated tags</strong>, making it a scavenger hunt to find every piece of the puzzle.</p>
 <h2 id="where-we-got-lucky"><a href="#where-we-got-lucky" class="header-anchor"></a>Where we got lucky
 </h2><p>This might sound positive, but it isn&rsquo;t! This category covers things that went well <em>only</em> because of luck. Realize that at any moment, these could have been in the &ldquo;What went wrong&rdquo; column. Be glad this time, but don&rsquo;t let your guard down!</p>
-<p>In this case, we got lucky in three ways.</p>
-<p>First, the incident was identified immediately (that’s the one perk of making a massive blunder yourself). But it could have been much worse! If the API had been deleted via an automated script, we had no monitoring in place to alert us.</p>
+<p>In this case, <strong>we got lucky in three ways</strong>.</p>
+<p>First, the incident was <strong>identified immediately</strong> (that’s the one perk of making a massive blunder yourself). But it could have been much worse! If the API had been deleted via an automated script, we had no monitoring in place to alert us.</p>
 <p>Second, the person who deleted the API had deep knowledge of the project (yes, I&rsquo;m talking about myself—I have to give myself <em>some</em> credit). This allowed for an immediate transition into resolution mode, but it could have been someone else who was totally lost.</p>
-<p>Finally, this was our &ldquo;Dev&rdquo; API. The Production API was perfectly fine (a detail I intentionally saved for the end—you know, for the storytelling). So while the impact was minimal, the same incident could have happened in Prod with the same recovery nightmares. And that would have been much more expensive.</p>
+<p>Finally, <strong>this was our &ldquo;Dev&rdquo; API</strong>. The Production API was perfectly fine (a detail I intentionally saved for the end—you know, for the storytelling). So while the impact was minimal, the same incident could have happened in Prod with the same recovery nightmares. And that would have been much more expensive.</p>
 <h2 id="preparing-for-the-future"><a href="#preparing-for-the-future" class="header-anchor"></a>Preparing for the Future
 </h2><p>Now that you&rsquo;ve listed the problems encountered, as a good DevOps engineer, you must learn from them. Note everything that can be improved, but above all, <strong>set a plan!</strong> Otherwise, these are just empty words.</p>
 <blockquote>

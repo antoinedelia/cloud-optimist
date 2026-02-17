@@ -1,12 +1,3 @@
-terraform {
-  backend "remote" {
-    organization = "antoinedelia"
-    workspaces {
-      name = "antoine-delia-cloud"
-    }
-  }
-}
-
 provider "aws" {
   region = "eu-west-1"
 

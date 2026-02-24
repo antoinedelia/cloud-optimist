@@ -10,6 +10,15 @@ resource "aws_s3_bucket_ownership_controls" "site" {
   }
 }
 
+resource "aws_s3_bucket_public_access_block" "site" {
+  bucket = aws_s3_bucket.site.id
+
+  block_public_acls       = false
+  block_public_policy     = false
+  ignore_public_acls      = false
+  restrict_public_buckets = false
+}
+
 resource "aws_s3_bucket_website_configuration" "site" {
   bucket = aws_s3_bucket.site.id
 
@@ -22,14 +31,10 @@ resource "aws_s3_bucket_website_configuration" "site" {
   }
 }
 
-resource "aws_s3_bucket_acl" "site" {
-  bucket = aws_s3_bucket.site.id
-
-  acl = "public-read"
-}
-
 resource "aws_s3_bucket_policy" "site" {
   bucket = aws_s3_bucket.site.id
+
+  depends_on = [aws_s3_bucket_public_access_block.site]
 
   policy = jsonencode({
     Version = "2012-10-17"

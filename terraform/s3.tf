@@ -3,6 +3,13 @@ resource "aws_s3_bucket" "site" {
   force_destroy = true
 }
 
+resource "aws_s3_bucket_ownership_controls" "site" {
+  bucket = aws_s3_bucket.site.id
+  rule {
+    object_ownership = "BucketOwnerEnforced"
+  }
+}
+
 resource "aws_s3_bucket_website_configuration" "site" {
   bucket = aws_s3_bucket.site.id
 

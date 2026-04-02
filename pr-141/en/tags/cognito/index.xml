@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>Cognito on The Cloud Optimist</title>
+        <link>https://antoinedelia.github.io/cloud-optimist/pr-141/en/tags/cognito/</link>
+        <description>Recent content in Cognito on The Cloud Optimist</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>en-US</language>
+        <lastBuildDate>Tue, 17 Feb 2026 07:30:00 +0100</lastBuildDate><atom:link href="https://antoinedelia.github.io/cloud-optimist/pr-141/en/tags/cognito/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>The Day I Accidentally Deleted An Api and What It Taught Me About Devops</title>
+        <link>https://antoinedelia.github.io/cloud-optimist/pr-141/en/posts/2026/the-day-i-accidentally-deleted-an-api-and-what-it-taught-me-about-devops/</link>
+        <pubDate>Tue, 17 Feb 2026 07:30:00 +0100</pubDate>
+        
+        <guid>https://antoinedelia.github.io/cloud-optimist/pr-141/en/posts/2026/the-day-i-accidentally-deleted-an-api-and-what-it-taught-me-about-devops/</guid>
+        <description>&lt;img src="https://antoinedelia.github.io/cloud-optimist/pr-141/fr/posts/2026/the-day-i-accidentally-deleted-an-api-and-what-it-taught-me-about-devops/deleted_api.png" alt="Featured image of post The Day I Accidentally Deleted An Api and What It Taught Me About Devops" /&gt;&lt;p&gt;April 4, 2024, had started off so well. A hot coffee in hand, VS Code humming with activity, and smooth electronic music in my ears—all the ingredients for a perfect day that surely couldn&amp;rsquo;t foreshadow the coming disaster.&lt;/p&gt;
+&lt;p&gt;Today, I&amp;rsquo;d like to tell you how a seemingly quiet day became a defining moment in my DevOps career!&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://antoinedelia.github.io/cloud-optimist/pr-141/img/the-day-i-accidentally-deleted-an-api-and-what-it-taught-me-about-devops/calm_before_storm.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Calm before the storm&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h1 id=&#34;incident&#34;&gt;&lt;a href=&#34;#incident&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Incident
+&lt;/h1&gt;&lt;h2 id=&#34;the-context&#34;&gt;&lt;a href=&#34;#the-context&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;The Context
+&lt;/h2&gt;&lt;p&gt;At the time, I was working in a team tasked with providing a global API Gateway on AWS, featuring several endpoints managed by different teams. Specifically, setting up this API Gateway was the initial phase of the project. It included a DNS record pointing to the API, the API Gateway itself, and a Cognito Authorizer configured with several clients.&lt;/p&gt;
+&lt;p&gt;Once this API was ready, external teams could deploy their own endpoints onto it. To facilitate this, a CI/CD pipeline was in place, using CloudFormation to attach the endpoints directly to the existing API.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;I’m keeping it as simple as possible here, but if you’re interested in the technical nitty-gritty, feel free to reach out!&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;On my end, besides being responsible for the global API infrastructure, I occasionally worked on or bootstrapped certain services.&lt;/p&gt;
+&lt;h2 id=&#34;the-beginning-of-the-drama&#34;&gt;&lt;a href=&#34;#the-beginning-of-the-drama&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;The Beginning of the Drama
+&lt;/h2&gt;&lt;p&gt;If you’ve ever worked with CloudFormation, you might be familiar with the dreaded &lt;code&gt;UPDATE_ROLLBACK_FAILED&lt;/code&gt; status. This happens when you try to update a CloudFormation stack, but it encounters an error. It then tries to roll back, but if that rollback fails too, your stack gets stuck in &lt;code&gt;UPDATE_ROLLBACK_FAILED&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;This state is particularly annoying because you cannot trigger any new deployments until you’ve resolved the underlying issue.&lt;/p&gt;
+&lt;p&gt;That is exactly what happened on that fateful April 4, 2024. One of our services got stuck in this state, and I started investigating the &amp;ldquo;why&amp;rdquo; and the &amp;ldquo;how.&amp;rdquo;&lt;/p&gt;
+&lt;p&gt;After a few minutes, I noticed the problem stemmed from the API resource itself. Without overthinking it, and in an effort to unblock the situation quickly, I headed straight to the AWS Console, specifically to the API Gateway service. I found the resource in question and rushed to delete it.&lt;/p&gt;
+&lt;p&gt;At that exact moment, something very strange happened. An unexpected behavior that made my blood run cold. Instead of staying on the same page, AWS redirected me to the main API Gateway dashboard—the page that lists your available APIs. It now displayed a count of &lt;code&gt;0&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;I realized then that I hadn&amp;rsquo;t deleted a specific resource &lt;em&gt;within&lt;/em&gt; the API, but the entire API Gateway itself.&lt;/p&gt;
+&lt;h2 id=&#34;anatomy-of-a-failure&#34;&gt;&lt;a href=&#34;#anatomy-of-a-failure&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Anatomy of a Failure
+&lt;/h2&gt;&lt;p&gt;I never thought I’d make such a rookie mistake. And I imagine as you read this, you’re thinking the same thing.&lt;/p&gt;
+&lt;p&gt;Because to get it that wrong, &lt;strong&gt;you really have to try!&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Let me reconstruct the crime scene for you. Here is what I saw when I decided to delete a resource from the API Gateway.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://antoinedelia.github.io/cloud-optimist/pr-141/img/the-day-i-accidentally-deleted-an-api-and-what-it-taught-me-about-devops/api_gateway_view.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;API Gateway resource view&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Any resemblance to an actual situation is entirely coincidental.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;In my shoes, which button would you have clicked? Easy! The &lt;em&gt;Delete&lt;/em&gt; button right next to the resource!&lt;/p&gt;
+&lt;p&gt;As for me (and I still don&amp;rsquo;t know what possessed me), I chose to click the &lt;em&gt;API actions&lt;/em&gt; button. After all, I did want to perform an &amp;ldquo;action&amp;rdquo;!&lt;/p&gt;
+&lt;p&gt;And what happens when you click that button?&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://antoinedelia.github.io/cloud-optimist/pr-141/img/the-day-i-accidentally-deleted-an-api-and-what-it-taught-me-about-devops/api_actions.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;API Actions dropdown menu&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;Yikes! Right away, you can see it&amp;rsquo;s not what we want at all. But do you think that stopped me? Not a chance! I came here to delete something, and when I saw the word &lt;em&gt;Delete&lt;/em&gt;, I stopped thinking. I should have kept reading, because then I would have seen the word &lt;em&gt;API&lt;/em&gt; right next to it.&lt;/p&gt;
+&lt;p&gt;Fortunately, our friends at AWS thought of everything! When you click &lt;em&gt;Delete API&lt;/em&gt;, they still ask if you are absolutely sure. A nice dialog box pops up, showing the name of the API and asking you to type the word &lt;em&gt;confirm&lt;/em&gt; to validate the operation.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://antoinedelia.github.io/cloud-optimist/pr-141/img/the-day-i-accidentally-deleted-an-api-and-what-it-taught-me-about-devops/delete_api_dialog.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Delete API confirmation dialog&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;That&amp;rsquo;s all well and good, but the AWS engineers underestimated my impatience. In that moment, the confirmation request wasn&amp;rsquo;t a warning; it was an obstacle to my goal. In a heartbeat, I typed &lt;em&gt;confirm&lt;/em&gt; and hit enter.&lt;/p&gt;
+&lt;p&gt;So, here is the last thing I saw before finally realizing the gravity of my mistake:&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://antoinedelia.github.io/cloud-optimist/pr-141/img/the-day-i-accidentally-deleted-an-api-and-what-it-taught-me-about-devops/successfully_deleted_api.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;API successfully deleted&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;A vision of pure horror.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;I wanted to walk you through this process to make one thing clear: you can put all the safeguards in the world in place, but &lt;strong&gt;you can&amp;rsquo;t protect a system against an impatient individual&lt;/strong&gt;, because they won&amp;rsquo;t stop to read the warnings.&lt;/p&gt;
+&lt;p&gt;So, the next time you have to perform an &amp;ldquo;innocuous&amp;rdquo; action, take the time to read and ensure you are actually on the right path.&lt;/p&gt;
+&lt;p&gt;That being said, let’s move on to the crucial stage: resolving the incident!&lt;/p&gt;
+&lt;h1 id=&#34;resolution&#34;&gt;&lt;a href=&#34;#resolution&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Resolution
+&lt;/h1&gt;&lt;h2 id=&#34;the-click&#34;&gt;&lt;a href=&#34;#the-click&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;The Click
+&lt;/h2&gt;&lt;p&gt;Back to the moment of impact. After realizing what had happened, I had a sudden jolt—a moment of clarity (without the aid of any white powder, I promise). I knew what I had to do: resolve the incident, but more importantly, document every single action I took.&lt;/p&gt;
+&lt;p&gt;A few weeks prior, I had looked into the &lt;a class=&#34;link&#34; href=&#34;https://about.gitlab.com/blog/postmortem-of-database-outage-of-january-31/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;2017 GitLab incident&lt;/a&gt;, which took the service down for hours and resulted in data loss for some users. That’s how I discovered the concept of a &lt;strong&gt;Post-Mortem&lt;/strong&gt; and why they are so vital in these situations. But I’ll save that for the next section.&lt;/p&gt;
+&lt;p&gt;In the meantime, if you&amp;rsquo;re interested in these topics, I highly recommend &lt;a class=&#34;link&#34; href=&#34;https://www.youtube.com/@kevinfaang/videos&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Kevin Fang&amp;rsquo;s YouTube channel&lt;/a&gt; where he, in his own words, &amp;ldquo;reads postmortems and makes low-quality videos about them.&amp;rdquo;&lt;/p&gt;
+&lt;h2 id=&#34;rollback-impact-and-communication&#34;&gt;&lt;a href=&#34;#rollback-impact-and-communication&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Rollback, Impact, and Communication
+&lt;/h2&gt;&lt;p&gt;My first thought was that there might be a way to trigger a rollback directly within AWS to minimize the impact on users. If I had actually read the warning message earlier, I would have known that was impossible (but if I had read it, I wouldn&amp;rsquo;t have been in this mess anyway).&lt;/p&gt;
+&lt;p&gt;With no &amp;ldquo;undo&amp;rdquo; button in sight, I accepted that I was facing a major incident with a global impact. I first set out to map out the full extent of the damage. In my case, not only was the API down (thanks, Captain Obvious), but no new deployments could be made until the API was back online.&lt;/p&gt;
+&lt;p&gt;Finally, I made sure to notify the internal team. This kept them in the loop and let them know I was actively working on a fix.&lt;/p&gt;
+&lt;h2 id=&#34;analysis-and-troubleshooting&#34;&gt;&lt;a href=&#34;#analysis-and-troubleshooting&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Analysis and Troubleshooting
+&lt;/h2&gt;&lt;p&gt;It was time to roll up my sleeves and find a way to redeploy the API Gateway.&lt;/p&gt;
+&lt;p&gt;First, I went to the CloudFormation service, remembering that this API was originally deployed through it. I tried updating the stack, hoping it would bring my dear API back like magic.&lt;/p&gt;
+&lt;p&gt;Obviously, it wasn&amp;rsquo;t going to be that simple. Updating the stack was impossible because the manual deletion had put the stack into a &amp;ldquo;hybrid&amp;rdquo; state that it couldn&amp;rsquo;t reconcile.&lt;/p&gt;
+&lt;p&gt;Since updating was out of the question, the logical next step was to delete the stack and redeploy it from scratch. That’s when the real trouble started. This CloudFormation stack produced several Outputs. &lt;strong&gt;Two of these were required by &amp;ldquo;child&amp;rdquo; stacks&lt;/strong&gt; that had deployed their endpoints on the API. Consequently, CloudFormation blocked me from deleting the stack because it would break all the others.&lt;/p&gt;
+&lt;p&gt;After brainstorming alternatives, this heavy interdependence led me to a tough decision: I had to delete all the &amp;ldquo;child&amp;rdquo; stacks in CloudFormation—a total of 81 stacks.&lt;/p&gt;
+&lt;p&gt;To make matters worse, these child stacks didn&amp;rsquo;t have identifiable tags that would have allowed us to automate the cleanup. Fortunately, most of them used a recognizable name prefix, which allowed me to clear out the bulk of them manually.&lt;/p&gt;
+&lt;p&gt;Did I mention &lt;strong&gt;interdependencies&lt;/strong&gt;? Because we&amp;rsquo;re not done! Some stacks had deployed S3 buckets. And guess what? CloudFormation won&amp;rsquo;t delete a stack if the S3 bucket isn&amp;rsquo;t empty. Naturally, 14 stacks got stuck in &lt;code&gt;DELETE_FAILED&lt;/code&gt;. Luckily, the fix is straightforward: back up each bucket, empty it, and retry the stack deletion.&lt;/p&gt;
+&lt;h2 id=&#34;deploying-the-api-light-at-the-end-of-the-tunnel&#34;&gt;&lt;a href=&#34;#deploying-the-api-light-at-the-end-of-the-tunnel&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Deploying the API: Light at the End of the Tunnel?
+&lt;/h2&gt;&lt;p&gt;Having finally cleared the web of interdependencies, it was time to delete the original API Gateway stack and redeploy it.&lt;/p&gt;
+&lt;p&gt;The deletion went smoothly (thank God), but—naturally—the creation did not.&lt;/p&gt;
+&lt;p&gt;First, the stack itself. A YML file existed in a GitHub repo, but &lt;strong&gt;it hadn&amp;rsquo;t been updated in ages&lt;/strong&gt;. I knew I was better off using the stack definition stored within CloudFormation (and yes, I had saved a copy—I&amp;rsquo;m not that crazy).&lt;/p&gt;
+&lt;p&gt;This stack didn&amp;rsquo;t just deploy the API Gateway; it handled several AWS resources, including Lambdas. These Lambdas were still running on Python 3.7, a version that &lt;a class=&#34;link&#34; href=&#34;https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtimes-deprecated&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;AWS no longer allows for creating new Lambdas&lt;/a&gt;. Fortunately, a quick upgrade to Python 3.12 was enough to satisfy the AWS gods.&lt;/p&gt;
+&lt;p&gt;And, to my surprise, the stack finally deployed without a hitch!&lt;/p&gt;
+&lt;p&gt;But to keep a long story short, there was still work to do. Several critical resources for the API were missing from the CloudFormation stack. These resources had been created manually in AWS over time, ignoring all Infrastructure as Code best practices (&lt;em&gt;cries in Terraform&lt;/em&gt;). To restore service as quickly as possible (we&amp;rsquo;re DevOps, after all!), I recreated these resources manually once more.&lt;/p&gt;
+&lt;p&gt;Finally, several key components had the ARN of the old API hardcoded. This required a bit of &amp;ldquo;digital archaeology&amp;rdquo; to find every spot where a manual update to the new API was needed.&lt;/p&gt;
+&lt;p&gt;Ultimately, after several hours of troubleshooting, the API was back up and running, and developers could resume their deployments.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;The incident began on April 4, 2024, at 3:24 PM and was resolved on April 5, 2024, at 8:46 AM.&lt;/strong&gt;&lt;/p&gt;
+&lt;h1 id=&#34;post-mortem-and-lessons-learned&#34;&gt;&lt;a href=&#34;#post-mortem-and-lessons-learned&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Post-Mortem and Lessons Learned
+&lt;/h1&gt;&lt;p&gt;Throughout the incident, I took intensive notes on every action taken. Having heard of the &lt;strong&gt;Post-Mortem&lt;/strong&gt; principle, I knew this incident was the perfect candidate.&lt;/p&gt;
+&lt;p&gt;If you&amp;rsquo;re unfamiliar with the concept, a Post-Mortem is a document that retraces the steps of an incident, its impact, and its root cause. But most importantly—and most interestingly—it includes a &lt;strong&gt;Lessons Learned&lt;/strong&gt; section. If you take this part seriously, it will be your best ally in building a more robust architecture.&lt;/p&gt;
+&lt;p&gt;In this section, you note three key points: what went well, what went wrong, and where you got lucky. And above all, &lt;strong&gt;be honest!&lt;/strong&gt; Even if some points seem silly or make you look incompetent (and I’m saying this as the guy who manually deleted an API, so take it with a grain of salt), the goal isn&amp;rsquo;t to point fingers (the &amp;ldquo;blameless culture&amp;rdquo;). It’s about understanding the flaws in the system so we can fix them.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&amp;ldquo;The cost of failure is education.&amp;rdquo; — Devin Carraway (&lt;a class=&#34;link&#34; href=&#34;https://sre.google/sre-book/postmortem-culture/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Source&lt;/a&gt;)&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;This might still feel a bit abstract, so let me share my lessons learned from this incident.&lt;/p&gt;
+&lt;h2 id=&#34;what-went-well&#34;&gt;&lt;a href=&#34;#what-went-well&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;What went well
+&lt;/h2&gt;&lt;p&gt;&lt;strong&gt;Two things went well&lt;/strong&gt; during this incident.&lt;/p&gt;
+&lt;p&gt;First, the resolution was handled by &lt;strong&gt;a team member who knew the architecture inside out&lt;/strong&gt;. This allowed for a quick understanding of what needed to be restored to get the service back online.&lt;/p&gt;
+&lt;p&gt;Second, there was &lt;strong&gt;excellent communication throughout&lt;/strong&gt;. When the problem occurred, there was no attempt to hide it. Frequent updates were shared to report on progress. This is crucial—not only does it provide visibility, but communication often leads to helpful tips (like a colleague pointing you toward documentation you didn&amp;rsquo;t know existed).&lt;/p&gt;
+&lt;h2 id=&#34;what-went-wrong&#34;&gt;&lt;a href=&#34;#what-went-wrong&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;What went wrong
+&lt;/h2&gt;&lt;p&gt;This is the part that hurts. As I mentioned, you have to swallow your pride and highlight everything that could have been handled better.&lt;/p&gt;
+&lt;p&gt;For this incident, &lt;strong&gt;four things went wrong&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;To start, &lt;strong&gt;the API infrastructure wasn&amp;rsquo;t consolidated in a single file or folder&lt;/strong&gt;; it was scattered across multiple GitHub repos. This made it very difficult to get a bird&amp;rsquo;s-eye view of everything required for the API to function.&lt;/p&gt;
+&lt;p&gt;Next, there was a major issue with &lt;strong&gt;drift&lt;/strong&gt;. This refers to the differences between your actual infrastructure and how it’s defined in your code. Ideally, no manual changes should ever occur, and everything should go through your IaC files. Had this been the case, a simple redeployment would have restored the service instantly.&lt;/p&gt;
+&lt;p&gt;Another issue was &lt;strong&gt;the heavy interdependence between resources&lt;/strong&gt;. Many relied on CloudFormation stack outputs. Removing the parent stack essentially crippled the ability to manage the rest of the infrastructure.&lt;/p&gt;
+&lt;p&gt;Finally, identifying resources tied to our infrastructure was difficult. &lt;strong&gt;Our stack deployed resources without any associated tags&lt;/strong&gt;, making it a scavenger hunt to find every piece of the puzzle.&lt;/p&gt;
+&lt;h2 id=&#34;where-we-got-lucky&#34;&gt;&lt;a href=&#34;#where-we-got-lucky&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Where we got lucky
+&lt;/h2&gt;&lt;p&gt;This might sound positive, but it isn&amp;rsquo;t! This category covers things that went well &lt;em&gt;only&lt;/em&gt; because of luck. Realize that at any moment, these could have been in the &amp;ldquo;What went wrong&amp;rdquo; column. Be glad this time, but don&amp;rsquo;t let your guard down!&lt;/p&gt;
+&lt;p&gt;In this case, &lt;strong&gt;we got lucky in three ways&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;First, the incident was &lt;strong&gt;identified immediately&lt;/strong&gt; (that’s the one perk of making a massive blunder yourself). But it could have been much worse! If the API had been deleted via an automated script, we had no monitoring in place to alert us.&lt;/p&gt;
+&lt;p&gt;Second, the person who deleted the API had deep knowledge of the project (yes, I&amp;rsquo;m talking about myself—I have to give myself &lt;em&gt;some&lt;/em&gt; credit). This allowed for an immediate transition into resolution mode, but it could have been someone else who was totally lost.&lt;/p&gt;
+&lt;p&gt;Finally, &lt;strong&gt;this was our &amp;ldquo;Dev&amp;rdquo; API&lt;/strong&gt;. The Production API was perfectly fine (a detail I intentionally saved for the end—you know, for the storytelling). So while the impact was minimal, the same incident could have happened in Prod with the same recovery nightmares. And that would have been much more expensive.&lt;/p&gt;
+&lt;h2 id=&#34;preparing-for-the-future&#34;&gt;&lt;a href=&#34;#preparing-for-the-future&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Preparing for the Future
+&lt;/h2&gt;&lt;p&gt;Now that you&amp;rsquo;ve listed the problems encountered, as a good DevOps engineer, you must learn from them. Note everything that can be improved, but above all, &lt;strong&gt;set a plan!&lt;/strong&gt; Otherwise, these are just empty words.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&amp;ldquo;A goal without a plan is just a wish.&amp;rdquo; — Antoine de Saint-Exupéry&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;In my case, the three key takeaways were:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Consolidation of Infrastructure as Code:&lt;/strong&gt; Everything must be deployable in the blink of an eye. This is a project I would complete in the following months.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Improved Monitoring and Alerting:&lt;/strong&gt; If this ever happens again, we need to be alerted immediately so we can react fast.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Clearer Documentation:&lt;/strong&gt; Any team member should be able to handle such an incident, and that starts with reliable, understandable docs.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;All these lessons were tracked as GitHub issues, and I made sure to knock them out over the following months.&lt;/p&gt;
+&lt;h1 id=&#34;conclusion&#34;&gt;&lt;a href=&#34;#conclusion&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Conclusion
+&lt;/h1&gt;&lt;p&gt;As you&amp;rsquo;ve seen, accidents happen. The key is to make sure they benefit you and your organization. Use them as an opportunity to learn and patch vulnerabilities that were previously undetected (some companies even &lt;a class=&#34;link&#34; href=&#34;https://en.wikipedia.org/wiki/Chaos_engineering&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;purposely create chaos&lt;/a&gt; for this very reason).&lt;/p&gt;
+&lt;p&gt;Thanks for reading to the end! I’ll leave you here—I’ve got some other infrastructures to delete!&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>On The Trail of The Lost Resource - My Investigation With Athena and CloudTrail</title>
+        <link>https://antoinedelia.github.io/cloud-optimist/pr-141/en/posts/2025/on-the-trail-of-the-lost-resource-my-investigation-with-athena-and-cloudtrail/</link>
+        <pubDate>Wed, 09 Jul 2025 12:30:00 +0200</pubDate>
+        
+        <guid>https://antoinedelia.github.io/cloud-optimist/pr-141/en/posts/2025/on-the-trail-of-the-lost-resource-my-investigation-with-athena-and-cloudtrail/</guid>
+        <description>&lt;img src="https://antoinedelia.github.io/cloud-optimist/pr-141/fr/posts/2025/on-the-trail-of-the-lost-resource-my-investigation-with-athena-and-cloudtrail/aws_lost_resource.jpeg" alt="Featured image of post On The Trail of The Lost Resource - My Investigation With Athena and CloudTrail" /&gt;&lt;h1 id=&#34;introduction&#34;&gt;&lt;a href=&#34;#introduction&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Introduction
+&lt;/h1&gt;&lt;p&gt;Recently, I had to play detective in our AWS account.&lt;/p&gt;
+&lt;p&gt;A resource was there (a Cognito User Pool), plain as day, but nobody could remember where it came from. And of course, there were no tags to help us (if only they had read &lt;a class=&#34;link&#34; href=&#34;https://antoinedelia.github.io/cloud-optimist/pr-141/en/posts/2025/why-tagging-your-aws-resources-is-a-must/&#34; &gt;my post on why tagging your AWS resources is a must&lt;/a&gt;).&lt;/p&gt;
+&lt;p&gt;My mission, should I choose to accept it: find out who created it. The problem? The event was about four months old.&lt;/p&gt;
+&lt;p&gt;My first instinct was to turn to AWS CloudTrail. And there, I hit my first wall: &lt;a class=&#34;link&#34; href=&#34;https://docs.aws.amazon.com/awscloudtrail/latest/userguide/view-cloudtrail-events.html#event-history-limitations&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;the event history is only viewable for the last 90 days&lt;/a&gt;. Dead end.&lt;/p&gt;
+&lt;p&gt;Luckily, I knew our CloudTrail logs were archived in an S3 bucket. My first thought was to manually download the archives for the right month, unzip dozens of JSON files, and hit &lt;kbd&gt;Ctrl+F&lt;/kbd&gt; while praying for a miracle. Let&amp;rsquo;s just say it was neither efficient, pleasant, nor fast.&lt;/p&gt;
+&lt;p&gt;So, I wondered if there wasn&amp;rsquo;t a simpler way to search through this pile of logs, and I finally found the perfect solution: &lt;strong&gt;AWS Athena&lt;/strong&gt;.&lt;/p&gt;
+&lt;h1 id=&#34;querying-your-s3-logs-with-athena&#34;&gt;&lt;a href=&#34;#querying-your-s3-logs-with-athena&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Querying your S3 logs with Athena
+&lt;/h1&gt;&lt;p&gt;For those unfamiliar, &lt;a class=&#34;link&#34; href=&#34;https://docs.aws.amazon.com/athena/latest/ug/what-is.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;AWS Athena&lt;/a&gt; is an interactive query service that makes it easy to analyze data directly in Amazon S3 using standard SQL. Basically, you can run queries on files (JSON, CSV, etc.) as if they were in a traditional database. No more downloading anything!&lt;/p&gt;
+&lt;p&gt;The idea, then, is to &amp;ldquo;map&amp;rdquo; our CloudTrail logs stored in S3 to a table in Athena. To do this, we use a single &lt;code&gt;CREATE EXTERNAL TABLE&lt;/code&gt; query. Following &lt;a class=&#34;link&#34; href=&#34;https://docs.aws.amazon.com/athena/latest/ug/create-cloudtrail-table-partition-projection.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;the AWS documentation on the subject&lt;/a&gt;, I ran the following query in the Athena console.&lt;/p&gt;
+&lt;p&gt;This query creates a table and uses a very handy feature called &amp;ldquo;partition projection.&amp;rdquo; This allows Athena to infer the location of the logs based on the date, without having to manually manage partitions. This is very convenient when the structure is standardized, as is the case with AWS CloudTrail.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;16
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;17
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;18
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;19
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;20
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;21
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;22
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;23
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;24
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;25
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;26
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;27
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;28
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;29
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;30
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;31
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;32
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;33
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;34
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;35
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;36
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;37
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;38
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sql&#34; data-lang=&#34;sql&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;CREATE&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;EXTERNAL&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;TABLE&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;cloudtrail_logs_pp&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;eventversion&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;STRING&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;useridentity&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;STRUCT&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;        &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;arn&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;STRING&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;eventtime&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;STRING&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;eventsource&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;STRING&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;eventname&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;STRING&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;awsregion&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;STRING&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;requestparameters&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;STRING&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;responseelements&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;STRING&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;additionaleventdata&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;STRING&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;requestid&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;STRING&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;eventid&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;STRING&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;resources&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;ARRAY&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;STRUCT&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;        &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;arn&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;STRING&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;        &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;accountid&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;STRING&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;        &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;type&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;STRING&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&amp;gt;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;eventtype&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;STRING&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;eventcategory&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;STRING&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;PARTITIONED&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;BY&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;`&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;timestamp&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;`&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;string&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;ROW&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;FORMAT&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;SERDE&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;org.apache.hive.hcatalog.data.JsonSerDe&amp;#39;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;STORED&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;AS&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;INPUTFORMAT&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;com.amazon.emr.cloudtrail.CloudTrailInputFormat&amp;#39;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;OUTPUTFORMAT&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat&amp;#39;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;LOCATION&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;s3://BUCKET-NAME/AWSLogs/ACCOUNT-ID/CloudTrail/REGION&amp;#39;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;-- Replace with your S3 bucket path
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;TBLPROPERTIES&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;projection.enabled&amp;#39;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;true&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;projection.timestamp.format&amp;#39;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;yyyy/MM/dd&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;projection.timestamp.interval&amp;#39;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;1&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;projection.timestamp.interval.unit&amp;#39;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;DAYS&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;projection.timestamp.range&amp;#39;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;2024/01/01,NOW&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;-- Replace with your start date
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;projection.timestamp.type&amp;#39;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;date&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;storage.location.template&amp;#39;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;s3://BUCKET-NAME/AWSLogs/ACCOUNT-ID/CloudTrail/REGION/${timestamp}&amp;#39;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;-- Replace with your S3 bucket path
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;strong&gt;Warning:&lt;/strong&gt; Don&amp;rsquo;t forget to replace the &lt;code&gt;s3://...&lt;/code&gt; URLs with the exact path to your S3 bucket where your CloudTrail logs are stored, and to adjust the &lt;code&gt;projection.timestamp.range&lt;/code&gt; property to the period you&amp;rsquo;re interested in.&lt;/p&gt;
+&lt;h1 id=&#34;investigation-time-finding-the-information&#34;&gt;&lt;a href=&#34;#investigation-time-finding-the-information&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Investigation Time: Finding the Information
+&lt;/h1&gt;&lt;p&gt;Once the table is created (which only takes a few seconds), the hardest part is over! My investigation could finally begin.&lt;/p&gt;
+&lt;p&gt;I was looking for who had created a Cognito &lt;code&gt;UserPoolClient&lt;/code&gt; on a specific date. So my SQL query looked like this:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;9
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sql&#34; data-lang=&#34;sql&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;SELECT&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;eventTime&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;eventName&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;userIdentity&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;arn&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;FROM&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;cloudtrail_logs_pp&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;WHERE&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;timestamp&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;2025/02/25&amp;#39;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;AND&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;eventName&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;CreateUserPoolClient&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;In just a few seconds, Athena scanned the logs for the requested day and returned the result.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://antoinedelia.github.io/cloud-optimist/pr-141/img/on-the-trail-of-the-lost-resource-my-investigation-with-athena-and-cloudtrail/running_the_athena_query.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Athena query to search CloudTrail logs in S3&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;I had the exact time, the event, and most importantly, the ARN of the user who performed the action. Mission accomplished!&lt;/p&gt;
+&lt;h1 id=&#34;the-verdict-and-the-culprit&#34;&gt;&lt;a href=&#34;#the-verdict-and-the-culprit&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;The Verdict&amp;hellip; and the Culprit
+&lt;/h1&gt;&lt;p&gt;The funniest part of this story?&lt;/p&gt;
+&lt;p&gt;After setting up this solution and finding the information so easily, I discovered that the &amp;ldquo;culprit&amp;rdquo; who had created this resource four months ago&amp;hellip; &lt;strong&gt;was me&lt;/strong&gt;. I had completely forgotten!&lt;/p&gt;
+&lt;p&gt;Jokes aside, this experience confirmed one thing for me: taking a few minutes to set up Athena on your CloudTrail logs is an incredibly worthwhile investment. You&amp;rsquo;re giving yourself a long-term auditing and search capability that will save you hours of manual searching the day you really need it. Don&amp;rsquo;t be like me; don&amp;rsquo;t wait until you&amp;rsquo;re stuck to set it up!&lt;/p&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>

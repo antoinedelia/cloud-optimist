@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html lang="en-US" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="April 4, 2024, had started off so well. A hot coffee in hand, VS Code humming with activity, and smooth electronic music in my ears—all the ingredients for a perfect day that surely couldn&rsquo;t foreshadow the coming disaster.\nToday, I&rsquo;d like to tell you how a seemingly quiet day became a defining moment in my DevOps career!\nIncident The Context At the time, I was working in a team tasked with providing a global API Gateway on AWS, featuring several endpoints managed by different teams. Specifically, setting up this API Gateway was the initial phase of the project. It included a DNS record pointing to the API, the API Gateway itself, and a Cognito Authorizer configured with several clients.\n">
+<title>The Day I Accidentally Deleted An Api and What It Taught Me About Devops</title>
+
+<link rel='canonical' href='https://antoinedelia.github.io/cloud-optimist/pr-141/en/posts/2026/the-day-i-accidentally-deleted-an-api-and-what-it-taught-me-about-devops/'>
+
+<link rel="stylesheet" href="/cloud-optimist/pr-141/scss/style.min.6a692fd055deae459f2a9767f57f3855ba80cafd5041317f24f7360f6ca47cdf.css"><meta property='og:title' content="The Day I Accidentally Deleted An Api and What It Taught Me About Devops">
+<meta property='og:description' content="April 4, 2024, had started off so well. A hot coffee in hand, VS Code humming with activity, and smooth electronic music in my ears—all the ingredients for a perfect day that surely couldn&rsquo;t foreshadow the coming disaster.\nToday, I&rsquo;d like to tell you how a seemingly quiet day became a defining moment in my DevOps career!\nIncident The Context At the time, I was working in a team tasked with providing a global API Gateway on AWS, featuring several endpoints managed by different teams. Specifically, setting up this API Gateway was the initial phase of the project. It included a DNS record pointing to the API, the API Gateway itself, and a Cognito Authorizer configured with several clients.\n">
+<meta property='og:url' content='https://antoinedelia.github.io/cloud-optimist/pr-141/en/posts/2026/the-day-i-accidentally-deleted-an-api-and-what-it-taught-me-about-devops/'>
+<meta property='og:site_name' content='The Cloud Optimist'>
+<meta property='og:type' content='article'><meta property='article:section' content='Posts' /><meta property='article:tag' content='S3' /><meta property='article:tag' content='API Gateway' /><meta property='article:tag' content='CloudFormation' /><meta property='article:tag' content='Cognito' /><meta property='article:tag' content='Terraform' /><meta property='article:tag' content='AWS' /><meta property='article:tag' content='Postmortem' /><meta property='article:published_time' content='2026-02-17T07:30:00&#43;01:00'/><meta property='article:modified_time' content='2026-02-17T07:30:00&#43;01:00'/><meta property='og:image' content='https://antoinedelia.github.io/cloud-optimist/pr-141/fr/posts/2026/the-day-i-accidentally-deleted-an-api-and-what-it-taught-me-about-devops/deleted_api.png' />
+<meta name="twitter:title" content="The Day I Accidentally Deleted An Api and What It Taught Me About Devops">
+<meta name="twitter:description" content="April 4, 2024, had started off so well. A hot coffee in hand, VS Code humming with activity, and smooth electronic music in my ears—all the ingredients for a perfect day that surely couldn&rsquo;t foreshadow the coming disaster.\nToday, I&rsquo;d like to tell you how a seemingly quiet day became a defining moment in my DevOps career!\nIncident The Context At the time, I was working in a team tasked with providing a global API Gateway on AWS, featuring several endpoints managed by different teams. Specifically, setting up this API Gateway was the initial phase of the project. It included a DNS record pointing to the API, the API Gateway itself, and a Cognito Authorizer configured with several clients.\n"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://antoinedelia.github.io/cloud-optimist/pr-141/fr/posts/2026/the-day-i-accidentally-deleted-an-api-and-what-it-taught-me-about-devops/deleted_api.png' />
+    <link rel="shortcut icon" href="/favicon.ico" />
+
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-NPENVXWP54"></script>
+      <script>
+        var doNotTrack = false;
+        if ( true ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-NPENVXWP54');
+        }
+      </script>
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/cloud-optimist/pr-141/en/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/cloud-optimist/pr-141/img/avatar_hu_6376077d4e00194.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">☁️</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/cloud-optimist/pr-141/en">The Cloud Optimist</a></h1>
+            <h2 class="site-description">A blog about Cloud &amp; DevOps topics.</h2>
+        </div>
+    </header><ol class="menu-social">
+            
+                <li>
+                    <a 
+                        href='https://github.com/antoinedelia/'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://linkedin.com/in/antoinedelia'
+                        target="_blank"
+                        title="LinkedIn"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-brand-linkedin"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M8 11v5" /><path d="M8 8v.01" /><path d="M12 16v-5" /><path d="M16 16v-3a2 2 0 1 0 -4 0" /><path d="M3 7a4 4 0 0 1 4 -4h10a4 4 0 0 1 4 4v10a4 4 0 0 1 -4 4h-10a4 4 0 0 1 -4 -4z" /></svg>
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://stackoverflow.com/users/4141606/antoine-delia?tab=profile'
+                        target="_blank"
+                        title="Stack Overflow"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-brand-stackoverflow"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 17v1a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-1" /><path d="M8 16h8" /><path d="M8.322 12.582l7.956 .836" /><path d="M8.787 9.168l7.826 1.664" /><path d="M10.096 5.764l7.608 2.472" /></svg>
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/cloud-optimist/pr-141/en' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>Home</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/cloud-optimist/pr-141/en/about/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>About</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/cloud-optimist/pr-141/en/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>Archives</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/cloud-optimist/pr-141/en/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>Search</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/cloud-optimist/pr-141/en/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>Links</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+                    
+                        <li id="i18n-switch">  
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                            <select name="language" title="language" onchange="window.location.href = this.selectedOptions[0].value">
+                                
+                                    <option value="https://antoinedelia.github.io/cloud-optimist/pr-141/fr/" >French</option>
+                                
+                                    <option value="https://antoinedelia.github.io/cloud-optimist/pr-141/en/" selected>English</option>
+                                
+                            </select>
+                        </li>
+                    
+                
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>Dark Mode</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">Table of contents</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#incident">Incident</a>
+      <ol>
+        <li><a href="#the-context">The Context</a></li>
+        <li><a href="#the-beginning-of-the-drama">The Beginning of the Drama</a></li>
+        <li><a href="#anatomy-of-a-failure">Anatomy of a Failure</a></li>
+      </ol>
+    </li>
+    <li><a href="#resolution">Resolution</a>
+      <ol>
+        <li><a href="#the-click">The Click</a></li>
+        <li><a href="#rollback-impact-and-communication">Rollback, Impact, and Communication</a></li>
+        <li><a href="#analysis-and-troubleshooting">Analysis and Troubleshooting</a></li>
+        <li><a href="#deploying-the-api-light-at-the-end-of-the-tunnel">Deploying the API: Light at the End of the Tunnel?</a></li>
+      </ol>
+    </li>
+    <li><a href="#post-mortem-and-lessons-learned">Post-Mortem and Lessons Learned</a>
+      <ol>
+        <li><a href="#what-went-well">What went well</a></li>
+        <li><a href="#what-went-wrong">What went wrong</a></li>
+        <li><a href="#where-we-got-lucky">Where we got lucky</a></li>
+        <li><a href="#preparing-for-the-future">Preparing for the Future</a></li>
+      </ol>
+    </li>
+    <li><a href="#conclusion">Conclusion</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/cloud-optimist/pr-141/en/posts/2026/the-day-i-accidentally-deleted-an-api-and-what-it-taught-me-about-devops/">
+                <img src="/cloud-optimist/pr-141/fr/posts/2026/the-day-i-accidentally-deleted-an-api-and-what-it-taught-me-about-devops/deleted_api_hu_a9ddd825ca8d8444.png"
+                        srcset="/cloud-optimist/pr-141/fr/posts/2026/the-day-i-accidentally-deleted-an-api-and-what-it-taught-me-about-devops/deleted_api_hu_a9ddd825ca8d8444.png 800w, /cloud-optimist/pr-141/fr/posts/2026/the-day-i-accidentally-deleted-an-api-and-what-it-taught-me-about-devops/deleted_api_hu_87ae746f23c30d2a.png 1600w"
+                        width="800" 
+                        height="436" 
+                        loading="lazy"
+                        alt="Featured image of post The Day I Accidentally Deleted An Api and What It Taught Me About Devops" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/cloud-optimist/pr-141/en/categories/infrastructure-as-code/" >
+                Infrastructure as Code
+            </a>
+        
+            <a href="/cloud-optimist/pr-141/en/categories/devops/" >
+                DevOps
+            </a>
+        
+            <a href="/cloud-optimist/pr-141/en/categories/ci/cd/" >
+                CI/CD
+            </a>
+        
+            <a href="/cloud-optimist/pr-141/en/categories/cloud/" >
+                Cloud
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/cloud-optimist/pr-141/en/posts/2026/the-day-i-accidentally-deleted-an-api-and-what-it-taught-me-about-devops/">The Day I Accidentally Deleted An Api and What It Taught Me About Devops</a>
+        </h2>
+    
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Feb 17, 2026</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    12 minute read
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+        <footer class="article-translations">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+            <div>
+                
+                    <a href="https://antoinedelia.github.io/cloud-optimist/pr-141/fr/posts/2026/the-day-i-accidentally-deleted-an-api-and-what-it-taught-me-about-devops/" class="link">French</a>
+                
+            </div>
+        </footer>
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <p>April 4, 2024, had started off so well. A hot coffee in hand, VS Code humming with activity, and smooth electronic music in my ears—all the ingredients for a perfect day that surely couldn&rsquo;t foreshadow the coming disaster.</p>
+<p>Today, I&rsquo;d like to tell you how a seemingly quiet day became a defining moment in my DevOps career!</p>
+<p><img src="/img/the-day-i-accidentally-deleted-an-api-and-what-it-taught-me-about-devops/calm_before_storm.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="Calm before the storm"
+	
+	
+></p>
+<h1 id="incident"><a href="#incident" class="header-anchor"></a>Incident
+</h1><h2 id="the-context"><a href="#the-context" class="header-anchor"></a>The Context
+</h2><p>At the time, I was working in a team tasked with providing a global API Gateway on AWS, featuring several endpoints managed by different teams. Specifically, setting up this API Gateway was the initial phase of the project. It included a DNS record pointing to the API, the API Gateway itself, and a Cognito Authorizer configured with several clients.</p>
+<p>Once this API was ready, external teams could deploy their own endpoints onto it. To facilitate this, a CI/CD pipeline was in place, using CloudFormation to attach the endpoints directly to the existing API.</p>
+<blockquote>
+<p>I’m keeping it as simple as possible here, but if you’re interested in the technical nitty-gritty, feel free to reach out!</p>
+</blockquote>
+<p>On my end, besides being responsible for the global API infrastructure, I occasionally worked on or bootstrapped certain services.</p>
+<h2 id="the-beginning-of-the-drama"><a href="#the-beginning-of-the-drama" class="header-anchor"></a>The Beginning of the Drama
+</h2><p>If you’ve ever worked with CloudFormation, you might be familiar with the dreaded <code>UPDATE_ROLLBACK_FAILED</code> status. This happens when you try to update a CloudFormation stack, but it encounters an error. It then tries to roll back, but if that rollback fails too, your stack gets stuck in <code>UPDATE_ROLLBACK_FAILED</code>.</p>
+<p>This state is particularly annoying because you cannot trigger any new deployments until you’ve resolved the underlying issue.</p>
+<p>That is exactly what happened on that fateful April 4, 2024. One of our services got stuck in this state, and I started investigating the &ldquo;why&rdquo; and the &ldquo;how.&rdquo;</p>
+<p>After a few minutes, I noticed the problem stemmed from the API resource itself. Without overthinking it, and in an effort to unblock the situation quickly, I headed straight to the AWS Console, specifically to the API Gateway service. I found the resource in question and rushed to delete it.</p>
+<p>At that exact moment, something very strange happened. An unexpected behavior that made my blood run cold. Instead of staying on the same page, AWS redirected me to the main API Gateway dashboard—the page that lists your available APIs. It now displayed a count of <code>0</code>.</p>
+<p>I realized then that I hadn&rsquo;t deleted a specific resource <em>within</em> the API, but the entire API Gateway itself.</p>
+<h2 id="anatomy-of-a-failure"><a href="#anatomy-of-a-failure" class="header-anchor"></a>Anatomy of a Failure
+</h2><p>I never thought I’d make such a rookie mistake. And I imagine as you read this, you’re thinking the same thing.</p>
+<p>Because to get it that wrong, <strong>you really have to try!</strong></p>
+<p>Let me reconstruct the crime scene for you. Here is what I saw when I decided to delete a resource from the API Gateway.</p>
+<p><img src="/img/the-day-i-accidentally-deleted-an-api-and-what-it-taught-me-about-devops/api_gateway_view.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="API Gateway resource view"
+	
+	
+></p>
+<p><em>Any resemblance to an actual situation is entirely coincidental.</em></p>
+<p>In my shoes, which button would you have clicked? Easy! The <em>Delete</em> button right next to the resource!</p>
+<p>As for me (and I still don&rsquo;t know what possessed me), I chose to click the <em>API actions</em> button. After all, I did want to perform an &ldquo;action&rdquo;!</p>
+<p>And what happens when you click that button?</p>
+<p><img src="/img/the-day-i-accidentally-deleted-an-api-and-what-it-taught-me-about-devops/api_actions.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="API Actions dropdown menu"
+	
+	
+></p>
+<p>Yikes! Right away, you can see it&rsquo;s not what we want at all. But do you think that stopped me? Not a chance! I came here to delete something, and when I saw the word <em>Delete</em>, I stopped thinking. I should have kept reading, because then I would have seen the word <em>API</em> right next to it.</p>
+<p>Fortunately, our friends at AWS thought of everything! When you click <em>Delete API</em>, they still ask if you are absolutely sure. A nice dialog box pops up, showing the name of the API and asking you to type the word <em>confirm</em> to validate the operation.</p>
+<p><img src="/img/the-day-i-accidentally-deleted-an-api-and-what-it-taught-me-about-devops/delete_api_dialog.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="Delete API confirmation dialog"
+	
+	
+></p>
+<p>That&rsquo;s all well and good, but the AWS engineers underestimated my impatience. In that moment, the confirmation request wasn&rsquo;t a warning; it was an obstacle to my goal. In a heartbeat, I typed <em>confirm</em> and hit enter.</p>
+<p>So, here is the last thing I saw before finally realizing the gravity of my mistake:</p>
+<p><img src="/img/the-day-i-accidentally-deleted-an-api-and-what-it-taught-me-about-devops/successfully_deleted_api.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="API successfully deleted"
+	
+	
+></p>
+<p><em>A vision of pure horror.</em></p>
+<p>I wanted to walk you through this process to make one thing clear: you can put all the safeguards in the world in place, but <strong>you can&rsquo;t protect a system against an impatient individual</strong>, because they won&rsquo;t stop to read the warnings.</p>
+<p>So, the next time you have to perform an &ldquo;innocuous&rdquo; action, take the time to read and ensure you are actually on the right path.</p>
+<p>That being said, let’s move on to the crucial stage: resolving the incident!</p>
+<h1 id="resolution"><a href="#resolution" class="header-anchor"></a>Resolution
+</h1><h2 id="the-click"><a href="#the-click" class="header-anchor"></a>The Click
+</h2><p>Back to the moment of impact. After realizing what had happened, I had a sudden jolt—a moment of clarity (without the aid of any white powder, I promise). I knew what I had to do: resolve the incident, but more importantly, document every single action I took.</p>
+<p>A few weeks prior, I had looked into the <a class="link" href="https://about.gitlab.com/blog/postmortem-of-database-outage-of-january-31/"  target="_blank" rel="noopener"
+    >2017 GitLab incident</a>, which took the service down for hours and resulted in data loss for some users. That’s how I discovered the concept of a <strong>Post-Mortem</strong> and why they are so vital in these situations. But I’ll save that for the next section.</p>
+<p>In the meantime, if you&rsquo;re interested in these topics, I highly recommend <a class="link" href="https://www.youtube.com/@kevinfaang/videos"  target="_blank" rel="noopener"
+    >Kevin Fang&rsquo;s YouTube channel</a> where he, in his own words, &ldquo;reads postmortems and makes low-quality videos about them.&rdquo;</p>
+<h2 id="rollback-impact-and-communication"><a href="#rollback-impact-and-communication" class="header-anchor"></a>Rollback, Impact, and Communication
+</h2><p>My first thought was that there might be a way to trigger a rollback directly within AWS to minimize the impact on users. If I had actually read the warning message earlier, I would have known that was impossible (but if I had read it, I wouldn&rsquo;t have been in this mess anyway).</p>
+<p>With no &ldquo;undo&rdquo; button in sight, I accepted that I was facing a major incident with a global impact. I first set out to map out the full extent of the damage. In my case, not only was the API down (thanks, Captain Obvious), but no new deployments could be made until the API was back online.</p>
+<p>Finally, I made sure to notify the internal team. This kept them in the loop and let them know I was actively working on a fix.</p>
+<h2 id="analysis-and-troubleshooting"><a href="#analysis-and-troubleshooting" class="header-anchor"></a>Analysis and Troubleshooting
+</h2><p>It was time to roll up my sleeves and find a way to redeploy the API Gateway.</p>
+<p>First, I went to the CloudFormation service, remembering that this API was originally deployed through it. I tried updating the stack, hoping it would bring my dear API back like magic.</p>
+<p>Obviously, it wasn&rsquo;t going to be that simple. Updating the stack was impossible because the manual deletion had put the stack into a &ldquo;hybrid&rdquo; state that it couldn&rsquo;t reconcile.</p>
+<p>Since updating was out of the question, the logical next step was to delete the stack and redeploy it from scratch. That’s when the real trouble started. This CloudFormation stack produced several Outputs. <strong>Two of these were required by &ldquo;child&rdquo; stacks</strong> that had deployed their endpoints on the API. Consequently, CloudFormation blocked me from deleting the stack because it would break all the others.</p>
+<p>After brainstorming alternatives, this heavy interdependence led me to a tough decision: I had to delete all the &ldquo;child&rdquo; stacks in CloudFormation—a total of 81 stacks.</p>
+<p>To make matters worse, these child stacks didn&rsquo;t have identifiable tags that would have allowed us to automate the cleanup. Fortunately, most of them used a recognizable name prefix, which allowed me to clear out the bulk of them manually.</p>
+<p>Did I mention <strong>interdependencies</strong>? Because we&rsquo;re not done! Some stacks had deployed S3 buckets. And guess what? CloudFormation won&rsquo;t delete a stack if the S3 bucket isn&rsquo;t empty. Naturally, 14 stacks got stuck in <code>DELETE_FAILED</code>. Luckily, the fix is straightforward: back up each bucket, empty it, and retry the stack deletion.</p>
+<h2 id="deploying-the-api-light-at-the-end-of-the-tunnel"><a href="#deploying-the-api-light-at-the-end-of-the-tunnel" class="header-anchor"></a>Deploying the API: Light at the End of the Tunnel?
+</h2><p>Having finally cleared the web of interdependencies, it was time to delete the original API Gateway stack and redeploy it.</p>
+<p>The deletion went smoothly (thank God), but—naturally—the creation did not.</p>
+<p>First, the stack itself. A YML file existed in a GitHub repo, but <strong>it hadn&rsquo;t been updated in ages</strong>. I knew I was better off using the stack definition stored within CloudFormation (and yes, I had saved a copy—I&rsquo;m not that crazy).</p>
+<p>This stack didn&rsquo;t just deploy the API Gateway; it handled several AWS resources, including Lambdas. These Lambdas were still running on Python 3.7, a version that <a class="link" href="https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtimes-deprecated"  target="_blank" rel="noopener"
+    >AWS no longer allows for creating new Lambdas</a>. Fortunately, a quick upgrade to Python 3.12 was enough to satisfy the AWS gods.</p>
+<p>And, to my surprise, the stack finally deployed without a hitch!</p>
+<p>But to keep a long story short, there was still work to do. Several critical resources for the API were missing from the CloudFormation stack. These resources had been created manually in AWS over time, ignoring all Infrastructure as Code best practices (<em>cries in Terraform</em>). To restore service as quickly as possible (we&rsquo;re DevOps, after all!), I recreated these resources manually once more.</p>
+<p>Finally, several key components had the ARN of the old API hardcoded. This required a bit of &ldquo;digital archaeology&rdquo; to find every spot where a manual update to the new API was needed.</p>
+<p>Ultimately, after several hours of troubleshooting, the API was back up and running, and developers could resume their deployments.</p>
+<p><strong>The incident began on April 4, 2024, at 3:24 PM and was resolved on April 5, 2024, at 8:46 AM.</strong></p>
+<h1 id="post-mortem-and-lessons-learned"><a href="#post-mortem-and-lessons-learned" class="header-anchor"></a>Post-Mortem and Lessons Learned
+</h1><p>Throughout the incident, I took intensive notes on every action taken. Having heard of the <strong>Post-Mortem</strong> principle, I knew this incident was the perfect candidate.</p>
+<p>If you&rsquo;re unfamiliar with the concept, a Post-Mortem is a document that retraces the steps of an incident, its impact, and its root cause. But most importantly—and most interestingly—it includes a <strong>Lessons Learned</strong> section. If you take this part seriously, it will be your best ally in building a more robust architecture.</p>
+<p>In this section, you note three key points: what went well, what went wrong, and where you got lucky. And above all, <strong>be honest!</strong> Even if some points seem silly or make you look incompetent (and I’m saying this as the guy who manually deleted an API, so take it with a grain of salt), the goal isn&rsquo;t to point fingers (the &ldquo;blameless culture&rdquo;). It’s about understanding the flaws in the system so we can fix them.</p>
+<blockquote>
+<p>&ldquo;The cost of failure is education.&rdquo; — Devin Carraway (<a class="link" href="https://sre.google/sre-book/postmortem-culture/"  target="_blank" rel="noopener"
+    >Source</a>)</p>
+</blockquote>
+<p>This might still feel a bit abstract, so let me share my lessons learned from this incident.</p>
+<h2 id="what-went-well"><a href="#what-went-well" class="header-anchor"></a>What went well
+</h2><p><strong>Two things went well</strong> during this incident.</p>
+<p>First, the resolution was handled by <strong>a team member who knew the architecture inside out</strong>. This allowed for a quick understanding of what needed to be restored to get the service back online.</p>
+<p>Second, there was <strong>excellent communication throughout</strong>. When the problem occurred, there was no attempt to hide it. Frequent updates were shared to report on progress. This is crucial—not only does it provide visibility, but communication often leads to helpful tips (like a colleague pointing you toward documentation you didn&rsquo;t know existed).</p>
+<h2 id="what-went-wrong"><a href="#what-went-wrong" class="header-anchor"></a>What went wrong
+</h2><p>This is the part that hurts. As I mentioned, you have to swallow your pride and highlight everything that could have been handled better.</p>
+<p>For this incident, <strong>four things went wrong</strong>.</p>
+<p>To start, <strong>the API infrastructure wasn&rsquo;t consolidated in a single file or folder</strong>; it was scattered across multiple GitHub repos. This made it very difficult to get a bird&rsquo;s-eye view of everything required for the API to function.</p>
+<p>Next, there was a major issue with <strong>drift</strong>. This refers to the differences between your actual infrastructure and how it’s defined in your code. Ideally, no manual changes should ever occur, and everything should go through your IaC files. Had this been the case, a simple redeployment would have restored the service instantly.</p>
+<p>Another issue was <strong>the heavy interdependence between resources</strong>. Many relied on CloudFormation stack outputs. Removing the parent stack essentially crippled the ability to manage the rest of the infrastructure.</p>
+<p>Finally, identifying resources tied to our infrastructure was difficult. <strong>Our stack deployed resources without any associated tags</strong>, making it a scavenger hunt to find every piece of the puzzle.</p>
+<h2 id="where-we-got-lucky"><a href="#where-we-got-lucky" class="header-anchor"></a>Where we got lucky
+</h2><p>This might sound positive, but it isn&rsquo;t! This category covers things that went well <em>only</em> because of luck. Realize that at any moment, these could have been in the &ldquo;What went wrong&rdquo; column. Be glad this time, but don&rsquo;t let your guard down!</p>
+<p>In this case, <strong>we got lucky in three ways</strong>.</p>
+<p>First, the incident was <strong>identified immediately</strong> (that’s the one perk of making a massive blunder yourself). But it could have been much worse! If the API had been deleted via an automated script, we had no monitoring in place to alert us.</p>
+<p>Second, the person who deleted the API had deep knowledge of the project (yes, I&rsquo;m talking about myself—I have to give myself <em>some</em> credit). This allowed for an immediate transition into resolution mode, but it could have been someone else who was totally lost.</p>
+<p>Finally, <strong>this was our &ldquo;Dev&rdquo; API</strong>. The Production API was perfectly fine (a detail I intentionally saved for the end—you know, for the storytelling). So while the impact was minimal, the same incident could have happened in Prod with the same recovery nightmares. And that would have been much more expensive.</p>
+<h2 id="preparing-for-the-future"><a href="#preparing-for-the-future" class="header-anchor"></a>Preparing for the Future
+</h2><p>Now that you&rsquo;ve listed the problems encountered, as a good DevOps engineer, you must learn from them. Note everything that can be improved, but above all, <strong>set a plan!</strong> Otherwise, these are just empty words.</p>
+<blockquote>
+<p>&ldquo;A goal without a plan is just a wish.&rdquo; — Antoine de Saint-Exupéry</p>
+</blockquote>
+<p>In my case, the three key takeaways were:</p>
+<ul>
+<li><strong>Consolidation of Infrastructure as Code:</strong> Everything must be deployable in the blink of an eye. This is a project I would complete in the following months.</li>
+<li><strong>Improved Monitoring and Alerting:</strong> If this ever happens again, we need to be alerted immediately so we can react fast.</li>
+<li><strong>Clearer Documentation:</strong> Any team member should be able to handle such an incident, and that starts with reliable, understandable docs.</li>
+</ul>
+<p>All these lessons were tracked as GitHub issues, and I made sure to knock them out over the following months.</p>
+<h1 id="conclusion"><a href="#conclusion" class="header-anchor"></a>Conclusion
+</h1><p>As you&rsquo;ve seen, accidents happen. The key is to make sure they benefit you and your organization. Use them as an opportunity to learn and patch vulnerabilities that were previously undetected (some companies even <a class="link" href="https://en.wikipedia.org/wiki/Chaos_engineering"  target="_blank" rel="noopener"
+    >purposely create chaos</a> for this very reason).</p>
+<p>Thanks for reading to the end! I’ll leave you here—I’ve got some other infrastructures to delete!</p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/cloud-optimist/pr-141/en/tags/s3/">S3</a>
+        
+            <a href="/cloud-optimist/pr-141/en/tags/api-gateway/">API Gateway</a>
+        
+            <a href="/cloud-optimist/pr-141/en/tags/cloudformation/">CloudFormation</a>
+        
+            <a href="/cloud-optimist/pr-141/en/tags/cognito/">Cognito</a>
+        
+            <a href="/cloud-optimist/pr-141/en/tags/terraform/">Terraform</a>
+        
+            <a href="/cloud-optimist/pr-141/en/tags/aws/">AWS</a>
+        
+            <a href="/cloud-optimist/pr-141/en/tags/postmortem/">Postmortem</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">Related content</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/cloud-optimist/pr-141/en/posts/2025/how-i-automated-my-blog-to-the-cloud/">
+        
+        
+            <div class="article-image">
+                <img src="/cloud-optimist/pr-141/en/posts/2025/how-i-automated-my-blog-to-the-cloud/automated-blog.f8912fd4b1ac173a63449d8e8f990bda_hu_fdc7790acf3e0832.jpeg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post How I Automated My Blog To The Cloud"
+                        
+                        data-hash="md5-&#43;JEv1LGsFzpjRJ2Oj5kL2g==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">How I Automated My Blog To The Cloud</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/cloud-optimist/pr-141/en/posts/2025/moving-away-from-terraform-cloud/">
+        
+        
+            <div class="article-image">
+                <img src="/cloud-optimist/pr-141/fr/posts/2025/moving-away-from-terraform-cloud/terraform.2fa57ebedda97c363d569e24f36f30b9_hu_81831211380bf81b.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post How to migrate your State from Terraform Cloud to AWS S3?"
+                        
+                        data-hash="md5-L6V&#43;vt2pfDY9Vp4k828wuQ==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">How to migrate your State from Terraform Cloud to AWS S3?</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/cloud-optimist/pr-141/en/posts/2025/on-the-trail-of-the-lost-resource-my-investigation-with-athena-and-cloudtrail/">
+        
+        
+            <div class="article-image">
+                <img src="/cloud-optimist/pr-141/fr/posts/2025/on-the-trail-of-the-lost-resource-my-investigation-with-athena-and-cloudtrail/aws_lost_resource.88bfadba515bb85ce966344578a0c209_hu_fbb6a0adc329b98a.jpeg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post On The Trail of The Lost Resource - My Investigation With Athena and CloudTrail"
+                        
+                        data-hash="md5-iL&#43;tulFbuFzpZjRFeKDCCQ==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">On The Trail of The Lost Resource - My Investigation With Athena and CloudTrail</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/cloud-optimist/pr-141/en/posts/2025/why-tagging-your-aws-resources-is-a-must/">
+        
+        
+            <div class="article-image">
+                <img src="/cloud-optimist/pr-141/fr/posts/2025/why-tagging-your-aws-resources-is-a-must/aws_tagging.faf98b2cff2fa0c46736f8ca429e7d72_hu_524924c87bbefd0.jpeg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post Why Tagging your AWS Resources is a Must?"
+                        
+                        data-hash="md5-&#43;vmLLP8voMRnNvjKQp59cg==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Why Tagging your AWS Resources is a Must?</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/cloud-optimist/pr-141/en/posts/2025/how-we-built-a-cicd-strategy-that-onboards-100-python-projects-in-under-a-minute/">
+        
+        
+            <div class="article-image">
+                <img src="/cloud-optimist/pr-141/en/posts/2025/how-we-built-a-cicd-strategy-that-onboards-100-python-projects-in-under-a-minute/ci-cd-strategy.4bfd0d2defa14a08bf1ba9f713764379_hu_532ad2ab6e5b3ec2.jpeg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post How We Built a CI/CD Strategy That Onboards 100&#43; Python Projects in Under a Minute"
+                        
+                        data-hash="md5-S/0NLe&#43;hSgi/G6n3E3ZDeQ==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">How We Built a CI/CD Strategy That Onboards 100&#43; Python Projects in Under a Minute</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <script
+    src="https://giscus.app/client.js"
+    data-repo="antoinedelia/cloud-optimist"
+    data-repo-id="R_kgDOHWH-Zg"
+    data-category="Comments"
+    data-category-id="DIC_kwDOHWH-Zs4CoHBh"
+    data-mapping="pathname"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="1"
+    data-input-position="top"
+    data-theme="light"
+    data-lang="en"
+    data-loading=""
+    crossorigin="anonymous"
+    async
+></script>
+<script>
+    function setGiscusTheme(theme) {
+        let giscus = document.querySelector("iframe.giscus-frame");
+        if (giscus) {
+            giscus.contentWindow.postMessage(
+                {
+                    giscus: {
+                        setConfig: {
+                            theme: theme,
+                        },
+                    },
+                },
+                "https://giscus.app"
+            );
+        }
+    }
+
+    (function () {
+        addEventListener("message", (e) => {
+            if (event.origin !== "https://giscus.app") return;
+            handler();
+        });
+        window.addEventListener("onColorSchemeChange", handler);
+
+        function handler() {
+            if (document.documentElement.dataset.scheme === "light") {
+                setGiscusTheme('light');
+            } else {
+                setGiscusTheme('dark_dimmed');
+            }
+        }
+    })();
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2022 - 
+        
+        2026 The Cloud Optimist
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.29.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/cloud-optimist/pr-141/ts/main.1e9a3bafd846ced4c345d084b355fb8c7bae75701c338f8a1f8a82c780137826.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

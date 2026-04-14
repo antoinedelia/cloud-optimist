@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="fr-FR" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="Pourquoi le Cloud Souverain ? Ces dernières semaines, le concept de &ldquo;Cloud Souverain&rdquo; était partout, comme une évidence. Et pourtant, quand j&rsquo;ai commencé à m&rsquo;intéresser au Cloud il y a plusieurs années, personne n&rsquo;en parlait. C&rsquo;était déjà une prouesse de comprendre et utiliser le Cloud, alors qu&rsquo;il soit souverain ou non, franchement, tout le monde s&rsquo;en fichait.\nMais avec le climat géopolitique actuel, tout le monde s&rsquo;est souvenu que les trois grands acteurs du Cloud que sont AWS, Azure et GCP sont américains, et que cela pourrait potentiellement poser des problèmes, notamment avec le Cloud Act, qui permet au gouvernement américain d&rsquo;accéder aux données stockées sur les serveurs de ces entreprises, même s&rsquo;ils sont situés en dehors des États-Unis.\n">
+<title>Cloud Souverain : Comment démarrer avec Scaleway</title>
+
+<link rel='canonical' href='https://antoinedelia.github.io/cloud-optimist/pr-144/fr/posts/2026/cloud-sovereignty-getting-started-with-scaleway/'>
+
+<link rel="stylesheet" href="/cloud-optimist/pr-144/scss/style.min.6a692fd055deae459f2a9767f57f3855ba80cafd5041317f24f7360f6ca47cdf.css"><meta property='og:title' content="Cloud Souverain : Comment démarrer avec Scaleway">
+<meta property='og:description' content="Pourquoi le Cloud Souverain ? Ces dernières semaines, le concept de &ldquo;Cloud Souverain&rdquo; était partout, comme une évidence. Et pourtant, quand j&rsquo;ai commencé à m&rsquo;intéresser au Cloud il y a plusieurs années, personne n&rsquo;en parlait. C&rsquo;était déjà une prouesse de comprendre et utiliser le Cloud, alors qu&rsquo;il soit souverain ou non, franchement, tout le monde s&rsquo;en fichait.\nMais avec le climat géopolitique actuel, tout le monde s&rsquo;est souvenu que les trois grands acteurs du Cloud que sont AWS, Azure et GCP sont américains, et que cela pourrait potentiellement poser des problèmes, notamment avec le Cloud Act, qui permet au gouvernement américain d&rsquo;accéder aux données stockées sur les serveurs de ces entreprises, même s&rsquo;ils sont situés en dehors des États-Unis.\n">
+<meta property='og:url' content='https://antoinedelia.github.io/cloud-optimist/pr-144/fr/posts/2026/cloud-sovereignty-getting-started-with-scaleway/'>
+<meta property='og:site_name' content='The Cloud Optimist'>
+<meta property='og:type' content='article'><meta property='article:section' content='Posts' /><meta property='article:tag' content='Scaleway' /><meta property='article:tag' content='Cloud Sovereignty' /><meta property='article:published_time' content='2026-05-17T07:30:00&#43;01:00'/><meta property='article:modified_time' content='2026-05-17T07:30:00&#43;01:00'/><meta property='og:image' content='https://antoinedelia.github.io/cloud-optimist/pr-144/scaleway.png' />
+<meta name="twitter:title" content="Cloud Souverain : Comment démarrer avec Scaleway">
+<meta name="twitter:description" content="Pourquoi le Cloud Souverain ? Ces dernières semaines, le concept de &ldquo;Cloud Souverain&rdquo; était partout, comme une évidence. Et pourtant, quand j&rsquo;ai commencé à m&rsquo;intéresser au Cloud il y a plusieurs années, personne n&rsquo;en parlait. C&rsquo;était déjà une prouesse de comprendre et utiliser le Cloud, alors qu&rsquo;il soit souverain ou non, franchement, tout le monde s&rsquo;en fichait.\nMais avec le climat géopolitique actuel, tout le monde s&rsquo;est souvenu que les trois grands acteurs du Cloud que sont AWS, Azure et GCP sont américains, et que cela pourrait potentiellement poser des problèmes, notamment avec le Cloud Act, qui permet au gouvernement américain d&rsquo;accéder aux données stockées sur les serveurs de ces entreprises, même s&rsquo;ils sont situés en dehors des États-Unis.\n"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://antoinedelia.github.io/cloud-optimist/pr-144/scaleway.png' />
+    <link rel="shortcut icon" href="/favicon.ico" />
+
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-NPENVXWP54"></script>
+      <script>
+        var doNotTrack = false;
+        if ( true ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-NPENVXWP54');
+        }
+      </script>
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Afficher le menu">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/cloud-optimist/pr-144/fr/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/cloud-optimist/pr-144/img/avatar_hu_6376077d4e00194.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">☁️</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/cloud-optimist/pr-144/fr">The Cloud Optimist</a></h1>
+            <h2 class="site-description">Un blog autour des sujets Cloud &amp; DevOps.</h2>
+        </div>
+    </header><ol class="menu-social">
+            
+                <li>
+                    <a 
+                        href='https://github.com/antoinedelia/'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://linkedin.com/in/antoinedelia'
+                        target="_blank"
+                        title="LinkedIn"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-brand-linkedin"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M8 11v5" /><path d="M8 8v.01" /><path d="M12 16v-5" /><path d="M16 16v-3a2 2 0 1 0 -4 0" /><path d="M3 7a4 4 0 0 1 4 -4h10a4 4 0 0 1 4 4v10a4 4 0 0 1 -4 4h-10a4 4 0 0 1 -4 -4z" /></svg>
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://stackoverflow.com/users/4141606/antoine-delia?tab=profile'
+                        target="_blank"
+                        title="Stack Overflow"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-brand-stackoverflow"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 17v1a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-1" /><path d="M8 16h8" /><path d="M8.322 12.582l7.956 .836" /><path d="M8.787 9.168l7.826 1.664" /><path d="M10.096 5.764l7.608 2.472" /></svg>
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/cloud-optimist/pr-144/fr' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>Accueil</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/cloud-optimist/pr-144/fr/about/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>À Propos</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/cloud-optimist/pr-144/fr/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>Archives</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/cloud-optimist/pr-144/fr/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>Recherche</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/cloud-optimist/pr-144/fr/liens/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>Liens</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+                    
+                        <li id="i18n-switch">  
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                            <select name="language" title="language" onchange="window.location.href = this.selectedOptions[0].value">
+                                
+                                    <option value="https://antoinedelia.github.io/cloud-optimist/pr-144/fr/" selected>French</option>
+                                
+                                    <option value="https://antoinedelia.github.io/cloud-optimist/pr-144/en/" >English</option>
+                                
+                            </select>
+                        </li>
+                    
+                
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>Mode sombre</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">Table des matières</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#pourquoi-le-cloud-souverain-">Pourquoi le Cloud Souverain ?</a></li>
+    <li><a href="#premiers-pas-avec-scaleway">Premiers pas avec Scaleway</a>
+      <ol>
+        <li><a href="#aperçu-de-la-console">Aperçu de la console</a></li>
+        <li><a href="#création-dune-fonction">Création d&rsquo;une fonction</a></li>
+        <li><a href="#même-exercice-avec-terraform">Même exercice avec Terraform</a></li>
+      </ol>
+    </li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/cloud-optimist/pr-144/fr/posts/2026/cloud-sovereignty-getting-started-with-scaleway/">
+                
+                    <img src="/cloud-optimist/pr-144/scaleway.png" loading="lazy" alt="Featured image of post Cloud Souverain : Comment démarrer avec Scaleway" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/cloud-optimist/pr-144/fr/categories/cloud/" >
+                Cloud
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/cloud-optimist/pr-144/fr/posts/2026/cloud-sovereignty-getting-started-with-scaleway/">Cloud Souverain : Comment démarrer avec Scaleway</a>
+        </h2>
+    
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">17 mai 2026</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    5 minutes de lecture
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+        <footer class="article-translations">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+            <div>
+                
+                    <a href="https://antoinedelia.github.io/cloud-optimist/pr-144/en/posts/2026/cloud-sovereignty-getting-started-with-scaleway/" class="link">English</a>
+                
+            </div>
+        </footer>
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <h1 id="pourquoi-le-cloud-souverain-"><a href="#pourquoi-le-cloud-souverain-" class="header-anchor"></a>Pourquoi le Cloud Souverain ?
+</h1><p>Ces dernières semaines, le concept de &ldquo;Cloud Souverain&rdquo; était partout, comme une évidence. Et pourtant, quand j&rsquo;ai commencé à m&rsquo;intéresser au Cloud il y a plusieurs années, personne n&rsquo;en parlait. C&rsquo;était déjà une prouesse de comprendre et utiliser le Cloud, alors qu&rsquo;il soit souverain ou non, franchement, tout le monde s&rsquo;en fichait.</p>
+<p>Mais avec le climat géopolitique actuel, tout le monde s&rsquo;est souvenu que les trois grands acteurs du Cloud que sont AWS, Azure et GCP sont américains, et que cela pourrait potentiellement poser des problèmes, notamment avec le Cloud Act, qui permet au gouvernement américain d&rsquo;accéder aux données stockées sur les serveurs de ces entreprises, même s&rsquo;ils sont situés en dehors des États-Unis.</p>
+<p>Ainsi, vous aurez beau dire : &ldquo;non mais chez nous on utilise la région AWS <code>eu-west-1</code> en Irlande, donc c&rsquo;est complètement souverain !&rdquo;, ça ne changera rien au fait que vos données sont potentiellement accessibles par le gouvernement américain. Et beaucoup d&rsquo;entreprises ont commencé à en prendre conscience, et à se demander s&rsquo;il n&rsquo;était pas temps de chercher une alternative plus <em>souveraine</em>.</p>
+<p>Et même si on observe des initiatives de la part des Big Three (je pense notamment à AWS avec son initiative <a class="link" href="https://www.aboutamazon.fr/actualites/aws/aws-lance-laws-european-sovereign-cloud-et-annonce-son-expansion-en-europe"  target="_blank" rel="noopener"
+    ><em>AWS European Sovereign Cloud</em></a>), on observe une montée en popularité de solutions alternatives, comme Scaleway, qui a su se positionner rapidement comme un acteur majeur du Cloud Souverain en Europe.</p>
+<p>Aujourd&rsquo;hui, j&rsquo;aimerai donc tester avec vous Scaleway, du point de vue de quelqu&rsquo;un qui a toujours été habitué à AWS. Serais-je agréablement surpris ? Découvrons-le ensemble !</p>
+<h1 id="premiers-pas-avec-scaleway"><a href="#premiers-pas-avec-scaleway" class="header-anchor"></a>Premiers pas avec Scaleway
+</h1><h2 id="aperçu-de-la-console"><a href="#aper%c3%a7u-de-la-console" class="header-anchor"></a>Aperçu de la console
+</h2><p>Je vous passerai toute la partie de création de compte. C&rsquo;est assez simple, et je n&rsquo;ai pas rencontré de problèmes particuliers.</p>
+<p>Maintenant, comme la première impression est importante, voyons voir à quoi ressemble la console d&rsquo;administration de Scaleway dès notre arrivée.</p>
+<p><img src="/cloud-optimist/pr-144/scaleway_console.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="Console d’administration de Scaleway"
+	
+	
+></p>
+<p>Ma première bonne surprise, est la notion de projets. Là où chez AWS, pour un même compte, toutes vos ressources co-habitent au même endroit (ce qui peut rendre la recherche de ressources compliquée), chez Scaleway, vous pouvez créer des projets qui viendront grouper vos ressources. Un premier projet &ldquo;Default&rdquo; existe déjà, et j&rsquo;imagine qu&rsquo;il servira aux ressources &ldquo;communes&rdquo; à plusieurs projets.</p>
+<p>Au niveau de l&rsquo;interface utilisateur, sans pour autant révolutionner la navigation (et après tout, ce n&rsquo;est pas forcément ce qu&rsquo;on attend), Scaleway utilise une sidebar plutôt épurée, avec un groupement de services en fonction de leur fonction. Qui plus est, chaque service a un nom clair, ce qui permet de rapidement savoir où on veut aller (là où AWS aime bien les noms de services cryptiques).</p>
+<p>Allez, fini de rêvasser, et entrons dans le vif du sujet !</p>
+<h2 id="création-dune-fonction"><a href="#cr%c3%a9ation-dune-fonction" class="header-anchor"></a>Création d&rsquo;une fonction
+</h2><p>Le premier test que j&rsquo;aimerai faire, c&rsquo;est de déployer une simple function (aka une AWS Lambda) pour voir les similitudes et différences avec AWS.</p>
+<p>Je me rends donc dans Serverless Compute &ndash;&gt; Functions. Et je suis déjà perplexe : Scaleway me parle de &ldquo;namespaces&rdquo; pour me permettre de grouper mes fonctions. J&rsquo;ai d&rsquo;abord pensé à une redite des &ldquo;projets&rdquo; vu plus haut, mais les &ldquo;namespaces&rdquo; permettent en plus de partager des variables d&rsquo;environnement entre plusieurs fonctions. Des groupes dans des groupes donc.</p>
+<p>Passons là-dessus pour l&rsquo;instant, et commençons à créer notre première fonction.</p>
+<p><img src="/cloud-optimist/pr-144/scaleway_create_function.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="Création d’une fonction dans Scaleway"
+	
+	
+></p>
+<p>Pour commencer, je trouve l&rsquo;interface très clair, et j&rsquo;apprécie particulièrement les petites docs glissées à certains endroits, ainsi que la mention &ldquo;Deprecated&rdquo; sur les versions des runtimes. Idem pour les coûts estimés dans la colonne de droite, une bonne indication rapide pour voir si on n&rsquo;est pas en train de faire n&rsquo;importe quoi ! Au final, cela ressemble beaucoup à du AWS, mais en plus &ldquo;clean&rdquo; et plus ordonné.</p>
+<p>Il y a tout de même des points qui me chiffonnent un peu :</p>
+<ul>
+<li>La request timeout indique un maximum de 900, mais le slider peut monter à 3600</li>
+<li>L&rsquo;input &ldquo;Average request duration&rdquo; qui n&rsquo;a pas l&rsquo;air de pouvoir être rempli</li>
+</ul>
+<p>Une fois que tout est bon, je finis par créer ma fonction. Et là encore, je suis un peu déçu. Il aura fallu plus d&rsquo;une minute pour déployer cette fonction qui ne contient qu&rsquo;un simple &ldquo;Hello World&rdquo;. J&rsquo;ai notamment été intrigué par l&rsquo;étape numéro 3 : &ldquo;function image is being pushed to container registry&rdquo;. J&rsquo;ai trouvé ça assez curieux que Scaleway stocke une image de ma pauvre fonction Hello World. Je suis donc allé voir dans le service &ldquo;Container Registry&rdquo; et suprise ! Mon image était bien là, mais avec une taille de 337MB !!! Sachant que le stockage des images sur Scaleway est facturé, je trouve ça un peu fort de café de devoir déjà payé 0.06€ pour un bête Hello World.</p>
+<p>Mais revenons à nos fonctions. Un autre point noir concerne l&rsquo;éditeur de code. Là où chez AWS, on nous offre une expérience proche d&rsquo;un Visual Studio Code, chez Scaleway, vous n&rsquo;aurez droit qu&rsquo;à un simple textarea, avec un seul fichier. Je vous entends déjà dire &ldquo;de toute façon, modifier du code dans la console, c&rsquo;est une hérésie !&rdquo;, et je suis d&rsquo;accord avec vous. Mais cela montre le retard de Scaleway sur ce point.</p>
+<p>En contrepartie, la navigation est quant à elle bien plus agréable et facile pour s&rsquo;y retrouver. J&rsquo;apprécie tout particulièrement la partie &ldquo;Test&rdquo; qui nous offre une commande curl prête à l&rsquo;usage (dommage cependant qu&rsquo;il ne soit pas possible de tester directement depuis la console).</p>
+<h2 id="même-exercice-avec-terraform"><a href="#m%c3%aame-exercice-avec-terraform" class="header-anchor"></a>Même exercice avec Terraform
+</h2><p>Comme je le disais plus haut, la console c&rsquo;est bien, mais si on veut se lancer sérieusement dans un provider cloud, alors il faudra passer par la case Infrastructure as Code. Et ici, mon chouchou reste Terraform. Je suis donc curieux de voir comment se passe le déploiement d&rsquo;une fonction sur Scaleway avec Terraform.</p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/cloud-optimist/pr-144/fr/tags/scaleway/">Scaleway</a>
+        
+            <a href="/cloud-optimist/pr-144/fr/tags/cloud-sovereignty/">Cloud Sovereignty</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">Contenus liés</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/cloud-optimist/pr-144/fr/posts/2026/the-day-i-accidentally-deleted-an-api-and-what-it-taught-me-about-devops/">
+        
+        
+            <div class="article-image">
+                <img src="/cloud-optimist/pr-144/fr/posts/2026/the-day-i-accidentally-deleted-an-api-and-what-it-taught-me-about-devops/deleted_api.ebb7b20f0344480ad2ea28fb29edef45_hu_b096132b0349f4b1.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post Le jour où j&#39;ai accidentellement supprimé une API, et ce que cela m&#39;a appris sur le DevOps"
+                        
+                        data-hash="md5-67eyDwNESArS6ij7Ke3vRQ==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Le jour où j&#39;ai accidentellement supprimé une API, et ce que cela m&#39;a appris sur le DevOps</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/cloud-optimist/pr-144/fr/posts/2025/moving-away-from-terraform-cloud/">
+        
+        
+            <div class="article-image">
+                <img src="/cloud-optimist/pr-144/fr/posts/2025/moving-away-from-terraform-cloud/terraform.2fa57ebedda97c363d569e24f36f30b9_hu_81831211380bf81b.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post Comment migrer son State de Terraform Cloud vers AWS S3 ?"
+                        
+                        data-hash="md5-L6V&#43;vt2pfDY9Vp4k828wuQ==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Comment migrer son State de Terraform Cloud vers AWS S3 ?</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/cloud-optimist/pr-144/fr/posts/2025/how-and-why-to-set-up-aws-iam-identity-center-on-your-aws-account/">
+        
+        
+            <div class="article-image">
+                <img src="/cloud-optimist/pr-144/fr/posts/2025/how-and-why-to-set-up-aws-iam-identity-center-on-your-aws-account/iam-identity-center.58634a6aa2694b3a9318af065fd9faf8_hu_5f5b7e1e2ec78ce9.jpg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post Comment et pourquoi configurer AWS IAM Identity Center sur votre compte AWS"
+                        
+                        data-hash="md5-WGNKaqJpSzqTGK8GX9n6&#43;A==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Comment et pourquoi configurer AWS IAM Identity Center sur votre compte AWS</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/cloud-optimist/pr-144/fr/posts/2025/on-the-trail-of-the-lost-resource-my-investigation-with-athena-and-cloudtrail/">
+        
+        
+            <div class="article-image">
+                <img src="/cloud-optimist/pr-144/fr/posts/2025/on-the-trail-of-the-lost-resource-my-investigation-with-athena-and-cloudtrail/aws_lost_resource.88bfadba515bb85ce966344578a0c209_hu_fbb6a0adc329b98a.jpeg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post Sur la piste de la ressource perdue - Mon enquête avec Athena et CloudTrail"
+                        
+                        data-hash="md5-iL&#43;tulFbuFzpZjRFeKDCCQ==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Sur la piste de la ressource perdue - Mon enquête avec Athena et CloudTrail</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/cloud-optimist/pr-144/fr/posts/2025/why-tagging-your-aws-resources-is-a-must/">
+        
+        
+            <div class="article-image">
+                <img src="/cloud-optimist/pr-144/fr/posts/2025/why-tagging-your-aws-resources-is-a-must/aws_tagging.faf98b2cff2fa0c46736f8ca429e7d72_hu_524924c87bbefd0.jpeg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post Pourquoi taguer vos ressources AWS est indispensable ?"
+                        
+                        data-hash="md5-&#43;vmLLP8voMRnNvjKQp59cg==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Pourquoi taguer vos ressources AWS est indispensable ?</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <script
+    src="https://giscus.app/client.js"
+    data-repo="antoinedelia/cloud-optimist"
+    data-repo-id="R_kgDOHWH-Zg"
+    data-category="Comments"
+    data-category-id="DIC_kwDOHWH-Zs4CoHBh"
+    data-mapping="pathname"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="1"
+    data-input-position="top"
+    data-theme="light"
+    data-lang="fr"
+    data-loading=""
+    crossorigin="anonymous"
+    async
+></script>
+<script>
+    function setGiscusTheme(theme) {
+        let giscus = document.querySelector("iframe.giscus-frame");
+        if (giscus) {
+            giscus.contentWindow.postMessage(
+                {
+                    giscus: {
+                        setConfig: {
+                            theme: theme,
+                        },
+                    },
+                },
+                "https://giscus.app"
+            );
+        }
+    }
+
+    (function () {
+        addEventListener("message", (e) => {
+            if (event.origin !== "https://giscus.app") return;
+            handler();
+        });
+        window.addEventListener("onColorSchemeChange", handler);
+
+        function handler() {
+            if (document.documentElement.dataset.scheme === "light") {
+                setGiscusTheme('light');
+            } else {
+                setGiscusTheme('dark_dimmed');
+            }
+        }
+    })();
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2022 - 
+        
+        2026 The Cloud Optimist
+    </section>
+    
+    <section class="powerby">
+        Généré avec <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Thème <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.29.0">Stack</a></b> conçu par <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/cloud-optimist/pr-144/ts/main.1e9a3bafd846ced4c345d084b355fb8c7bae75701c338f8a1f8a82c780137826.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

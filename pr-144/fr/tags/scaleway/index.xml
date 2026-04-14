@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>Scaleway on The Cloud Optimist</title>
+        <link>https://antoinedelia.github.io/cloud-optimist/pr-144/fr/tags/scaleway/</link>
+        <description>Recent content in Scaleway on The Cloud Optimist</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>fr-FR</language>
+        <lastBuildDate>Sun, 17 May 2026 07:30:00 +0100</lastBuildDate><atom:link href="https://antoinedelia.github.io/cloud-optimist/pr-144/fr/tags/scaleway/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Cloud Souverain : Comment démarrer avec Scaleway</title>
+        <link>https://antoinedelia.github.io/cloud-optimist/pr-144/fr/posts/2026/cloud-sovereignty-getting-started-with-scaleway/</link>
+        <pubDate>Sun, 17 May 2026 07:30:00 +0100</pubDate>
+        
+        <guid>https://antoinedelia.github.io/cloud-optimist/pr-144/fr/posts/2026/cloud-sovereignty-getting-started-with-scaleway/</guid>
+        <description>&lt;img src="https://antoinedelia.github.io/cloud-optimist/pr-144/scaleway.png" alt="Featured image of post Cloud Souverain : Comment démarrer avec Scaleway" /&gt;&lt;h1 id=&#34;pourquoi-le-cloud-souverain-&#34;&gt;&lt;a href=&#34;#pourquoi-le-cloud-souverain-&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Pourquoi le Cloud Souverain ?
+&lt;/h1&gt;&lt;p&gt;Ces dernières semaines, le concept de &amp;ldquo;Cloud Souverain&amp;rdquo; était partout, comme une évidence. Et pourtant, quand j&amp;rsquo;ai commencé à m&amp;rsquo;intéresser au Cloud il y a plusieurs années, personne n&amp;rsquo;en parlait. C&amp;rsquo;était déjà une prouesse de comprendre et utiliser le Cloud, alors qu&amp;rsquo;il soit souverain ou non, franchement, tout le monde s&amp;rsquo;en fichait.&lt;/p&gt;
+&lt;p&gt;Mais avec le climat géopolitique actuel, tout le monde s&amp;rsquo;est souvenu que les trois grands acteurs du Cloud que sont AWS, Azure et GCP sont américains, et que cela pourrait potentiellement poser des problèmes, notamment avec le Cloud Act, qui permet au gouvernement américain d&amp;rsquo;accéder aux données stockées sur les serveurs de ces entreprises, même s&amp;rsquo;ils sont situés en dehors des États-Unis.&lt;/p&gt;
+&lt;p&gt;Ainsi, vous aurez beau dire : &amp;ldquo;non mais chez nous on utilise la région AWS &lt;code&gt;eu-west-1&lt;/code&gt; en Irlande, donc c&amp;rsquo;est complètement souverain !&amp;rdquo;, ça ne changera rien au fait que vos données sont potentiellement accessibles par le gouvernement américain. Et beaucoup d&amp;rsquo;entreprises ont commencé à en prendre conscience, et à se demander s&amp;rsquo;il n&amp;rsquo;était pas temps de chercher une alternative plus &lt;em&gt;souveraine&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;Et même si on observe des initiatives de la part des Big Three (je pense notamment à AWS avec son initiative &lt;a class=&#34;link&#34; href=&#34;https://www.aboutamazon.fr/actualites/aws/aws-lance-laws-european-sovereign-cloud-et-annonce-son-expansion-en-europe&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;&lt;em&gt;AWS European Sovereign Cloud&lt;/em&gt;&lt;/a&gt;), on observe une montée en popularité de solutions alternatives, comme Scaleway, qui a su se positionner rapidement comme un acteur majeur du Cloud Souverain en Europe.&lt;/p&gt;
+&lt;p&gt;Aujourd&amp;rsquo;hui, j&amp;rsquo;aimerai donc tester avec vous Scaleway, du point de vue de quelqu&amp;rsquo;un qui a toujours été habitué à AWS. Serais-je agréablement surpris ? Découvrons-le ensemble !&lt;/p&gt;
+&lt;h1 id=&#34;premiers-pas-avec-scaleway&#34;&gt;&lt;a href=&#34;#premiers-pas-avec-scaleway&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Premiers pas avec Scaleway
+&lt;/h1&gt;&lt;h2 id=&#34;aperçu-de-la-console&#34;&gt;&lt;a href=&#34;#aper%c3%a7u-de-la-console&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Aperçu de la console
+&lt;/h2&gt;&lt;p&gt;Je vous passerai toute la partie de création de compte. C&amp;rsquo;est assez simple, et je n&amp;rsquo;ai pas rencontré de problèmes particuliers.&lt;/p&gt;
+&lt;p&gt;Maintenant, comme la première impression est importante, voyons voir à quoi ressemble la console d&amp;rsquo;administration de Scaleway dès notre arrivée.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://antoinedelia.github.io/cloud-optimist/pr-144/scaleway_console.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Console d’administration de Scaleway&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;Ma première bonne surprise, est la notion de projets. Là où chez AWS, pour un même compte, toutes vos ressources co-habitent au même endroit (ce qui peut rendre la recherche de ressources compliquée), chez Scaleway, vous pouvez créer des projets qui viendront grouper vos ressources. Un premier projet &amp;ldquo;Default&amp;rdquo; existe déjà, et j&amp;rsquo;imagine qu&amp;rsquo;il servira aux ressources &amp;ldquo;communes&amp;rdquo; à plusieurs projets.&lt;/p&gt;
+&lt;p&gt;Au niveau de l&amp;rsquo;interface utilisateur, sans pour autant révolutionner la navigation (et après tout, ce n&amp;rsquo;est pas forcément ce qu&amp;rsquo;on attend), Scaleway utilise une sidebar plutôt épurée, avec un groupement de services en fonction de leur fonction. Qui plus est, chaque service a un nom clair, ce qui permet de rapidement savoir où on veut aller (là où AWS aime bien les noms de services cryptiques).&lt;/p&gt;
+&lt;p&gt;Allez, fini de rêvasser, et entrons dans le vif du sujet !&lt;/p&gt;
+&lt;h2 id=&#34;création-dune-fonction&#34;&gt;&lt;a href=&#34;#cr%c3%a9ation-dune-fonction&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Création d&amp;rsquo;une fonction
+&lt;/h2&gt;&lt;p&gt;Le premier test que j&amp;rsquo;aimerai faire, c&amp;rsquo;est de déployer une simple function (aka une AWS Lambda) pour voir les similitudes et différences avec AWS.&lt;/p&gt;
+&lt;p&gt;Je me rends donc dans Serverless Compute &amp;ndash;&amp;gt; Functions. Et je suis déjà perplexe : Scaleway me parle de &amp;ldquo;namespaces&amp;rdquo; pour me permettre de grouper mes fonctions. J&amp;rsquo;ai d&amp;rsquo;abord pensé à une redite des &amp;ldquo;projets&amp;rdquo; vu plus haut, mais les &amp;ldquo;namespaces&amp;rdquo; permettent en plus de partager des variables d&amp;rsquo;environnement entre plusieurs fonctions. Des groupes dans des groupes donc.&lt;/p&gt;
+&lt;p&gt;Passons là-dessus pour l&amp;rsquo;instant, et commençons à créer notre première fonction.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://antoinedelia.github.io/cloud-optimist/pr-144/scaleway_create_function.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Création d’une fonction dans Scaleway&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;Pour commencer, je trouve l&amp;rsquo;interface très clair, et j&amp;rsquo;apprécie particulièrement les petites docs glissées à certains endroits, ainsi que la mention &amp;ldquo;Deprecated&amp;rdquo; sur les versions des runtimes. Idem pour les coûts estimés dans la colonne de droite, une bonne indication rapide pour voir si on n&amp;rsquo;est pas en train de faire n&amp;rsquo;importe quoi ! Au final, cela ressemble beaucoup à du AWS, mais en plus &amp;ldquo;clean&amp;rdquo; et plus ordonné.&lt;/p&gt;
+&lt;p&gt;Il y a tout de même des points qui me chiffonnent un peu :&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;La request timeout indique un maximum de 900, mais le slider peut monter à 3600&lt;/li&gt;
+&lt;li&gt;L&amp;rsquo;input &amp;ldquo;Average request duration&amp;rdquo; qui n&amp;rsquo;a pas l&amp;rsquo;air de pouvoir être rempli&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Une fois que tout est bon, je finis par créer ma fonction. Et là encore, je suis un peu déçu. Il aura fallu plus d&amp;rsquo;une minute pour déployer cette fonction qui ne contient qu&amp;rsquo;un simple &amp;ldquo;Hello World&amp;rdquo;. J&amp;rsquo;ai notamment été intrigué par l&amp;rsquo;étape numéro 3 : &amp;ldquo;function image is being pushed to container registry&amp;rdquo;. J&amp;rsquo;ai trouvé ça assez curieux que Scaleway stocke une image de ma pauvre fonction Hello World. Je suis donc allé voir dans le service &amp;ldquo;Container Registry&amp;rdquo; et suprise ! Mon image était bien là, mais avec une taille de 337MB !!! Sachant que le stockage des images sur Scaleway est facturé, je trouve ça un peu fort de café de devoir déjà payé 0.06€ pour un bête Hello World.&lt;/p&gt;
+&lt;p&gt;Mais revenons à nos fonctions. Un autre point noir concerne l&amp;rsquo;éditeur de code. Là où chez AWS, on nous offre une expérience proche d&amp;rsquo;un Visual Studio Code, chez Scaleway, vous n&amp;rsquo;aurez droit qu&amp;rsquo;à un simple textarea, avec un seul fichier. Je vous entends déjà dire &amp;ldquo;de toute façon, modifier du code dans la console, c&amp;rsquo;est une hérésie !&amp;rdquo;, et je suis d&amp;rsquo;accord avec vous. Mais cela montre le retard de Scaleway sur ce point.&lt;/p&gt;
+&lt;p&gt;En contrepartie, la navigation est quant à elle bien plus agréable et facile pour s&amp;rsquo;y retrouver. J&amp;rsquo;apprécie tout particulièrement la partie &amp;ldquo;Test&amp;rdquo; qui nous offre une commande curl prête à l&amp;rsquo;usage (dommage cependant qu&amp;rsquo;il ne soit pas possible de tester directement depuis la console).&lt;/p&gt;
+&lt;h2 id=&#34;même-exercice-avec-terraform&#34;&gt;&lt;a href=&#34;#m%c3%aame-exercice-avec-terraform&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Même exercice avec Terraform
+&lt;/h2&gt;&lt;p&gt;Comme je le disais plus haut, la console c&amp;rsquo;est bien, mais si on veut se lancer sérieusement dans un provider cloud, alors il faudra passer par la case Infrastructure as Code. Et ici, mon chouchou reste Terraform. Je suis donc curieux de voir comment se passe le déploiement d&amp;rsquo;une fonction sur Scaleway avec Terraform.&lt;/p&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>
